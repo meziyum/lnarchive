@@ -42,3 +42,8 @@ img {
 .updated:not(.published) {
     display: none;
 }
+
+/*Font*/
+body {
+    font-family: 'Open Sans', sans-serif !important;
+}

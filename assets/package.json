@@ -1,7 +1,7 @@
 {
-  "name": "fusfan",
+  "name": "lnpedia",
   "version": "0.0.1",
-  "description": "Fusfan Theme Packages",
+  "description": "Lnpedia Theme Packages",
   "main": "main.js",
   "scripts": {
     "prod": "cross-env NODE_ENV=production webpack --mode production --progress",

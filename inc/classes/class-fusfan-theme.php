@@ -63,11 +63,13 @@ class fusfan_theme{ //Fusfan Theme Class
             'style',
          ) );
 
-         add_editor_style();
-
          add_theme_support('wp-block-styles');
 
-         add_theme_support( 'align-wide'); //Wide Alignment for BLocks
+         add_theme_support( 'align-wide'); //Wide Alignment for Blocks
+
+         add_theme_support( 'editor-styles' );
+
+         add_editor_style('assets/build/css/editor.css'); //Custom Editor
      
         global $content_width;
         if( ! isset( $content_width) ) {

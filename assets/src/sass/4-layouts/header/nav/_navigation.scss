@@ -1,0 +1,15 @@
+
+/* stylelint-disable */
+/* Nav item */
+.nav-item:hover .dropdown-menu:not(.show) {
+	display: block;
+}
+
+.custom-logo-link {
+	img {
+		max-width: 150px;
+		margin-right: 20px;
+	}
+}
+
+/* stylelint-enable */

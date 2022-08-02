@@ -21,12 +21,6 @@ img.custom-logo {
     background-color: white;
 }
 
-/*Current Page of Blog Template */
-.page-numbers.current > span {
-    background-color: rgb(25, 139, 231);
-    color: white;
-}
-
 /*Default Image Settings*/
 img {
     width: 100%;
@@ -36,14 +30,4 @@ img {
 /*Featured Image Max Size*/
 .attachment-featured-img{
     max-height: 200px;
-}
-
-/*Hide the Modification date for SEO purposes*/
-.updated:not(.published) {
-    display: none;
-}
-
-/*Font*/
-body {
-    font-family: 'Open Sans', sans-serif !important;
 }

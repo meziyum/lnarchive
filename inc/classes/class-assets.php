@@ -25,12 +25,14 @@ class assets{ //Assests Class
     public function register_styles() { //Styles
       //Register Styles
       wp_register_style( 'fusfan_stylesheet', FUSFAN_DIR_URI . '/style.css', [], filemtime(FUSFAN_DIR_PATH . '/style.css'), 'all'); //Main Stylesheet
-      wp_register_style( 'bootstrap_css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css', [], '5.2.0' , 'all');
+      wp_register_style( 'main_css', FUSFAN_BUILD_CSS_URI . '/main.css', ['bootstrap-css'], filemtime(FUSFAN_BUILD_CSS_DIR_PATH . '/main.css'), 'all'); //Sass Stylsheet
+      wp_register_style( 'bootstrap_css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css', [], '5.2.0' , 'all'); //Bootstrap Stylesheet using CDN
       wp_register_style( 'fonts_css', get_template_directory_uri() . '/assets/src/library/fonts/fonts.css ', [], false , 'all'); //Get the Font
       //Enqueue Styles
-      wp_enqueue_style('fusfan_stylesheet');
       wp_enqueue_style('bootstrap_css');
+      wp_enqueue_style('fusfan_stylesheet');
       wp_enqueue_style('fonts_css');
+      wp_enqueue_style('main_css');
     }
     public function register_scripts() { //Scripts    
          //Registering Scripts

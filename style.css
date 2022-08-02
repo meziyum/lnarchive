@@ -1,0 +1,44 @@
+/*
+Theme Name: LNpedia
+Theme URI: https://lnpedia.com
+Author: LNpedia
+Author URI: https://lnpedia.com
+Version: 0.0.1
+Requires at least: 5.0
+Tested up to: 6.0
+Requires PHP: 7.0
+Text Domain: lnpedia
+*/
+
+/*Custom Logo*/
+img.custom-logo {
+    max-height: 80px;
+    max-width: 150px;
+}
+
+/*Blog Content Text Background*/
+.blog-background {
+    background-color: white;
+}
+
+/*Current Page of Blog Template */
+.page-numbers.current > span {
+    background-color: rgb(25, 139, 231);
+    color: white;
+}
+
+/*Default Image Settings*/
+img {
+    width: 100%;
+    height: auto;
+}
+
+/*Featured Image Max Size*/
+.attachment-featured-img{
+    max-height: 200px;
+}
+
+/*Hide the Modification date for SEO purposes*/
+.updated:not(.published) {
+    display: none;
+}

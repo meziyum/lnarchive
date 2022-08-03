@@ -71,11 +71,10 @@ class fusfan_theme{ //Fusfan Theme Class
 
          add_editor_style('assets/build/css/editor.css'); //Custom Editor
      
-        global $content_width;
-        if( ! isset( $content_width) ) {
+         global $content_width;
+         if( ! isset( $content_width) ) {
             $content_width=1240;
-        }
-
+         }
         }
 }
  ?>

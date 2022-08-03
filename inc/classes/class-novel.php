@@ -1,20 +1,24 @@
 <?php
 /**
- * Novel Post type class
+ * Novel Post Type Class
  * 
  * @package lnpedia
  * 
  */
+
 namespace fusfan\inc; //Namespace Definition
 use fusfan\inc\traits\Singleton; //Singleton Directory using namespace
 
 class novel{ //Assests Class
+
     use Singleton; //Using Sinlgeton
+
     protected function __construct(){ //Constructor function
 
         //Load Class
          $this->set_hooks(); //Setting the hook below
     }
+
     protected function set_hooks() {
         
          /**
@@ -24,7 +28,9 @@ class novel{ //Assests Class
         //Adding functions to the hooks
         add_action( 'init', [ $this, 'register_novel']);
     }
+
     public function register_novel() {
+
         //Labels for various actions
         $labels = array(
             'name'                => 'Novels', //General Name of the post type
@@ -53,7 +59,8 @@ class novel{ //Assests Class
             'item_reverted_to_draft' => 'Novel reverted to Draft', //Novel reverted to draft
             'item_scheduled' => 'Novel release scheduled', //Novel release scheduled
             'item_updated' => 'Novel Updated', //Novel updated
-        );       
+        );
+
         //Options for the Novel Custom Post Type  
         $args = array(
             'label'               => 'novel', //the id of the post type
@@ -67,19 +74,22 @@ class novel{ //Assests Class
             'taxonomies'          => array( 'genre' ),
 
             //Options
-            'hierarchical'        => false,
-            'public'              => true,
-            'show_ui'             => true,
-            'show_in_menu'        => true,
-            'show_in_nav_menus'   => true,
-            'show_in_admin_bar'   => true,
-            'can_export'          => true,
-            'has_archive'         => true,
-            'exclude_from_search' => false,
-            'publicly_queryable'  => true,
-            'capability_type'     => 'post',
-            'show_in_rest' => true
+            'hierarchical'        => false, //If sub novels possible
+            'public'              => true, //Visibility
+            'show_ui'             => true, //Show in User Interface
+            'show_in_menu'        => true, //Show in Menu
+            'show_in_nav_menus'   => true, //Show in Nav Menu
+            'show_in_admin_bar'   => true, //Show in Admin Bar
+            'can_export'          => true, //Export Functionality
+            'has_archive'         => true, //IF has archive page for the post type
+            'exclude_from_search' => false, //If to exclude from search
+            'publicly_queryable'  => true, //For public
+            'capability_type'     => 'post', //Capability required for the novel post type
+            'show_in_rest'        => true, //If to include the post type in Rest API
+            'menu_position'       => null, //Menu index position
+            'menu_icon'           => 'dashicons-book', //Menu Icon
         );
+
         //Register the Novel post type
         register_post_type( 'novel', $args );
     }

@@ -42,7 +42,7 @@ class novel_volume_tax{ //Novel Post Type Taxonomies Class
                 'name_field_description' => 'Name of the Genre', //Desc for name field on edit screen
                 'slug_field_description' => 'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', //Desc for the slug field
                 'parent_field_description' => 'Assign a parent genre if its a sub-genre.', //Desc for the Parent field
-                'desc_field_description' => 'A short informational description of the novel', //Desc of the Description field
+                'desc_field_description' => 'A short informational description of the genre', //Desc of the Description field
                 'edit_item' => 'Edit Genre', //Edit
                 'view_item' => 'View Genre', //View
                 'update_item' => 'Update Genre', //Update

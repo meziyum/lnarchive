@@ -1,21 +1,25 @@
 <?php
 /**
- * Novel Taxnomoies
+ * Novel Post Type Taxonomy Class
  * 
- * @package lnpedia
+ * Status: Progress
  * 
  */
-namespace fusfan\inc; //Namespace Definition
+
+namespace fusfan\inc; //Namespace
 use fusfan\inc\traits\Singleton; //Singleton Directory using namespace
 
-class novel_tax{ //Assests Class
+class novel_tax{ //Novel Post Type Taxonomies Class
+
     use Singleton; //Using Sinlgeton
-    protected function __construct(){ //Constructor function
+
+    protected function __construct(){ //Constructor
 
         //Load Class
-         $this->set_hooks(); //Setting the hook below
+         $this->set_hooks(); //Loading the hooks
     }
-    protected function set_hooks() {
+
+    protected function set_hooks() { //Hooks Function
         
          /**
           * Actions
@@ -25,8 +29,8 @@ class novel_tax{ //Assests Class
         add_action( 'init', [ $this, 'register_novel_taxonomies']);
     }
 
-    public function register_novel_taxonomies() {
-        //Register Series
+    public function register_novel_taxonomies() { //Register all Novel taxonomies
+
         register_taxonomy('series', ['novel', 'post'], array(
             'hierarchical' => false,
             'labels' => array(
@@ -52,33 +56,7 @@ class novel_tax{ //Assests Class
             'show_admin_column' => true,
             'show_ui' => true,
         ));
-        //Register Genre
-        register_taxonomy('genre', 'novel', array(
-            'hierarchical' => true,
-            'labels' => array(
-                'name' => 'Genre',
-                'singular_name' => 'Genre',
-                'search_items' =>  'Search Genre',
-                'all_items' => 'All Genre',
-                'parent_item' => 'Parent Genre',
-                'parent_item_colon' => 'Parent Genre: ',
-                'edit_item' => 'Edit Genre',
-                'update_item' => 'Update Genre',
-                'add_new_item' => 'Add New Genre',
-                'new_item_name' => 'New Genre Name',
-                'menu_name' => 'Genre',
-                ),
-            //Modify the Taxonomy Slug
-            'rewrite' => array(
-                'slug' => 'genre',
-                'with_front' => false, //Hide the base slug that is genre
-                'hierarchical' => true
-            ),
-            'show_in_rest' => true, //Show in Guttenburg
-            'show_admin_column' => true,
-            'show_ui' => true,
-        ));
-        //Register Publisher
+
         register_taxonomy('publisher', 'novel', array(
             'hierarchical' => true,
             'labels' => array(

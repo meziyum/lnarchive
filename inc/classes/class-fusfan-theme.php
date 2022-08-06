@@ -22,6 +22,7 @@ class fusfan_theme{ //Fusfan Theme Class
          novel::get_instance();
          sidebars::get_instance();
          novel_tax::get_instance();
+         novel_volume_tax::get_instance();
 
          $this->set_hooks(); //Setting the hook below
      }

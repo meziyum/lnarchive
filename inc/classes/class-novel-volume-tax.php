@@ -54,7 +54,7 @@ class novel_volume_tax{ //Novel and Volume Post Types Common Taxonomies Class
                 'most_used' => 'Most Used Publisher', //Most Used Msg
                 'back_to_items' => 'Back to Publishers', //Back to Publishers List
                 'item_link' => 'Publisher Link', //Taxonomy Link in Block Editor
-                'item_link_description' => 'A link to a publisher', //Desc for taxonomy Link in Block Editor
+                'item_link_description' => 'A link to the publisher', //Desc for taxonomy Link in Block Editor
                 'menu_name' => 'Publisher', //Name in Menu
             ),
 
@@ -93,6 +93,72 @@ class novel_volume_tax{ //Novel and Volume Post Types Common Taxonomies Class
             '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
 
         ));//End of Publisher Taxonomy
+
+        //Register Author Taxonomy
+        register_taxonomy('author', ['novel','volume'], array(
+            
+            //All Publisher Labels
+            'labels' => array(
+                'name' => 'Author', //General Name
+                'singular_name' => 'Author', //Singular Taxonomy Name
+                'search_items' =>  'Search Author', //Search
+                'popular_items' => 'Popular Authors', //Popular
+                'all_items' => 'All Authors', //List of all
+                'name_field_description' => 'Name of the Author of the novel', //Desc for name field on edit screen
+                'slug_field_description' => 'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', //Desc for the slug field
+                'desc_field_description' => 'A short informational description about the author', //Desc of the Description field
+                'edit_item' => 'Edit Author', //Edit
+                'view_item' => 'View Auhtor', //View
+                'update_item' => 'Update Author', //Update
+                'add_new_item' => 'Add New Author', //Add New
+                'new_item_name' => 'New Author Name', //New Item Name
+                'separate_items_with_commas' => '', //Msg to separate non hierachy taxonomies
+                'add_or_remove_items' => 'Add or remove author', //Add/Remove Metabox
+                'choose_from_most_used' => '', //Choose from most used msg
+                'not_found' => 'No author found', //Not Found Msg
+                'no_terms' => 'No authors', //Post and Media tables
+                'most_used' => '', //Most Used Msg
+                'back_to_items' => 'Back to Authors', //Back to Publishers List
+                'item_link' => 'Author Link', //Taxonomy Link in Block Editor
+                'item_link_description' => 'A link to the author', //Desc for taxonomy Link in Block Editor
+                'menu_name' => 'Author', //Name in Menu
+            ),
+
+            'public' => true, //Public Use
+            'publicly_queryable' => true, //If its for front end
+            'show_ui' => true, //Show Default UI
+            'show_in_menu' => true, //Show in Admin Menu
+            'show_in_nav_menus' => true, //If it can be added to Nav Menus
+            'show_in_rest' => true, //Show in Guttenburg or REST API to be more specific
+            'rest_base' => 'author', //Base URL
+            'show_tagcloud' => false, //Tag Cloud Widget
+            'show_in_quick_edit' => false, //Quick Edit
+            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
+            'description' => 'An author is the creator or originator of any written work', //Taxonomy Desc
+            'update_count_callback' => '', //Callback for when the taxonomy count is updated
+            'query_var' => 'author', //Query name for the wp_query
+            'hierarchical' => false, //Hierarchy
+
+            //Modify the Taxonomy Slug
+            'rewrite' => array(
+                'slug' => 'author',
+                'with_front' => false, //Hide the base slug
+                'hierarchical' => false, //If to display hierarchy in the url
+            ),
+
+            //Capabilities
+            'capabilities' => array(
+                'manage_terms' => 'manage_categories',
+                'edit_terms' => 'manage_categories',
+                'delete_terms' => 'manage_categories',
+                'assign_terms' => 'manage_categories',
+            ),
+
+            'sort' => false, //Whether this taxonomy should remember the order in which terms are added to objects
+            '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
+
+        ));//End of Author Taxonomy
 
         //Register Genre Taxonomy
         register_taxonomy('genre', ['novel','volume'], array(

@@ -95,7 +95,7 @@ class novel_volume_tax{ //Novel and Volume Post Types Common Taxonomies Class
         ));//End of Publisher Taxonomy
 
         //Register Author Taxonomy
-        register_taxonomy('author', ['novel','volume'], array(
+        register_taxonomy('writer', ['novel','volume'], array(
             
             //All Publisher Labels
             'labels' => array(
@@ -130,19 +130,19 @@ class novel_volume_tax{ //Novel and Volume Post Types Common Taxonomies Class
             'show_in_menu' => true, //Show in Admin Menu
             'show_in_nav_menus' => true, //If it can be added to Nav Menus
             'show_in_rest' => true, //Show in Guttenburg or REST API to be more specific
-            'rest_base' => 'author', //Base URL
+            'rest_base' => 'writer', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
             'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'An author is the creator or originator of any written work', //Taxonomy Desc
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
-            'query_var' => 'author', //Query name for the wp_query
+            'query_var' => 'writer', //Query name for the wp_query
             'hierarchical' => false, //Hierarchy
 
             //Modify the Taxonomy Slug
             'rewrite' => array(
-                'slug' => 'author',
+                'slug' => 'writer',
                 'with_front' => false, //Hide the base slug
                 'hierarchical' => false, //If to display hierarchy in the url
             ),

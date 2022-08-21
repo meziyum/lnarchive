@@ -18,11 +18,10 @@ class fusfan_theme{ //Fusfan Theme Class
          //Load all Classes
          assets::get_instance();
          menus::get_instance();
-         meta_boxes::get_instance();
-         novel::get_instance();
          sidebars::get_instance();
+         novel::get_instance();
          novel_tax::get_instance();
-         novel_volume_tax::get_instance();
+         novel_metabox::get_instance();
 
          $this->set_hooks(); //Setting the hook below
      }

@@ -71,7 +71,7 @@ class novel{ //Assests Class
             'supports'            => array( 'title', 'editor','excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
 
             // You can associate this CPT with a taxonomy or custom taxonomy.
-            'taxonomies'          => array( 'genre' ),
+            'taxonomies'          => array( 'genre', 'publisher', 'writer' ),
 
             //Options
             'hierarchical'        => false, //If sub novels possible

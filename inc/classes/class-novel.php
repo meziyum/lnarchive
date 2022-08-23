@@ -68,10 +68,10 @@ class novel{ //Assests Class
             'labels'              => $labels, //All the labels inserted using an array
             
             // Features this CPT supports in Post Editor
-            'supports'            => array( 'title', 'editor','excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+            'supports'            => array( 'title','excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
 
             // You can associate this CPT with a taxonomy or custom taxonomy.
-            'taxonomies'          => array( 'genre', 'publisher', 'writer' ),
+            'taxonomies'          => array( 'genre', 'publisher', 'writer', 'translator', 'series' ),
 
             //Options
             'hierarchical'        => false, //If sub novels possible

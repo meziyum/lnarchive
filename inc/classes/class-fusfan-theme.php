@@ -19,6 +19,7 @@ class fusfan_theme{ //Fusfan Theme Class
          assets::get_instance();
          menus::get_instance();
          sidebars::get_instance();
+         post_filter::get_instance();
          novel::get_instance();
          novel_tax::get_instance();
          novel_metabox::get_instance();

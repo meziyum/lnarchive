@@ -44,8 +44,8 @@ class novel{ //Assests Class
             'edit_item'           => 'Edit Novel', //Edit the post type
             'update_item'         => 'Update Novel', //Update the post type
             'search_items'        => 'Search Novel', //Seardh Post type list
-            'not_found'           => 'The Novel is not found', //When the post type is not found
-            'not_found_in_trash'  => 'The Novel is not found in the trash', //When the novel is not found in the trash
+            'not_found'           => 'The Novel was not found', //When the post type is not found
+            'not_found_in_trash'  => 'The Novel was not found in the trash', //When the novel is not found in the trash
             'archives' => 'Novels Library', //Archive
             'attributes' => 'Novel Attributes', //Novel attributes meta 
             'featured_image' => 'Cover', //Novel Cover

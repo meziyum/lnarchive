@@ -24,8 +24,10 @@ class post_filter{ //Post or Custom Post Type filter
 
         add_action('restrict_manage_posts',[ $this, 'add_genre_filter_to_posts_admin' ]);
         add_action('restrict_manage_posts',[ $this, 'add_publisher_filter_to_posts_admin' ]);
+        add_action('restrict_manage_posts',[ $this, 'add_series_filter_to_posts_admin' ]);
         add_action('restrict_manage_posts',[ $this, 'add_author_filter_to_posts_admin' ]);
         add_action('restrict_manage_posts',[ $this,'add_manager_filter_to_posts_administration' ]);
+        add_action('restrict_manage_posts',[ $this, 'add_translator_filter_to_posts_admin' ]);
         add_action('pre_get_posts',[ $this, 'add_taxonomy_filter_to_posts_query' ]);
         add_action('pre_get_posts',[ $this, 'add_manager_filter_to_posts_query' ]);
         
@@ -56,7 +58,7 @@ class post_filter{ //Post or Custom Post Type filter
                 'depth'             => 0, //Depth of the Element
                 'tab_index'         => 0, //Tabindex of the select element
                 'taxonomy'          => 'genre', //The taxonomy id
-                'hide_if_empty'     => true, //Whether to hide the genre if it has no posts
+                'hide_if_empty'     => false, //Whether to hide the genre if it has no posts
                 'option_none_value' => -1, //Option none default value
 		        'value_field'       => 'term_id', //value in the dropdown
                 'required'          => false, //if the HTML5 is required in the select element
@@ -77,7 +79,7 @@ class post_filter{ //Post or Custom Post Type filter
         if( $post_type == 'novel') { //If the post_type is satisfied
             $author_args= array(
                 'show_option_all'   => 'All Authors', //Label for all taxonomy
-                'show_option_none'  => 'None', //Label for None
+                'show_option_none'  => '', //Label for None
                 'orderby'           => 'name', //Order by
                 'order'             => 'ASC', //Order ASC or DESC
                 'show_count'        => 0, //Show count of the posts of the taxonomy
@@ -86,14 +88,14 @@ class post_filter{ //Post or Custom Post Type filter
                 'exclude'           => array(), //Taxonomy Values to exclude from the dropdown
                 'echo'              => 1, //Whether to print the dropdown or not
                 'selected'          => 0, //Default selected id in the dropdown
-                'hierarchical'      => 1, //IF the taxonomy is displayed hierarchicaly
+                'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
                 'name'              => 'manage_author_filter', //name of the taxonomy filter
                 'id'                => '', //The id of html element
                 'class'             => '', //The Class for the html element
                 'depth'             => 0, //Depth of the Element
                 'tab_index'         => 0, //Tabindex of the select element
                 'taxonomy'          => 'writer', //The taxonomy id
-                'hide_if_empty'     => true, //Whether to hide the taxonomy if it has no posts
+                'hide_if_empty'     => false, //Whether to hide the taxonomy if it has no posts
                 'option_none_value' => -1, //Option none default value
 		        'value_field'       => 'term_id', //value in the dropdown
                 'required'          => false, //if the HTML5 is required in the select element
@@ -130,7 +132,7 @@ class post_filter{ //Post or Custom Post Type filter
                 'depth'             => 0, //Depth of the Element
                 'tab_index'         => 0, //Tabindex of the select element
                 'taxonomy'          => 'publisher', //The taxonomy id
-                'hide_if_empty'     => true, //Whether to hide the taxonomy if it has no posts
+                'hide_if_empty'     => false, //Whether to hide the taxonomy if it has no posts
                 'option_none_value' => -1, //Option none default value
 		        'value_field'       => 'term_id', //value in the dropdown
                 'required'          => false, //if the HTML5 is required in the select element
@@ -141,6 +143,80 @@ class post_filter{ //Post or Custom Post Type filter
             }
 
             wp_dropdown_categories($publisher_args); //Display the Taxonomy Dropdown
+        }
+    }
+
+    function add_translator_filter_to_posts_admin() { //Add Translator Filter Admin
+
+        global $post_type; //Global Post Type
+
+        if( $post_type == 'novel') { //If the post_type is satisfied
+            $translator_args= array(
+                'show_option_all'   => 'All Translators', //Label for all taxonomy
+                'show_option_none'  => '', //Label for None
+                'orderby'           => 'name', //Order by
+                'order'             => 'ASC', //Order ASC or DESC
+                'show_count'        => 0, //Show count of the posts of the taxonomy
+                'hide_empty'        => 1, //Hide Empty Taxonomy
+                'child_of'          => 0, //Whether to show child of property
+                'exclude'           => array(), //Taxonomy Values to exclude from the dropdown
+                'echo'              => 1, //Whether to print the dropdown or not
+                'selected'          => 0, //Default selected id in the dropdown
+                'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
+                'name'              => 'manage_translator_filter', //name of the taxonomy filter
+                'id'                => '', //The id of html element
+                'class'             => '', //The Class for the html element
+                'depth'             => 0, //Depth of the Element
+                'tab_index'         => 0, //Tabindex of the select element
+                'taxonomy'          => 'translator', //The taxonomy id
+                'hide_if_empty'     => false, //Whether to hide the taxonomy if it has no posts
+                'option_none_value' => -1, //Option none default value
+		        'value_field'       => 'term_id', //value in the dropdown
+                'required'          => false, //if the HTML5 is required in the select element
+            );
+
+            if(isset($_GET['manage_translator_filter'])){ //If the posts are already filtered
+                $translator_args['selected'] = sanitize_text_field($_GET['manage_translator_filter']); //Change the dropdown value to the selected one
+            }
+
+            wp_dropdown_categories($translator_args); //Display the Taxonomy Dropdown
+        }
+    }
+
+    function add_series_filter_to_posts_admin() { //Add Series Filter Admin
+
+        global $post_type; //Global Post Type
+
+        if( $post_type == 'novel') { //If the post_type is satisfied
+            $series_args= array(
+                'show_option_all'   => 'All Series', //Label for all taxonomy
+                'show_option_none'  => '', //Label for None
+                'orderby'           => 'name', //Order by
+                'order'             => 'ASC', //Order ASC or DESC
+                'show_count'        => 0, //Show count of the posts of the taxonomy
+                'hide_empty'        => 1, //Hide Empty Taxonomy
+                'child_of'          => 0, //Whether to show child of property
+                'exclude'           => array(), //Taxonomy Values to exclude from the dropdown
+                'echo'              => 1, //Whether to print the dropdown or not
+                'selected'          => 0, //Default selected id in the dropdown
+                'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
+                'name'              => 'manage_series_filter', //name of the taxonomy filter
+                'id'                => '', //The id of html element
+                'class'             => '', //The Class for the html element
+                'depth'             => 0, //Depth of the Element
+                'tab_index'         => 0, //Tabindex of the select element
+                'taxonomy'          => 'series', //The taxonomy id
+                'hide_if_empty'     => false, //Whether to hide the taxonomy if it has no posts
+                'option_none_value' => -1, //Option none default value
+		        'value_field'       => 'term_id', //value in the dropdown
+                'required'          => false, //if the HTML5 is required in the select element
+            );
+
+            if(isset($_GET['manage_series_filter'])){ //If the posts are already filtered
+                $series_args['selected'] = sanitize_text_field($_GET['manage_series_filter']); //Change the dropdown value to the selected one
+            }
+
+            wp_dropdown_categories($series_args); //Display the Taxonomy Dropdown
         }
     }
 
@@ -187,11 +263,37 @@ class post_filter{ //Post or Custom Post Type filter
                     ) );  
                 }
 
+                if( sanitize_text_field($_GET['manage_translator_filter']) != 0 ) { //If All is not selected in the Dropdown
+                    $tax_array4 = array( //Array to store the args for the wp_query
+                        'taxonomy' => 'translator', //The taxonomy which is to be filtered
+                        'field' => 'ID', //Slug
+                        'terms' => sanitize_text_field($_GET['manage_translator_filter']), //Filter the term by the selected dropdown option
+                    );
+                } else {
+                    $tax_array4 = get_terms( 'translator', array( //Array to store all the terms since all is selected
+                        'hide_empty' => true, //Whether to hide the empty terms or not
+                    ) );  
+                }
+
+                if( sanitize_text_field($_GET['manage_series_filter']) != 0 ) { //If All is not selected in the Dropdown
+                    $tax_array5 = array( //Array to store the args for the wp_query
+                        'taxonomy' => 'series', //The taxonomy which is to be filtered
+                        'field' => 'ID', //Slug
+                        'terms' => sanitize_text_field($_GET['manage_series_filter']), //Filter the term by the selected dropdown option
+                    );
+                } else {
+                    $tax_array5 = get_terms( 'series', array( //Array to store all the terms since all is selected
+                        'hide_empty' => true, //Whether to hide the empty terms or not
+                    ) );  
+                }
+
                 $query->query_vars['tax_query'] = array( //Setting the taxonomy query values to the desired one
                     'relation' => 'AND', //Apply all the Queries
                         $tax_array1,
                         $tax_array2,
                         $tax_array3,
+                        $tax_array4,
+                        $tax_array5,
                 );
             }
         }

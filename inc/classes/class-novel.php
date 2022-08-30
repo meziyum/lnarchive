@@ -89,7 +89,7 @@ class novel{ //Assests Class
             'register_meta_box_cb' => null, //Callback function to setup the metabox in edit form
 
             // You can associate this CPT with a taxonomy or custom taxonomy.
-            'taxonomies'          => array( 'genre', 'publisher', 'writer', 'translator', 'series' ),
+            'taxonomies'          => array( 'genre', 'publisher', 'writer', 'translator', 'series', 'post_tag' ),
 
             'has_archive' => true, //Whether the post type has archive
 

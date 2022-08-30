@@ -71,6 +71,8 @@ class fusfan_theme{ //Fusfan Theme Class
          add_theme_support( 'editor-styles' );
 
          add_editor_style('assets/build/css/editor.css'); //Custom Editor
+
+         unregister_taxonomy_for_object_type('post_tag', 'post'); //Unregister tags for the posts
      
          global $content_width;
          if( ! isset( $content_width) ) {

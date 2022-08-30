@@ -29,7 +29,7 @@ class novel_tax{ //Novel Taxonomy Class
     public function register_novel_volume_taxonomies() { //Register all the novel taxonomies
 
         //Register Series Taxonomy
-        register_taxonomy('series', ['novel'], array(
+        register_taxonomy('series', ['novel', 'post'], array(
             
             //All Series Labels
             'labels' => array(

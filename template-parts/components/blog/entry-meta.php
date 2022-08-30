@@ -11,7 +11,7 @@
     <?php
         //Title
         printf(
-            '<h1 class="page-title text-dark">%1$s</h1>',
+            '<h2 class="page-title text-dark">%1$s</h2>',
             wp_kses_post( get_the_title())
         );  
         posted_on(); //Post Date

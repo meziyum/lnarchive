@@ -1,9 +1,6 @@
 <?php
 /**
- * Novel Post Type Class
- * 
- * @package lnpedia
- * 
+ * Novel Post Type
  */
 
 namespace fusfan\inc; //Namespace Definition
@@ -47,47 +44,69 @@ class novel{ //Assests Class
             'not_found'           => 'The Novel was not found', //When the post type is not found
             'not_found_in_trash'  => 'The Novel was not found in the trash', //When the novel is not found in the trash
             'archives' => 'Novels Library', //Archive
-            'attributes' => 'Novel Attributes', //Novel attributes meta 
+            'attributes' => 'Novel Attributes', //Novel attributes meta
+            'insert_into_item' => 'Insert into Novel', //Label for the media frame button
+            'uploaded_to_this_item' => 'Uploaded to this Novel', //Label for the media frame filter
             'featured_image' => 'Cover', //Novel Cover
             'set_featured_image' => 'Set Cover', //Set Novel Cover
             'remove_featured_image' => 'Remove Cover', //Remove Cover
             'use_featured_image' => 'Use Cover', //Use Cover
-            'filter_items_list' => ' Filter Novels Library', //Fitler the novels
+            'filter_items_list' => 'Filter Novels Library', //Fitler the novels
+            'filter_by_date' => 'Filter by release date', 
+            'items_list_navigation' => 'Novels Library navigation', //Label for the table pagination
             'items_list' => 'Novels Library', //Novels list
             'item_published' => 'Novel published', //Novel published
             'item_published_privately' => 'Novel published privately', //Novel published privately
             'item_reverted_to_draft' => 'Novel reverted to Draft', //Novel reverted to draft
             'item_scheduled' => 'Novel release scheduled', //Novel release scheduled
             'item_updated' => 'Novel Updated', //Novel updated
+            'item_link' => 'Novel Link', //Title for Nav Link
+            'item_link_description' => 'A link to a Novel', //Title for the Block Variation
         );
 
         //Options for the Novel Custom Post Type  
         $args = array(
-            'label'               => 'novel', //the id of the post type
+            'label'               => 'Novel', //the name shown in the menu
             'description'         => 'All novels data', //The desctription of the post type 
             'labels'              => $labels, //All the labels inserted using an array
-            
-            // Features this CPT supports in Post Editor
-            'supports'            => array( 'title','excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
-
-            // You can associate this CPT with a taxonomy or custom taxonomy.
-            'taxonomies'          => array( 'genre', 'publisher', 'writer', 'translator', 'series' ),
-
-            //Options
-            'hierarchical'        => false, //If sub novels possible
             'public'              => true, //Visibility
+            'hierarchical'        => false, //If sub novels possible
+            'exclude_from_search' => false, //If to exclude from search
+            'publicly_queryable'  => true, //For public
             'show_ui'             => true, //Show in User Interface
             'show_in_menu'        => true, //Show in Menu
             'show_in_nav_menus'   => true, //Show in Nav Menu
             'show_in_admin_bar'   => true, //Show in Admin Bar
-            'can_export'          => true, //Export Functionality
-            'has_archive'         => true, //IF has archive page for the post type
-            'exclude_from_search' => false, //If to exclude from search
-            'publicly_queryable'  => true, //For public
-            'capability_type'     => 'post', //Capability required for the novel post type
             'show_in_rest'        => true, //If to include the post type in Rest API
             'menu_position'       => null, //Menu index position
             'menu_icon'           => 'dashicons-book', //Menu Icon
+            'capability_type'     => 'post', //Capability required for the novel post type
+            'map_meta_cap' => false, //Whether to use the internal default meta map capability handling
+            
+            // Features this CPT supports in Post Editor
+            'supports'            => array( 'title','excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+
+            'register_meta_box_cb' => null, //Callback function to setup the metabox in edit form
+
+            // You can associate this CPT with a taxonomy or custom taxonomy.
+            'taxonomies'          => array( 'genre', 'publisher', 'writer', 'translator', 'series' ),
+
+            'has_archive' => true, //Whether the post type has archive
+
+            'rewrite'   => [ //Post Types rewrite
+                            'slug'  => 'novel', //slug
+                            'with_front'    => true,
+                            'feeds' => false, //if to generate feeds
+                            'pages' => false, //IF permastruct should provide for pagination
+            ],
+
+            'query_var' => 'novel',
+            'can_export'          => true, //Export Functionality
+            'delete_with_user'  => false, //Whether to delete the post type with the user
+
+            /*
+                Post Type Template and Template Lock
+            */
         );
 
         //Register the Novel post type

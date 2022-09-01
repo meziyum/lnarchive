@@ -11,5 +11,5 @@
 </div>
 <?php wp_footer();//Get the Wordpress Footer?>
 </body>
-</html>
+</html> <!-- End of HTML Bodytype -->
 

@@ -7,9 +7,6 @@
 get_header(); //Get the Header
 ?>
 
-<link rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Cantarell">
-
 <main id="main" class="container blog-content" role="main">
     <div class="row main-row">
         <div class="col-lg-9 col-md-9 col-sm-12">

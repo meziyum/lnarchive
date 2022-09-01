@@ -1,6 +1,8 @@
 <?php
 /**
  * Novel Post Type Taxonomies
+ * 
+ * @package LNarchive
  */
 
 namespace fusfan\inc; //Namespace
@@ -358,5 +360,5 @@ class novel_tax{ //Novel Taxonomy Class
 
         ));//End of Genre Taxonomy
     }
-}
+}//End of Class
 ?>

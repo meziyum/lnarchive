@@ -23,6 +23,7 @@ class fusfan_theme{ //Fusfan Theme Class
          novel::get_instance();
          novel_tax::get_instance();
          novel_metabox::get_instance();
+         custom_tax_meta_fields::get_instance();
 
          $this->set_hooks(); //Setting the hook below
      }
@@ -73,6 +74,17 @@ class fusfan_theme{ //Fusfan Theme Class
          add_editor_style('assets/build/css/editor.css'); //Custom Editor
 
          unregister_taxonomy_for_object_type('post_tag', 'post'); //Unregister tags for the posts
+
+         register_term_meta('publisher', 'publisher_meta_title_val', array(
+            'object_subtype' => '', //Object Subtype
+            'type' => 'string', //The datatype
+            'description' => 'The meta title of the Publisher', //Desc
+            'single' => true, //Whether it ahs one or multiple values per object
+            'default' => '', //Default Value
+            'sanitize_callback' => '', //Callback when sanitixing the meta_key value
+            'auth_callback' => '', //The callback function for the add, edit and delete meta
+            'show_in_rest'=> true, //Whether to Show in Rest APIs
+         ));
      
          global $content_width;
          if( ! isset( $content_width) ) {

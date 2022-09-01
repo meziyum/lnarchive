@@ -6,11 +6,14 @@
  */
 ?>
 
-<!doctype html?
+<!doctype html>
 <html lang="en">
 <head>
-    <?php wp_head();?>
+    <meta charset="utf-8"> <!-- Character Encoding of the HTML Doc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Viewport Bootstrap -->
+    <?php wp_head();?> <!-- Calling the wp_head function -->
 </head>
+
 <body <?php body_class()?>>
 <?php 
     if ( function_exists( 'wp_body_open' ) ) { //Backward Compatibility

@@ -1,6 +1,8 @@
 <?php
 /**
  * Novel Post Type
+ * 
+ * @package LNarchive
  */
 
 namespace fusfan\inc; //Namespace Definition
@@ -112,5 +114,5 @@ class novel{ //Assests Class
         //Register the Novel post type
         register_post_type( 'novel', $args );
     }
-}
+}//End of Class
 ?>

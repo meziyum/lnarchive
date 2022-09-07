@@ -15,11 +15,12 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
  
+    <a class="navbar-brand">
     <?php //The Custom Logo
       if( function_exists( 'the_custom_logo')) { //If there is a custom logo
           the_custom_logo(); //Display custom logo
       }
-    ?>
+    ?></a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

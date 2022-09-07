@@ -2,14 +2,17 @@
 /**
  * Footer Template
  * 
- * @package lnpedia
+ * @package LNarchive
  */
 ?>
-</div>
+
+</div> <!-- End of Site Contennt Div-->
+
 <footer>
 </footer>
-</div>
+
+</div> <!-- End of Main Body -->
 <?php wp_footer();//Get the Wordpress Footer?>
-</body>
+</body><!-- End of Body -->
 </html> <!-- End of HTML Bodytype -->
 

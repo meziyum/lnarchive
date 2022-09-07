@@ -1,6 +1,8 @@
 <?php
 /**
  * Posts and Custom Posts Filter Admin
+ * 
+ * @package LNarchive
  */
 
 namespace fusfan\inc; //Namespace

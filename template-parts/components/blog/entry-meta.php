@@ -1,19 +1,17 @@
 <?php
 /**
- * Template for Entry Meta
+ * Template for Post Entry Meta
  * 
- * @package lnpedia
- * 
+ * @package LNarchive
  */
 ?>
 
-<div class="entry-meta border-bottom border-primary mt-3">
+<div class="entry-main"> <!-- Entry Main Div -->
     <?php
         //Title
         printf(
-            '<h2 class="page-title text-dark">%1$s</h2>',
-            wp_kses_post( get_the_title())
-        );  
-        posted_on(); //Post Date
+            '<h1 class="page-title">%1$s</h1>', //HTML
+            wp_kses_post( get_the_title()), //Get the Title
+        );
     ?>
 </div>

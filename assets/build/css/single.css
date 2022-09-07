@@ -1,6 +1,7 @@
 /*!*******************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/library/fonts/fonts.css ***!
   \*******************************************************************************/
+
 /* overpass-regular - latin */
 @font-face {
   font-family: 'Overpass';
@@ -14,6 +15,7 @@
        url(../61896db2b74017275970.ttf) format('truetype'), /* Safari, Android, iOS */
        url(../e948c6582d3eec30102e.svg#Overpass) format('svg'); /* Legacy iOS */
 }
+
 /* overpass-600 - latin */
 @font-face {
   font-family: 'Overpass';
@@ -27,6 +29,7 @@
        url(../40409f259fe237215489.ttf) format('truetype'), /* Safari, Android, iOS */
        url(../0663de53d629cf438a78.svg#Overpass) format('svg'); /* Legacy iOS */
 }
+
 /* overpass-italic - latin */
 @font-face {
   font-family: 'Overpass';
@@ -40,6 +43,7 @@
        url(../e4139c83ada67f229c69.ttf) format('truetype'), /* Safari, Android, iOS */
        url(../6ada9ce1f9c56f042a68.svg#Overpass) format('svg'); /* Legacy iOS */
 }
+
 /* overpass-600italic - latin */
 @font-face {
   font-family: 'Overpass';
@@ -74,9 +78,6 @@
 /*----------------
 		Font
 ------------------*/
-/*---------------------------------
-		Body Text Font Sizes
------------------------------------*/
 /**
  * Add font scale with media query as per configuration on $body-text
  * Ex: @include body-text( h1 );

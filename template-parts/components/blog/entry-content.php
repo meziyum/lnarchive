@@ -1,21 +1,21 @@
 <?php
 /**
  * 
- * Template for Entry Content
+ * Entry Content Template
  * 
- * @package lnpedia
+ * @package LNarchive
  * 
  */
 
 ?>
 
-<div class="mt-3 mb-5">
+<div class="entry-content"> <!--Entry Content -->
     <?php
         the_content(); //Display the Content
-        wp_link_pages( //Display the Previos/Next Button
+        wp_link_pages( //Display the Pages of the post
             [
-            'before' => '<div class="page-links">' . 'Pages: ',
-            'after' =>  '</div>',
+            'before' => '<div class="page-links">' . 'Pages: ', //Before Page 
+            'after' =>  '</div>', //After Page
             ]
         );
     ?>

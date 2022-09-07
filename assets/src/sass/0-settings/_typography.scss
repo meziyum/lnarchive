@@ -15,75 +15,71 @@ $font__fallback: sans-serif;
 // Base line height.
 $font__base-line-height: 30px;
 
-/*---------------------------------
-		Body Text Font Sizes
------------------------------------*/
-
-$body-text: (
-	"h1": (
+$body-text: ( //Body Text Topography
+	"h1": ( //H1 Heading
 		"small": (
-			font-size: 31.5px,
-			line-height: 1.27,
+			font-size: 30px,
+			line-height: 1.5,
 		),
 	),
-	"h2": (
+	"h2": ( //H2 Heading
 		"small": (
-			font-size: 31.5px,
-			line-height: 1,
+			font-size: 26px,
+			line-height: 1.5,
 		),
 	),
-	"h3": (
+	"h3": ( //H3 Heading
 		"small": (
-			font-size: 24.5px,
-			line-height: 1.27,
+			font-size: 22px,
+			line-height: 1.5,
 		),
 	),
-	"h4": (
+	"h4": ( //H4 Heading
 		"small": (
-			font-size: 17.5px,
-			line-height: 1.142,
+			font-size: 18px,
+			line-height: 1.52,
 		),
 	),
-	"h5": (
+	"h5": ( //H5 Heading
+		"small": (
+			font-size: 16px,
+			line-height: 1.5,
+		),
+	),
+	"h6": ( //H6 Heading
 		"small": (
 			font-size: 14px,
-			line-height: 1.43,
+			line-height: 1.5,
 		),
 	),
-	"h6": (
+	"body": ( //Body Content size
+		"small": ( //small screen size
+			font-size: 16px,
+			line-height: 1.5,
+		),
+		"large": ( //large screen size
+			font-size: 18px,
+			line-height: 1.5,
+		),
+	),
+	"l": ( //large
 		"small": (
-			font-size: 11.9px,
-			line-height: 1.681,
+			font-size: 20px,
 		),
 	),
-	"body": (
+	"m": ( //medium
+		"small": (
+			font-size: 18px,
+		),
+	),
+	"s": ( //small
 		"small": (
 			font-size: 16px,
-			line-height: 1.43,
-		),
-		"large": (
-			font-size: 18px,
-			line-height: 1.43,
 		),
 	),
-	"l": (
+	"xs": ( //extra small
 		"small": (
-			font-size: 18px,
-		),
-	),
-	"m": (
-		"small": (
-			font-size: 16px,
-		),
-	),
-	"s": (
-		"small": (
-			font-size: 12px,
-		),
-	),
-	"xs": (
-		"small": (
-			font-size: 11px,
+			font-size: 14px,
 		),
 	),
 );

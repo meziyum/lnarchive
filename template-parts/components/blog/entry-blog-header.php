@@ -1,9 +1,9 @@
 <?php
 /**
  * 
- * Template for Blog Entry Header
+ * Blog Entry Header Template
  * 
- * @package lnpedia
+ * @package LNarchive
  * 
  */
 
@@ -12,26 +12,18 @@ $has_post_thumbnail = get_the_post_thumbnail( $the_post_id ); //Get the Post Thu
 
 ?>
 
-<header class="entry-header">
-    <?php
-        //Featured Image
-        if( $has_post_thumbnail) {
+<div class="entry-header"> <!-- Entry Header Div -->
+    <a href="<?php echo get_permalink( $the_post_id );?>"> <!-- The Permalink -->
+        <?php
+             //Display the Featured Image
+            the_post_custom_thumbnail(
+                $the_post_id, //The post ID
+                'featured-thumbnail', //Name of the 
+                [
+                    'class' => 'attachment-featured-img', //Class attachment for css
+                    'alt'  => get_the_title(), //Attach the title as the default alt for the img
+                ] 
+            );
         ?>
-                <div class="entry-blog-image mt-3"> 
-                    <a href="<?php get_permalink();?>">
-                       <?php
-                            //Display the Featured Image
-                            the_post_custom_thumbnail(
-                                $the_post_id,
-                                'featured-thumbnail',
-                                [
-                                    'class' => 'attachment-featured-img' //Class attachment for css
-                                ]
-                            );
-                        ?>
-                    </a>
-                </div>
-            <?php
-        }
-    ?>
-</header>
+     </a>
+</div>

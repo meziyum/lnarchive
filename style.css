@@ -16,18 +16,66 @@ img.custom-logo {
     max-width: 150px;
 }
 
-/*Blog Content Text Background*/
-.blog-background {
-    background-color: white;
+/*Root*/
+:root {
+    --primary: #3a7de8;
+    --notimp: #9e9fad;
 }
 
-/*Default Image Settings*/
-img {
+/*Image Block CSS*/
+.wp-block-image {
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+/** ************************************* Blog Entry, Post and Pages ************************************* **/
+
+/*Page Content */
+.main-content {
+    background-color: whitesmoke;
+    padding: 16px 32px 16px 32px;
+}
+
+/*Page Title */
+.page-title {
+    font-weight: bold;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-left-width: thick;
+    border-bottom-width: medium;
+    border-color: var( --primary);
+}
+
+/* Main Block Div */
+.blog-entry {
+    border-bottom-style: solid;
+    border-bottom-width: medium;
+    border-color: var( --primary);
+    padding-bottom: 12px;
+}
+
+/** Blog Entry Cover Img Div **/
+.entry-header {
     width: 100%;
-    height: auto;
+    height: 225px;
 }
 
-/*Featured Image Max Size*/
-.attachment-featured-img{
-    max-height: 200px;
+/** BLog Entry Cover Img **/
+.attachment-featured-img {
+    padding-top: 12px;
+    border-radius: 20px;
+}
+
+/** Blog Entry Date **/
+.entry-date {
+    color: var( --notimp);
+}
+
+.page-numbers.current > span {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.entry-footer-link {
+    text-decoration: none !important
 }

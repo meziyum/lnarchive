@@ -20,9 +20,9 @@ class fusfan_theme{ //Fusfan Theme Class
          menus::get_instance();
          sidebars::get_instance();
          post_filter::get_instance();
+         
          novel::get_instance();
          novel_tax::get_instance();
-         novel_metabox::get_instance();
          custom_tax_meta_fields::get_instance();
 
          $this->set_hooks(); //Setting the hook below
@@ -49,7 +49,7 @@ class fusfan_theme{ //Fusfan Theme Class
          add_theme_support( 'post-thumbnails'); //Post Thumbnails
 
          //Register Image Sizes
-         add_image_size('featured-thumbnail', 350, 200, true);
+         add_image_size('featured-thumbnail', 350, 300, true);
 
          add_theme_support('widgets'); //Add Widgets Theme
 

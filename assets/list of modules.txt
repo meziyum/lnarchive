@@ -1,0 +1,1 @@
+npm i webpack wepback-cli @babel/core @babel/preset-env @babel/preset-react babel-loader clean-webpack-plugin css-loader file-loader mini-css-extract-plugin optimize-css-assets-webpack-plugin cssnano style-loader uglifyjs-webpack-plugin cross-env -D

@@ -2,50 +2,53 @@
 /**
  *  Blog List Template
  * 
- * @package lnpedia
+ * @package LNarchive
  */
 get_header(); //Get the Header
 ?>
 
-<main id="main" class="container blog-content" role="main">
+<main id="main" class="main-content" role="main"> <!-- Main Content Container -->
     <div class="row main-row">
-        <div class="col-lg-9 col-md-9 col-sm-12">
-        <?php
-        if(have_posts()) { //If there is post
-        ?>
-            <div class="blog-background">  
-                <header class="p-3 border-bottom border-primary">
-                    <h1 class="page-title"> 
-                        <?php single_post_title();//Display the Title?>
-                    </h1>
-                </header>   
-                <?php
+        <div class="blog-wrap col-lg-9 col-md-9 col-sm-12"> <!-- Blog Content Div -->
+            <?php
+            printf(
+                '<h1 class="page-title text-dark">%1$s</h1>', //Page Title Div
+                wp_kses_post( get_the_title(get_option('page_for_posts', true))), //Get the Title
+            );
+            if(have_posts()) { //If there is post
+
                 //Loop through the Posts
-                    while( have_posts(  )) : the_post();
-                        //Article Division?>              
-                        <article id="post-<?php the_ID();?>" <?php post_class('mb-3');?>>
-                            <div class="border-bottom pb-3 border-primary row m-3 blog-entry">
-                                <div class="col-lg-3 col-md-5 col-sm-12">
+                while( have_posts(  )) : the_post(); //While there are posts
+                    ?>              
+                        <article id="post-<?php the_ID();?>" <?php post_class('post');?>>
+                            <div class="row blog-entry"> <!-- Row Div -->
+                                <?php
+                                if( has_post_thumbnail(get_the_ID())) { //If the current post in the loop has a thumbnail
+                                ?>
+                                    <div class="post-thumbnail col-lg-3 col-md-12 col-sm-12"> <!-- Post Thumbnail Div -->
                                     <?php get_template_part('template-parts/components/blog/entry-blog-header'); //Get the Header?>
-                                </div>
-                                <div class="col-lg-9 col-md-7 col-sm-12">
+                                    </div>
+                                    <div class="post-blog-info col-lg-9 col-md-12 col-sm-12"> <!-- Post Info Div when thumbnail -->
                                     <?php
+                                }
+                                else { 
+                                ?> 
+                                    <div class="post-blog-info"> <!-- Blog Info Div when no thumbnail-->
+                                    <?php
+                                }
                                     get_template_part('template-parts/components/blog/entry-blog-meta'); //Get the Meta Data
-                                    the_custom_excerpt(180); //Get the excerpt
+                                    the_custom_excerpt(140); //Get the excerpt
+                                    get_template_part('template-parts/components/blog/entry-footer'); //Get the Footer
                                     ?>
-                                </div>
-                                <?php get_template_part('template-parts/components/blog/entry-footer'); //Get the Footer?>
+                                    </div> <!-- End of Blog Entry Div -->
                             </div>         
                         </article>
                         <?php
                     endwhile; //End While Loop
                     ?>
-                <div class=" m-3 blog-pagination blog-background">
-                    <?php
-                        custom_pagination(); //Display the Custom Pagination
-                    ?>
-                </div>
-            </div>
+                <?php
+                    custom_pagination(); //Display the Custom Pagination
+                ?>
             <?php
         }
         //If there is not post
@@ -54,7 +57,7 @@ get_header(); //Get the Header
         }
         ?>
         </div>
-        <div class="blog-background blog-sidebar col-lg-3 col-md-3 col-sm-12">
+        <div class="blog-sidebar col-lg-3 col-md-3 col-sm-12">
             <?php get_sidebar('sidebar-main'); //Show the Sidebar?>
         </div>
     </div>

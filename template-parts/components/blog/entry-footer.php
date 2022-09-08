@@ -18,8 +18,8 @@ if( empty( $article_terms ) || ! is_array( $article_terms )) { //Display nothing
     <?php
         foreach( $article_terms as $key => $article_term) { //Loops through all article terms
         ?>
-            <button class="category-button btn btn-success btn-sm"> <!-- Category Button -->
-                <a class= "entry-footer-link text-white" href="<?php echo get_term_link( $article_term)?>"> <!-- The Category Link -->
+            <button onclick="location.href='<?php echo get_term_link( $article_term)?>'" type="button" class="category-button btn btn-success btn-sm"> <!-- Category Button -->
+                <a class= "entry-footer-link text-white"> <!-- The Category text -->
                     <?php echo $article_term->name //Print the article?>
                 </a>
             </button><?php

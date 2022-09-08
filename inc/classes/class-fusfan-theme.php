@@ -19,11 +19,12 @@ class fusfan_theme{ //Fusfan Theme Class
          assets::get_instance();
          menus::get_instance();
          sidebars::get_instance();
-         post_filter::get_instance();
          
          novel::get_instance();
          novel_tax::get_instance();
          custom_tax_meta_fields::get_instance();
+         post_type_meta_fields::get_instance();
+         post_filter::get_instance();
 
          $this->set_hooks(); //Setting the hook below
      }
@@ -72,8 +73,6 @@ class fusfan_theme{ //Fusfan Theme Class
          add_theme_support( 'editor-styles' );
 
          add_editor_style('assets/build/css/editor.css'); //Custom Editor
-
-         unregister_taxonomy_for_object_type('post_tag', 'post'); //Unregister tags for the posts
 
          register_term_meta('publisher', 'publisher_meta_title_val', array(
             'object_subtype' => '', //Object Subtype

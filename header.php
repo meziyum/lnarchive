@@ -14,9 +14,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Viewport Bootstrap -->
     <?php wp_head();?> <!-- Calling the wp_head function -->
     <?php
-        if(is_home() && !is_front_page()) {
+
+        $post_type = get_post_type( get_queried_object_id()); //Get the Post Type
+        $object_id = get_the_ID(get_queried_object_id()); //Get the ID of the Object
+
+        if(is_home() && !is_front_page()) { //The Meta Desc of the Blog Page
             ?>
-                <meta name="description" content="The blog page of the LNarchive with all the articles">
+                <meta name="description" content="The blog page of the LNarchive with all the articles"> <!-- Meta Desc -->
+            <?php
+        }
+        else { //Meta Desc for all other posts, pages and post-types
+            ?>
+            <meta name="description" content="<?php echo get_post_meta( $object_id, 'seo_meta_desc_val', true );?>"> <!-- Meta Desc -->
             <?php
         }
     ?>

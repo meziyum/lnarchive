@@ -83,7 +83,7 @@ class novel{ //Assests Class
             'menu_position'       => null, //Menu index position
             'menu_icon'           => 'dashicons-book', //Menu Icon
             'capability_type'     => 'post', //Capability required for the novel post type
-            'map_meta_cap' => false, //Whether to use the internal default meta map capability handling
+            'map_meta_cap'        => true, //Whether to use the internal default meta map capability handling
             
             // Features this CPT supports in Post Editor
             'supports'            => array( 'title','excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),

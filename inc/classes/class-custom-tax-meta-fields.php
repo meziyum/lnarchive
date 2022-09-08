@@ -25,36 +25,27 @@ class custom_tax_meta_fields{ //Custom Taxonomies Meta Fields Class
     }
 
     protected function set_hooks() { //Hooks function
-        
-         /**
+
+        //Array for which to include the seo terms
+        $taxs = array(
+          'publisher',
+          'translator',
+          'writer',
+          'series',
+        );
+
+        /**
           * Actions
           */
 
         //Adding functions to the hooks
 
-        //Publisher SEO Meta Terms
-        add_action( 'publisher_add_form_fields', [ $this, 'seo_meta_add_terms'] );
-        add_action( 'publisher_edit_form_fields', [ $this, 'seo_meta_edit_terms']);
-        add_action( 'created_publisher', [$this,'seo_meta_save_terms'] );
-        add_action( 'edited_publisher', [$this, 'seo_meta_save_terms'] );
-
-        //Translator SEO Meta Terms
-        add_action( 'translator_add_form_fields', [ $this, 'seo_meta_add_terms'] );
-        add_action( 'translator_edit_form_fields', [ $this, 'seo_meta_edit_terms']);
-        add_action( 'created_translator', [$this,'seo_meta_save_terms'] );
-        add_action( 'edited_translator', [$this, 'seo_meta_save_terms'] );
-
-        //Author SEO Meta Terms
-        add_action( 'writer_add_form_fields', [ $this, 'seo_meta_add_terms'] );
-        add_action( 'writer_edit_form_fields', [ $this, 'seo_meta_edit_terms']);
-        add_action( 'created_writer', [$this,'seo_meta_save_terms'] );
-        add_action( 'edited_writer', [$this, 'seo_meta_save_terms'] );
-
-        //Series SEO Meta Terms
-        add_action( 'series_add_form_fields', [ $this, 'seo_meta_add_terms'] );
-        add_action( 'series_edit_form_fields', [ $this, 'seo_meta_edit_terms']);
-        add_action( 'created_series', [$this,'seo_meta_save_terms'] );
-        add_action( 'edited_series', [$this, 'seo_meta_save_terms'] );
+        foreach ( $taxs as $tax ) { //Loop through all the taxonomies with the seo termss
+          add_action( $tax.'_add_form_fields', [ $this, 'seo_meta_add_terms'] );
+          add_action( $tax.'_edit_form_fields', [ $this, 'seo_meta_edit_terms']);
+          add_action( 'created_'.$tax, [$this,'seo_meta_save_terms'] );
+          add_action( 'edited_'.$tax, [$this, 'seo_meta_save_terms'] );
+        }
     }
 
     function seo_meta_add_terms() { //Add SEO Meta terms to Custom Taxonomies

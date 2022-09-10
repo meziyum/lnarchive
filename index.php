@@ -1,11 +1,10 @@
 <?php
-
 /**
  * Main Template File
  * 
- * @package lnpedia
+ * @package LNarchive
  */
-get_header();
+get_header(); //Get the Header
 ?>
 
-<?php get_footer();?>
+<?php get_footer();//Get the Footer?>

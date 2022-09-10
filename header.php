@@ -20,11 +20,13 @@
 
         if(is_home() && !is_front_page()) { //The Meta Desc of the Blog Page
             ?>
+                <title><?php single_post_title();?></title> <!-- Meta Title -->
                 <meta name="description" content="The blog page of the LNarchive with all the articles"> <!-- Meta Desc -->
             <?php
         }
         else { //Meta Desc for all other posts, pages and post-types
             ?>
+            <title><?php echo get_post_meta( $object_id, 'seo_meta_title_val', true );?></title> <!-- Meta Title -->
             <meta name="description" content="<?php echo get_post_meta( $object_id, 'seo_meta_desc_val', true );?>"> <!-- Meta Desc -->
             <?php
         }

@@ -20,6 +20,7 @@ class fusfan_theme{ //Fusfan Theme Class
          menus::get_instance();
          sidebars::get_instance();
          
+         admin_dashboard::get_instance();
          novel::get_instance();
          novel_tax::get_instance();
          custom_tax_meta_fields::get_instance();
@@ -38,8 +39,6 @@ class fusfan_theme{ //Fusfan Theme Class
      }
 
      public function setup_theme() {
-
-         add_theme_support( 'title-tag'); //Title
 
          add_theme_support( 'custom-logo', [
             'header-text'          => array( 'site-title', 'site-description' ) //Replace Title/Desc by Logo

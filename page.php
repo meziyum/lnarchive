@@ -15,6 +15,7 @@ get_header(); //Get the Header function
                 while( have_posts(  )) : the_post(); //Loop through the pages
                     get_template_part('template-parts/components/blog/entry-meta'); //Get the Meta Data
                     get_template_part('template-parts/components/blog/entry-content'); //Get the Content
+                    get_template_part('template-parts/components/blog/entry-footer'); //Get the Footer
                 endwhile;
             }
             ?>

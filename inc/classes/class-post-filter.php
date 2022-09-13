@@ -24,12 +24,12 @@ class post_filter{ //Post or Custom Post Type filter
           * Actions
           */
 
-        add_action('restrict_manage_posts',[ $this, 'add_genre_filter_to_posts_admin' ]);
-        add_action('restrict_manage_posts',[ $this, 'add_publisher_filter_to_posts_admin' ]);
-        add_action('restrict_manage_posts',[ $this, 'add_series_filter_to_posts_admin' ]);
-        add_action('restrict_manage_posts',[ $this, 'add_author_filter_to_posts_admin' ]);
-        add_action('restrict_manage_posts',[ $this,'add_manager_filter_to_posts_administration' ]);
-        add_action('restrict_manage_posts',[ $this, 'add_translator_filter_to_posts_admin' ]);
+        $taxs = array('series','genre','publisher','writer', 'illustrator', 'translator', 'manager',); //List of the taxonomies for which to get filters
+
+        foreach( $taxs as $tax) { //Loop through all the taxonomies
+            add_action('restrict_manage_posts',[ $this, 'add_'.$tax.'_filter_to_posts_admin' ]); //Add the filter for the taxonomy
+        }
+
         add_action('pre_get_posts',[ $this, 'add_taxonomy_filter_to_posts_query' ]);
         add_action('pre_get_posts',[ $this, 'add_manager_filter_to_posts_query' ]);
         
@@ -37,11 +37,9 @@ class post_filter{ //Post or Custom Post Type filter
         //Adding functions to the hooks
     }
 
-    function add_genre_filter_to_posts_admin() { //Add Genre Filter Admin
+    function add_genre_filter_to_posts_admin( $post_type ) { //Add Genre Filter Admin
 
-        global $post_type; //Global Post Type
-
-        if( $post_type == 'novel') { //If the post_type is satisfied
+        if( $post_type == 'novel') { //If the post_type is satisfied and there are elements 
             $post_formats_args= array(
                 'show_option_all'   => 'All Genres', //Label for all taxonomy
                 'show_option_none'  => '', //Label for None
@@ -54,7 +52,7 @@ class post_filter{ //Post or Custom Post Type filter
                 'echo'              => 1, //Whether to print the dropdown or not
                 'selected'          => 0, //Default selected id in the dropdown
                 'hierarchical'      => 1, //IF the taxonomy is displayed hierarchicaly
-                'name'              => 'manage_genre_filter', //name of the taxonomy filter
+                'name'              => 'genre_filter', //name of the taxonomy filter
                 'id'                => '', //The id of html element
                 'class'             => '', //The Class for the html element
                 'depth'             => 0, //Depth of the Element
@@ -66,17 +64,15 @@ class post_filter{ //Post or Custom Post Type filter
                 'required'          => false, //if the HTML5 is required in the select element
             );
 
-            if(isset($_GET['manage_genre_filter'])){ //If the posts are already filtered
-                $post_formats_args['selected'] = sanitize_text_field($_GET['manage_genre_filter']); //Change the dropdown value to the selected one
+            if(isset($_GET['genre_filter'])){ //If the posts are already filtered
+                $post_formats_args['selected'] = sanitize_text_field($_GET['genre_filter']); //Change the dropdown value to the selected one
             }
 
             wp_dropdown_categories($post_formats_args); //Display the Taxonomy Dropdown
         }
     }
 
-    function add_author_filter_to_posts_admin() { //Add Author Filter Admin
-
-        global $post_type; //Global Post TypeSS
+    function add_writer_filter_to_posts_admin( $post_type ) { //Add Author Filter Admin
 
         if( $post_type == 'novel') { //If the post_type is satisfied
             $author_args= array(
@@ -91,7 +87,7 @@ class post_filter{ //Post or Custom Post Type filter
                 'echo'              => 1, //Whether to print the dropdown or not
                 'selected'          => 0, //Default selected id in the dropdown
                 'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
-                'name'              => 'manage_author_filter', //name of the taxonomy filter
+                'name'              => 'writer_filter', //name of the taxonomy filter
                 'id'                => '', //The id of html element
                 'class'             => '', //The Class for the html element
                 'depth'             => 0, //Depth of the Element
@@ -103,17 +99,50 @@ class post_filter{ //Post or Custom Post Type filter
                 'required'          => false, //if the HTML5 is required in the select element
             );
 
-            if(isset($_GET['manage_author_filter'])){ //If the posts are already filtered
-                $author_args['selected'] = sanitize_text_field($_GET['manage_author_filter']); //Change the dropdown value to the selected one
+            if(isset($_GET['writer_filter'])){ //If the posts are already filtered
+                $author_args['selected'] = sanitize_text_field($_GET['writer_filter']); //Change the dropdown value to the selected one
             }
 
             wp_dropdown_categories($author_args); //Display the Taxonomy Dropdown
         }
     }
 
-    function add_publisher_filter_to_posts_admin() { //Add Publisher Filter Admin
+    function add_illustrator_filter_to_posts_admin( $post_type ) { //Add Illustrator Filter Admin
 
-        global $post_type; //Global Post Type
+        if( $post_type == 'novel') { //If the post_type is satisfied
+            $author_args= array(
+                'show_option_all'   => 'All Illustrators', //Label for all taxonomy
+                'show_option_none'  => '', //Label for None
+                'orderby'           => 'name', //Order by
+                'order'             => 'ASC', //Order ASC or DESC
+                'show_count'        => 0, //Show count of the posts of the taxonomy
+                'hide_empty'        => 1, //Hide Empty Taxonomy
+                'child_of'          => 0, //Whether to show child of property
+                'exclude'           => array(), //Taxonomy Values to exclude from the dropdown
+                'echo'              => 1, //Whether to print the dropdown or not
+                'selected'          => 0, //Default selected id in the dropdown
+                'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
+                'name'              => 'illustrator_filter', //name of the taxonomy filter
+                'id'                => '', //The id of html element
+                'class'             => '', //The Class for the html element
+                'depth'             => 0, //Depth of the Element
+                'tab_index'         => 0, //Tabindex of the select element
+                'taxonomy'          => 'illustrator', //The taxonomy id
+                'hide_if_empty'     => false, //Whether to hide the taxonomy if it has no posts
+                'option_none_value' => -1, //Option none default value
+		        'value_field'       => 'term_id', //value in the dropdown
+                'required'          => false, //if the HTML5 is required in the select element
+            );
+
+            if(isset($_GET['illustrator_filter'])){ //If the posts are already filtered
+                $author_args['selected'] = sanitize_text_field($_GET['illustrator_filter']); //Change the dropdown value to the selected one
+            }
+
+            wp_dropdown_categories($author_args); //Display the Taxonomy Dropdown
+        }
+    }
+
+    function add_publisher_filter_to_posts_admin( $post_type ) { //Add Publisher Filter Admin
 
         if( $post_type == 'novel') { //If the post_type is satisfied
             $publisher_args= array(
@@ -128,7 +157,7 @@ class post_filter{ //Post or Custom Post Type filter
                 'echo'              => 1, //Whether to print the dropdown or not
                 'selected'          => 0, //Default selected id in the dropdown
                 'hierarchical'      => 1, //IF the taxonomy is displayed hierarchicaly
-                'name'              => 'manage_publisher_filter', //name of the taxonomy filter
+                'name'              => 'publisher_filter', //name of the taxonomy filter
                 'id'                => '', //The id of html element
                 'class'             => '', //The Class for the html element
                 'depth'             => 0, //Depth of the Element
@@ -140,17 +169,15 @@ class post_filter{ //Post or Custom Post Type filter
                 'required'          => false, //if the HTML5 is required in the select element
             );
 
-            if(isset($_GET['manage_publisher_filter'])){ //If the posts are already filtered
-                $publisher_args['selected'] = sanitize_text_field($_GET['manage_publisher_filter']); //Change the dropdown value to the selected one
+            if(isset($_GET['publisher_filter'])){ //If the posts are already filtered
+                $publisher_args['selected'] = sanitize_text_field($_GET['publisher_filter']); //Change the dropdown value to the selected one
             }
 
             wp_dropdown_categories($publisher_args); //Display the Taxonomy Dropdown
         }
     }
 
-    function add_translator_filter_to_posts_admin() { //Add Translator Filter Admin
-
-        global $post_type; //Global Post Type
+    function add_translator_filter_to_posts_admin( $post_type ) { //Add Translator Filter Admin
 
         if( $post_type == 'novel') { //If the post_type is satisfied
             $translator_args= array(
@@ -165,7 +192,7 @@ class post_filter{ //Post or Custom Post Type filter
                 'echo'              => 1, //Whether to print the dropdown or not
                 'selected'          => 0, //Default selected id in the dropdown
                 'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
-                'name'              => 'manage_translator_filter', //name of the taxonomy filter
+                'name'              => 'translator_filter', //name of the taxonomy filter
                 'id'                => '', //The id of html element
                 'class'             => '', //The Class for the html element
                 'depth'             => 0, //Depth of the Element
@@ -177,17 +204,15 @@ class post_filter{ //Post or Custom Post Type filter
                 'required'          => false, //if the HTML5 is required in the select element
             );
 
-            if(isset($_GET['manage_translator_filter'])){ //If the posts are already filtered
-                $translator_args['selected'] = sanitize_text_field($_GET['manage_translator_filter']); //Change the dropdown value to the selected one
+            if(isset($_GET['translator_filter'])){ //If the posts are already filtered
+                $translator_args['selected'] = sanitize_text_field($_GET['translator_filter']); //Change the dropdown value to the selected one
             }
 
             wp_dropdown_categories($translator_args); //Display the Taxonomy Dropdown
         }
     }
 
-    function add_series_filter_to_posts_admin() { //Add Series Filter Admin
-
-        global $post_type; //Global Post Type
+    function add_series_filter_to_posts_admin( $post_type ) { //Add Series Filter Admin
 
         if( $post_type == 'novel') { //If the post_type is satisfied
             $series_args= array(
@@ -202,7 +227,7 @@ class post_filter{ //Post or Custom Post Type filter
                 'echo'              => 1, //Whether to print the dropdown or not
                 'selected'          => 0, //Default selected id in the dropdown
                 'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
-                'name'              => 'manage_series_filter', //name of the taxonomy filter
+                'name'              => 'series_filter', //name of the taxonomy filter
                 'id'                => '', //The id of html element
                 'class'             => '', //The Class for the html element
                 'depth'             => 0, //Depth of the Element
@@ -214,8 +239,8 @@ class post_filter{ //Post or Custom Post Type filter
                 'required'          => false, //if the HTML5 is required in the select element
             );
 
-            if(isset($_GET['manage_series_filter'])){ //If the posts are already filtered
-                $series_args['selected'] = sanitize_text_field($_GET['manage_series_filter']); //Change the dropdown value to the selected one
+            if(isset($_GET['series_filter'])){ //If the posts are already filtered
+                $series_args['selected'] = sanitize_text_field($_GET['series_filter']); //Change the dropdown value to the selected one
             }
 
             wp_dropdown_categories($series_args); //Display the Taxonomy Dropdown
@@ -227,81 +252,33 @@ class post_filter{ //Post or Custom Post Type filter
         global $post_type, $pagenow; //Global post_type and current page var
 
         if( $pagenow == 'edit.php' && $post_type == 'novel') { //Check if current page is edit.php and the post_type is satisfied
-            if( isset($_GET['manage_author_filter'])) { //Check if a value is set in the dropdown
-                
-                if( sanitize_text_field($_GET['manage_author_filter']) != 0 ) { //If All is not selected in theDropdown
-                $tax_array1 = array( //Array to store the args for the wp_query
-                    'taxonomy' => 'writer', //The taxonomy which is to be filtered
-                    'field' => 'ID', //Slug
-                    'terms' => sanitize_text_field($_GET['manage_author_filter']), //Filter the term by the selected dropdown option
-                );
-                } else { //If All is selected in the Dropdown
-                    $tax_array1 = get_terms( 'writer', array( //Array to store all the terms since all is selected
-                        'hide_empty' => true, //Whether to hide the empty terms or not
-                    ) );
-                }
 
-                if( sanitize_text_field($_GET['manage_publisher_filter']) != 0 ) { //If All is not selected in the Dropdown
-                $tax_array2 = array( //Array to store the args for the wp_query
-                    'taxonomy' => 'publisher', //The taxonomy which is to be filtered
-                    'field' => 'ID', //Slug
-                    'terms' => sanitize_text_field($_GET['manage_publisher_filter']), //Filter the term by the selected dropdown option
-                );
-                }else {
-                    $tax_array2 = get_terms( 'publisher', array( //Array to store all the terms since all is selected
-                        'hide_empty' => true, //Whether to hide the empty terms or not
-                    ) );      
-                }
+            $filters = array();
+            $taxs = array('publisher', 'genre', 'translator', 'series', 'writer', 'illustrator');
 
-                if( sanitize_text_field($_GET['manage_genre_filter']) != 0 ) { //If All is not selected in the Dropdown
-                $tax_array3 = array( //Array to store the args for the wp_query
-                    'taxonomy' => 'genre', //The taxonomy which is to be filtered
-                    'field' => 'ID', //Slug
-                    'terms' => sanitize_text_field($_GET['manage_genre_filter']), //Filter the term by the selected dropdown option
-                );
-                } else {
-                    $tax_array3 = get_terms( 'genre', array( //Array to store all the terms since all is selected
-                        'hide_empty' => true, //Whether to hide the empty terms or not
-                    ) );  
-                }
-
-                if( sanitize_text_field($_GET['manage_translator_filter']) != 0 ) { //If All is not selected in the Dropdown
-                    $tax_array4 = array( //Array to store the args for the wp_query
-                        'taxonomy' => 'translator', //The taxonomy which is to be filtered
-                        'field' => 'ID', //Slug
-                        'terms' => sanitize_text_field($_GET['manage_translator_filter']), //Filter the term by the selected dropdown option
+            foreach( $taxs as $tax) { //Run loop through all the taxonomies
+                if( isset($_GET[$tax.'_filter']) && sanitize_text_field($_GET[$tax.'_filter']) != 0 ) { //If a value is selected and the selected value is not all
+                    array_push( //Push the query in to the filters array
+                        $filters,
+                        array( //Array to store the args for the wp_query
+                            'taxonomy' => $tax, //The taxonomy which is to be filtered
+                            'field' => 'ID', //Slug
+                            'terms' => sanitize_text_field($_GET[$tax.'_filter']), //Filter the term by the selected dropdown option
+                        ),
                     );
-                } else {
-                    $tax_array4 = get_terms( 'translator', array( //Array to store all the terms since all is selected
-                        'hide_empty' => true, //Whether to hide the empty terms or not
-                    ) );  
                 }
+            }
 
-                if( sanitize_text_field($_GET['manage_series_filter']) != 0 ) { //If All is not selected in the Dropdown
-                    $tax_array5 = array( //Array to store the args for the wp_query
-                        'taxonomy' => 'series', //The taxonomy which is to be filtered
-                        'field' => 'ID', //Slug
-                        'terms' => sanitize_text_field($_GET['manage_series_filter']), //Filter the term by the selected dropdown option
-                    );
-                } else {
-                    $tax_array5 = get_terms( 'series', array( //Array to store all the terms since all is selected
-                        'hide_empty' => true, //Whether to hide the empty terms or not
-                    ) );  
-                }
-
+            if( !empty($filters)) { //If at least one query has been applied
                 $query->query_vars['tax_query'] = array( //Setting the taxonomy query values to the desired one
                     'relation' => 'AND', //Apply all the Queries
-                        $tax_array1,
-                        $tax_array2,
-                        $tax_array3,
-                        $tax_array4,
-                        $tax_array5,
+                        $filters,
                 );
             }
         }
     }
 
-    function add_manager_filter_to_posts_administration() { //Add Manager Filter Admin 
+    function add_manager_filter_to_posts_admin() { //Add Manager Filter Admin 
 
         global $post_type;//Global post_type variable
 

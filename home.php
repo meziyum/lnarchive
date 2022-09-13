@@ -9,7 +9,7 @@ get_header(); //Get the Header
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
     <div class="row main-row">
-        <div class="blog-wrap col-lg-9 col-md-9 col-sm-12"> <!-- Blog Content Div -->
+        <div class="blog-wrap col-lg-9"> <!-- Blog Content Div -->
             <?php
             printf(
                 '<h1 class="page-title text-dark">%1$s</h1>', //Page Title Div
@@ -53,13 +53,13 @@ get_header(); //Get the Header
         }
         //If there is not post
         else {
-            get_template_part( 'template-parts/content-none' );
+            get_template_part( 'template-parts/content-none' ); //Get the empty Template
         }
         ?>
         </div>
-        <div class="blog-sidebar col-lg-3 col-md-3 col-sm-12">
+        <aside class="blog-sidebar col-lg-3 d-none d-lg-block"> <!-- Sidebar Div -->
             <?php get_sidebar('sidebar-main'); //Show the Sidebar?>
-        </div>
+        </aside>
     </div>
 </main>
 

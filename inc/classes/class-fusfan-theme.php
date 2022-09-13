@@ -49,7 +49,8 @@ class fusfan_theme{ //Fusfan Theme Class
          add_theme_support( 'post-thumbnails'); //Post Thumbnails
 
          //Register Image Sizes
-         add_image_size('featured-thumbnail', 350, 300, true);
+         add_image_size('featured-thumbnail', 350, 300, false);
+         add_image_size('novel-cover', 1748, 1240, false);
 
          add_theme_support('widgets'); //Add Widgets Theme
 

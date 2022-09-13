@@ -15,71 +15,160 @@ $font__fallback: sans-serif;
 // Base line height.
 $font__base-line-height: 30px;
 
-$body-text: ( //Body Text Topography
+//Text Topography
+$body-text: (
 	"h1": ( //H1 Heading
 		"small": (
+			font-size: 26px,
+			line-height: 1.4,
+		),
+		"medium": (
+			font-size: 28px,
+			line-height: 1.5,
+		),
+		"large": (
 			font-size: 30px,
 			line-height: 1.5,
 		),
 	),
 	"h2": ( //H2 Heading
 		"small": (
+			font-size: 22px,
+			line-height: 1.4,
+		),
+		"medium": (
+			font-size: 24px,
+			line-height: 1.5,
+		),
+		"large": (
 			font-size: 26px,
 			line-height: 1.5,
 		),
 	),
 	"h3": ( //H3 Heading
 		"small": (
+			font-size: 18px,
+			line-height: 1.4,
+		),
+		"medium": (
+			font-size: 20px,
+			line-height: 1.5,
+		),
+		"large": (
 			font-size: 22px,
 			line-height: 1.5,
 		),
 	),
 	"h4": ( //H4 Heading
 		"small": (
+			font-size: 16px,
+			line-height: 1.4,
+		),
+		"medium": (
 			font-size: 18px,
-			line-height: 1.52,
+			line-height: 1.5,
+		),
+		"large": (
+			font-size: 20px,
+			line-height: 1.5,
 		),
 	),
 	"h5": ( //H5 Heading
 		"small": (
+			font-size: 14px,
+			line-height: 1.4,
+		),
+		"medium": (
 			font-size: 16px,
+			line-height: 1.5,
+		),
+		"large": (
+			font-size: 18px,
 			line-height: 1.5,
 		),
 	),
 	"h6": ( //H6 Heading
 		"small": (
+			font-size: 12px,
+			line-height: 1.4,
+		),
+		"medium": (
 			font-size: 14px,
+			line-height: 1.5,
+		),
+		"large": (
+			font-size: 16px,
 			line-height: 1.5,
 		),
 	),
 	"body": ( //Body Content size
-		"small": ( //small screen size
+		"small": ( //Small Screen Size
 			font-size: 16px,
-			line-height: 1.5,
+			line-height: 1.4,
 		),
-		"large": ( //large screen size
+		"medium": ( //Medium Screen Size
+			font-size: 16px,
+			line-height: 1.4,
+		),
+		"large": ( //Large Screen Size
 			font-size: 18px,
 			line-height: 1.5,
 		),
 	),
-	"l": ( //large
+	"l": ( //Large Text
 		"small": (
+			font-size: 18px,
+			line-height: 1.4,
+		),
+		"medium": ( //Medium Screen Size
 			font-size: 20px,
+			line-height: 1.4,
+		),
+		"large": ( //Large Screen Size
+			font-size: 22px,
+			line-height: 1.5,
 		),
 	),
-	"m": ( //medium
-		"small": (
-			font-size: 18px,
-		),
-	),
-	"s": ( //small
-		"small": (
+	"m": ( //Medium Text
+		"small": ( //Small Screen Size
 			font-size: 16px,
+			line-height: 1.4,
+		),
+		"medium": ( //Medium Screen Size
+			font-size: 18px,
+			line-height: 1.4,
+		),
+		"large": ( //Large Screen Size
+			font-size: 20px,
+			line-height: 1.5,
 		),
 	),
-	"xs": ( //extra small
-		"small": (
+	"s": ( //Small Text
+		"small": ( //Small Screen Size
 			font-size: 14px,
+			line-height: 1.4,
+		),
+		"medium": ( //Medium Screen Size
+			font-size: 16px,
+			line-height: 1.4,
+		),
+		"large": ( //Large Screen Size
+			font-size: 18px,
+			line-height: 1.5,
+		),
+	),
+	"xs": ( //Extra Small Text
+		"small": ( //Small Screen Size
+			font-size: 12px,
+			line-height: 1.4,
+		),
+		"medium": ( //Medium Screen Size
+			font-size: 14px,
+			line-height: 1.4,
+		),
+		"large": ( //Large Screen Size
+			font-size: 16px,
+			line-height: 1.5,
 		),
 	),
 );

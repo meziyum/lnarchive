@@ -1,3 +1,4 @@
+
 // Center block
 @mixin center-block {
 	display: block;
@@ -19,6 +20,7 @@
  * Ex: @include body-text( h1 );
  * This will add font-size and line-height with different breakpoints.
  */
+ 
 @mixin body-text( $level: normal, $body-text: $body-text, $device-size: false ) {
 	@if type-of($body-text) != "map" {
 		@error "`#{$body-text}` is not a valid value for $values. It must be a list.";

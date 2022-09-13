@@ -32,8 +32,142 @@ class post_type_meta_fields { //Post Type Meta Fields
 
         //Adding functions to the hooks
         add_action( 'add_meta_boxes', [ $this, 'add_seo_meta_desc'] );
+        add_action( 'add_meta_boxes', [ $this, 'novel_metaboxes_add'] );
         add_action( 'save_post', [ $this, 'save_seo_meta_title'] );
         add_action( 'save_post', [ $this, 'save_seo_meta_desc'] );
+        add_action( 'save_post', [$this,'save_published_date'] );
+        add_action( 'save_post', [$this,'save_source_language'] );
+    }
+
+    function novel_metaboxes_add() { //Function to add metaboxes to the Novel postype
+        
+        //Published Date
+        add_meta_box(
+            'published_date', //The ID
+            'Published Date', //The Heading
+            [ $this, 'published_date_metabox_callback'], //The visual callback
+            'novel', //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+
+        //Source Language
+        add_meta_box(
+            'source_language', //The ID
+            'Source Language', //The Heading
+            [ $this, 'source_language_metabox_callback'], //The visual callback
+            'novel', //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+    }
+
+    function source_language_metabox_callback( $post ) { //Function to display the source languages dropdown
+
+        // Nonce Register
+        wp_nonce_field( 'source_language_nonce_action', 'source_language_nonce' );
+
+        //Languages Array
+        $langs = array('Japanese', 'Chinese', 'Korean');
+
+        $source_language = get_post_meta( $post->ID, 'source_language_value', true ); //Get the source language value
+
+        ?>
+        <div class="source-language"> <!-- Source Langauge -->
+            <select name="source_language" id="source_language">
+                <?php
+                    foreach( $langs as $lang) { //Run loop thorugh all lanuages to get the options for each
+                        ?>
+                            <option <?php if($source_language == $lang){echo("selected");}?> value="<?php echo $lang;?>"><?php echo $lang;?></option><!-- Language Option -->
+                        <?php
+                    }
+                ?>
+            </select>
+        </div>
+        <?php
+    }
+
+    function save_source_language( $post_id ) { //Function to save the source language metabox
+        
+        // Nonce Verification
+        if ( ! isset( $_POST['source_language_nonce'] ) || ! wp_verify_nonce( $_POST['source_language_nonce'], 'source_language_nonce_action')) {
+            return;
+        }
+
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        if ( !empty( $_POST['seo_meta_title'] ) ) { //If the time is set
+            update_post_meta(
+                $post_id, //The post id
+                'source_language_value', //Key
+                $_POST['source_language'] //Value of the Meta
+             );
+        }
+        else { //Save the default value
+            update_post_meta(
+                $post_id, //The post id
+                'source_language_value', //Key
+                'Japanese', //Default Source Language is Japanese
+             );
+        }
+    }
+
+    function published_date_metabox_callback( $post ) { //Function to display the Published Date Selection
+
+         // Nonce Register
+         wp_nonce_field( 'published_date_nonce_action', 'published_date_nonce' );
+
+         $published_date = get_post_meta( $post->ID, 'published_date_value', true ); //Get the published date value
+         
+         ?>
+         <div class="published-date"> <!-- Published Date Div -->
+                    <label for="published_date">Published Date</label>
+                    <input name="published_date" type="date" value="<?php echo $published_date;?>">
+         </div>
+         <?php
+    }
+
+    function save_published_date( $post_id) { //Function to save the published date value
+        
+        // Nonce Verification
+        if ( ! isset( $_POST['published_date_nonce'] ) || ! wp_verify_nonce( $_POST['published_date_nonce'], 'published_date_nonce_action')) {
+            return;
+        }
+
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        if ( !empty( $_POST['published_date'] ) ) { //If the time is set
+            update_post_meta(
+                $post_id, //The post id
+                'published_date_value', //Key
+                $_POST['published_date'] //Value of the Meta
+             );
+        }
+        else{ //Default Date
+            update_post_meta(
+                $post_id, //The post id
+                'published_date_value', //Key
+                get_the_date(), //Pubished post date is set as the novel publish date by default
+             );
+        }
     }
 
     function add_seo_meta_desc() { //Function to add metaboxes to post types
@@ -111,12 +245,12 @@ class post_type_meta_fields { //Post Type Meta Fields
 
         // Verify User Permissions
         if ( isset( $post_type ) && 'page' == $post_type ) { //Check if its a page
-            if ( ! current_user_can( 'edit_page', $post_id ) ) { //If the user has edit_page capability
+            if ( ! current_user_can( 'edit_page', $post_id ) ) { //If the user doesnt have edit_page capability
                 return;
             }
         }
         else { //For all other post types
-            if ( ! current_user_can( 'edit_post', $post_id ) ) { //If the user has edit_post capability
+            if ( ! current_user_can( 'edit_post', $post_id ) ) { //If the user doesnt have edit_post capability
                 return;
             }
         }
@@ -150,12 +284,12 @@ class post_type_meta_fields { //Post Type Meta Fields
 
         // Verify User Permissions
         if ( isset( $post_type ) && 'page' == $post_type ) { //Check if its a page
-            if ( ! current_user_can( 'edit_page', $post_id ) ) { //If the user has edit_page capability
+            if ( ! current_user_can( 'edit_page', $post_id ) ) { //If the user doesnt have edit_page capability
                 return;
             }
         }
         else { //For all other post types
-            if ( ! current_user_can( 'edit_post', $post_id ) ) { //If the user has edit_post capability
+            if ( ! current_user_can( 'edit_post', $post_id ) ) { //If the user doesnt have edit_post capability
                 return;
             }
         }

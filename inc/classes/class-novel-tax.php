@@ -228,6 +228,72 @@ class novel_tax{ //Novel Taxonomy Class
 
         ));//End of Author Taxonomy
 
+        //Register Illustrator Taxonomy
+        register_taxonomy('illustrator', ['novel'], array(
+            
+            //All Illustrator Labels
+            'labels' => array(
+                'name' => 'Illustrator', //General Name
+                'singular_name' => 'Illustrator', //Singular Taxonomy Name
+                'search_items' =>  'Search Illustrator', //Search
+                'popular_items' => 'Popular Illustrators', //Popular
+                'all_items' => 'All Illustrators', //List of all
+                'name_field_description' => 'Name of the Illustrator of the novel', //Desc for name field on edit screen
+                'slug_field_description' => 'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', //Desc for the slug field
+                'desc_field_description' => 'Information about the Illustrator', //Desc of the Description field
+                'edit_item' => 'Edit Illustrator', //Edit
+                'view_item' => 'View Illustrator', //View
+                'update_item' => 'Update Illustrator', //Update
+                'add_new_item' => 'Add New Illustrator', //Add New
+                'new_item_name' => 'New Illustrator Name', //New Item Name
+                'separate_items_with_commas' => '', //Msg to separate non hierachy taxonomies
+                'add_or_remove_items' => 'Add or remove illustrator', //Add/Remove Metabox
+                'choose_from_most_used' => '', //Choose from most used msg
+                'not_found' => 'No illustrator found', //Not Found Msg
+                'no_terms' => 'No illustrators', //Post and Media tables
+                'most_used' => '', //Most Used Msg
+                'back_to_items' => 'Back to Illustrators', //Back to List
+                'item_link' => 'Illustrator Link', //Taxonomy Link in Block Editor
+                'item_link_description' => 'A link to the illustrator', //Desc for taxonomy Link in Block Editor
+                'menu_name' => 'Illustrator', //Name in Menu
+            ),
+
+            'public' => true, //Public Use
+            'publicly_queryable' => true, //If its for front end
+            'show_ui' => true, //Show Default UI
+            'show_in_menu' => true, //Show in Admin Menu
+            'show_in_nav_menus' => true, //If it can be added to Nav Menus
+            'show_in_rest' => true, //Show in Guttenburg or REST API to be more specific
+            'rest_base' => 'illustrator', //Base URL
+            'show_tagcloud' => false, //Tag Cloud Widget
+            'show_in_quick_edit' => false, //Quick Edit
+            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
+            'description' => 'An illustrator is an artist who specializes in enhancing writing or elucidating concepts by providing a visual representation that corresponds to the content of the associated text or idea.',
+            'update_count_callback' => '', //Callback for when the taxonomy count is updated
+            'query_var' => 'illustrator', //Query name for the wp_query
+            'hierarchical' => false, //Hierarchy
+
+            //Modify the Taxonomy Slug
+            'rewrite' => array(
+                'slug' => 'illustrator',
+                'with_front' => false, //Hide the base slug
+                'hierarchical' => false, //If to display hierarchy in the url
+            ),
+
+            //Capabilities
+            'capabilities' => array(
+                'manage_terms' => 'manage_categories',
+                'edit_terms' => 'manage_categories',
+                'delete_terms' => 'manage_categories',
+                'assign_terms' => 'manage_categories',
+            ),
+
+            'sort' => false, //Whether this taxonomy should remember the order in which terms are added to objects
+            '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
+
+        ));//End of Illustrator Taxonomy
+
         //Register Translator Taxonomy
         register_taxonomy('translator', ['novel'], array(
             

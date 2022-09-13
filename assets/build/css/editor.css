@@ -109,9 +109,13 @@ body {
   margin: 0;
   font-family: "Overpass", sans-serif;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.4;
   background: #fff;
   color: #414042; }
+  @media (min-width: 48em) {
+    body {
+      font-size: 16px;
+      line-height: 1.4; } }
   @media (min-width: 64em) {
     body {
       font-size: 18px;
@@ -177,7 +181,7 @@ blockquote.wp-block-quote {
     max-width: 100%; }
 
 img {
-  height: 100%;
+  height: auto;
   width: 100%;
   vertical-align: middle; }
 
@@ -225,28 +229,76 @@ sub {
 \*------------------------------------*/
 /* stylelint-disable */
 h1 {
-  font-size: 30px;
-  line-height: 1.5; }
+  font-size: 26px;
+  line-height: 1.4; }
+  @media (min-width: 48em) {
+    h1 {
+      font-size: 28px;
+      line-height: 1.5; } }
+  @media (min-width: 64em) {
+    h1 {
+      font-size: 30px;
+      line-height: 1.5; } }
 
 h2 {
-  font-size: 26px;
-  line-height: 1.5; }
+  font-size: 22px;
+  line-height: 1.4; }
+  @media (min-width: 48em) {
+    h2 {
+      font-size: 24px;
+      line-height: 1.5; } }
+  @media (min-width: 64em) {
+    h2 {
+      font-size: 26px;
+      line-height: 1.5; } }
 
 h3 {
-  font-size: 22px;
-  line-height: 1.5; }
+  font-size: 18px;
+  line-height: 1.4; }
+  @media (min-width: 48em) {
+    h3 {
+      font-size: 20px;
+      line-height: 1.5; } }
+  @media (min-width: 64em) {
+    h3 {
+      font-size: 22px;
+      line-height: 1.5; } }
 
 h4 {
-  font-size: 18px;
-  line-height: 1.52; }
+  font-size: 16px;
+  line-height: 1.4; }
+  @media (min-width: 48em) {
+    h4 {
+      font-size: 18px;
+      line-height: 1.5; } }
+  @media (min-width: 64em) {
+    h4 {
+      font-size: 20px;
+      line-height: 1.5; } }
 
 h5 {
-  font-size: 16px;
-  line-height: 1.5; }
+  font-size: 14px;
+  line-height: 1.4; }
+  @media (min-width: 48em) {
+    h5 {
+      font-size: 16px;
+      line-height: 1.5; } }
+  @media (min-width: 64em) {
+    h5 {
+      font-size: 18px;
+      line-height: 1.5; } }
 
 h6 {
-  font-size: 14px;
-  line-height: 1.5; }
+  font-size: 12px;
+  line-height: 1.4; }
+  @media (min-width: 48em) {
+    h6 {
+      font-size: 14px;
+      line-height: 1.5; } }
+  @media (min-width: 64em) {
+    h6 {
+      font-size: 16px;
+      line-height: 1.5; } }
 
 h1,
 h2,
@@ -395,8 +447,16 @@ button,
 select,
 textarea {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.4;
   font-weight: 400; }
+  @media (min-width: 48em) {
+    label,
+    input,
+    button,
+    select,
+    textarea {
+      font-size: 16px;
+      line-height: 1.4; } }
   @media (min-width: 64em) {
     label,
     input,
@@ -447,8 +507,17 @@ code {
   background-color: #f7f7f9;
   border: 1px solid #e1e1e8;
   font-family: "Overpass", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 1.4;
   border-radius: 3px; }
+  @media (min-width: 48em) {
+    code {
+      font-size: 16px;
+      line-height: 1.4; } }
+  @media (min-width: 64em) {
+    code {
+      font-size: 18px;
+      line-height: 1.5; } }
 
 /* Buttons CSS */
 /*Category Button*/

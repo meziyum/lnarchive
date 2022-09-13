@@ -2,19 +2,22 @@
 /**
  * Theme Menus
  * 
- * @package lnpedia
+ * @package LNarchive
  * 
  */
-namespace fusfan\inc; //Namespace Definition
-use fusfan\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc; //Namespace Definition
+use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
 class menus{ //Assests Class
+
     use Singleton; //Using Sinlgeton
+
     protected function __construct(){ //Constructor function
 
         //Load Class
          $this->set_hooks(); //Setting the hook below
     }
+
     protected function set_hooks() {
         
          /**
@@ -24,6 +27,7 @@ class menus{ //Assests Class
         //Adding functions to the hooks
         add_action('init', [ $this, 'register_menus']);
     }
+
     //Register Menus
     public function register_menus() {
         register_nav_menus( //Locations List
@@ -32,6 +36,7 @@ class menus{ //Assests Class
             )
         );
     }
+
     //Get Menu Id from location
     public function get_menu_id( $location ) {       
         //Get all the locations
@@ -41,6 +46,7 @@ class menus{ //Assests Class
         //Return the menu id if not empty
         return ! empty( $menu_id) ? $menu_id : '';
     }
+
     //Get Sub Menu Items
     public function get_child_menu_items( $menu_array, $parent_id) { // $menu_array = array with all menu items $parent_id = id of the menu_item for which to find the submenus
 
@@ -55,7 +61,6 @@ class menus{ //Assests Class
         }
 
         return $child_menus;
-
     }
 }
 ?>

@@ -2,10 +2,10 @@
 /**
  * Header Navigation Template
  * 
- * @package lnpedia
+ * @package LNarchive
  */
 
-use fusfan\inc\menus;
+use lnarchive\inc\menus;
 $menu_class = menus::get_instance(); //Intiate the Class
 $header_menu_id = $menu_class->get_menu_id('fusfan_primary'); //Get the menu id of the primary menu
 $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_items of the primary menu

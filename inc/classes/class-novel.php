@@ -5,8 +5,8 @@
  * @package LNarchive
  */
 
-namespace fusfan\inc; //Namespace Definition
-use fusfan\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc; //Namespace Definition
+use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
 class novel{ //Assests Class
 

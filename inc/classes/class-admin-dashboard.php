@@ -3,8 +3,8 @@
  * Admin Dashboard
  */
 
-namespace fusfan\inc; //Namespace
-use fusfan\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc; //Namespace Definition
+use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
 class admin_dashboard{ //Admin Dashboard Template
 
@@ -35,7 +35,7 @@ class admin_dashboard{ //Admin Dashboard Template
 
     
     function load_admin_style() {
-    wp_register_style( 'admin_css', FUSFAN_DIR_URI . '/admin-style.css', false, '1.0.0', 'all' );
+    wp_register_style( 'admin_css', LNARCHIVE_DIR_URI . '/admin-style.css', false, '1.0.0', 'all' );
     wp_enqueue_style( 'admin_css');
     }
 

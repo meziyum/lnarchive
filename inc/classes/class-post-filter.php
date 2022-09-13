@@ -5,8 +5,8 @@
  * @package LNarchive
  */
 
-namespace fusfan\inc; //Namespace
-use fusfan\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc; //Namespace Definition
+use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
 class post_filter{ //Post or Custom Post Type filter
 

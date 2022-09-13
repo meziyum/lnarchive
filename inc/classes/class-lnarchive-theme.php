@@ -1,15 +1,14 @@
 <?php
 /**
- * Bootstraps the Theme
+ * The Main Theme Class
  * 
- * @package fusfan
+ * @package LNarchive
  */
 
-namespace fusfan\inc; //Namespace Definition
+namespace lnarchive\inc; //Namespace Definition
+use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
-use fusfan\inc\traits\Singleton; //Singleton Directory
-
-class fusfan_theme{ //Fusfan Theme Class
+class lnarchive_theme{ //LNarchive Theme Class
 
      use Singleton; //Use Singleton
 
@@ -19,7 +18,6 @@ class fusfan_theme{ //Fusfan Theme Class
          assets::get_instance();
          menus::get_instance();
          sidebars::get_instance();
-         
          admin_dashboard::get_instance();
          novel::get_instance();
          novel_tax::get_instance();
@@ -49,8 +47,8 @@ class fusfan_theme{ //Fusfan Theme Class
          add_theme_support( 'post-thumbnails'); //Post Thumbnails
 
          //Register Image Sizes
-         add_image_size('featured-thumbnail', 350, 300, false);
-         add_image_size('novel-cover', 1748, 1240, false);
+         add_image_size('featured-thumbnail', 350, 300, false); //Thumbnail Size
+         add_image_size('novel-cover', 1748, 1240, false); //Novel Cover Size
 
          add_theme_support('widgets'); //Add Widgets Theme
 

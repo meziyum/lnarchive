@@ -2,10 +2,10 @@
 /**
  * Autoloader file for theme.
  *
- * @package lnpedia
+ * @package LNarchive
  */
 
-namespace fusfan\inc\helpers;
+namespace lnarchive\inc\helpers;
 
 /**
  * Auto loader function.
@@ -16,7 +16,7 @@ namespace fusfan\inc\helpers;
  */
 function autoloader( $resource = '' ) {
 	$resource_path  = false;
-	$namespace_root = 'fusfan\\';
+	$namespace_root = 'lnarchive\\';
 	$resource       = trim( $resource, '\\' );
 
 	if ( empty( $resource ) || strpos( $resource, '\\' ) === false || strpos( $resource, $namespace_root ) !== 0 ) {
@@ -68,7 +68,7 @@ function autoloader( $resource = '' ) {
 				break;
 		}
 
-		$resource_path = sprintf( '%s/inc/%s/%s.php', untrailingslashit( FUSFAN_DIR_PATH ), $directory, $file_name );
+		$resource_path = sprintf( '%s/inc/%s/%s.php', untrailingslashit( LNARCHIVE_DIR_PATH ), $directory, $file_name );
 
 	}
 
@@ -84,4 +84,4 @@ function autoloader( $resource = '' ) {
 
 }
 
-spl_autoload_register( '\fusfan\inc\helpers\autoloader' );
+spl_autoload_register( '\lnarchive\inc\helpers\autoloader' );

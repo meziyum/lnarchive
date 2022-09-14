@@ -31,7 +31,7 @@ class novel_tax{ //Novel Taxonomy Class
     public function register_novel_volume_taxonomies() { //Register all the novel taxonomies
 
         //Register Series Taxonomy
-        register_taxonomy('series', ['novel', 'post'], array(
+        register_taxonomy('series', ['volume', 'post'], array(
             
             //All Series Labels
             'labels' => array(
@@ -229,7 +229,7 @@ class novel_tax{ //Novel Taxonomy Class
         ));//End of Author Taxonomy
 
         //Register Illustrator Taxonomy
-        register_taxonomy('illustrator', ['novel'], array(
+        register_taxonomy('illustrator', ['novel', 'volume'], array(
             
             //All Illustrator Labels
             'labels' => array(
@@ -295,7 +295,7 @@ class novel_tax{ //Novel Taxonomy Class
         ));//End of Illustrator Taxonomy
 
         //Register Translator Taxonomy
-        register_taxonomy('translator', ['novel'], array(
+        register_taxonomy('translator', ['novel', 'volume'], array(
             
             //All Translator Labels
             'labels' => array(

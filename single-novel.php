@@ -49,23 +49,9 @@ get_header(); //Get the Header function
                                         <?php
                                     }   
                                 }
-
-                                $series_terms = get_the_terms(get_the_ID(), 'series'); //Get all the Terms
-
                                 ?>
                                 <table>
-                                <?php
-
-                                if( !empty($series_terms)) {
-                                    foreach( $series_terms as $key => $article_term) { //Loops through all article terms
-                                        ?>
-                                            <tr>
-                                                <th>Series: <th>
-                                                <td><a href="<?php echo get_term_link($article_term, 'series')?>"><?php echo $article_term->name?></a></td>
-                                            </tr>
-                                        <?php
-                                    }
-                                }                           
+                                <?php                
 
                                 $publisher_terms = get_the_terms(get_the_ID(), 'publisher'); //Get all the Terms
 

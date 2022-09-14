@@ -20,6 +20,7 @@ class lnarchive_theme{ //LNarchive Theme Class
          sidebars::get_instance();
          admin_dashboard::get_instance();
          novel::get_instance();
+         volume::get_instance();
          novel_tax::get_instance();
          custom_tax_meta_fields::get_instance();
          post_type_meta_fields::get_instance();

@@ -46,7 +46,7 @@ class post_type_meta_fields { //Post Type Meta Fields
             'published_date', //The ID
             'Published Date', //The Heading
             [ $this, 'published_date_metabox_callback'], //The visual callback
-            'novel', //Post types
+            'volume', //Post types
             'side', //Location
             'default', //Priority
             null, //Args

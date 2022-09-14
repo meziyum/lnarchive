@@ -39,7 +39,7 @@ class post_filter{ //Post or Custom Post Type filter
 
     function add_genre_filter_to_posts_admin( $post_type ) { //Add Genre Filter Admin
 
-        if( $post_type == 'novel') { //If the post_type is satisfied and there are elements 
+        if( $post_type == 'novel') { //If the post_type is satisfied and there are elements
             $post_formats_args= array(
                 'show_option_all'   => 'All Genres', //Label for all taxonomy
                 'show_option_none'  => '', //Label for None
@@ -214,7 +214,7 @@ class post_filter{ //Post or Custom Post Type filter
 
     function add_series_filter_to_posts_admin( $post_type ) { //Add Series Filter Admin
 
-        if( $post_type == 'novel') { //If the post_type is satisfied
+        if( $post_type == 'volume') { //If the post_type is satisfied
             $series_args= array(
                 'show_option_all'   => 'All Series', //Label for all taxonomy
                 'show_option_none'  => '', //Label for None
@@ -282,8 +282,6 @@ class post_filter{ //Post or Custom Post Type filter
 
         global $post_type;//Global post_type variable
 
-        if($post_type == 'novel' || $post_type == 'post'){ //Check if the post_type is novel
-
             //All User Dropdown Arguments
             $user_args = array(
                 'show_option_all'   => 'All Managers', //Dropdown Defaults
@@ -316,14 +314,13 @@ class post_filter{ //Post or Custom Post Type filter
             }
 
             wp_dropdown_users($user_args); //Display the Users Dropdown
-        }
     }
 
     function add_manager_filter_to_posts_query($query){ //Query Manager Filter Admin
 
         global $post_type, $pagenow; //Global Posttype and current page var
 
-        if($pagenow == 'edit.php' && ($post_type == 'novel' || $post_type == 'post')){ //If the current page is edit.php and the post_types match
+        if($pagenow == 'edit.php'){ //If the current page is edit.php and the post_types match
             if(isset($_GET['manager_admin_filter'])){ //If the Author filter is applied
                 $author_id = (int)sanitize_text_field($_GET['manager_admin_filter']); //Get the Author variable from the dropdown
                 if($author_id != 0){ //All option not selected in the dropdown

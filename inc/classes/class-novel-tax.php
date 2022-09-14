@@ -228,6 +228,138 @@ class novel_tax{ //Novel Taxonomy Class
 
         ));//End of Illustrator Taxonomy
 
+        //Register Language Taxonomy
+        register_taxonomy('language', ['novel'], array(
+            
+            //All Language Labels
+            'labels' => array(
+                'name' => 'Language', //General Name
+                'singular_name' => 'Language', //Singular Taxonomy Name
+                'search_items' =>  'Search Language', //Search
+                'popular_items' => 'Popular Languages', //Popular
+                'all_items' => 'All Languages', //List of all
+                'name_field_description' => 'Name of the language of the novel', //Desc for name field on edit screen
+                'slug_field_description' => 'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', //Desc for the slug field
+                'desc_field_description' => 'Information about the language', //Desc of the Description field
+                'edit_item' => 'Edit Language', //Edit
+                'view_item' => 'View Language', //View
+                'update_item' => 'Update Language', //Update
+                'add_new_item' => 'Add New Language', //Add New
+                'new_item_name' => 'New Language Name', //New Item Name
+                'separate_items_with_commas' => '', //Msg to separate non hierachy taxonomies
+                'add_or_remove_items' => 'Add or remove language', //Add/Remove Metabox
+                'choose_from_most_used' => '', //Choose from most used msg
+                'not_found' => 'No language found', //Not Found Msg
+                'no_terms' => 'No languages', //Post and Media tables
+                'most_used' => '', //Most Used Msg
+                'back_to_items' => 'Back to Languages', //Back to List
+                'item_link' => 'Language Link', //Taxonomy Link in Block Editor
+                'item_link_description' => 'A link to the language', //Desc for taxonomy Link in Block Editor
+                'menu_name' => 'Language', //Name in Menu
+            ),
+
+            'public' => true, //Public Use
+            'publicly_queryable' => true, //If its for front end
+            'show_ui' => true, //Show Default UI
+            'show_in_menu' => true, //Show in Admin Menu
+            'show_in_nav_menus' => true, //If it can be added to Nav Menus
+            'show_in_rest' => true, //Show in Guttenburg or REST API to be more specific
+            'rest_base' => 'language', //Base URL
+            'show_tagcloud' => false, //Tag Cloud Widget
+            'show_in_quick_edit' => false, //Quick Edit
+            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
+            'description' => 'The source language of the novel from which its translated from.',
+            'update_count_callback' => '', //Callback for when the taxonomy count is updated
+            'query_var' => 'language', //Query name for the wp_query
+            'hierarchical' => false, //Hierarchy
+
+            //Modify the Taxonomy Slug
+            'rewrite' => array(
+                'slug' => 'language',
+                'with_front' => false, //Hide the base slug
+                'hierarchical' => false, //If to display hierarchy in the url
+            ),
+
+            //Capabilities
+            'capabilities' => array(
+                'manage_terms' => 'manage_categories',
+                'edit_terms' => 'manage_categories',
+                'delete_terms' => 'manage_categories',
+                'assign_terms' => 'manage_categories',
+            ),
+
+            'sort' => false, //Whether this taxonomy should remember the order in which terms are added to objects
+            '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
+
+        ));//End of Language Taxonomy
+
+        //Register Status Taxonomy
+        register_taxonomy('status', ['novel'], array(
+            
+            //All Status Labels
+            'labels' => array(
+                'name' => 'Status', //General Name
+                'singular_name' => 'Status', //Singular Taxonomy Name
+                'search_items' =>  'Search Statsu type', //Search
+                'popular_items' => 'Popular Status types', //Popular
+                'all_items' => 'All Status types', //List of all
+                'name_field_description' => 'Name of the Status type', //Desc for name field on edit screen
+                'slug_field_description' => 'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', //Desc for the slug field
+                'desc_field_description' => 'Information about the status', //Desc of the Description field
+                'edit_item' => 'Edit Status', //Edit
+                'view_item' => 'View Status', //View
+                'update_item' => 'Update Status', //Update
+                'add_new_item' => 'Add New Status', //Add New
+                'new_item_name' => 'New Status Name', //New Item Name
+                'separate_items_with_commas' => '', //Msg to separate non hierachy taxonomies
+                'add_or_remove_items' => 'Add or remove status type', //Add/Remove Metabox
+                'choose_from_most_used' => '', //Choose from most used msg
+                'not_found' => 'No status types found', //Not Found Msg
+                'no_terms' => 'No status types', //Post and Media tables
+                'most_used' => '', //Most Used Msg
+                'back_to_items' => 'Back to Status', //Back to List
+                'item_link' => 'Status Link', //Taxonomy Link in Block Editor
+                'item_link_description' => 'A link to the status', //Desc for taxonomy Link in Block Editor
+                'menu_name' => 'Status', //Name in Menu
+            ),
+
+            'public' => true, //Public Use
+            'publicly_queryable' => true, //If its for front end
+            'show_ui' => true, //Show Default UI
+            'show_in_menu' => true, //Show in Admin Menu
+            'show_in_nav_menus' => true, //If it can be added to Nav Menus
+            'show_in_rest' => true, //Show in Guttenburg or REST API to be more specific
+            'rest_base' => 'status', //Base URL
+            'show_tagcloud' => false, //Tag Cloud Widget
+            'show_in_quick_edit' => false, //Quick Edit
+            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
+            'description' => 'The current publishing status of the series.',
+            'update_count_callback' => '', //Callback for when the taxonomy count is updated
+            'query_var' => 'status', //Query name for the wp_query
+            'hierarchical' => false, //Hierarchy
+
+            //Modify the Taxonomy Slug
+            'rewrite' => array(
+                'slug' => 'status',
+                'with_front' => false, //Hide the base slug
+                'hierarchical' => false, //If to display hierarchy in the url
+            ),
+
+            //Capabilities
+            'capabilities' => array(
+                'manage_terms' => 'manage_categories',
+                'edit_terms' => 'manage_categories',
+                'delete_terms' => 'manage_categories',
+                'assign_terms' => 'manage_categories',
+            ),
+
+            'sort' => false, //Whether this taxonomy should remember the order in which terms are added to objects
+            '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
+
+        ));//End of Status Taxonomy
+
         //Register Translator Taxonomy
         register_taxonomy('translator', ['novel', 'volume'], array(
             

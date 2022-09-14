@@ -24,7 +24,7 @@ class post_filter{ //Post or Custom Post Type filter
           * Actions
           */
 
-        $taxs = array('series','genre','publisher','writer', 'illustrator', 'translator', 'manager',); //List of the taxonomies for which to get filters
+        $taxs = array('genre','publisher','writer', 'illustrator', 'translator', 'manager',); //List of the taxonomies for which to get filters
 
         foreach( $taxs as $tax) { //Loop through all the taxonomies
             add_action('restrict_manage_posts',[ $this, 'add_'.$tax.'_filter_to_posts_admin' ]); //Add the filter for the taxonomy
@@ -212,41 +212,6 @@ class post_filter{ //Post or Custom Post Type filter
         }
     }
 
-    function add_series_filter_to_posts_admin( $post_type ) { //Add Series Filter Admin
-
-        if( $post_type == 'volume') { //If the post_type is satisfied
-            $series_args= array(
-                'show_option_all'   => 'All Series', //Label for all taxonomy
-                'show_option_none'  => '', //Label for None
-                'orderby'           => 'name', //Order by
-                'order'             => 'ASC', //Order ASC or DESC
-                'show_count'        => 0, //Show count of the posts of the taxonomy
-                'hide_empty'        => 1, //Hide Empty Taxonomy
-                'child_of'          => 0, //Whether to show child of property
-                'exclude'           => array(), //Taxonomy Values to exclude from the dropdown
-                'echo'              => 1, //Whether to print the dropdown or not
-                'selected'          => 0, //Default selected id in the dropdown
-                'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
-                'name'              => 'series_filter', //name of the taxonomy filter
-                'id'                => '', //The id of html element
-                'class'             => '', //The Class for the html element
-                'depth'             => 0, //Depth of the Element
-                'tab_index'         => 0, //Tabindex of the select element
-                'taxonomy'          => 'series', //The taxonomy id
-                'hide_if_empty'     => false, //Whether to hide the taxonomy if it has no posts
-                'option_none_value' => -1, //Option none default value
-		        'value_field'       => 'term_id', //value in the dropdown
-                'required'          => false, //if the HTML5 is required in the select element
-            );
-
-            if(isset($_GET['series_filter'])){ //If the posts are already filtered
-                $series_args['selected'] = sanitize_text_field($_GET['series_filter']); //Change the dropdown value to the selected one
-            }
-
-            wp_dropdown_categories($series_args); //Display the Taxonomy Dropdown
-        }
-    }
-
     function add_taxonomy_filter_to_posts_query($query) { //Taxonomies Filter WP_QUERY
 
         global $post_type, $pagenow; //Global post_type and current page var
@@ -254,7 +219,7 @@ class post_filter{ //Post or Custom Post Type filter
         if( $pagenow == 'edit.php' && $post_type == 'novel') { //Check if current page is edit.php and the post_type is satisfied
 
             $filters = array();
-            $taxs = array('publisher', 'genre', 'translator', 'series', 'writer', 'illustrator');
+            $taxs = array('publisher', 'genre', 'translator', 'writer', 'illustrator');
 
             foreach( $taxs as $tax) { //Run loop through all the taxonomies
                 if( isset($_GET[$tax.'_filter']) && sanitize_text_field($_GET[$tax.'_filter']) != 0 ) { //If a value is selected and the selected value is not all

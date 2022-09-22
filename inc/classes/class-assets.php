@@ -36,11 +36,13 @@ class assets{ //Assests Class
       wp_register_style( 'main_css', LNARCHIVE_BUILD_CSS_URI . '/main.css', ['bootstrap_css'], filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/main.css'), 'all'); //Sass Stylsheet
       wp_register_style( 'fusfan_stylesheet', LNARCHIVE_DIR_URI . '/style.css', ['main_css'], filemtime(LNARCHIVE_DIR_PATH . '/style.css'), 'all'); //Main Stylesheet
       wp_register_style( 'bootstrap_css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css', [], '5.0.2' , 'all'); //Bootstrap Stylesheet using CDN
+      wp_register_style( 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css', [], '6.2.0' , 'all'); //Fontawesome
 
       //Enqueue Styles
       wp_enqueue_style('bootstrap_css');
       wp_enqueue_style('main_css');
       wp_enqueue_style('fusfan_stylesheet');
+      wp_enqueue_style('fontawesome');
     }
 
     public function register_scripts() { //Scripts

@@ -43,7 +43,11 @@ class lnarchive_theme{ //LNarchive Theme Class
             'header-text'          => array( 'site-title', 'site-description' ) //Replace Title/Desc by Logo
          ]); //Custom Logo
 
-         add_theme_support( 'custom-background'); //Custom Background
+         $args = array(
+            'default-color' => '3a7de8',
+        );
+
+        add_theme_support( 'custom-background', $args );
 
          add_theme_support( 'post-thumbnails'); //Post Thumbnails
 

@@ -14,7 +14,7 @@ $post_type = get_post_type( get_queried_object_id()); //Get the Post Type
  <div class="entry-footer"> <!-- Blog Entry Footer Div -->
     <?php
 
-        if( ($post_type == 'post' || is_home() && !is_front_page()) && !empty( $article_terms ) && is_array( $article_terms )){ //If its post or is blog page and there are articles in the category
+        if( ($post_type == 'post' || $post_type == 'novel' ||is_home() && !is_front_page()) && !empty( $article_terms ) && is_array( $article_terms )){ //If its post or is blog page and there are articles in the category
         foreach( $article_terms as $key => $article_term) { //Loops through all article terms
         ?>
             <button onclick="location.href='<?php echo get_term_link( $article_term)?>'" type="button" class="category-button btn btn-success btn-sm"> <!-- Category Button -->

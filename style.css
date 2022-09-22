@@ -3,18 +3,12 @@ Theme Name: LNarchive
 Theme URI: https://lnarchive.com
 Author: LNarchive
 Author URI: https://lnarchive.com
-Version: 0.0.0.2
+Version: 0.0.0.3
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 7.0
 Text Domain: lnpedia
 */
-
-/*Custom Logo*/
-img.custom-logo {
-    max-height: 80px;
-    max-width: 150px;
-}
 
 /*Root*/
 :root {
@@ -33,7 +27,12 @@ img.custom-logo {
 /*Page Content */
 .main-content {
     background-color: #edf1f5;
-    padding: 16px 32px 16px 32px;
+    padding: 8px 12px 8px 12px;
+}
+
+.row {
+    padding: 0px; /*Remove the default Bootstrap 5 Margin*/
+    margin: 0px; /*Remove the default Bootstrap 5 Padding*/
 }
 
 /*Page Title */
@@ -44,6 +43,8 @@ img.custom-logo {
     border-left-width: thick;
     border-bottom-width: medium;
     border-color: var( --primary);
+    background-color: white;
+    border-radius: 25px;
 }
 
 /* Main Block Div */
@@ -63,9 +64,9 @@ img.custom-logo {
 
 /** BLog Entry Cover Img **/
 .novel-cover-img {
-    padding-top: 12px;
     border-radius: 20px;
     max-height: 1240px;
+    margin-bottom: 12px;
 }
 
 /** Blog Entry Date **/
@@ -84,4 +85,36 @@ img.custom-logo {
 
 table td, table td *, table th, table th * {
     vertical-align: top;
+}
+
+.novel-info{
+    background-color: white;
+    border-radius: 25px;
+    margin: 6px;
+}
+
+.novel-entry{
+    margin: auto;
+}
+
+.novel-cover{
+    background-color: white;
+    border-radius: 25px;
+    margin:6px;
+    padding: 8px;
+    flex-shrink: 1; /*Flex shrinking of the Div */
+}
+
+.novel-articles{
+    background-color: white;
+    border-radius: 25px;
+    margin: 6px;
+    padding: 8px;
+}
+
+.blog-entry{
+    background-color: white;
+    border-radius: 25px;
+    padding: 6px;
+    margin-bottom: 12px;
 }

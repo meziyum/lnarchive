@@ -163,7 +163,7 @@ class novel_tax{ //Novel Taxonomy Class
         ));//End of Author Taxonomy
 
         //Register Illustrator Taxonomy
-        register_taxonomy('illustrator', ['novel', 'volume'], array(
+        register_taxonomy('illustrator', ['novel'], array(
             
             //All Illustrator Labels
             'labels' => array(
@@ -295,7 +295,7 @@ class novel_tax{ //Novel Taxonomy Class
         ));//End of Language Taxonomy
 
         //Register Status Taxonomy
-        register_taxonomy('status', ['novel'], array(
+        register_taxonomy('novel_status', ['novel'], array(
             
             //All Status Labels
             'labels' => array(
@@ -330,7 +330,7 @@ class novel_tax{ //Novel Taxonomy Class
             'show_in_menu' => true, //Show in Admin Menu
             'show_in_nav_menus' => true, //If it can be added to Nav Menus
             'show_in_rest' => true, //Show in Guttenburg or REST API to be more specific
-            'rest_base' => 'status', //Base URL
+            'rest_base' => 'novel_status', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
             'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)

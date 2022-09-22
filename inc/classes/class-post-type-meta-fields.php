@@ -36,9 +36,10 @@ class post_type_meta_fields { //Post Type Meta Fields
         add_action( 'save_post', [ $this, 'save_seo_meta_title'] );
         add_action( 'save_post', [ $this, 'save_seo_meta_desc'] );
         add_action( 'save_post', [$this,'save_published_date'] );
+        add_action( 'save_post', [$this,'save_series'] );
     }
 
-    function novel_metaboxes_add() { //Function to add metaboxes to the Novel postype
+    function novel_metaboxes_add() { //Function to add metaboxes to the Novel and Volume postype
         
         //Published Date
         add_meta_box(
@@ -46,6 +47,17 @@ class post_type_meta_fields { //Post Type Meta Fields
             'Published Date', //The Heading
             [ $this, 'published_date_metabox_callback'], //The visual callback
             'volume', //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+
+        //Series
+        add_meta_box(
+            'series', //The ID
+            'Series', //The Heading
+            [ $this, 'series_metabox_callback'], //The visual callback
+            ['volume', 'post'], //Post types
             'side', //Location
             'default', //Priority
             null, //Args
@@ -65,6 +77,58 @@ class post_type_meta_fields { //Post Type Meta Fields
                     <input name="published_date" type="date" value="<?php echo $published_date;?>">
          </div>
          <?php
+    }
+
+    function series_metabox_callback( $post ) { //Function to display series metabox
+
+        // Nonce Register
+        wp_nonce_field( 'series_nonce_action', 'series_nonce' );
+
+        //Post Status Conditions
+        $status=array('publish', 'draft', 'future');
+
+        $series = get_post_meta( $post->ID, 'series_value', true ); //Get the Series
+
+        //Dropdown Args
+        $arg=array(
+            'name' => 'series_meta', //Name of the HTML elemenent
+            'id' => 'series_meta', //ID of the HTML element
+            'orderby' => 'title', //Order by
+            'post_type'=>'novel', //Post Type
+            'show_option_none' => 'Select',
+            'selected' => $series, //Get the selected series
+            'post_status'=> $status, //List of post status conditions
+            'value_field' => 'id', //value to store in the database
+            'option_none_value' => 'none', //value of none for the database
+        );
+
+        wp_dropdown_pages($arg); //Display the Dropdown
+
+    }
+
+    function save_series( $post_id) { //Function to save series 
+
+        // Nonce Verification
+        if ( ! isset( $_POST['series_nonce'] ) || ! wp_verify_nonce( $_POST['series_nonce'], 'series_nonce_action')) {
+            return;
+        }
+        
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        update_post_meta(
+            $post_id, //The post id
+            'series_value', //Key
+            $_POST['series_meta'] //Value of the Meta
+         );
+
     }
 
     function save_published_date( $post_id) { //Function to save the published date value

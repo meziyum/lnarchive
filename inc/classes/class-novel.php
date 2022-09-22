@@ -72,7 +72,7 @@ class novel{ //Assests Class
             'description'         => 'All novels data', //The desctription of the post type 
             'labels'              => $labels, //All the labels inserted using an array
             'public'              => true, //Visibility
-            'hierarchical'        => false, //If sub novels possible
+            'hierarchical'        => true, //If sub novels possible
             'exclude_from_search' => false, //If to exclude from search
             'publicly_queryable'  => true, //For public
             'show_ui'             => true, //Show in User Interface
@@ -91,7 +91,7 @@ class novel{ //Assests Class
             'register_meta_box_cb' => null, //Callback function to setup the metabox in edit form
 
             // You can associate this CPT with a taxonomy or custom taxonomy.
-            'taxonomies'          => array( 'genre', 'publisher', 'writer', 'translator', 'post_tag', 'illustrator','status','language'),
+            'taxonomies'          => array( 'genre', 'publisher', 'writer', 'translator', 'post_tag', 'illustrator','novel_status','language'),
 
             'has_archive' => true, //Whether the post type has archive
 

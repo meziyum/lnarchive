@@ -32,6 +32,7 @@ class custom_tax_meta_fields{ //Custom Taxonomies Meta Fields Class
           'translator',
           'writer',
           'artist',
+          'illustrator',
         );
 
         /**

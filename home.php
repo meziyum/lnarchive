@@ -50,11 +50,11 @@ get_header(); //Get the Header
                     custom_pagination(); //Display the Custom Pagination
                 ?>
             <?php
-        }
-        //If there is not post
-        else {
-            get_template_part( 'template-parts/content-none' ); //Get the empty Template
-        }
+            }
+            //If there is not post
+            else {
+                get_template_part( 'template-parts/content-none' ); //Get the empty Template
+            }
         ?>
         </div>
         <aside class="blog-sidebar col-lg-3 d-none d-lg-block"> <!-- Sidebar Div -->

@@ -33,6 +33,9 @@ class menus{ //Assests Class
         register_nav_menus( //Locations List
             array(
                 'fusfan_primary'    => ( 'Primary Menu'),
+                'footer_primary'    => ( 'Footer Primary Menu'),
+                'footer_secondary'  => ( 'Footer Secondary Menu'),
+                'footer_tertiary'   => ( 'Footer Tertiary Menu'),
             )
         );
     }

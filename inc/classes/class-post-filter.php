@@ -197,7 +197,7 @@ class post_filter{ //Post or Custom Post Type filter
                 'class'             => '', //The Class for the html element
                 'depth'             => 0, //Depth of the Element
                 'tab_index'         => 0, //Tabindex of the select element
-                'taxonomy'          => 'status', //The taxonomy id
+                'taxonomy'          => 'novel_status', //The taxonomy id
                 'hide_if_empty'     => false, //Whether to hide the taxonomy if it has no posts
                 'option_none_value' => -1, //Option none default value
 		        'value_field'       => 'term_id', //value in the dropdown

@@ -7,9 +7,10 @@ const cssnano = require( 'cssnano' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' ); //Automatically removes unused webpack assets on rebuild
 const UglifyJsPlugin = require( 'uglifyjs-webpack-plugin' );
 
-const JS_DIR = path.resolve(__dirname, 'src/js');
-const IMG_DIR = path.resolve(__dirname, 'src/img');
-const BUILD_DIR = path.resolve(__dirname, 'build');
+const JS_DIR = path.resolve( __dirname, 'src/js' );
+const IMG_DIR = path.resolve( __dirname, 'src/img' );
+const LIB_DIR = path.resolve( __dirname, 'src/library' );
+const BUILD_DIR = path.resolve( __dirname, 'build' );
 
 const entry = {
     main: JS_DIR + '/main.js',
@@ -61,6 +62,9 @@ const rules = [
 	}
 ];
 
+/**
+ * Note: argv.mode will return 'development' or 'production'.
+ */
 const plugins = ( argv ) => [
 
     new CleanWebpackPlugin( {

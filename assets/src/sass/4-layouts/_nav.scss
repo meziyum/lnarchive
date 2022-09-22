@@ -1,0 +1,38 @@
+
+//Navigation Common
+
+.nav-item:hover .dropdown-menu:not(.show) {
+	display: block;
+}
+
+.custom-logo-link {
+	img {
+		max-width: 150px;
+	}
+}
+
+//Footer Navigation
+.footer-nav {
+
+    background-color: $light-dark-background;
+	cursor: default;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.footer-social {
+		background-color: $purple-social;
+	}
+
+	.footer-separator {
+		width: 60px;
+		background-color: $theme-primary;
+		height: 2px;
+	}
+
+	.footer-copyright {
+		background-color: $black-background;
+	}
+}

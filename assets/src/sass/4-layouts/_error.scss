@@ -1,0 +1,47 @@
+
+//404 Error Page CSS
+
+.error-page {
+    text-align: center;
+	background: $white-text;
+	border-top: 1px solid $white-text;
+
+    .error-inner {
+        display: inline-block;
+
+        h1 {
+            font-size: 140px;
+	        text-shadow: 3px 5px 2px $shadow-color;
+	        color: $theme-primary;
+	        font-weight: 700;
+
+            span {
+                display: block;
+	            font-size: 25px;
+	            color: $light-dark-background;
+	            font-weight: 600;
+	            text-shadow: none;
+            }
+        }
+
+        p {
+            padding: 20px 15px;
+        }
+    }
+}
+
+//Back to Home Button
+.error-back {
+    background-color: $theme-primary;
+    border: none;
+    color: $white-text;
+    border-radius: 8px;
+    margin: 30px 0px 30px 0px;
+    padding: 14px 40px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+    &:hover, &:active {
+        background-color: $theme-primary-dark;
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+}

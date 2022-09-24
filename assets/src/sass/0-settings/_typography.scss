@@ -1,7 +1,6 @@
-
-/*----------------
-		Font
-------------------*/
+/**
+* Topography Definitions
+*/
 
 // Global theme font.
 $font__main: 'Overpass', sans-serif;
@@ -112,62 +111,6 @@ $body-text: (
 		),
 		"large": ( //Large Screen Size
 			font-size: 18px,
-			line-height: 1.5,
-		),
-	),
-	"l": ( //Large Text
-		"small": (
-			font-size: 18px,
-			line-height: 1.4,
-		),
-		"medium": ( //Medium Screen Size
-			font-size: 20px,
-			line-height: 1.4,
-		),
-		"large": ( //Large Screen Size
-			font-size: 22px,
-			line-height: 1.5,
-		),
-	),
-	"m": ( //Medium Text
-		"small": ( //Small Screen Size
-			font-size: 16px,
-			line-height: 1.4,
-		),
-		"medium": ( //Medium Screen Size
-			font-size: 18px,
-			line-height: 1.4,
-		),
-		"large": ( //Large Screen Size
-			font-size: 20px,
-			line-height: 1.5,
-		),
-	),
-	"s": ( //Small Text
-		"small": ( //Small Screen Size
-			font-size: 14px,
-			line-height: 1.4,
-		),
-		"medium": ( //Medium Screen Size
-			font-size: 16px,
-			line-height: 1.4,
-		),
-		"large": ( //Large Screen Size
-			font-size: 18px,
-			line-height: 1.5,
-		),
-	),
-	"xs": ( //Extra Small Text
-		"small": ( //Small Screen Size
-			font-size: 12px,
-			line-height: 1.4,
-		),
-		"medium": ( //Medium Screen Size
-			font-size: 14px,
-			line-height: 1.4,
-		),
-		"large": ( //Large Screen Size
-			font-size: 16px,
 			line-height: 1.5,
 		),
 	),

@@ -61,7 +61,7 @@ $menu_class = menus::get_instance(); //Intiate the Class
 
         <address> <!-- Addresss Element -->
           <h6 class="d-flex justify-content-center text-uppercase navbar-text fw-bold m-0 d-inline-block mx-auto">Contact Us</h6> <!-- Text -->
-          <h6 class="d-flex justify-content-center align-items-center navbar-text m-0"><i class="fas fa-envelope me-2"></i><a href = "mailto: lnarchive@gmail.com">lnarchive@gmail.com</a></h6> <!-- Mail -->
+          <h6 class="d-flex justify-content-center align-items-center navbar-text m-0"><i class="fas fa-envelope me-2"></i><a href = "mailto: <?php echo esc_html(get_option('admin_email'))?>"><?php echo esc_html(get_option('admin_email'));?></a></h6> <!-- Mail -->
         </address>
 
       </div>
@@ -74,7 +74,7 @@ $menu_class = menus::get_instance(); //Intiate the Class
         ?>
           <nav class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-2">
 
-            <h6 class="footer-menu-name navbar-text text-uppercase fw-bold mb-0"><?php echo wp_get_nav_menu_name($footer);?></h6> <!-- Menu Name -->
+            <h6 class="footer-menu-name navbar-text text-uppercase fw-bold mb-0"><?php echo esc_html(wp_get_nav_menu_name($footer));?></h6> <!-- Menu Name -->
             <hr class="footer-separator d-inline-block mx-auto mb-2 mt-0"/> <!-- Separator -->
             
             <ul class="navbar-nav flex-column "> <!-- Footer Menu -->
@@ -104,7 +104,7 @@ $menu_class = menus::get_instance(); //Intiate the Class
 
   <!-- Copyright Section-->
   <section class="footer-copyright text-center p-3">
-      © 2022 Copyright: <?php echo get_bloginfo('name');?>
+      © 2022 Copyright: <?php echo esc_html(get_bloginfo('name'));?>
   </section>
 
 </nav>

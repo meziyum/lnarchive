@@ -27,6 +27,7 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
       <?php
         if( ! empty( $header_menus) && is_array( $header_menus )){
           ?>
@@ -72,10 +73,36 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
         }
       ?>
       
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary" type="submit">Search</button>
+      <form class="d-flex"> <!--Search Form -->
+        <?php get_search_form();//Get the Search Form?> 
       </form>
+
+      <div class="profile d-flex">
+
+      <?php
+        if( is_user_logged_in() ) {
+
+          $args = array(
+            'height' => 96,
+            'width' => 96,
+            'force_default' => false,
+            'rating' => 'X',
+            'class' => 'profile-pic',
+            'force_display' => true,
+            'loading' => 'eager',
+            'extra_attr' => '',
+          );
+
+          echo get_avatar( 
+            get_current_user_id(), 
+            96,
+            '',
+            'Profile Pic',
+            $args,
+          );
+        }
+      ?>
+      </div>
 
     </div>
   </div>

@@ -3,7 +3,7 @@ Theme Name: LNarchive
 Theme URI: https://lnarchive.com
 Author: LNarchive
 Author URI: https://lnarchive.com
-Version: 0.0.0.3
+Version: 0.0.0.4
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 7.0
@@ -16,24 +16,9 @@ Text Domain: lnpedia
     --notimp: #9e9fad;
 }
 
-/*Image Block CSS*/
-.wp-block-image {
-    margin-top: 16px;
-    margin-bottom: 8px;
-}
-
 /** ************************************* Blog Entry, Post and Pages ************************************* **/
 
 /*Page Content */
-.main-content {
-    background-color: #edf1f5;
-    padding: 8px 12px 8px 12px;
-}
-
-.row {
-    padding: 0px; /*Remove the default Bootstrap 5 Margin*/
-    margin: 0px; /*Remove the default Bootstrap 5 Padding*/
-}
 
 /*Page Title */
 .page-title {
@@ -117,4 +102,8 @@ table td, table td *, table th, table th * {
     border-radius: 25px;
     padding: 6px;
     margin-bottom: 12px;
+}
+
+.profile-pic{
+    border-radius: 50%;
 }

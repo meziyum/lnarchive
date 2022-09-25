@@ -2,18 +2,6 @@
 * Topography Definitions
 */
 
-// Global theme font.
-$font__main: 'Overpass', sans-serif;
-
-// Global code font for pre/code element (Preferably Monospace)
-$font__code: 'Overpass', sans-serif;
-
-// Fallback font when font is not loaded via WebFonts JS.
-$font__fallback: sans-serif;
-
-// Base line height.
-$font__base-line-height: 30px;
-
 //Text Topography
 $body-text: (
 	"h1": ( //H1 Heading

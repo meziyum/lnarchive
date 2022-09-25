@@ -9,8 +9,6 @@ Novel and Volume page Tag SEO
 Default Wallpaper for light novels
 
 Posts Date
-Post Pages
 Post Series Styling
 
 Novel edit page button
-Categories above title on Post page

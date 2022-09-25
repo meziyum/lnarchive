@@ -1,62 +1,3 @@
-/*!*******************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./src/library/fonts/fonts.css ***!
-  \*******************************************************************************/
-
-/* overpass-regular - latin */
-@font-face {
-  font-family: 'Overpass';
-  font-style: normal;
-  font-weight: 400;
-  src: url(../2b9c36e7908e8845ad7d.eot); /* IE9 Compat Modes */
-  src: local('Overpass'), local('Overpass-Regular'),
-       url(../2b9c36e7908e8845ad7d.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-       url(../8e59427adcc3ac6628b1.woff2) format('woff2'), /* Super Modern Browsers */
-       url(../0d1dfb50d236c7d0a611.woff) format('woff'), /* Modern Browsers */
-       url(../61896db2b74017275970.ttf) format('truetype'), /* Safari, Android, iOS */
-       url(../e948c6582d3eec30102e.svg#Overpass) format('svg'); /* Legacy iOS */
-}
-
-/* overpass-600 - latin */
-@font-face {
-  font-family: 'Overpass';
-  font-style: normal;
-  font-weight: 600;
-  src: url(../3bc4eee8ef23f6ead5e3.eot); /* IE9 Compat Modes */
-  src: local('Overpass'), local('Overpass-Light-Bold'),
-       url(../3bc4eee8ef23f6ead5e3.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-       url(../ed6ba5699075e60a5abc.woff2) format('woff2'), /* Super Modern Browsers */
-       url(../9f95a8105dd1c4bcf4c4.woff) format('woff'), /* Modern Browsers */
-       url(../40409f259fe237215489.ttf) format('truetype'), /* Safari, Android, iOS */
-       url(../0663de53d629cf438a78.svg#Overpass) format('svg'); /* Legacy iOS */
-}
-
-/* overpass-italic - latin */
-@font-face {
-  font-family: 'Overpass';
-  font-style: italic;
-  font-weight: 400;
-  src: url(../109f04c077882779c855.eot); /* IE9 Compat Modes */
-  src: local('Overpass'), local('Overpass-Itallic'),
-       url(../109f04c077882779c855.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-       url(../2763eff6147bac68e0ee.woff2) format('woff2'), /* Super Modern Browsers */
-       url(../6275eca84e2d3b664f12.woff) format('woff'), /* Modern Browsers */
-       url(../e4139c83ada67f229c69.ttf) format('truetype'), /* Safari, Android, iOS */
-       url(../6ada9ce1f9c56f042a68.svg#Overpass) format('svg'); /* Legacy iOS */
-}
-
-/* overpass-600italic - latin */
-@font-face {
-  font-family: 'Overpass';
-  font-style: italic;
-  font-weight: 600;
-  src: url(../31ef01f188d8cee00e14.eot); /* IE9 Compat Modes */
-  src: local('Overpass'), local('Overpass-Light-Bold-Itallic'),
-       url(../31ef01f188d8cee00e14.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-       url(../dae98663d8f00ff116cd.woff2) format('woff2'), /* Super Modern Browsers */
-       url(../c4f6dc3d58d83d3aa2de.woff) format('woff'), /* Modern Browsers */
-       url(../f688dac40982b62d9129.ttf) format('truetype'), /* Safari, Android, iOS */
-       url(../32d28e59425c4129b317.svg#Overpass) format('svg'); /* Legacy iOS */
-}
 /*!***************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/sass/editor.scss ***!
   \***************************************************************************************************************/
@@ -73,10 +14,9 @@
  */
 body {
   margin: 0;
-  font-family: "Overpass", sans-serif;
   font-size: 16px;
   line-height: 1.4;
-  background: #387ef2;
+  background: #edf1f5;
   word-wrap: break-word; }
   @media (min-width: 48em) {
     body {
@@ -96,12 +36,26 @@ img {
   width: 100%; }
 
 button {
-  margin: 0;
+  margin: 4px 4px 4px 4px;
+  border-radius: 8px;
+  border: none;
   text-align: center;
-  text-decoration: none;
-  display: inline-block; }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; }
+  button a {
+    text-decoration: none !important;
+    color: white; }
+    button a:hover, button a:active {
+      color: white; }
 
 .row {
+  padding: 0px;
+  /*Remove the default Bootstrap 5 Margin*/
+  margin: 0px;
+  /*Remove the default Bootstrap 5 Padding*/ }
+
+.col {
   padding: 0px;
   /*Remove the default Bootstrap 5 Margin*/
   margin: 0px;
@@ -185,11 +139,53 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 10px 0;
+  margin: 0px 0px 12px 0px;
   text-rendering: optimizelegibility; }
 
-/* Buttons CSS */
-/*Category Button*/
+.category-button {
+  padding: 4px 8px;
+  font-size: 12px;
+  background-color: #4CAF50; }
+  .category-button:hover, .category-button:active {
+    background-color: #3e8342; }
+
+.series-button {
+  padding: 4px 8px;
+  font-size: 12px;
+  background-color: #387ef2; }
+  .series-button:hover, .series-button:active {
+    background-color: #3344d9; }
+
+.page-links .post-page-numbers button {
+  padding: 8px 8px;
+  background-color: #387ef2;
+  color: #ffffff;
+  font-size: 16px;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%; }
+  .page-links .post-page-numbers button:active, .page-links .post-page-numbers button:hover {
+    background-color: #3344d9; }
+
+.page-links .current button {
+  background-color: #3344d9; }
+
+.prev-post,
+.next-post {
+  padding: 4px 8px;
+  font-size: 18px;
+  background-color: #387ef2; }
+  .prev-post:hover, .prev-post:active,
+  .next-post:hover,
+  .next-post:active {
+    background-color: #3344d9; }
+
+.edit-button {
+  padding: 8px 12px;
+  font-size: 12px;
+  background-color: #6351ce; }
+  .edit-button:active, .edit-button:hover {
+    background-color: #6b00b3; }
 
 
 /*# sourceMappingURL=editor.css.map*/

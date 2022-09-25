@@ -1,7 +1,3 @@
-@mixin font-family( $font: $font__main ) {
-	font-family: $font__main;
-}
-
 /**
  * Add font scale with media query as per configuration on $body-text
  * Ex: @include body-text( h1 );
@@ -36,5 +32,18 @@
 			font-size: map_get($device_values, "font-size");
 			line-height: map_get($device_values, "line-height");
 		}
+	}
+}
+
+//Breakpoints Mixin
+@mixin respond-to($breakpoint) {
+	@if map-has-key($mq-breakpoints, $breakpoint) { // If the key exists in the map
+	  @media (min-width: map-get($mq-breakpoints, $breakpoint)) { // Prints a media query based on the value
+		@content;
+	  }
+	}
+	@else { // If the key doesn't exist in the map
+	  @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+		  + "Available breakpoints are: #{map-keys($mq-breakpoints)}.";
 	}
 }

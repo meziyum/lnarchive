@@ -1,5 +1,76 @@
 
-/* Buttons CSS */
+//Category Button
+.category-button {
+    padding: 4px 8px;
+    font-size: 12px;
+    background-color: $bright-green;
 
-/*Category Button*/
+    &:hover, 
+    &:active {
+        background-color: $dark-green;
+    }
+}
 
+//Series Button
+.series-button {
+    padding: 4px 8px;
+    font-size: 12px;
+    background-color: $theme-primary;
+
+    &:hover, 
+    &:active {
+        background-color: $theme-primary-dark;
+    }
+}
+
+//Post Page Navigation Button
+.page-links {
+
+    .post-page-numbers {
+        button{
+            padding: 8px 8px;
+            background-color: $theme-primary;
+            color: $white-text;
+            font-size: 16px;
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+
+            &:active,
+            &:hover {
+                background-color: $theme-primary-dark;
+            }
+        }
+    }
+
+    .current {
+        button {
+            background-color: $theme-primary-dark;
+        }
+    }
+}
+
+//Next/Prev Button
+.prev-post,
+.next-post {
+    padding: 4px 8px;
+    font-size: 18px;
+    background-color: $theme-primary;
+
+    &:hover,
+    &:active {
+        background-color: $theme-primary-dark;
+    }
+}
+
+//Edit Button
+.edit-button {
+    padding: 8px 12px;
+    font-size: 12px;
+    background-color: $purple-social;
+
+    &:active,
+    &:hover {
+        background-color: $purple-social-dark;
+    }
+}

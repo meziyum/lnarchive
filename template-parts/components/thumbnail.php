@@ -17,17 +17,13 @@ $post_type = get_post_type(); //Get the post type
     <a href="<?php echo get_permalink( $the_post_id );?>"> <!-- The Permalink -->
         <?php
              //Display the Featured Image
-             if( $post_type == 'post')
-             $image_size = 'featured-thumbnail';
-             else if( $post_type == 'novel')
-             $image_size= 'novel-cover';
             the_post_custom_thumbnail(
                 $the_post_id, //The post ID
-                $image_size, //Name of the size
+                'featured-thumbnail', //Name of the size
                 [
                     'class' => 'attachment-featured-img', //Class attachment for css
                     'alt'  => get_the_title(), //Attach the title as the default alt for the img
-                ] 
+                ]
             );
         ?>
      </a>

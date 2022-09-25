@@ -12,7 +12,7 @@ $header_menu_id = $menu_class->get_menu_id('fusfan_primary'); //Get the menu id 
 $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_items of the primary menu
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="header-nav navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
  
     <a class="navbar-brand">
@@ -26,8 +26,48 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse row" id="navbarSupportedContent">
 
+    <div class="profile d-flex col-lg-1 order-lg-3 d-flex justify-content-center">
+
+      <?php
+        if( is_user_logged_in() ) {
+
+          $args = array(
+            'height' => 96,
+            'width' => 96,
+            'force_default' => false,
+            'rating' => 'X',
+            'class' => 'profile-pic',
+            'force_display' => true,
+            'loading' => 'eager',
+            'extra_attr' => '',
+          );
+          ?>
+              
+          <div class="dropdown">
+            <a href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              <?php
+                echo get_avatar( 
+                get_current_user_id(), 
+                96,
+                '',
+                'Profile Pic',
+                $args,
+                );
+              ?>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+            </ul>
+          </div>
+          <?php
+        }
+      ?>
+      </div>
+
+    <div class="page-list col-lg-8 col-md-12 order-lg-1">
       <?php
         if( ! empty( $header_menus) && is_array( $header_menus )){
           ?>
@@ -39,7 +79,7 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
                     $child_menu_items = $menu_class->get_child_menu_items( $header_menus, $menu_item->ID);
                     $has_children = !empty( $child_menu_items) && is_array( $child_menu_items); //Boolean Value if menu has submenus
 
-                    if( ! $has_children) {
+                    if( !$has_children) {
                       ?>
                         <li class="nav-item">
                           <a class="nav-link active" aria-current="page" href="<?php echo esc_url( $menu_item->url );?>">
@@ -72,37 +112,11 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
             </ul><?php
         }
       ?>
+      </div>
       
-      <form class="d-flex"> <!--Search Form -->
+      <form class="d-flex col-lg-3 col-md-12 order-lg-2"> <!--Search Form -->
         <?php get_search_form();//Get the Search Form?> 
       </form>
-
-      <div class="profile d-flex">
-
-      <?php
-        if( is_user_logged_in() ) {
-
-          $args = array(
-            'height' => 96,
-            'width' => 96,
-            'force_default' => false,
-            'rating' => 'X',
-            'class' => 'profile-pic',
-            'force_display' => true,
-            'loading' => 'eager',
-            'extra_attr' => '',
-          );
-
-          echo get_avatar( 
-            get_current_user_id(), 
-            96,
-            '',
-            'Profile Pic',
-            $args,
-          );
-        }
-      ?>
-      </div>
 
     </div>
   </div>

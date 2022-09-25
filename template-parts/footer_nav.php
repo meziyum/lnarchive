@@ -86,7 +86,7 @@ $menu_class = menus::get_instance(); //Intiate the Class
                 foreach( $menus as $menu_item) { //Loop through all menu items
                   ?>
                     <li class="nav-item"> <!-- Nav Item -->
-                    <a class="nav-link active text-white" aria-current="page" href="<?php echo esc_url($menu_item->url);?>">
+                    <a class="nav-link active" aria-current="page" href="<?php echo esc_url($menu_item->url);?>">
                       <?php echo esc_html($menu_item->title);?>
                     </a>
                     </li>

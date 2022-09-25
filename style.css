@@ -3,11 +3,11 @@ Theme Name: LNarchive
 Theme URI: https://lnarchive.com
 Author: LNarchive
 Author URI: https://lnarchive.com
-Version: 0.0.0.4
+Version: 0.0.0.5
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 7.0
-Text Domain: lnpedia
+Text Domain: lnarchive
 */
 
 /*Root*/
@@ -17,35 +17,6 @@ Text Domain: lnpedia
 }
 
 /** ************************************* Blog Entry, Post and Pages ************************************* **/
-
-/*Page Content */
-
-/*Page Title */
-.page-title {
-    font-weight: bold;
-    border-left-style: solid;
-    border-bottom-style: solid;
-    border-left-width: thick;
-    border-bottom-width: medium;
-    border-color: var( --primary);
-    background-color: white;
-    border-radius: 25px;
-}
-
-/* Main Block Div */
-.blog-entry {
-    border-bottom-style: solid;
-    border-bottom-width: medium;
-    border-color: var( --primary);
-    padding-bottom: 12px;
-}
-
-/** BLog Entry Cover Img **/
-.attachment-featured-img {
-    padding-top: 12px;
-    border-radius: 15px;
-    max-height: 250px;
-}
 
 /** BLog Entry Cover Img **/
 .novel-cover-img {
@@ -100,10 +71,16 @@ table td, table td *, table th, table th * {
 .blog-entry{
     background-color: white;
     border-radius: 25px;
-    padding: 6px;
     margin-bottom: 12px;
+    border-bottom-style: solid;
+    border-bottom-width: medium;
+    border-color: var( --primary);
+    padding-bottom: 12px;
 }
 
-.profile-pic{
-    border-radius: 50%;
+/** BLog Entry Cover Img **/
+.attachment-featured-img {
+    padding-top: 12px;
+    border-radius: 15px;
+    max-height: 200px;
 }

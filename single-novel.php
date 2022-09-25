@@ -27,7 +27,7 @@ get_header(); //Get the Header function
                                         [
                                             'class' => 'novel-cover-img', //Class attachment for css
                                             'alt'  => get_the_title(), //Attach the title as the default alt for the img
-                                        ] 
+                                        ]
                                     );
                                 }
                                 else {

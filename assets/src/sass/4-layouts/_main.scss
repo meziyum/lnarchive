@@ -1,0 +1,20 @@
+
+//Title
+.page-title {
+    color: $white-text;
+    background-color: $light-dark-background;
+    text-align: center;
+}
+
+//Sidebar
+.sidebar-wrap {
+    margin-left: 12px;
+}
+
+//Content and Sidebar Common
+.content-wrap,
+.sidebar-wrap {
+    padding: 16px;
+    border-radius: 8px;
+    background-color: $white-text;
+}

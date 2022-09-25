@@ -1,9 +1,8 @@
 
 //Import Direct scss
+@import"main";
 @import "nav";
 @import "error";
 
 //Import Post scss
 @import "posts/meta";
-@import "posts/post-card";
-@import "posts/pagination";

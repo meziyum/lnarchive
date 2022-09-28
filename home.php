@@ -8,67 +8,97 @@ get_header(); //Get the Header
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
-    <div class="row main-row">
-        <div class="blog-wrap col-lg-9"> <!-- Blog Content Div -->
+    <div class="row main-row"> <!-- Main Row -->
+        <div class="blog-wrap col"> <!-- Blog Content Div -->
             <?php
+
+            //Title
             printf(
                 '<h1 class="page-title">%1$s</h1>', //Page Title Div
                 wp_kses_post( get_the_title(get_option('page_for_posts', true))), //Get the Title
             );
+            
             if(have_posts()) { //If there is post
-
-                //Loop through the Posts
-                while( have_posts(  )) : the_post(); //While there are posts
-                    ?>              
-                        <article id="post-<?php the_ID();?>" <?php post_class('post');?>>
-                            <div class="row blog-entry"> <!-- Row Div -->
+                ?>
+                <div class="row"><?php
+                    while( have_posts(  )) : the_post(); //Loop through all the posts
+                        ?>
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                            <article id="post-<?php esc_attr(the_ID());?>" class="blog-entry card">
                                 <?php
-                                if( has_post_thumbnail(get_the_ID())) { //If the current post in the loop has a thumbnail
-                                ?>
-                                    <div class="post-thumbnail col-lg-3 col-md-12 col-sm-12"> <!-- Post Thumbnail Div -->
-                                    <?php get_template_part('template-parts/components/thumbnail'); //Get the Header?>
-                                    </div>
-                                    <div class="post-blog-info col-lg-9 col-md-12 col-sm-12"> <!-- Post Info Div when thumbnail -->
-                                    <?php
-                                }
-                                else { 
-                                ?> 
-                                    <div class="post-blog-info"> <!-- Blog Info Div when no thumbnail-->
-                                    <?php
-                                }
-                                    get_template_part('template-parts/components/blog/entry-blog-meta'); //Get the Meta Data
-                                    the_custom_excerpt(140); //Get the excerpt
-                                    $the_post_id = get_the_ID(); //Get the ID
-                                    $article_terms = wp_get_post_terms( $the_post_id, ['category']); //Get all the Category terms
-                                    $post_type = get_post_type( get_queried_object_id()); //Get the Post Type
-                                    foreach( $article_terms as $key => $article_term) { //Loops through all article terms
-                                        ?>
-                                            <button onclick="location.href='<?php echo get_term_link( $article_term);?>'" type="button" class="category-button btn btn-success btn-sm"> <!-- Category Button -->
-                                                <a class= "entry-footer-link text-white"> <!-- The Category text -->
-                                                    <?php echo $article_term->name //Print the article?>
-                                                </a>
-                                            </button><?php
-                                    }
+                                if( has_post_thumbnail(get_the_ID())) { //If the entry has a thumbnail
 
-                                    if( current_user_can('edit_posts')){ //Check if the user has capability to edit the post
-                                        ?>
-                                            <button onclick="location.href='<?php echo get_edit_post_link()?>'" type="button" class="edit--button btn btn-info btn-sm float-end"> <!-- Edit Button -->
-                                                        <a class= "entry-footer-link text-white"> <!-- The Edit Button Text -->
-                                                            Edit
-                                                        </a>
-                                            </button>
-                                        <?php
-                                    }
+                                    $the_post_id = get_the_ID(); //Get the Post ID
+                                    $has_post_thumbnail = get_the_post_thumbnail( $the_post_id ); //Get the Post Thumbnail
+                                    
                                     ?>
-                                    </div> <!-- End of Blog Entry Div -->
-                            </div>         
-                        </article>
+                                    <a href="<?php echo esc_url(get_permalink( $the_post_id ));?>"> <!-- The Permalink -->
+                                        <?php
+                                        //Display the Featured Image
+                                        the_post_custom_thumbnail(
+                                        $the_post_id, //The post ID
+                                        'featured-thumbnail', //Name of the size
+                                        [
+                                            'class' => 'attachment-featured-img card-img-top', //Class attachment for css
+                                            'alt'  => esc_attr(get_the_title()), //Attach the title as the default alt for the img
+                                        ]
+                                        );
+                                    ?>
+                                    </a>
+
+                                    <div class="blog-entry-info card-body"> <!-- Blog Entry Card -->
+                                        <?php
+                                        printf(
+                                            '<h5 class="entry-title card-title mb-0"><a class="blog-entry-title" href="%1$s">%2$s</a></h5>', //The Title
+                                            get_the_permalink(), //Argument 1
+                                            wp_kses_post( get_the_title()) //Argument 2
+                                        );
+                                        get_template_part('template-parts/post/date'); //Get the Date Template
+                                        ?>
+                                        <div>
+                                            <?php             
+                                            get_template_part('template-parts/post/category-list'); //Get the Category List
+                                            get_template_part('template-parts/edit-btn'); //Get the Edit Button
+                                        ?>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </article>
+                        </div>
                         <?php
                     endwhile; //End While Loop
+                    
+                    //HTML tags allowed inside the wp_kses
+                    $allowed_tags = [
+                        'button' => [ //Span Div
+                            'class' => [], //class
+                        ],
+                        'span' => [
+                            'class' =>[],
+                        ],
+                        'a' => [ //A div
+                            'class' => [], //class
+                            'href' => [], //href
+                            
+                        ]
+                    ];
+
+                    //Pagination Function Arguments
+
+                    $args = [
+                        'before_page_number' => '<button class="blog-page-no pagination-button">',
+                        'after_page_number' => '</button>',
+                        'prev_text' => '<button class="blog-page-prev pagination-button">' . '«' . '</button>',
+                        'next_text' => '<button class="blog-page-next pagination-button">' . '»' . '</button>',
+                    ];
+
+                    //Display the Pagination
+                    printf( '<nav class="blog-links d-flex justify-content-center">%s</nav>', wp_kses( paginate_links( $args), $allowed_tags ));
+
                     ?>
-                <?php
-                    custom_pagination(); //Display the Custom Pagination
-                ?>
+                </div>
             <?php
             }
             //If there is not post

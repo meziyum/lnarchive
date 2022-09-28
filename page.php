@@ -21,20 +21,14 @@ get_header(); //Get the Header function
                     );
 
                     the_content(); //Display the Content
+                    get_template_part('template-parts/post/page-nav'); //Get the Page Navigation
 
-                    wp_link_pages( //Display the subpages of the page
-                        [
-                        'before' => '<div class="page-links d-flex justify-content-center">', //Before Subpage
-                        'after' =>  '</div>', //After Subpage
-                        'link_before' =>'<button class="post-page-no">', //Before Subpage No
-                        'link_after' => '</button>', //After Subpage No
-                        ]
-                    );
+                    $post_type = get_post_type( get_queried_object_id()); //Get the Post Type
                     
                     if( current_user_can('edit_posts')){ //Check if the user has capability to edit the post
                         ?>
                             <button onclick="location.href='<?php echo esc_url(get_edit_post_link());?>'" type="button" class="edit-button float-end"> <!-- Edit Button -->
-                                <a class= "entry-footer-link text-white"> <!-- The Edit Button Text -->
+                                <a class= "entry-footer-link"> <!-- The Edit Button Text -->
                                     Edit <?php echo ucwords($post_type);?>
                                 </a>
                             </button>

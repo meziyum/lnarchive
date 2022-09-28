@@ -33,19 +33,20 @@ main {
 
 img {
   height: auto;
+  display: block;
   width: 100%; }
 
 button {
   margin: 4px 4px 4px 4px;
   border-radius: 8px;
   border: none;
-  text-align: center;
   display: inline-flex;
+  text-align: center;
   align-items: center;
   justify-content: center; }
   button a {
-    text-decoration: none !important;
-    color: white; }
+    color: white;
+    text-decoration: none !important; }
     button a:hover, button a:active {
       color: white; }
 
@@ -156,18 +157,34 @@ h6 {
   .series-button:hover, .series-button:active {
     background-color: #3344d9; }
 
-.page-links .post-page-numbers button {
+.pagination-button {
   padding: 8px 8px;
-  background-color: #387ef2;
   color: #ffffff;
   font-size: 16px;
   height: 32px;
   width: 32px;
   border-radius: 50%; }
+
+.page-links .post-page-numbers button {
+  background-color: #387ef2; }
   .page-links .post-page-numbers button:active, .page-links .post-page-numbers button:hover {
     background-color: #3344d9; }
 
 .page-links .current button {
+  background-color: #3344d9; }
+
+.blog-links .blog-page-no,
+.blog-links .blog-page-prev,
+.blog-links .blog-page-next {
+  background-color: #387ef2; }
+  .blog-links .blog-page-no:active, .blog-links .blog-page-no:hover,
+  .blog-links .blog-page-prev:active,
+  .blog-links .blog-page-prev:hover,
+  .blog-links .blog-page-next:active,
+  .blog-links .blog-page-next:hover {
+    background-color: #3344d9; }
+
+.blog-links .current .blog-page-no {
   background-color: #3344d9; }
 
 .prev-post,
@@ -181,7 +198,7 @@ h6 {
     background-color: #3344d9; }
 
 .edit-button {
-  padding: 8px 12px;
+  padding: 4px 8px;
   font-size: 12px;
   background-color: #6351ce; }
   .edit-button:active, .edit-button:hover {

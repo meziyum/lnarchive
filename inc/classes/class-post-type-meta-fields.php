@@ -126,7 +126,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         update_post_meta(
             $post_id, //The post id
             'series_value', //Key
-            $_POST['series_meta'] //Value of the Meta
+            sanitize_text_field($_POST['series_meta']) //Value of the Meta
          );
 
     }
@@ -204,7 +204,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         //Meta Title Input
         echo '<div class="seo_meta-title">
           <label for="seo_meta_title">Meta Title</label>
-          <input type="text" name="seo_meta_title" id="seo_meta_title" maxlength="'.$this->meta_title_length.'" value="'.$value.'"/>
+          <input type="text" name="seo_meta_title" id="seo_meta_title" maxlength="'.$this->meta_title_length.'" value="'.esc_html($value).'"/>
           <p>The meta title for SEO purposes. Max Characters('.$this->meta_title_length.')</p>
         </div>';
     }
@@ -218,7 +218,7 @@ class post_type_meta_fields { //Post Type Meta Fields
 
         //Meta Desc Input
         echo '<div class="seo_meta_desc">
-          <textarea name="seo_meta_desc" id="seo_meta_desc" rows="4" cols="30" maxlength="'.$this->meta_desc_length.'">'.$value.'</textarea>
+          <textarea name="seo_meta_desc" id="seo_meta_desc" rows="4" cols="30" maxlength="'.$this->meta_desc_length.'">'.esc_html($value).'</textarea>
           <p>The description for SEO purposes. Max Characters('.$this->meta_desc_length.')</p>
         </div>';
     }
@@ -251,7 +251,7 @@ class post_type_meta_fields { //Post Type Meta Fields
 
         // Updating the value
         if ( empty( $_POST['seo_meta_title'] ) ) { //If the meta_title is not set then default value
-            $title = get_the_title()." "; //Get the title
+            $title = sanitize_text_field(get_the_title())." "; //Get the title
             $title = substr($title, 0, $this->meta_title_length); //Truncate the title to the max char
             $result = substr($title, 0, strrpos($title, ' ')); //Tuncate it again at last space so no half words are displayed
             update_post_meta( $post_id, 'seo_meta_title_val', $result."..."); //Update the page seo title value to the title with a concatinated ... to understand that its not the full title
@@ -293,10 +293,10 @@ class post_type_meta_fields { //Post Type Meta Fields
 
             //Assign Default Value
             if( $post_type == 'page' || !has_excerpt()) { //Default value for the page and if there are no excerpts
-                update_post_meta( $post_id, 'seo_meta_desc_val', wp_trim_excerpt("",get_queried_object())); //Update the page seo desc value to a custom excerpt generated from the content
+                update_post_meta( $post_id, 'seo_meta_desc_val', sanitize_text_field(wp_trim_excerpt("",get_queried_object()))); //Update the page seo desc value to a custom excerpt generated from the content
             }
             else { //For all other post types
-                $excerpt=get_the_excerpt(); //Get the excerpt
+                $excerpt=sanitize_text_field(get_the_excerpt()); //Get the excerpt
                 $excerpt = substr($excerpt, 0, $this->meta_desc_length); //Truncate the excerpt to the max char
                 $result = substr($excerpt, 0, strrpos($excerpt, ' ')); //Tuncate it again at last space so no half words are displayed
                 update_post_meta( $post_id, 'seo_meta_desc_val', $result);//Update the default values

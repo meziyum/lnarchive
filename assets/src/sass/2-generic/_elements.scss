@@ -13,6 +13,7 @@ main { //Main Element
 
 img { //Image Element
 	height: auto; //Auto Resize Image height
+	display: block;
 	width: 100%; //Full Div Width
 }
 
@@ -20,15 +21,14 @@ button { //Button Element
 	margin: 4px 4px 4px 4px;
     border-radius: 8px;
 	border: none;
-	text-align: center; //Center Align the text
 	display: inline-flex;
+	text-align: center;
 	align-items: center;
 	justify-content: center;
 
 	a{
-		text-decoration: none !important;
 		color: white;
-
+		text-decoration: none !important;
 		&:hover,&:active {
 			color: white;
 		}

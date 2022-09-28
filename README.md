@@ -11,4 +11,13 @@ Default Wallpaper for light novels
 Posts Date
 Post Series Styling
 
-Novel edit page button
+Publishing Date Sanitizng and Escaping
+
+
+
+
+Proper Sanitizing/Escaping for Category/Custom Taxonomy Terms
+Category Date Display Metabox
+Updated and Publication Date Post Feature
+Better Template Usage for Posts/Pages
+New UI for Blog List

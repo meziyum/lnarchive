@@ -3,7 +3,7 @@ Theme Name: LNarchive
 Theme URI: https://lnarchive.com
 Author: LNarchive
 Author URI: https://lnarchive.com
-Version: 0.0.0.5
+Version: 0.0.0.6
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 7.0
@@ -13,7 +13,6 @@ Text Domain: lnarchive
 /*Root*/
 :root {
     --primary: #3a7de8;
-    --notimp: #9e9fad;
 }
 
 /** ************************************* Blog Entry, Post and Pages ************************************* **/
@@ -23,11 +22,6 @@ Text Domain: lnarchive
     border-radius: 20px;
     max-height: 1240px;
     margin-bottom: 12px;
-}
-
-/** Blog Entry Date **/
-.entry-date {
-    color: var( --notimp);
 }
 
 .page-numbers.current > span {
@@ -68,19 +62,3 @@ table td, table td *, table th, table th * {
     padding: 8px;
 }
 
-.blog-entry{
-    background-color: white;
-    border-radius: 25px;
-    margin-bottom: 12px;
-    border-bottom-style: solid;
-    border-bottom-width: medium;
-    border-color: var( --primary);
-    padding-bottom: 12px;
-}
-
-/** BLog Entry Cover Img **/
-.attachment-featured-img {
-    padding-top: 12px;
-    border-radius: 15px;
-    max-height: 200px;
-}

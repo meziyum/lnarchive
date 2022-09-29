@@ -56,7 +56,7 @@ button {
   margin: 0px;
   /*Remove the default Bootstrap 5 Padding*/ }
 
-.col {
+.col > * {
   padding: 0px;
   /*Remove the default Bootstrap 5 Margin*/
   margin: 0px;

@@ -9,7 +9,7 @@ get_header(); //Get the Header
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
     <div class="row main-row"> <!-- Main Row -->
-        <div class="blog-wrap col"> <!-- Blog Content Div -->
+        <div class="blog-wrap col-lg-9"> <!-- Blog Content Div -->
             <?php
 
             //Title
@@ -39,7 +39,7 @@ get_header(); //Get the Header
                                         $the_post_id, //The post ID
                                         'featured-thumbnail', //Name of the size
                                         [
-                                            'class' => 'attachment-featured-img card-img-top', //Class attachment for css
+                                            'class' => 'attachment-featured-img', //Class attachment for css
                                             'alt'  => esc_attr(get_the_title()), //Attach the title as the default alt for the img
                                         ]
                                         );
@@ -107,7 +107,7 @@ get_header(); //Get the Header
             }
         ?>
         </div>
-        <aside class="blog-sidebar col-lg-3 d-none d-lg-block"> <!-- Sidebar Div -->
+        <aside class="blog-sidebar col d-none d-lg-block"> <!-- Sidebar Div -->
             <?php get_sidebar('sidebar-main'); //Show the Sidebar?>
         </aside>
     </div>

@@ -9,7 +9,7 @@ get_header(); //Get the Header function
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
     <div class="row main-row"> <!-- Main Row-->
-        <div class="post-wrap content-wrap col"> <!-- Post Content Div -->
+        <div class="post-wrap content-wrap col-lg-9"> <!-- Post Content Div -->
             <?php
             if( have_posts(  ) ) { //If there are posts
                 while( have_posts(  )) : the_post(); //Loop through the post
@@ -77,7 +77,7 @@ get_header(); //Get the Header function
             }
             ?>
         </div>
-        <aside class="sidebar-wrap col-lg-3 d-none d-lg-block"> <!-- Sidebar Col -->
+        <aside class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Col -->
             <?php get_sidebar('sidebar-main'); //Get the Sidebar?>
         </aside>
     </div>

@@ -1,14 +1,14 @@
 <?php
 /**
  * 
- * Tags Template
+ * Post Type Taxonomies Helper Functions
  * 
- * @package lnpedia
+ * @package LNarchive
  * 
  */
 
  //Function to get the post thumbnail for listing
-function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes = []) { 
+function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes = []) {
 
     $custom_thumbnail =''; //decalre a null local variable to store the image
 
@@ -30,20 +30,10 @@ function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes 
        false,  //Whether to treat the image as a icon
        $attributes //The attributes for the image
    );
+
    return $custom_thumbnail; //Return the Thumbnail
 }
 
-function the_post_custom_thumbnail( $post_id, $size, $additional_attributes = []) { //Function to display the Post Thumbnail
-    echo get_the_post_custom_thumbnail($post_id, $size, $additional_attributes);
+function the_post_custom_thumbnail( $post_id, $size, $additional_attributes) { //Function to display the Post Thumbnail
+    echo get_the_post_custom_thumbnail($post_id, $size, $additional_attributes); //Echo the Thumbnail
 }
-
-function posted_by() {
-    //Author String
-    $byline = sprintf(
-        ' by %s',
-        '<span class="author vcard"><a href="'. get_author_posts_url( get_the_author_meta('ID')) .'">' . get_the_author() . '</a></span>'
-    );
-    //Display the string
-    echo '<span class="byline text-secondary">' . $byline . '</span>';
-}
-?>

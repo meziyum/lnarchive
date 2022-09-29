@@ -3,7 +3,7 @@ Theme Name: LNarchive
 Theme URI: https://lnarchive.com
 Author: LNarchive
 Author URI: https://lnarchive.com
-Version: 0.0.0.6
+Version: 0.0.0.7
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 7.0
@@ -24,11 +24,6 @@ Text Domain: lnarchive
     margin-bottom: 12px;
 }
 
-.page-numbers.current > span {
-    background-color: #0d6efd;
-    color: white;
-}
-
 .entry-footer-link {
     text-decoration: none !important
 }
@@ -43,22 +38,11 @@ table td, table td *, table th, table th * {
     margin: 6px;
 }
 
-.novel-entry{
-    margin: auto;
-}
-
-.novel-cover{
-    background-color: white;
-    border-radius: 25px;
-    margin:6px;
-    padding: 8px;
-    flex-shrink: 1; /*Flex shrinking of the Div */
-}
-
 .novel-articles{
     background-color: white;
     border-radius: 25px;
     margin: 6px;
     padding: 8px;
 }
+
 

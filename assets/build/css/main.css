@@ -56,7 +56,7 @@ button {
   margin: 0px;
   /*Remove the default Bootstrap 5 Padding*/ }
 
-.col {
+.col > * {
   padding: 0px;
   /*Remove the default Bootstrap 5 Margin*/
   margin: 0px;
@@ -299,7 +299,7 @@ h6 {
 
 .blog-entry {
   background-color: #ffffff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px #3333;
   margin-bottom: 16px;
   position: relative;
   top: 0;
@@ -319,13 +319,32 @@ h6 {
       cursor: default; }
   .blog-entry:hover, .blog-entry:active {
     top: -2px;
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2); }
+    box-shadow: 0 4px 5px #00000033; }
 
 .posted-on {
   color: #9e9fad; }
 
 .page-numbers {
   text-decoration: none; }
+
+.novel-title a {
+  color: #171C1F;
+  text-decoration: none; }
+
+.archive-entry-col {
+  padding: 0px; }
+  .archive-entry-col .archive-entry {
+    padding: 0px;
+    margin: 4px 8px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 2px 5px #3333;
+    top: 0;
+    transition: all .1s ease-in;
+    overflow: hidden; }
+    .archive-entry-col .archive-entry:hover, .archive-entry-col .archive-entry:active {
+      top: -2px;
+      box-shadow: 0 4px 5px #00000033; }
 
 /* Entry meta */
 .updated:not(.published) {

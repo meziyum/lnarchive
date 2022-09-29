@@ -47,13 +47,13 @@ class lnarchive_theme{ //LNarchive Theme Class
             'default-color' => '3a7de8',
         );
 
-        add_theme_support( 'custom-background', $args );
+         add_theme_support( 'custom-background', $args );
 
          add_theme_support( 'post-thumbnails'); //Post Thumbnails
 
          //Register Image Sizes
-         add_image_size('featured-thumbnail', 350, 300, false); //Thumbnail Size
-         add_image_size('novel-cover', 1748, 1240, false); //Novel Cover Size
+         add_image_size('featured-thumbnail', 350, 300, true); //Thumbnail Size
+         add_image_size('novel-cover', 1748, 1240, true); //Novel Cover Size
 
          add_theme_support('widgets'); //Add Widgets Theme
 

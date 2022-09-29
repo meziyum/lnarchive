@@ -41,8 +41,9 @@ if ( ! defined( 'LNARCHIVE_BUILD_LIB_URI' ) ) {
 	define( 'LNARCHIVE_BUILD_LIB_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/build/library' );
 }
 
+//Get the Helper Functions
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/autoloader.php';
-require_once LNARCHIVE_DIR_PATH . '/inc/helpers/template-tags.php';
+require_once LNARCHIVE_DIR_PATH . '/inc/helpers/post-type-taxonomies.php';
 
  //Calling the Main theme class
 use lnarchive\inc\lnarchive_theme;

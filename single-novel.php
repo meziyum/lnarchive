@@ -140,8 +140,7 @@ get_header(); //Get the Header function
             }
         ?>
         </div>
-
-        <div class="sidebar-wrap col-lg-3 d-none d-lg-block"> <!-- Sidebar Col -->
+        <div class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Col -->
             <?php get_sidebar('sidebar-main'); //Get the Sidebar?>
         </div>
     </div>

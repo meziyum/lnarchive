@@ -1,0 +1,30 @@
+
+//Novel Commom
+.novel-title {
+    a{
+        color: $black-background;
+        text-decoration: none;
+    }
+}
+
+//Archive
+.archive-entry-col{
+    padding: 0px;
+
+    .archive-entry {
+        padding: 0px;
+        margin: 4px 8px;
+        border-radius: 8px;
+        position: relative;
+        box-shadow: 0 2px 5px $shadow-color;
+        top: 0;
+        transition: all .1s ease-in;
+        overflow: hidden;
+
+        &:hover, 
+        &:active {
+            top: -2px;
+            box-shadow: 0 4px 5px $shadow-color-hover;
+        }
+    }
+}

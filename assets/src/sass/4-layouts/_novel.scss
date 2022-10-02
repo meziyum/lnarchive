@@ -1,10 +1,15 @@
 
-//Novel Commom
+//Novel Common
 .novel-title {
     a{
         color: $black-background;
         text-decoration: none;
     }
+}
+
+//Novel Cover
+.novel-cover {
+    aspect-ratio: 4.1 / 5.8;
 }
 
 //Archive
@@ -28,3 +33,89 @@
         }
     }
 }
+
+.info-section {
+    margin-bottom: 16px;
+
+    .novel-row {
+        margin: 0px;
+
+        .novel-cover-div {
+            background: white;
+            border-radius: 8px;
+            padding: 8px 12px 0px 12px;
+            
+            @include respond-to( small ) {
+                margin-right: 0px;
+                margin-bottom: 16px;
+            }
+
+            @include respond-to( medium) {
+                margin-right: 16px;
+                margin-bottom: 0px;
+            }
+
+            .novel-cover{
+                border-radius: 8px;
+            }
+        }
+
+        .novel-info {
+            background: white;
+            border-radius: 8px;
+        }
+    }
+}
+
+
+
+.volumes-section {
+    background: $white-text;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 16px;
+
+    h2{
+        margin: 8px;
+    }
+
+    .volume-list {
+        margin: 0px;
+
+        @include respond-to( x-small ){
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        @include respond-to( medium ) {
+            flex-wrap: wrap;
+            overflow: auto;
+        }
+    }
+}
+
+.child-section {
+    background: $white-text;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 16px;
+
+    h2{
+        margin: 8px;
+    }
+
+    .child-list {
+        margin: 0px;
+
+        @include respond-to( x-small ){
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        @include respond-to( medium ) {
+            flex-wrap: wrap;
+            overflow: auto;
+        }
+    }
+}
+

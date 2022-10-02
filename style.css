@@ -3,46 +3,9 @@ Theme Name: LNarchive
 Theme URI: https://lnarchive.com
 Author: LNarchive
 Author URI: https://lnarchive.com
-Version: 0.0.0.7
+Version: 0.0.0.8
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 7.0
 Text Domain: lnarchive
 */
-
-/*Root*/
-:root {
-    --primary: #3a7de8;
-}
-
-/** ************************************* Blog Entry, Post and Pages ************************************* **/
-
-/** BLog Entry Cover Img **/
-.novel-cover-img {
-    border-radius: 20px;
-    max-height: 1240px;
-    margin-bottom: 12px;
-}
-
-.entry-footer-link {
-    text-decoration: none !important
-}
-
-table td, table td *, table th, table th * {
-    vertical-align: top;
-}
-
-.novel-info{
-    background-color: white;
-    border-radius: 25px;
-    margin: 6px;
-}
-
-.novel-articles{
-    background-color: white;
-    border-radius: 25px;
-    margin: 6px;
-    padding: 8px;
-}
-
-

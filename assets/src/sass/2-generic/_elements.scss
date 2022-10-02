@@ -35,15 +35,11 @@ button { //Button Element
 	}
 }
 
-.row { //Row Element
-    padding: 0px; /*Remove the default Bootstrap 5 Margin*/
-    margin: 0px; /*Remove the default Bootstrap 5 Padding*/
+//Table
+table td, table td *, table th, table th * {
+    vertical-align: top;
 }
 
-.col>*{
-    padding: 0px; /*Remove the default Bootstrap 5 Margin*/
-    margin: 0px; /*Remove the default Bootstrap 5 Padding*/
-}
 
 //Topography
 

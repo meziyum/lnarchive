@@ -15,7 +15,18 @@ get_header(); //Get the Header
             '<h1 class="page-title">%1$s</h1>', //Page Title Div
             wp_kses_post( get_the_archive_title()), //Get the Title
         );
-        get_template_part('template-parts/novel/novel-list'); //Get the Novel List
+        if(have_posts()) { //If there is post
+            //Loop through the Posts
+            ?>
+            <div class="row novel-list"> <!-- Archive List Div -->
+            <?php
+                while( have_posts()) : the_post(); //While there are posts
+                    get_template_part('template-parts/novel/novel-list'); //Get the Novel List
+                endwhile; //End While Loop
+            ?>
+            </div>
+            <?php
+        }
         ?>
         </div>
     </div>

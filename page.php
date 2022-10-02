@@ -29,7 +29,7 @@ get_header(); //Get the Header function
                         ?>
                             <button onclick="location.href='<?php echo esc_url(get_edit_post_link());?>'" type="button" class="edit-button float-end"> <!-- Edit Button -->
                                 <a class= "entry-footer-link"> <!-- The Edit Button Text -->
-                                    Edit <?php echo ucwords($post_type);?>
+                                    Edit <?php echo esc_html(ucwords($post_type));?>
                                 </a>
                             </button>
                         <?php

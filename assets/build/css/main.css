@@ -50,17 +50,8 @@ button {
     button a:hover, button a:active {
       color: white; }
 
-.row {
-  padding: 0px;
-  /*Remove the default Bootstrap 5 Margin*/
-  margin: 0px;
-  /*Remove the default Bootstrap 5 Padding*/ }
-
-.col > * {
-  padding: 0px;
-  /*Remove the default Bootstrap 5 Margin*/
-  margin: 0px;
-  /*Remove the default Bootstrap 5 Padding*/ }
+table td, table td *, table th, table th * {
+  vertical-align: top; }
 
 h1 {
   font-size: 26px;
@@ -152,6 +143,13 @@ h6 {
   background-color: #4CAF50; }
   .category-button:hover, .category-button:active {
     background-color: #3e8342; }
+
+.genre-button {
+  padding: 4px 8px;
+  font-size: 12px;
+  background-color: #387ef2; }
+  .genre-button:hover, .genre-button:active {
+    background-color: #3344d9; }
 
 .series-button {
   padding: 4px 8px;
@@ -331,6 +329,9 @@ h6 {
   color: #171C1F;
   text-decoration: none; }
 
+.novel-cover {
+  aspect-ratio: 4.1 / 5.8; }
+
 .archive-entry-col {
   padding: 0px; }
   .archive-entry-col .archive-entry {
@@ -345,6 +346,64 @@ h6 {
     .archive-entry-col .archive-entry:hover, .archive-entry-col .archive-entry:active {
       top: -2px;
       box-shadow: 0 4px 5px #00000033; }
+
+.info-section {
+  margin-bottom: 16px; }
+  .info-section .novel-row {
+    margin: 0px; }
+    .info-section .novel-row .novel-cover-div {
+      background: white;
+      border-radius: 8px;
+      padding: 8px 12px 0px 12px; }
+      @media (min-width: 576px) {
+        .info-section .novel-row .novel-cover-div {
+          margin-right: 0px;
+          margin-bottom: 16px; } }
+      @media (min-width: 768px) {
+        .info-section .novel-row .novel-cover-div {
+          margin-right: 16px;
+          margin-bottom: 0px; } }
+      .info-section .novel-row .novel-cover-div .novel-cover {
+        border-radius: 8px; }
+    .info-section .novel-row .novel-info {
+      background: white;
+      border-radius: 8px; }
+
+.volumes-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 16px; }
+  .volumes-section h2 {
+    margin: 8px; }
+  .volumes-section .volume-list {
+    margin: 0px; }
+    @media (min-width: 0px) {
+      .volumes-section .volume-list {
+        flex-wrap: nowrap;
+        overflow-x: auto; } }
+    @media (min-width: 768px) {
+      .volumes-section .volume-list {
+        flex-wrap: wrap;
+        overflow: auto; } }
+
+.child-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 16px; }
+  .child-section h2 {
+    margin: 8px; }
+  .child-section .child-list {
+    margin: 0px; }
+    @media (min-width: 0px) {
+      .child-section .child-list {
+        flex-wrap: nowrap;
+        overflow-x: auto; } }
+    @media (min-width: 768px) {
+      .child-section .child-list {
+        flex-wrap: wrap;
+        overflow: auto; } }
 
 /* Entry meta */
 .updated:not(.published) {

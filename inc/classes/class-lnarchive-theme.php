@@ -39,6 +39,8 @@ class lnarchive_theme{ //LNarchive Theme Class
 
      public function setup_theme() {
 
+         add_theme_support('widgets-block-editor'); //Widgets Blocks Editor
+
          add_theme_support( 'custom-logo', [
             'header-text'          => array( 'site-title', 'site-description' ) //Replace Title/Desc by Logo
          ]); //Custom Logo
@@ -47,13 +49,13 @@ class lnarchive_theme{ //LNarchive Theme Class
             'default-color' => '3a7de8',
         );
 
-         add_theme_support( 'custom-background', $args );
-
+         add_theme_support( 'custom-background', $args ); //Custom Background
          add_theme_support( 'post-thumbnails'); //Post Thumbnails
+         
 
          //Register Image Sizes
          add_image_size('featured-thumbnail', 350, 300, true); //Thumbnail Size
-         add_image_size('novel-cover', 1748, 1240, true); //Novel Cover Size
+         add_image_size('novel-cover', 1240, 1748, true); //Novel Cover Size
 
          add_theme_support('widgets'); //Add Widgets Theme
 

@@ -11,6 +11,18 @@
     }
 }
 
+//Genre Button
+.genre-button {
+    padding: 4px 8px;
+    font-size: 12px;
+    background-color: $theme-primary;
+
+    &:hover, 
+    &:active {
+        background-color: $theme-primary-dark;
+    }
+}
+
 //Series Button
 .series-button {
     padding: 4px 8px;

@@ -50,17 +50,8 @@ button {
     button a:hover, button a:active {
       color: white; }
 
-.row {
-  padding: 0px;
-  /*Remove the default Bootstrap 5 Margin*/
-  margin: 0px;
-  /*Remove the default Bootstrap 5 Padding*/ }
-
-.col > * {
-  padding: 0px;
-  /*Remove the default Bootstrap 5 Margin*/
-  margin: 0px;
-  /*Remove the default Bootstrap 5 Padding*/ }
+table td, table td *, table th, table th * {
+  vertical-align: top; }
 
 h1 {
   font-size: 26px;
@@ -149,6 +140,13 @@ h6 {
   background-color: #4CAF50; }
   .category-button:hover, .category-button:active {
     background-color: #3e8342; }
+
+.genre-button {
+  padding: 4px 8px;
+  font-size: 12px;
+  background-color: #387ef2; }
+  .genre-button:hover, .genre-button:active {
+    background-color: #3344d9; }
 
 .series-button {
   padding: 4px 8px;

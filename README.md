@@ -14,10 +14,3 @@ Publishing Date Sanitizng and Escaping
 
 Blog and Library Entry Title length
 Add Pagination to Novel's post listing
-
-
-
-
-
-Removed Unnecessary Template Parts
-Better Sanitizing and Escaping

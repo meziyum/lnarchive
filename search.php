@@ -1,0 +1,69 @@
+<?php
+/**
+ * Search Result Template
+ * 
+ * @package LNarchive
+ */
+get_header(); //Get the Header
+?>
+
+<main id="main" class="main-content" role="main"> <!-- Main Content Container -->
+    <div class="row main-row"> <!-- Main Row -->
+        <div class="search-result-wrap col-lg-9"> <!-- Blog Content Div -->
+            <?php
+                
+                $s=get_search_query(); //Get the Searc Query
+                
+                $nargs = array( //Novel Query Args
+                    's' =>$s,
+                    'post_type' => 'novel',
+                );
+                
+                $nquery = new WP_Query( $nargs ); //New query for Novel Listing
+
+                if($nquery->have_posts()) { //If there are novels
+                    ?>
+                    <h2>Novels</h2> <!-- Novel Heading -->
+                    <div class="row novel-search-result"> <!-- Novel Row -->
+                        <?php
+                        while( $nquery->have_posts()) : $nquery->the_post(); //While there are posts
+                            get_template_part('template-parts/novel/novel-list'); //Get the Novel List Template
+                        endwhile;
+                        ?>
+                    </div>
+                    <?php
+                }
+
+                wp_reset_postdata(); //Reset the $POST data
+
+                $pargs = array( //Post Query Args
+                    's' =>$s,
+                    'post_type' => 'post',
+                );
+                
+                $pquery = new WP_Query( $pargs ); //New query for Post Listing
+ 
+                if($pquery->have_posts()) { //If there are posts
+                    ?>
+                    <h2>Posts</h2> <!-- Post Heading -->
+                    <div class="row novel-search-result"> <!-- Post Row -->
+                        <?php
+                        while( $pquery->have_posts()) : $pquery->the_post(); //While there are posts
+                            get_template_part('template-parts/post/post-list'); //Get the Post List Template
+                        endwhile;
+                        ?>
+                    </div>
+                    <?php
+                }
+
+                wp_reset_postdata(); //Reset the $POST data
+
+            ?>
+        </div>
+        <aside class="blog-sidebar col d-none d-lg-block"> <!-- Sidebar Div -->
+            <?php get_sidebar('sidebar-main'); //Show the Sidebar?>
+        </aside>
+    </div>
+</main>
+
+<?php get_footer(); //Get the Footer ?>

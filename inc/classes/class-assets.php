@@ -35,7 +35,7 @@ class assets{ //Assests Class
       //Register Styles
       wp_register_style( 'main_css', LNARCHIVE_BUILD_CSS_URI . '/main.css', ['bootstrap_css'], filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/main.css'), 'all'); //Sass Stylsheet
       wp_register_style( 'fusfan_stylesheet', LNARCHIVE_DIR_URI . '/style.css', ['main_css'], filemtime(LNARCHIVE_DIR_PATH . '/style.css'), 'all'); //Main Stylesheet
-      wp_register_style( 'bootstrap_css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css', [], '5.0.2' , 'all'); //Bootstrap Stylesheet using CDN
+      wp_register_style( 'bootstrap_css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css', [], '5.2.2' , 'all'); //Bootstrap Stylesheet using CDN
       wp_register_style( 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css', [], '6.2.0' , 'all'); //Fontawesome
 
       //Enqueue Styles
@@ -49,7 +49,7 @@ class assets{ //Assests Class
 
          //Registering Scripts
          wp_register_script( 'fusfan_main_script', LNARCHIVE_BUILD_JS_URI . '/main.js', [], filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/main.js'), true ); //Main Javascript File
-         wp_register_script( 'bootstrap_bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js', [], '5.0.2', true ); //Boostrap Bundle including all plugins and dependencies like popper.js
+         wp_register_script( 'bootstrap_bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js', [], '5.2.2', true ); //Boostrap Bundle including all plugins and dependencies like popper.js
 
          //Enqueing Scripts
          wp_enqueue_script('fusfan_main_script');

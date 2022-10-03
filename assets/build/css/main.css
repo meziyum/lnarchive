@@ -29,7 +29,8 @@ body {
 
 main {
   background-color: #edf1f5;
-  padding: 8px 12px 8px 12px; }
+  padding: 8px 12px 8px 12px;
+  min-height: 450px; }
 
 img {
   height: auto;
@@ -364,7 +365,8 @@ h6 {
           margin-right: 16px;
           margin-bottom: 0px; } }
       .info-section .novel-row .novel-cover-div .novel-cover {
-        border-radius: 8px; }
+        border-radius: 8px;
+        margin-bottom: 8px; }
     .info-section .novel-row .novel-info {
       background: white;
       border-radius: 8px; }

@@ -114,9 +114,9 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
       ?>
       </div>
       
-      <form class="d-flex col-lg-3 col-md-12 order-lg-2"> <!--Search Form -->
+      <div class="d-flex col-lg-3 col-md-12 order-lg-2"> <!--Search Form -->
         <?php get_search_form();//Get the Search Form?> 
-      </form>
+      </div>
 
     </div>
   </div>

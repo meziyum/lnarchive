@@ -14,3 +14,5 @@ Publishing Date Sanitizng and Escaping
 
 Blog and Library Entry Title length
 Add Pagination to Novel's post listing
+
+Msg for when no search results are found

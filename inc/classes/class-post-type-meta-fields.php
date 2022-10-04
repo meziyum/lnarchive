@@ -37,10 +37,22 @@ class post_type_meta_fields { //Post Type Meta Fields
         add_action( 'save_post', [ $this, 'save_seo_meta_desc'] );
         add_action( 'save_post', [$this,'save_published_date'] );
         add_action( 'save_post', [$this,'save_series'] );
+        add_action( 'save_post', [$this,'save_alternate_names'] );
     }
 
     function novel_metaboxes_add() { //Function to add metaboxes to the Novel and Volume postype
         
+        //Alternate Names
+        add_meta_box(
+            'alternate_names', //The ID
+            'Alternate Names', //The Heading
+            [ $this, 'alternate_names_metabox_callback'], //The visual callback
+            'novel', //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+           
         //Published Date
         add_meta_box(
             'published_date', //The ID
@@ -64,6 +76,45 @@ class post_type_meta_fields { //Post Type Meta Fields
         );
     }
 
+    function alternate_names_metabox_callback ( $post ) { //Visual callback function for Alternate names Metabox
+
+        // Nonce Register
+        wp_nonce_field( 'alternate_names_nonce_action', 'alternate_names_nonce');
+
+        $alternate_names = get_post_meta( $post->ID, 'alternate_names_value', true ); //Get the alternate names
+        ?>
+        <div class="alternate-names-div"> <!--Alternate Names Div -->
+          <textarea name="alternate_names_meta" id="alternate_names_meta" rows="4" cols="35"><?php echo esc_html($alternate_names)?></textarea>
+          <p>Alternate names for the Novel. Enter one name per line.</p>
+        </div>
+        <?php
+    }
+
+    function save_alternate_names( $post_id ) { //Function to save Alternate Names
+        
+        // Nonce Verification
+        if ( ! isset( $_POST['alternate_names_nonce'] ) || ! wp_verify_nonce( $_POST['alternate_names_nonce'], 'alternate_names_nonce_action')) {
+            return;
+        }
+        
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        //Update Post Meta
+        update_post_meta(
+            $post_id, //The post id
+            'alternate_names_value', //Key
+            sanitize_text_field($_POST['alternate_names_meta']) //Value of the Meta
+        );
+    }
+
     function published_date_metabox_callback( $post ) { //Function to display the Published Date Selection
 
          // Nonce Register
@@ -74,7 +125,7 @@ class post_type_meta_fields { //Post Type Meta Fields
          ?>
          <div class="published-date"> <!-- Published Date Div -->
                     <label for="published_date">Published Date</label>
-                    <input name="published_date" type="date" value="<?php echo $published_date;?>">
+                    <input name="published_date" type="date" value="<?php echo esc_html($published_date);?>">
          </div>
          <?php
     }
@@ -218,7 +269,7 @@ class post_type_meta_fields { //Post Type Meta Fields
 
         //Meta Desc Input
         echo '<div class="seo_meta_desc">
-          <textarea name="seo_meta_desc" id="seo_meta_desc" rows="4" cols="30" maxlength="'.$this->meta_desc_length.'">'.esc_html($value).'</textarea>
+          <textarea name="seo_meta_desc" id="seo_meta_desc" rows="4" cols="35" maxlength="'.$this->meta_desc_length.'">'.esc_html($value).'</textarea>
           <p>The description for SEO purposes. Max Characters('.$this->meta_desc_length.')</p>
         </div>';
     }

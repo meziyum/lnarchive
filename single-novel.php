@@ -90,100 +90,94 @@ get_header(); //Get the Header function
                                 ?>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="volumes-section">
-                        <?php
-                            $vol_args = array(  //Arguments for the Loop
-                                'post_type' => 'volume', //Post Type
-                                'post_status' => 'publish', //Status of the Post
-                                'posts_per_page' => get_option('posts_per_page'), //Posts on one page
-                                'orderby' => 'date', //Order by date
-                                'order' => 'ASC', //ASC or DEC
-                                'meta_key' => 'series_value', //Meta Key
-                                'meta_value' => get_the_ID(), //Meta value
-                            );
+                    </div>                       
+                <?php
 
-                            $vquery = new WP_Query($vol_args); //Volumes List Query
+                    $vol_args = array(  //Arguments for the Loop
+                        'post_type' => 'volume', //Post Type
+                        'post_status' => 'publish', //Status of the Post
+                        'posts_per_page' => get_option('posts_per_page'), //Posts on one page
+                        'orderby' => 'date', //Order by date
+                        'order' => 'ASC', //ASC or DEC
+                        'meta_key' => 'series_value', //Meta Key
+                        'meta_value' => get_the_ID(), //Meta value
+                    );                       
 
-                            if($vquery->have_posts()) { //If there are any volumes
-                                ?>
-                                    <h2>Volumes</h2> <!-- Volumes Section Heading -->
-                                    <div class="row volume-list"> <!-- VOlumes List Row -->
-                                        <?php
-                                        while( $vquery->have_posts()) : $vquery->the_post(); //While there are volumes
-                                            get_template_part('template-parts/novel/novel-list'); //Get Novels List
-                                        endwhile;
-                                    ?>
-                                    </div>
-                                <?php
-                            }
+                    $vquery = new WP_Query($vol_args); //Volumes List Query
 
-                            wp_reset_postdata(); //Reset the $POST data
+                    if($vquery->have_posts()) { //If there are any volumes
                         ?>
-                    </div>
-
-                    <div class="child-section">
-                        <?php
-                            $child_args = array(  //Arguments for the Loop
-                                'post_type' => 'novel', //Post Type
-                                'post_status' => 'publish', //Status of the Post
-                                'posts_per_page' => get_option('posts_per_page'), //Posts on one page
-                                'orderby' => 'date', //Order by date
-                                'order' => 'ASC', //ASC or DEC
-                                'post_parent' => get_the_ID(), //Parent Novel ID
-                            );
-
-                            $cquery = new WP_Query($child_args); //Children List Query
-
-                            if($cquery->have_posts()) { //If there are any children
+                            <div class="volumes-section">
+                                <h2>Volumes</h2> <!-- Volumes Section Heading -->
+                                <div class="row volume-list"> <!-- VOlumes List Row -->
+                                    <?php
+                                    while( $vquery->have_posts()) : $vquery->the_post(); //While there are volumes
+                                        get_template_part('template-parts/novel/novel-list'); //Get Novels List
+                                    endwhile;
                                 ?>
-                                    <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
-                                    <div class="row child-list"> <!-- Child List Row -->
-                                        <?php
-                                        while( $cquery->have_posts()) : $cquery->the_post(); //While there are volumes
-                                            get_template_part('template-parts/novel/novel-list'); //Get Child Novels
-                                        endwhile;
-                                    ?>
-                                    </div>
-                                <?php
-                            }
-
-                            wp_reset_postdata(); //Reset the $POST data
-                        ?>
-                    </div>
-                    
-                    <div class="posts-section">
+                                </div>
+                            </div>
                         <?php
-                            $args = array(  //Arguments for the Loop
-                                'post_type' => 'post', //Post Type
-                                'post_status' => 'publish', //Status of the Post
-                                'posts_per_page' => get_option('posts_per_page'), //Posts on one page
-                                'orderby' => 'date', //Order by date
-                                'order' => 'DEC', //ASC or DEC
-                                'meta_key' => 'series_value', //Meta Key
-                                'meta_value' => get_the_ID(), //Meta value
-                            );
+                    }
 
-                            $loop = new WP_Query( $args ); //Create the Loop
+                    wp_reset_postdata(); //Reset the $POST data                   
 
-                            if($loop->have_posts()) { //If there is post
-                                ?>
-                                    <div class="row"> <!-- Novel News Articles Div -->
-                                        <h2>Related Articles</h2>
-                                        <?php
-                                        while ( $loop->have_posts() ) : $loop->the_post(); //Loop through the posts
-                                            get_template_part('template-parts/post/post-list'); //Get Posts List
-                                        endwhile; //End While Loop
-                                        ?>
-                                    </div>
-                                <?php
-                            }
+                    $child_args = array(  //Arguments for the Loop
+                        'post_type' => 'novel', //Post Type
+                        'post_status' => 'publish', //Status of the Post
+                        'posts_per_page' => get_option('posts_per_page'), //Posts on one page
+                        'orderby' => 'date', //Order by date
+                        'order' => 'ASC', //ASC or DEC
+                        'post_parent' => get_the_ID(), //Parent Novel ID
+                    );
 
-                            wp_reset_postdata(); //Reset the $POST data
+                    $cquery = new WP_Query($child_args); //Children List Query
+
+                    if($cquery->have_posts()) { //If there are any children
                         ?>
-                    </div>
-                    <?php
+                            <div class="child-section">
+                            <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
+                            <div class="row child-list"> <!-- Child List Row -->
+                                <?php
+                                while( $cquery->have_posts()) : $cquery->the_post(); //While there are volumes
+                                    get_template_part('template-parts/novel/novel-list'); //Get Child Novels
+                                endwhile;
+                            ?>
+                            </div>
+                            </div>
+                        <?php
+                    }
+
+                    wp_reset_postdata(); //Reset the $POST data
+
+                    $args = array(  //Arguments for the Loop
+                        'post_type' => 'post', //Post Type
+                        'post_status' => 'publish', //Status of the Post
+                        'posts_per_page' => get_option('posts_per_page'), //Posts on one page
+                        'orderby' => 'date', //Order by date
+                        'order' => 'DEC', //ASC or DEC
+                        'meta_key' => 'series_value', //Meta Key
+                        'meta_value' => get_the_ID(), //Meta value
+                    );
+
+                    $loop = new WP_Query( $args ); //Create the Loop
+
+                    if($loop->have_posts()) { //If there is post
+                        ?>
+                            <div class="posts-section">
+                            <div class="row"> <!-- Novel News Articles Div -->
+                                <h2>Related Articles</h2>
+                                <?php
+                                while ( $loop->have_posts() ) : $loop->the_post(); //Loop through the posts
+                                    get_template_part('template-parts/post/post-list'); //Get Posts List
+                                endwhile; //End While Loop
+                                ?>
+                            </div>
+                            </div>
+                        <?php
+                    }
+
+                    wp_reset_postdata(); //Reset the $POST data                           
             endwhile;
             }
         ?>

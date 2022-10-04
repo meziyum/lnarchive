@@ -1,6 +1,8 @@
+/**
+Admin Dashboard Stylesheet
+*/
 
-
-body {
+  body {
     background: #f1f1f1;
   }
   
@@ -11,6 +13,10 @@ body {
   
   a:hover, a:active, a:focus {
     color: #6d9de7;
+  }
+
+  .postbox{
+    border-radius: 4px;
   }
   
   #post-body .misc-pub-post-status:before,

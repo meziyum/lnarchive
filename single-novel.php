@@ -21,7 +21,7 @@ get_header(); //Get the Header function
                     wp_kses_post( get_the_title()), //Get the Title
                 );
                 ?>
-                    <div class="info-section">
+                    <div class="info-section"> <!-- Novel Info Div -->
                         <div class="row novel-row">
                             <div class="novel-cover-div col-lg-4 col-md-5 cold-sm-12">
                                 <?php 

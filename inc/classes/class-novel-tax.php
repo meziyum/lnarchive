@@ -26,6 +26,7 @@ class novel_tax{ //Novel Taxonomy Class
 
         //Adding functions to the hooks
         add_action( 'init', [ $this, 'register_novel_volume_taxonomies']);
+        add_action('save_post',[ $this, 'save_post_function']);
     }
 
     public function register_novel_volume_taxonomies() { //Register all the novel taxonomies
@@ -75,6 +76,13 @@ class novel_tax{ //Novel Taxonomy Class
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
             'query_var' => 'publisher', //Query name for the wp_query
             'hierarchical' => true, //Hierarchy
+
+            //Default Publisher Term
+            'default_term' => array(
+                'name' => 'No Publisher', //Name
+                'slug' => 'no_publisher', //Slug
+                'description' => 'Default term for when no publisher is assigned.' //Desc
+            ),
 
             //Modify the Taxonomy Slug
             'rewrite' => array(
@@ -142,6 +150,13 @@ class novel_tax{ //Novel Taxonomy Class
             'query_var' => 'writer', //Query name for the wp_query
             'hierarchical' => false, //Hierarchy
 
+            //Default Writer Term
+            'default_term' => array(
+                'name' => 'No Author', //Name
+                'slug' => 'no_writer', //Slug
+                'description' => 'Default term for when no author is assigned.' //Desc
+            ),
+
             //Modify the Taxonomy Slug
             'rewrite' => array(
                 'slug' => 'writer',
@@ -207,6 +222,13 @@ class novel_tax{ //Novel Taxonomy Class
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
             'query_var' => 'illustrator', //Query name for the wp_query
             'hierarchical' => false, //Hierarchy
+
+            //Default Illustrator Term
+            'default_term' => array(
+                'name' => 'No Illustrator', //Name
+                'slug' => 'no_illustrator', //Slug
+                'description' => 'Default term for when no illustrator is assigned.' //Desc
+            ),
 
             //Modify the Taxonomy Slug
             'rewrite' => array(
@@ -274,6 +296,13 @@ class novel_tax{ //Novel Taxonomy Class
             'query_var' => 'language', //Query name for the wp_query
             'hierarchical' => false, //Hierarchy
 
+            //Default Language Term
+            'default_term' => array(
+                'name' => 'Japanese', //Name
+                'slug' => 'japanese', //Slug
+                'description' => 'Official language of Japan and primary language of the light novels.' //Desc
+            ),
+
             //Modify the Taxonomy Slug
             'rewrite' => array(
                 'slug' => 'language',
@@ -339,6 +368,13 @@ class novel_tax{ //Novel Taxonomy Class
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
             'query_var' => 'status', //Query name for the wp_query
             'hierarchical' => false, //Hierarchy
+
+            //Default Status Term
+            'default_term' => array(
+                'name' => 'Ongoing', //Name
+                'slug' => 'ongoing', //Slug
+                'description' => 'The novel is in-print that is the story is ongoing.' //Desc
+            ),
 
             //Modify the Taxonomy Slug
             'rewrite' => array(
@@ -406,6 +442,13 @@ class novel_tax{ //Novel Taxonomy Class
             'query_var' => 'translator', //Query name for the wp_query
             'hierarchical' => false, //Hierarchy
 
+            //Default Translator Term
+            'default_term' => array(
+                'name' => 'No Translator', //Name
+                'slug' => 'no_translator', //Slug
+                'description' => 'Default term for when no translator is assigned.' //Desc
+            ),
+
             //Modify the Taxonomy Slug
             'rewrite' => array(
                 'slug' => 'translator',
@@ -472,6 +515,13 @@ class novel_tax{ //Novel Taxonomy Class
             'query_var' => 'genre', //Query name for the wp_query
             'hierarchical' => true, //Hierarchy
 
+            //Default Genre Term
+            'default_term' => array(
+                'name' => 'No Genre', //Name
+                'slug' => 'no_genre', //Slug
+                'description' => 'Default term for when no genre is assigned.' //Desc
+            ),
+
             //Modify the Taxonomy Slug
             'rewrite' => array(
                 'slug' => 'genre',
@@ -491,6 +541,22 @@ class novel_tax{ //Novel Taxonomy Class
             '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
 
         ));//End of Genre Taxonomy
+    }
+
+    public function save_post_function($post_id) { //Default Tag
+
+        $tags = get_terms('post_tag'); //Get all the tags
+        
+        if(empty($tags)) //If there are no tags already assigned
+            wp_set_post_tags( $post_id, 'No Tag', true ); //Assign the default tag
+        else if( count($tags)>1){ //If there are tags assigned
+            foreach ($tags as $tag) { //Loop through all the tag terms
+                //if category is the default, then remove it
+                if ($tag->name == "No Tag") { //IF there is NO Tag with other tags
+                    wp_remove_object_terms($post_id, 'No Tag', 'post_tag'); //Remove the Default Tag
+                }
+            }
+        }
     }
 }//End of Class
 ?>

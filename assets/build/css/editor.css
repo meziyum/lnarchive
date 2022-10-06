@@ -142,11 +142,14 @@ h6 {
   .category-button:hover, .category-button:active {
     background-color: #3e8342; }
 
-.genre-button {
+.genre-button,
+.post-tag-button {
   padding: 4px 8px;
   font-size: 12px;
   background-color: #387ef2; }
-  .genre-button:hover, .genre-button:active {
+  .genre-button:hover, .genre-button:active,
+  .post-tag-button:hover,
+  .post-tag-button:active {
     background-color: #3344d9; }
 
 .series-button {

@@ -4,7 +4,7 @@
  */
 
 namespace fusfan\inc; //Namespace
-use fusfan\inc\traits\Singleton; //Singleton Directory using namespace
+use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
 class template{ //Template Class
 

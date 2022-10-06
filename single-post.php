@@ -11,7 +11,7 @@ get_header(); //Get the Header function
     <div class="row main-row"> <!-- Main Row-->
         <div class="post-wrap content-wrap col-lg-9"> <!-- Post Content Div -->
             <?php
-            if( have_posts(  ) ) { //If there are posts
+            if( have_posts() ) { //If there are posts
                 while( have_posts(  )) : the_post(); //Loop through the post
                 
                     $the_post_id = get_the_ID(); //Get the ID
@@ -26,7 +26,7 @@ get_header(); //Get the Header function
                     <div>
                     <?php
 
-                    get_template_part('template-parts/post/category-list'); //Get the Category List
+                    taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category'); //Get the Category List
                     
                     if( $series != 'none') { //If the Series is not set
                         ?>
@@ -53,9 +53,7 @@ get_header(); //Get the Header function
                         if( !empty($prev_post)) { //If there is a previous post
                         ?>
                             <button onclick="location.href='<?php echo esc_url(get_permalink($prev_post->ID));?>'" type="button" class="prev-post"> <!-- Prev Post Button -->
-                                <a class="prev-link"> <!-- Next Post Text -->
-                                    Previous
-                                </a>
+                                <a class="prev-link">Previous</a>
                             </button>
                         <?php
                         }
@@ -63,12 +61,10 @@ get_header(); //Get the Header function
                         if( !empty($next_post)) { //If there is a next post
                         ?>
                             <button onclick="location.href='<?php echo esc_url(get_permalink($next_post->ID));?>'" type="button" class="next-post float-end"> <!-- Next Post Button -->
-                                <a class="next-link"> <!-- Next Post Text -->
-                                    Next
-                                </a>
+                                <a class="next-link">Next</a>
                             </button>
                         <?php
-                        }         
+                        }
                     ?>
                     </div>
                     <?php

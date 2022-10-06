@@ -5,20 +5,22 @@
  * @package LNarchive
 */
 get_header(); //Get the Header function
+
+$the_post_id = get_the_ID();
+$the_post_title = get_the_title();
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
     <div class="row main-row"> <!-- Main Row -->
         <div class="novel-wrap col-lg-9"> <!-- Novel Content Div -->
-        <?php
-                
+        <?php               
             if( have_posts(  ) ) {  //If there are posts
             while( have_posts(  )) : the_post(); //Loop through the posts
                 
                 //Title
                 printf(
                     '<h1 class="page-title">%1$s</h1>', //HTML
-                    wp_kses_post( get_the_title()), //Get the Title
+                    wp_kses_post( $the_post_title), //Get the Title
                 );
                 ?>
                     <div class="info-section"> <!-- Novel Info Div -->
@@ -26,13 +28,13 @@ get_header(); //Get the Header function
                             <div class="novel-cover-div col-lg-4 col-md-5 cold-sm-12">
                                 <?php 
                                 
-                                    if (has_post_thumbnail( $post->ID )) {
+                                    if (has_post_thumbnail( $the_post_id )) {
                                         the_post_custom_thumbnail(
-                                            get_the_ID(), //The novel ID
+                                            $the_post_id, //The novel ID
                                             'novel-cover', //Name of the size
                                             [
                                                 'class' => 'novel-cover', //Class attachment for css
-                                                'alt'  => esc_html(get_the_title()), //Attach the title as the default alt for the img
+                                                'alt'  => esc_html($the_post_title), //Attach the title as the default alt for the img
                                             ]
                                         );
                                     }
@@ -48,7 +50,7 @@ get_header(); //Get the Header function
 
                                     foreach( $taxs as $tax) { //Loop through all items
 
-                                        $terms = get_the_terms(get_the_ID(), $tax); //Get all the Terms
+                                        $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
 
                                         if( !empty($terms)) {
                                             foreach( $terms as $key => $article_term) { //Loops through all article terms
@@ -66,27 +68,14 @@ get_header(); //Get the Header function
                                     </table>
                             </div>
 
-                            <div class="novel-info col">
-                                <h2>Description</h2>
-                                <?php
-                                    the_excerpt();
-
-                                    $genre_terms = get_the_terms(get_the_ID(), 'genre');
-
-                                    if(!empty($genre_terms)) {
-                                        ?>
-                                        <h2>Genres</h2>
-                                        <?php
-                                        foreach( $genre_terms as $key => $article_term) { //Loops through all article terms
-                                            ?>
-                                                <button onclick="location.href='<?php echo esc_attr(get_term_link( $article_term))?>'" type="button" class="genre-button"> <!-- Category Button -->
-                                                    <a class="genre-button-link" href="<?php echo esc_attr(get_term_link($article_term, 'genre'))?>"> <!-- The Category text -->
-                                                        <?php echo esc_html($article_term->name) //Print the article?>
-                                                    </a>
-                                                </button>
-                                            <?php
-                                        }   
-                                    }
+                            <div class="novel-info col"> <!-- Novel Info Col --> 
+                                <h2>Description</h2><?php //Desc Title
+                                the_excerpt(); //Get the excerpt
+                                ?><h2>Genre</h2><?php //Genre Title
+                                taxonomy_button_list( get_the_terms($the_post_id, 'genre'), 'genre'); //List the Genre Taxonomy
+                                ?><h2>Tag</h2><?php //Tag Title
+                                taxonomy_button_list( get_the_terms($the_post_id, 'post_tag'), 'post-tag'); //List the Tag Taxonomy
+                                get_template_part('template-parts/edit-btn'); //Get the Edit Button Template
                                 ?>
                             </div>
                         </div>
@@ -100,7 +89,7 @@ get_header(); //Get the Header function
                         'orderby' => 'date', //Order by date
                         'order' => 'ASC', //ASC or DEC
                         'meta_key' => 'series_value', //Meta Key
-                        'meta_value' => get_the_ID(), //Meta value
+                        'meta_value' => $the_post_id, //Meta value
                     );                       
 
                     $vquery = new WP_Query($vol_args); //Volumes List Query
@@ -109,18 +98,12 @@ get_header(); //Get the Header function
                         ?>
                             <div class="volumes-section">
                                 <h2>Volumes</h2> <!-- Volumes Section Heading -->
-                                <div class="row volume-list"> <!-- VOlumes List Row -->
-                                    <?php
-                                    while( $vquery->have_posts()) : $vquery->the_post(); //While there are volumes
-                                        get_template_part('template-parts/novel/novel-list'); //Get Novels List
-                                    endwhile;
-                                ?>
-                                </div>
+                                <?php novel_list( $vquery, 'volume'); //Print Novel List ?>
                             </div>
                         <?php
                     }
 
-                    wp_reset_postdata(); //Reset the $POST data                   
+                    wp_reset_postdata(); //Reset the $POST data           
 
                     $child_args = array(  //Arguments for the Loop
                         'post_type' => 'novel', //Post Type
@@ -128,7 +111,7 @@ get_header(); //Get the Header function
                         'posts_per_page' => get_option('posts_per_page'), //Posts on one page
                         'orderby' => 'date', //Order by date
                         'order' => 'ASC', //ASC or DEC
-                        'post_parent' => get_the_ID(), //Parent Novel ID
+                        'post_parent' => $the_post_id, //Parent Novel ID
                     );
 
                     $cquery = new WP_Query($child_args); //Children List Query
@@ -136,14 +119,8 @@ get_header(); //Get the Header function
                     if($cquery->have_posts()) { //If there are any children
                         ?>
                             <div class="child-section">
-                            <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
-                            <div class="row child-list"> <!-- Child List Row -->
-                                <?php
-                                while( $cquery->have_posts()) : $cquery->the_post(); //While there are volumes
-                                    get_template_part('template-parts/novel/novel-list'); //Get Child Novels
-                                endwhile;
-                            ?>
-                            </div>
+                                <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
+                                <?php novel_list( $cquery, 'child' ); //Print Novel List?>
                             </div>
                         <?php
                     }
@@ -157,7 +134,7 @@ get_header(); //Get the Header function
                         'orderby' => 'date', //Order by date
                         'order' => 'DEC', //ASC or DEC
                         'meta_key' => 'series_value', //Meta Key
-                        'meta_value' => get_the_ID(), //Meta value
+                        'meta_value' => $the_post_id, //Meta value
                     );
 
                     $loop = new WP_Query( $args ); //Create the Loop
@@ -177,7 +154,7 @@ get_header(); //Get the Header function
                         <?php
                     }
 
-                    wp_reset_postdata(); //Reset the $POST data                           
+                    wp_reset_postdata(); //Reset the $POST data                   
             endwhile;
             }
         ?>

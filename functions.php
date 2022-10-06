@@ -43,7 +43,7 @@ if ( ! defined( 'LNARCHIVE_BUILD_LIB_URI' ) ) {
 
 //Get the Helper Functions
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/autoloader.php';
-require_once LNARCHIVE_DIR_PATH . '/inc/helpers/post-type-taxonomies.php';
+require_once LNARCHIVE_DIR_PATH . '/inc/helpers/post-type.php';
 
  //Calling the Main theme class
 use lnarchive\inc\lnarchive_theme;

@@ -35,9 +35,10 @@ class lnarchive_theme{ //LNarchive Theme Class
           */
 
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
+          add_action( 'template_redirect', [$this, 'rewrite_search_url']);
      }
 
-     public function setup_theme() {
+     public function setup_theme() { //Main Setup Theme
 
          add_theme_support('widgets-block-editor'); //Widgets Blocks Editor
 
@@ -94,6 +95,13 @@ class lnarchive_theme{ //LNarchive Theme Class
          if( ! isset( $content_width) ) {
             $content_width=1240;
          }
-        }
+      }
+
+      function rewrite_search_url() { //Rewrite the search result url for better SEO
+         if ( is_search() && ! empty( $_GET['s'] ) ) { //If search and the search query not empty
+             wp_redirect( home_url( "/search/" ) . urlencode( get_query_var( 's' ) ) ); //Restructure the URL
+             exit(); //Exit
+         }
+      }
 }
  ?>

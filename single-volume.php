@@ -5,6 +5,8 @@
  * @package LNarchive
 */
 get_header(); //Get the Header function
+
+$the_post_title = get_the_title();
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
@@ -17,7 +19,7 @@ get_header(); //Get the Header function
                     //Title
                     printf(
                         '<h1 class="page-title">%1$s</h1>', //HTML
-                        wp_kses_post( get_the_title()), //Get the Title
+                        wp_kses_post( $the_post_title), //Get the Title
                     );
                     ?>
 

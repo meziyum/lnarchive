@@ -19,15 +19,7 @@ get_header(); //Get the Header
             );
             
             if(have_posts()) { //If there is post
-                ?>
-                <div class="row"><?php
-                    while( have_posts(  )) : the_post(); //Loop through all the posts
-                        get_template_part('template-parts/post/post-list'); //Get the Blog Card
-                    endwhile; //End While Loop    
-                    get_template_part('template-parts/post/pagination'); //Get the Pagination
-                    ?>
-                </div>
-            <?php
+                post_list($wp_query, 'post-blog'); //Post List
             }
         ?>
         </div>

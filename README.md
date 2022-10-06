@@ -13,9 +13,10 @@ Singe Volume ISBN Metabox for all formats
 Single Volume formats Metabox
 
 Filter by clicking taxonomy name in admin menu fix
-Archive Page SEO Terms
-Novel and Volume page Tag SEO
 Default Wallpaper for light novels
+
+Meta Tags
+Robot.txt Meta
 
 All Archives Filter Option
 
@@ -31,8 +32,8 @@ Show profile menu on hover
 Fix search bar size in the header
 Add Alternate Names display
 
+Taxonmies Archive default to values
+
 
 
 Auto Remove default terms for custom taxonomies and category
-
-Create Helper function for post listing

@@ -144,11 +144,7 @@ $the_post_title = get_the_title();
                             <div class="posts-section">
                             <div class="row"> <!-- Novel News Articles Div -->
                                 <h2>Related Articles</h2>
-                                <?php
-                                while ( $loop->have_posts() ) : $loop->the_post(); //Loop through the posts
-                                    get_template_part('template-parts/post/post-list'); //Get Posts List
-                                endwhile; //End While Loop
-                                ?>
+                                <?php post_list( $loop, 'novel-articles' ); //Post List?>
                             </div>
                             </div>
                         <?php

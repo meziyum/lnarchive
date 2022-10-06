@@ -7,6 +7,7 @@
 
 namespace lnarchive\inc; //Namespace Definition
 use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+use WP_Error;
 
 class novel_tax{ //Novel Taxonomy Class
 
@@ -71,6 +72,7 @@ class novel_tax{ //Novel Taxonomy Class
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
             'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'description' => 'The entity responsible for the distribution of the light novel and its associated labels',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'A company or label publishing the novels', //Taxonomy Desc
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -144,6 +146,7 @@ class novel_tax{ //Novel Taxonomy Class
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
             'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'description' => 'The author of the light novel in its source language.',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'An author is the creator or originator of any written work', //Taxonomy Desc
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -217,6 +220,7 @@ class novel_tax{ //Novel Taxonomy Class
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
             'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'description' => 'The artist responsible for the illustrations of the light novel.',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'An illustrator is an artist who specializes in enhancing writing or elucidating concepts by providing a visual representation that corresponds to the content of the associated text or idea.',
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -227,7 +231,7 @@ class novel_tax{ //Novel Taxonomy Class
             'default_term' => array(
                 'name' => 'No Illustrator', //Name
                 'slug' => 'no_illustrator', //Slug
-                'description' => 'Default term for when no illustrator is assigned.' //Desc
+                'description' => 'Default term for when no illustrator is assigned' //Desc
             ),
 
             //Modify the Taxonomy Slug
@@ -300,7 +304,7 @@ class novel_tax{ //Novel Taxonomy Class
             'default_term' => array(
                 'name' => 'Japanese', //Name
                 'slug' => 'japanese', //Slug
-                'description' => 'Official language of Japan and primary language of the light novels.' //Desc
+                'description' => 'Official language of Japan and primary language of the light novels' //Desc
             ),
 
             //Modify the Taxonomy Slug
@@ -363,6 +367,7 @@ class novel_tax{ //Novel Taxonomy Class
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
             'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'description' => 'The current status of the light novel series',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'The current publishing status of the series.',
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -436,8 +441,9 @@ class novel_tax{ //Novel Taxonomy Class
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
             'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'description' => '',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
-            'description' => 'A translator is a person who translates from one language into another', //Taxonomy Desc
+            'description' => 'A person responsible for translating the light novel from its source language', //Taxonomy Desc
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
             'query_var' => 'translator', //Query name for the wp_query
             'hierarchical' => false, //Hierarchy
@@ -545,7 +551,7 @@ class novel_tax{ //Novel Taxonomy Class
 
     public function save_post_function($post_id) { //Default Tag
 
-        $tags = get_terms('post_tag'); //Get all the tags
+        $tags = get_the_tags(); //Get the tags of the post
         
         if(empty($tags)) //If there are no tags already assigned
             wp_set_post_tags( $post_id, 'No Tag', true ); //Assign the default tag

@@ -18,13 +18,25 @@
         $post_type = get_post_type( get_queried_object_id()); //Get the Post Type
         $object_id = get_the_ID(get_queried_object_id()); //Get the ID of the Object
 
-        if(is_home() && !is_front_page()) { //The Meta Desc of the Blog Page
+        if(is_home() && !is_front_page()) { //SEO for Blog Page
             ?>
                 <title><?php esc_html(single_post_title());?></title> <!-- Meta Title -->
                 <meta name="description" content="The blog page of the LNarchive with all the articles"> <!-- Meta Desc -->
             <?php
         }
-        else { //Meta Desc for all other posts, pages and post-types
+        else if(is_archive()){ //SEO for Archive
+            ?>
+            <title><?php echo sanitize_text_field(get_the_archive_title());?></title> <!-- Meta Title -->
+            <meta name="description" content="<?php echo sanitize_text_field(get_the_archive_description());?>"> <!-- Meta Desc -->
+            <?php
+        }
+        else if(is_search()) { //SEO for Search
+            ?>
+            <title>Search</title> <!-- Meta Title -->
+            <meta name="description" content="The search page for searching the light novels and related content"> <!-- Meta Desc -->
+            <?php
+        }
+        else { //SEO for everythinge else
             ?>
             <title><?php echo esc_html(get_post_meta( $object_id, 'seo_meta_title_val', true ));?></title> <!-- Meta Title -->
             <meta name="description" content="<?php echo esc_html(get_post_meta( $object_id, 'seo_meta_desc_val', true ));?>"> <!-- Meta Desc -->

@@ -16,16 +16,7 @@ get_header(); //Get the Header
             wp_kses_post( get_the_archive_title()), //Get the Title
         );
         if(have_posts()) { //If there is post
-            //Loop through the Posts
-            ?>
-            <div class="row novel-list"> <!-- Archive List Div -->
-            <?php
-                while( have_posts()) : the_post(); //While there are posts
-                    get_template_part('template-parts/post/post-list'); //Get the Post List
-                endwhile; //End While Loop
-            ?>
-            </div>
-            <?php
+            post_list( $wp_query, 'category-post-list'); //Post List
         }
         ?>
         </div>

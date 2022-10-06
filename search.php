@@ -23,7 +23,7 @@ get_header(); //Get the Header
 
                 if($nquery->have_posts()) { //If there are novels
                     ?><h2>Novels</h2> <!-- Novel Heading --> <?php
-                    novel_list($nquery, 'novel-search'); //Novel List         
+                    novel_list($nquery, 'novel-search'); //Novel List      
                 }
 
                 wp_reset_postdata(); //Reset the $POST data
@@ -36,16 +36,8 @@ get_header(); //Get the Header
                 $pquery = new WP_Query( $pargs ); //New query for Post Listing
  
                 if($pquery->have_posts()) { //If there are posts
-                    ?>
-                    <h2>Posts</h2> <!-- Post Heading -->
-                    <div class="row novel-search-result"> <!-- Post Row -->
-                        <?php
-                        while( $pquery->have_posts()) : $pquery->the_post(); //While there are posts
-                            get_template_part('template-parts/post/post-list'); //Get the Post List Template
-                        endwhile;
-                        ?>
-                    </div>
-                    <?php
+                    ?><h2>Posts</h2> <!-- Post Heading --> <?php
+                    post_list( $pquery, 'post-search-result'); //Post List
                 }
 
                 wp_reset_postdata(); //Reset the $POST data

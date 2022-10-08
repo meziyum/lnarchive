@@ -6,6 +6,7 @@ Single Novel Review Functionality
 Volumes Review Functionality
 Series Rating Functionality
 Volume Rating Functionality
+Author Box
 
 Single Volume UI
 
@@ -15,7 +16,6 @@ Single Volume formats Metabox
 Filter by clicking taxonomy name in admin menu fix
 Default Wallpaper for light novels
 
-Meta Tags
 Robot.txt Meta
 
 All Archives Filter Option

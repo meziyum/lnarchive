@@ -6,6 +6,7 @@
  */
 
 namespace lnarchive\inc; //Namespace Definition
+
 use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
 class lnarchive_theme{ //LNarchive Theme Class
@@ -19,6 +20,7 @@ class lnarchive_theme{ //LNarchive Theme Class
          menus::get_instance();
          sidebars::get_instance();
          admin_dashboard::get_instance();
+         custom_settings::get_instance();
          novel::get_instance();
          volume::get_instance();
          novel_tax::get_instance();

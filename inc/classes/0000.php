@@ -3,7 +3,7 @@
  * Template Class
  */
 
-namespace fusfan\inc; //Namespace
+namespace lnarchive\inc; //Namespace
 use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
 class template{ //Template Class

@@ -20,8 +20,8 @@ class custom_tax_meta_fields{ //Custom Taxonomies Meta Fields Class
       //Load Class
       $this->set_hooks(); //Loading the hooks
 
-      $this->meta_title_length=60; //Assign the values to the max meta-title length
-      $this->meta_desc_length=155; //Assign the values to the max meta-desc length
+      $this->meta_title_length=get_option('seo-title-length'); //Assign the values to the max meta-title length
+      $this->meta_desc_length=get_option('seo-desc-length'); //Assign the values to the max meta-desc length
     }
 
     protected function set_hooks() { //Hooks function

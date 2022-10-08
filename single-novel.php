@@ -71,10 +71,19 @@ $the_post_title = get_the_title();
                             <div class="novel-info col"> <!-- Novel Info Col --> 
                                 <h2>Description</h2><?php //Desc Title
                                 the_excerpt(); //Get the excerpt
-                                ?><h2>Genre</h2><?php //Genre Title
-                                taxonomy_button_list( get_the_terms($the_post_id, 'genre'), 'genre'); //List the Genre Taxonomy
-                                ?><h2>Tag</h2><?php //Tag Title
-                                taxonomy_button_list( get_the_terms($the_post_id, 'post_tag'), 'post-tag'); //List the Tag Taxonomy
+
+                                $genre_terms = get_the_terms($the_post_id, 'genre'); //Get the genres
+                                $tag_terms = get_the_terms($the_post_id, 'post_tag'); //Get the tags
+
+                                if( !empty( $genre_terms )) { //If there are genres assigned
+                                    ?><h2>Genre</h2><?php //Genre Title
+                                    taxonomy_button_list( $genre_terms , 'genre'); //List the Genre Taxonomy
+                                }
+
+                                if( !empty( $tag_terms )){
+                                    ?><h2>Tag</h2><?php //Tag Title
+                                    taxonomy_button_list( $tag_terms, 'post-tag'); //List the Tag Taxonomy
+                                }
                                 get_template_part('template-parts/edit-btn'); //Get the Edit Button Template
                                 ?>
                             </div>
@@ -124,6 +133,24 @@ $the_post_title = get_the_title();
                             </div>
                         <?php
                     }
+
+                    $related = ci_get_related_posts( get_the_ID(), 1 );
+
+                    if ( $related->have_posts() ):
+                        ?>
+                        <div class="related-posts">
+                            <h3>Related Novels</h3>
+                            <ul>
+                                <?php while ( $related->have_posts() ): $related->the_post(); ?>
+                                    <li>
+                                        <h4><?php the_title(); ?></h4>
+                                    </li>
+                                <?php endwhile; ?>
+                            </ul>
+                        </div>
+                        <?php
+                    endif;
+                    wp_reset_postdata();
 
                     wp_reset_postdata(); //Reset the $POST data
 

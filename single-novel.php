@@ -49,18 +49,24 @@ $the_post_title = get_the_title();
                                     $taxs = array('novel_status', 'language', 'publisher', 'writer', 'illustrator', 'translator');
 
                                     foreach( $taxs as $tax) { //Loop through all items
-
                                         $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
 
-                                        if( !empty($terms)) {
-                                            foreach( $terms as $key => $article_term) { //Loops through all article terms
+                                        if( !empty($terms)) { //If there are no terms
+                                        ?>
+                                        <tr>
+                                            <th><?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name)?> <th> <!-- Display the Name Label -->
+                                            <td>
+                                                <?php                   
+                                                    foreach( $terms as $key => $article_term) { //Loops through all article terms
+                                                        ?>
+                                                            <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
+                                                            <br> <!-- New Line for next entry -->
+                                                        <?php
+                                                    }                                              
                                                 ?>
-                                                    <tr>
-                                                        <th><?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name)?> <th> <!-- Display the Name Label -->
-                                                        <td><a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a></td>
-                                                    </tr>
-                                                <?php
-                                            }
+                                            </td>
+                                        </tr>
+                                        <?php
                                         }
                                     }
 
@@ -68,22 +74,41 @@ $the_post_title = get_the_title();
                                     </table>
                             </div>
 
-                            <div class="novel-info col"> <!-- Novel Info Col --> 
+                            <div class="novel-info col"> <!-- Novel Info Col -->
                                 <h2>Description</h2><?php //Desc Title
                                 the_excerpt(); //Get the excerpt
+
+                                $alt_names = get_post_meta( get_the_ID(), 'alternate_names_value', true ); //Get the Alt Name field
+                                $alt_names_array = explode( ",", $alt_names ); //Separate the multiple names using the comma
+                                ?>
+
+                                <h4>Alternate Names</h4> <!-- Title -->
+                                <p>
+                                    <?php
+                                        foreach( $alt_names_array as $alt) { //Loop through all the names
+                                            ?>
+                                                <?php echo $alt;//Print the name?>
+                                                <br> <!--Break the Line -->
+                                            <?php
+                                        }
+                                    ?>
+                                </p>
+                                <?php
+                                
 
                                 $genre_terms = get_the_terms($the_post_id, 'genre'); //Get the genres
                                 $tag_terms = get_the_terms($the_post_id, 'post_tag'); //Get the tags
 
                                 if( !empty( $genre_terms )) { //If there are genres assigned
-                                    ?><h2>Genre</h2><?php //Genre Title
+                                    ?><h3>Genre</h3><?php //Genre Title
                                     taxonomy_button_list( $genre_terms , 'genre'); //List the Genre Taxonomy
                                 }
 
                                 if( !empty( $tag_terms )){
-                                    ?><h2>Tag</h2><?php //Tag Title
+                                    ?><h3>Tag</h3><?php //Tag Title
                                     taxonomy_button_list( $tag_terms, 'post-tag'); //List the Tag Taxonomy
                                 }
+
                                 get_template_part('template-parts/edit-btn'); //Get the Edit Button Template
                                 ?>
                             </div>
@@ -177,7 +202,7 @@ $the_post_title = get_the_title();
                         <?php
                     }
 
-                    wp_reset_postdata(); //Reset the $POST data                   
+                    wp_reset_postdata(); //Reset the $POST data
             endwhile;
             }
         ?>

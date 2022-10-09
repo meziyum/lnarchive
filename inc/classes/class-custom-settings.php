@@ -94,6 +94,33 @@ class custom_settings{ //Custom Settings Class
             $page_slug, //Page Slug
             'seo_general', //ID of the section the setting is in
         );
+
+        add_settings_field( //Setting for taxonomies which will have the SEO meta and desc
+            'seo-taxonomies', //ID
+            'Taxonomies', //Title
+            [$this, 'seo_taxonomies'], //Callback function to display
+            $page_slug, //Page Slug
+            'seo_general', //ID of the section the setting is in
+        );
+    }
+
+    function seo_taxonomies(){
+
+        $args = array(
+            'public'   => true,
+            '_builtin' => false    
+        ); 
+
+        $taxonomies = get_taxonomies( $args );
+
+        foreach( $taxonomies as $tax ) {
+            ?>
+                
+                <input type="checkbox" id="seo_taxonomies[<?php echo $tax?>]" name="seo_taxonomies[<?php echo $tax?>]" value="<?php echo $tax?>" <?php checked(1, get_option('seo-taxonomies['.$tax.']'), true); ?>>
+                <label for="seo_taxonomies[<?php echo $tax?>]"><?php echo get_taxonomy($tax)->labels->name; ?></label><br>
+                
+            <?php
+        }
     }
 
     function seo_title_settings_callback() { //Function to display SEO Title Length Setting

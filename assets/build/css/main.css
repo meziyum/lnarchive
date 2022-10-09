@@ -247,6 +247,9 @@ h6 {
   .header-nav .nav-link:hover, .header-nav .nav-link:active {
     color: #387ef2 !important; }
 
+.header-nav .main-search {
+  width: 100%; }
+
 .footer-nav {
   background-color: #1d2327;
   cursor: default; }

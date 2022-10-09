@@ -563,6 +563,31 @@ class novel_tax{ //Novel Taxonomy Class
                 }
             }
         }
+
+        $args = array( //Taxonomy Var args
+            'public'   => true,
+            '_builtin' => false
+        ); 
+
+        $taxonomies = get_taxonomies( $args, 'objects'); //Get all public taxonomies using args
+
+        foreach( $taxonomies as $tax ) { //Loop through all the public taxonomies
+        
+            $tax_name = $tax->name; //Get the taxonomy name
+            $terms = get_the_terms( $post_id, $tax_name); //Get all the terms of the taxonomy present in the post
+            
+            if( !empty($terms) && count($terms)>1){ //If there are more than one value and its not empty(to deal with new post_type case)
+                foreach( $terms as $term) { //Loop through all the terms
+
+                    $term_name = $term->name; //Get the term name
+
+                    if( $term_name == $tax->default_term['name']){ //If the default term of the taxonomy is the current term
+                        wp_remove_object_terms($post_id, $term_name, $tax_name); //Remove the term
+                    }
+                }
+            }
+        }
+                    
     }
 }//End of Class
 ?>

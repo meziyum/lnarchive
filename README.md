@@ -29,11 +29,7 @@ Add Pagination to Novel's post listing
 
 Msg for when no search results are found
 Show profile menu on hover
-Fix search bar size in the header
-Add Alternate Names display
 
-Taxonmies Archive default to values
-
-
-
-Auto Remove default terms for custom taxonomies and category
+Novel Info taxonoy display settings
+SEO Title and Desc Taxonomy Settings
+SEO Title and Desc Post Settings

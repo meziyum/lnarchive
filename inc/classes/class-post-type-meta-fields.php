@@ -85,7 +85,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         ?>
         <div class="alternate-names-div"> <!--Alternate Names Div -->
           <textarea name="alternate_names_meta" id="alternate_names_meta" rows="4" cols="35"><?php echo esc_html($alternate_names)?></textarea>
-          <p>Alternate names for the Novel. Enter one name per line.</p>
+          <p>Alternate names for the Novel. Separate multiple values by comma.</p>
         </div>
         <?php
     }

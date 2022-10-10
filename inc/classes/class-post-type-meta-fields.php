@@ -38,6 +38,9 @@ class post_type_meta_fields { //Post Type Meta Fields
         add_action( 'save_post', [$this,'save_published_date'] );
         add_action( 'save_post', [$this,'save_series'] );
         add_action( 'save_post', [$this,'save_alternate_names'] );
+        add_action( 'save_post', [$this,'save_isbn_hard'] );
+        add_action( 'save_post', [$this,'save_isbn_digital'] );
+        add_action( 'save_post', [$this,'save_isbn_audio'] );
     }
 
     function novel_metaboxes_add() { //Function to add metaboxes to the Novel and Volume postype
@@ -74,6 +77,167 @@ class post_type_meta_fields { //Post Type Meta Fields
             'default', //Priority
             null, //Args
         );
+
+        //ISBN for the Digital Novels
+        add_meta_box(
+            'isbn_digital', //The ID
+            'ISBN-13(Digital)', //The Heading
+            [ $this, 'isbn_digital_callback'], //The visual callback
+            ['volume'], //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+
+        //ISBN for the Digital Novels
+        add_meta_box(
+            'isbn_hard', //The ID
+            'ISBN-13(Paperback/Hardcover)', //The Heading
+            [ $this, 'isbn_hard_callback'], //The visual callback
+            ['volume'], //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+
+        //ISBN for the Digital Novels
+        add_meta_box(
+            'isbn_digital', //The ID
+            'ISBN-13(Digital)', //The Heading
+            [ $this, 'isbn_digital_callback'], //The visual callback
+            ['volume'], //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+
+        //ISBN for the Audiobook Novels
+        add_meta_box(
+            'isbn_audio', //The ID
+            'ISBN-13(Audio)', //The Heading
+            [ $this, 'isbn_audio_callback'], //The visual callback
+            ['volume'], //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+    }
+
+    function isbn_hard_callback( $post) { //Function to display the ISBN 13 for the softcover/hardcover format
+
+        // Nonce Register
+        wp_nonce_field( 'isbn_hard_nonce_action', 'isbn_hard_nonce');
+
+        $isbn_hard = get_post_meta( $post->ID, 'isbn_hard_value', true ); //Get the ISBN value
+
+        ?>
+        <div class="isbn-hard-div"> <!--ISBN Softcover/Hardcover Div -->
+            <input type="text" name="isbn-hard" id="isbn-hard" value="<?php echo esc_html($isbn_hard)?>">
+            <p>The ISBN-13 for the Softcover/Hardcover of the novel.</p>
+        </div>
+        <?php
+    }
+
+    function save_isbn_hard( $post_id ) { //Function to update the ISBN 13 for the softcover/hardcover format
+        
+        // Nonce Verification
+        if ( ! isset( $_POST['isbn_hard_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_hard_nonce'], 'isbn_hard_nonce_action')) {
+            return;
+        }
+        
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        update_post_meta(
+            $post_id, //The post id
+            'isbn_hard_value', //Key
+            sanitize_text_field($_POST['isbn-hard']) //Value of the Meta
+         );
+    }
+
+    function isbn_digital_callback( $post) { //Function to display the ISBN 13 for the digital format
+
+        // Nonce Register
+        wp_nonce_field( 'isbn_digital_nonce_action', 'isbn_digital_nonce');
+
+        $isbn_digital = get_post_meta( $post->ID, 'isbn_digital_value', true ); //Get the ISBN value
+
+        ?>
+        <div class="isbn-digital-div"> <!--ISBN Digital Div -->
+            <input type="text" name="isbn-digital" id="isbn-digital" value="<?php echo esc_html($isbn_digital)?>">
+            <p>The ISBN-13 for the Digital format of the novel.</p>
+        </div>
+        <?php
+    }
+
+    function save_isbn_digital( $post_id ) { //Function to update the ISBN 13 for digital format
+        
+        // Nonce Verification
+        if ( ! isset( $_POST['isbn_digital_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_digital_nonce'], 'isbn_digital_nonce_action')) {
+            return;
+        }
+        
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        update_post_meta(
+            $post_id, //The post id
+            'isbn_digital_value', //Key
+            sanitize_text_field($_POST['isbn-digital']) //Value of the Meta
+         );
+    }
+
+    function isbn_audio_callback( $post) { //Function to display the ISBN 13 for the audio format
+
+        // Nonce Register
+        wp_nonce_field( 'isbn_audio_nonce_action', 'isbn_audio_nonce');
+
+        $isbn_audio = get_post_meta( $post->ID, 'isbn_audio_value', true ); //Get the ISBN value
+
+        ?>
+        <div class="isbn-audio-div"> <!--ISBN Audiobook Div -->
+            <input type="text" name="isbn-audio" id="isbn-audio" value="<?php echo esc_html($isbn_audio)?>">
+            <p>The ISBN-13 for the Audiobook format of the novel.</p>
+        </div>
+        <?php
+    }
+
+    function save_isbn_audio( $post_id ) { //Function to update the ISBN 13 for audio format
+        
+        // Nonce Verification
+        if ( ! isset( $_POST['isbn_audio_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_audio_nonce'], 'isbn_audio_nonce_action')) {
+            return;
+        }
+        
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        update_post_meta(
+            $post_id, //The post id
+            'isbn_audio_value', //Key
+            sanitize_text_field($_POST['isbn-audio']) //Value of the Meta
+         );
     }
 
     function alternate_names_metabox_callback ( $post ) { //Visual callback function for Alternate names Metabox

@@ -46,7 +46,7 @@ $the_post_title = get_the_title();
                                     <?php
 
                                     //List of all Iterms to display
-                                    $taxs = array('novel_status', 'language', 'publisher', 'writer', 'illustrator', 'translator');
+                                    $taxs = array('novel_status', 'language', 'publisher', 'format','writer', 'illustrator', 'translator');
 
                                     foreach( $taxs as $tax) { //Loop through all items
                                         $terms = get_the_terms($the_post_id, $tax); //Get all the Terms

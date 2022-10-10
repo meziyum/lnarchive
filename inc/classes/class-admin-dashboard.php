@@ -26,8 +26,17 @@ class admin_dashboard{ //Admin Dashboard Template
         add_action('admin_init', [$this,'remove_dashboard_meta']);
         add_filter( 'get_user_option_admin_color', [$this,'update_user_option_admin_color']);
         add_filter( 'admin_head-profile.php', [$this,'remove_color_scheme']);
-        add_action( 'admin_enqueue_scripts', [$this,'load_admin_style']);
+        add_action( 'admin_enqueue_scripts', [$this,'load_admin_assets']);
         add_action('admin_init', [$this,'dashboard_theme_admin_color_scheme']);
+    }
+
+    function load_admin_assets() { //Load Admin Assets
+
+        wp_register_style( 'admin_css', LNARCHIVE_DIR_URI . '/admin-style.css', false, filemtime(LNARCHIVE_DIR_PATH . '/admin-style.css'), 'all' ); //Register the Style
+        wp_enqueue_style( 'admin_css'); //Enqueue the Style
+
+        wp_register_script( 'admin_js', LNARCHIVE_BUILD_JS_URI . '/admin.js', ['jquery'], filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/admin.js'), true ); //Admin Javascript File
+        wp_enqueue_script( 'admin_js' ); //Enqueue the Script
     }
 
     function remove_dashboard_meta() { //Function to remove dashboard functionalities on admin-init
@@ -46,12 +55,6 @@ class admin_dashboard{ //Admin Dashboard Template
         return $color_scheme; //Return the default color scheme
     }
 
-    function load_admin_style() { //Load Admin Stylesheet
-
-        wp_register_style( 'admin_css', LNARCHIVE_DIR_URI . '/admin-style.css', false, '1.0.0', 'all' ); //Register the Style
-        wp_enqueue_style( 'admin_css'); //Enqueue the Style
-    }
- 
     function remove_color_scheme() { //Function to remove the color scheme picker feature
         remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' ); //Remvoe Color Scheme picker
     }

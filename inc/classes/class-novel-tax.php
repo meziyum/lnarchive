@@ -367,7 +367,6 @@ class novel_tax{ //Novel Taxonomy Class
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
             'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
-            'description' => 'The current status of the light novel series',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'The current publishing status of the series.',
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -400,6 +399,79 @@ class novel_tax{ //Novel Taxonomy Class
             '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
 
         ));//End of Status Taxonomy
+
+        //Register Formats Taxonomy
+        register_taxonomy('format', ['novel'], array(
+            
+            //All Format Labels
+            'labels' => array(
+                'name' => 'Format', //General Name
+                'singular_name' => 'Format', //Singular Taxonomy Name
+                'search_items' =>  'Search Formats', //Search
+                'popular_items' => 'Popular Formats', //Popular
+                'all_items' => 'All Formats', //List of all
+                'name_field_description' => 'Name of the Format', //Desc for name field on edit screen
+                'slug_field_description' => 'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', //Desc for the slug field
+                'desc_field_description' => 'Information about the format', //Desc of the Description field
+                'edit_item' => 'Edit Format', //Edit
+                'view_item' => 'View Format', //View
+                'update_item' => 'Update Format', //Update
+                'add_new_item' => 'Add New Format', //Add New
+                'new_item_name' => 'New Format Name', //New Item Name
+                'separate_items_with_commas' => '', //Msg to separate non hierachy taxonomies
+                'add_or_remove_items' => 'Add or remove format', //Add/Remove Metabox
+                'choose_from_most_used' => '', //Choose from most used msg
+                'not_found' => 'No format found', //Not Found Msg
+                'no_terms' => 'No formats', //Post and Media tables
+                'most_used' => '', //Most Used Msg
+                'back_to_items' => 'Back to Formats', //Back to List
+                'item_link' => 'Format Link', //Taxonomy Link in Block Editor
+                'item_link_description' => 'A link to the format', //Desc for taxonomy Link in Block Editor
+                'menu_name' => 'Format', //Name in Menu
+            ),
+
+            'public' => true, //Public Use
+            'publicly_queryable' => true, //If its for front end
+            'show_ui' => true, //Show Default UI
+            'show_in_menu' => true, //Show in Admin Menu
+            'show_in_nav_menus' => true, //If it can be added to Nav Menus
+            'show_in_rest' => true, //Show in Guttenburg or REST API to be more specific
+            'rest_base' => 'format', //Base URL
+            'show_tagcloud' => false, //Tag Cloud Widget
+            'show_in_quick_edit' => false, //Quick Edit
+            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'description' => 'The formats in which the novels are published in',
+            'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
+            'update_count_callback' => '', //Callback for when the taxonomy count is updated
+            'query_var' => 'format', //Query name for the wp_query
+            'hierarchical' => false, //Hierarchy
+
+            //Default Format Term
+            'default_term' => array(
+                'name' => 'No Format', //Name
+                'slug' => 'no-format', //Slug
+                'description' => 'Default term when no formats are assigned.' //Desc
+            ),
+
+            //Modify the Taxonomy Slug
+            'rewrite' => array(
+                'slug' => 'format',
+                'with_front' => false, //Hide the base slug
+                'hierarchical' => false, //If to display hierarchy in the url
+            ),
+
+            //Capabilities
+            'capabilities' => array(
+                'manage_terms' => 'manage_categories',
+                'edit_terms' => 'manage_categories',
+                'delete_terms' => 'manage_categories',
+                'assign_terms' => 'manage_categories',
+            ),
+
+            'sort' => false, //Whether this taxonomy should remember the order in which terms are added to objects
+            '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
+
+        ));//End of Format Taxonomy
 
         //Register Translator Taxonomy
         register_taxonomy('translator', ['novel', 'volume'], array(

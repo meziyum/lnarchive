@@ -33,7 +33,3 @@ Show profile menu on hover
 Novel Info taxonoy display settings
 SEO Title and Desc Taxonomy Settings
 SEO Title and Desc Post Settings
-
-
-Removal
-* Removed Translator Taxonomy for the Volume Post Types

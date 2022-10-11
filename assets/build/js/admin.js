@@ -102,6 +102,18 @@ jQuery(document).ready(function () {
       }
     });
   }
+
+  jQuery.ajax({
+    type: "GET",
+    url: "http://localhost/wordpress//wp-json/wp/v2/format/?_fields=name",
+    success: function success(data) {
+      console.log(data);
+    },
+    error: function error() {
+      console.log("2");
+    },
+    dataType: "json"
+  });
 });
 }();
 /******/ })()

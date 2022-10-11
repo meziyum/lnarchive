@@ -62,7 +62,7 @@ $the_post_title = get_the_title();
                                                             <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
                                                             <br> <!-- New Line for next entry -->
                                                         <?php
-                                                    }                                              
+                                                    }                         
                                                 ?>
                                             </td>
                                         </tr>

@@ -39,4 +39,16 @@ jQuery(document).ready(function() { //If the document is ready. Prevent executio
             }
         });
     }
+
+    jQuery.ajax({
+        type:"GET",
+        url: "http://localhost/wordpress//wp-json/wp/v2/format/?_fields=name",
+        success: function(data) {
+                console.log(data);
+            }, 
+        error: function() {
+                console.log("2");
+            },
+        dataType: "json"
+    });
 });

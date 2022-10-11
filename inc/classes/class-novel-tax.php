@@ -474,7 +474,7 @@ class novel_tax{ //Novel Taxonomy Class
         ));//End of Format Taxonomy
 
         //Register Translator Taxonomy
-        register_taxonomy('translator', ['novel', 'volume'], array(
+        register_taxonomy('translator', ['novel'], array(
             
             //All Translator Labels
             'labels' => array(

@@ -6,8 +6,11 @@
 */
 get_header(); //Get the Header function
 
-$the_post_id = get_the_ID();
-$the_post_title = get_the_title();
+$the_post = get_post();
+$the_post_id = get_the_ID(); //Get the Post ID
+$the_post_title = get_the_title(); //Get the Title
+$the_post_type = get_post_type( $the_post_id ); //Get the Post Type
+$max_posts = get_option('posts_per_page'); //Get the max posts value
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
@@ -62,7 +65,7 @@ $the_post_title = get_the_title();
                                                             <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
                                                             <br> <!-- New Line for next entry -->
                                                         <?php
-                                                    }                         
+                                                    }                     
                                                 ?>
                                             </td>
                                         </tr>
@@ -118,8 +121,7 @@ $the_post_title = get_the_title();
 
                     $vol_args = array(  //Arguments for the Loop
                         'post_type' => 'volume', //Post Type
-                        'post_status' => 'publish', //Status of the Post
-                        'posts_per_page' => get_option('posts_per_page'), //Posts on one page
+                        'posts_per_page' => $max_posts, //Posts on one page
                         'orderby' => 'date', //Order by date
                         'order' => 'ASC', //ASC or DEC
                         'meta_key' => 'series_value', //Meta Key
@@ -137,18 +139,39 @@ $the_post_title = get_the_title();
                         <?php
                     }
 
-                    wp_reset_postdata(); //Reset the $POST data           
+                    wp_reset_postdata(); //Reset the $POST data
 
                     $child_args = array(  //Arguments for the Loop
-                        'post_type' => 'novel', //Post Type
-                        'post_status' => 'publish', //Status of the Post
-                        'posts_per_page' => get_option('posts_per_page'), //Posts on one page
-                        'orderby' => 'date', //Order by date
-                        'order' => 'ASC', //ASC or DEC
-                        'post_parent' => $the_post_id, //Parent Novel ID
+                        'post_type' => $the_post_type, //Post Types
+                        'posts_per_page' => -1, //Posts on one page
+                        'post__not_in'   => array( $the_post_id ), //Exclude the current post
+                        'fields' => 'ids',
                     );
 
-                    $cquery = new WP_Query($child_args); //Children List Query
+                    if( wp_get_post_parent_id( $the_post_id ) != 0 ) {
+                        $child_args['post_parent'] = $the_post->post_parent;
+                    }
+                    else {
+                        $child_args['post_parent'] = $the_post_id;
+                    }
+
+                    $test = get_posts( $child_args );
+
+                    if(wp_get_post_parent_id( $the_post_id ) != 0){
+                    array_push( $test, wp_get_post_parent_id( $the_post_id) );
+                    }
+
+                    print_r($test);
+
+                    $test2 = array(
+                        'post_type' => $the_post_type, //Post Types
+                        'posts_per_page' => -1, //Posts on one page
+                        'orderby' => 'rand', //Order by date
+                        'post__not_in'   => array( $the_post_id ), //Exclude the current post
+                        'post__in' => $test,
+                    );
+
+                    $cquery = new WP_Query($test2); //Children List Query
 
                     if($cquery->have_posts()) { //If there are any children
                         ?>
@@ -159,32 +182,38 @@ $the_post_title = get_the_title();
                         <?php
                     }
 
-                    $related = ci_get_related_posts( get_the_ID(), 1 );
+                    wp_reset_postdata(); //Reset the $POST data
 
-                    if ( $related->have_posts() ):
+                    $rtags = array(); //Initialize an empty array to store all the term ids of the tags
+
+                    foreach( $tag_terms as $tag ){ //Loop through all the post tags
+                        array_push( $rtags, $tag->term_id ); //Push the tag into the array
+                    }
+
+                    $related_args = array(  //Arguments for the Loop
+                        'post_type' => $the_post_type, //Post Type
+                        'posts_per_page' => $max_posts, //Posts on one page
+                        'orderby' => 'rand', //Order by date
+                        'tag__in' => $rtags, //Tag
+                        'post__not_in'   => array_merge( $child_args ,array($the_post_id) ), //Exclude the post itself
+                    );
+
+                    $rquery = new WP_Query($related_args); //Related Posts Query
+
+                    if($rquery->have_posts()) { //If there are any related posts
                         ?>
-                        <div class="related-posts">
-                            <h3>Related Novels</h3>
-                            <ul>
-                                <?php while ( $related->have_posts() ): $related->the_post(); ?>
-                                    <li>
-                                        <h4><?php the_title(); ?></h4>
-                                    </li>
-                                <?php endwhile; ?>
-                            </ul>
-                        </div>
+                            <div class="related-section">
+                                <h2>Related Novels</h2> <!-- Related Section Heading -->
+                                <?php novel_list( $rquery, 'child' ); //Print Novel List?>
+                            </div>
                         <?php
-                    endif;
-                    wp_reset_postdata();
+                    }
 
                     wp_reset_postdata(); //Reset the $POST data
 
                     $args = array(  //Arguments for the Loop
                         'post_type' => 'post', //Post Type
-                        'post_status' => 'publish', //Status of the Post
-                        'posts_per_page' => get_option('posts_per_page'), //Posts on one page
-                        'orderby' => 'date', //Order by date
-                        'order' => 'DEC', //ASC or DEC
+                        'posts_per_page' => $max_posts, //Posts on one page
                         'meta_key' => 'series_value', //Meta Key
                         'meta_value' => $the_post_id, //Meta value
                     );

@@ -413,6 +413,24 @@ h6 {
         flex-wrap: wrap;
         overflow: auto; } }
 
+.related-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 16px; }
+  .related-section h2 {
+    margin: 8px; }
+  .related-section .child-list {
+    margin: 0px; }
+    @media (min-width: 0px) {
+      .related-section .child-list {
+        flex-wrap: nowrap;
+        overflow-x: auto; } }
+    @media (min-width: 768px) {
+      .related-section .child-list {
+        flex-wrap: wrap;
+        overflow: auto; } }
+
 /* Entry meta */
 .updated:not(.published) {
   display: none; }

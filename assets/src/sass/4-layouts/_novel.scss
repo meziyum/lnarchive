@@ -120,3 +120,28 @@
     }
 }
 
+.related-section {
+    background: $white-text;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 16px;
+
+    h2{
+        margin: 8px;
+    }
+
+    .child-list {
+        margin: 0px;
+
+        @include respond-to( x-small ){
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        @include respond-to( medium ) {
+            flex-wrap: wrap;
+            overflow: auto;
+        }
+    }
+}
+

@@ -81,7 +81,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                                 <h2>Description</h2><?php //Desc Title
                                 the_excerpt(); //Get the excerpt
 
-                                $alt_names = get_post_meta( get_the_ID(), 'alternate_names_value', true ); //Get the Alt Name field
+                                $alt_names = get_post_meta( $the_post_id, 'alternate_names_value', true ); //Get the Alt Name field
                                 $alt_names_array = explode( ",", $alt_names ); //Separate the multiple names using the comma
                                 ?>
 
@@ -141,43 +141,23 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 
                     wp_reset_postdata(); //Reset the $POST data
 
-                    $child_args = array(  //Arguments for the Loop
-                        'post_type' => $the_post_type, //Post Types
-                        'posts_per_page' => -1, //Posts on one page
-                        'post__not_in'   => array( $the_post_id ), //Exclude the current post
-                        'fields' => 'ids',
-                    );
+                    $universe_novels = array_merge( get_post_siblings( $the_post_id ), get_post_ancestors( $the_post_id ), get_post_children( $the_post_id ) ); //Get the novels in the same Universe
 
-                    if( wp_get_post_parent_id( $the_post_id ) != 0 ) {
-                        $child_args['post_parent'] = $the_post->post_parent;
-                    }
-                    else {
-                        $child_args['post_parent'] = $the_post_id;
-                    }
-
-                    $test = get_posts( $child_args );
-
-                    if(wp_get_post_parent_id( $the_post_id ) != 0){
-                    array_push( $test, wp_get_post_parent_id( $the_post_id) );
-                    }
-
-                    print_r($test);
-
-                    $test2 = array(
+                    $uquery_args = array( //Arguments for the Loop
                         'post_type' => $the_post_type, //Post Types
                         'posts_per_page' => -1, //Posts on one page
                         'orderby' => 'rand', //Order by date
                         'post__not_in'   => array( $the_post_id ), //Exclude the current post
-                        'post__in' => $test,
+                        'post__in' => $universe_novels, //The queried posts should be present in the Universe Novels List
                     );
 
-                    $cquery = new WP_Query($test2); //Children List Query
+                    $uquery = new WP_Query( $uquery_args ); //Children List Query
 
-                    if($cquery->have_posts()) { //If there are any children
+                    if($uquery->have_posts()) { //If there are any children
                         ?>
                             <div class="child-section">
                                 <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
-                                <?php novel_list( $cquery, 'child' ); //Print Novel List?>
+                                <?php novel_list( $uquery, 'child' ); //Print Novel List?>
                             </div>
                         <?php
                     }
@@ -195,7 +175,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                         'posts_per_page' => $max_posts, //Posts on one page
                         'orderby' => 'rand', //Order by date
                         'tag__in' => $rtags, //Tag
-                        'post__not_in'   => array_merge( $child_args ,array($the_post_id) ), //Exclude the post itself
+                        'post__not_in'   => array_merge( $universe_novels ,array($the_post_id) ), //Exclude the post itself
                     );
 
                     $rquery = new WP_Query($related_args); //Related Posts Query

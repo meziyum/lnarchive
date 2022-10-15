@@ -1,11 +1,10 @@
 <?php
 /**
- * 
- * Post Type Helper Functions
- * 
- * @package LNarchive
- * 
- */
+* 
+* Post Type Helper Functions
+* 
+* @package LNarchive
+*/
 
 function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes ) { //Function to get the post thumbnail for listing
 
@@ -144,4 +143,60 @@ function post_list( $loop , $label) { //Function to display Posts List
             ?>
         </div>
     <?php
+}
+
+/**
+ * Retrieves the IDs of the children of the post
+ *
+ * @param int $post_id          Optional. The ID of the object.
+ * 
+ * @return WP_Post[]|int[]      Array of siblings post IDs.
+ */
+function get_post_children( $post_id) {
+
+    if( null === $post_id) {
+        $post_id=get_the_ID();
+    }
+
+    if( empty( get_children() ) ){
+        return array();
+    }
+    
+    $args = array(
+        'post_type' => get_post_type( $post_id ),
+        'posts_per_page' => -1,
+        'post__not_in'   => array( $post_id ),
+        'fields' => 'ids',
+        'post_parent' => $post_id,
+    );
+
+    return get_posts( $args ); //Return the posts
+}
+
+/**
+ * Retrieves the IDs of the siblings of the post
+ *
+ * @param int $post_id          Optional. The ID of the object.
+ * 
+ * @return WP_Post[]|int[]      Array of sibling post IDs.
+ */
+function get_post_siblings( $post_id) {
+
+    if( null === $post_id) {
+        $post_id=get_the_ID();
+    }
+
+    if( wp_get_post_parent_id( $post_id ) == 0 ){
+        return array();
+    }
+    
+    $args = array(
+        'post_type' => get_post_type( $post_id ),
+        'posts_per_page' => -1,
+        'post__not_in'   => array( $post_id ),
+        'fields' => 'ids',
+        'post_parent' => wp_get_post_parent_id( $post_id ),
+    );
+
+    return get_posts( $args );
 }

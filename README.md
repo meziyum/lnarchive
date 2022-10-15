@@ -1,6 +1,5 @@
 # Wordpress Theme - LNarchive
 
-Related Novels Functionality in Single Novel
 Post Comment Functionality
 Single Novel Review Functionality
 Volumes Review Functionality
@@ -33,3 +32,5 @@ Show profile menu on hover
 Novel Info taxonoy display settings
 SEO Title and Desc Taxonomy Settings
 SEO Title and Desc Post Settings
+
+Better Related Posts Algo for Single Posts

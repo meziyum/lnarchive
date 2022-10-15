@@ -5,6 +5,14 @@
  * @package LNarchive
  */
 get_header(); //Get the Header function
+
+$the_post_id = get_the_ID(); //Get the ID
+$series = get_post_meta( $the_post_id, 'series_value', true ); //Get the Series
+$the_post_title = get_the_title(); //Get the Title
+$the_post_type = get_post_type( $the_post_id ); //Get the Post Type
+$prev_post = get_previous_post(); //Get the Prev Post
+$next_post = get_next_post(); //Get the Next Post
+$max_posts = get_option('posts_per_page'); //Get the max posts value
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
@@ -14,13 +22,10 @@ get_header(); //Get the Header function
             if( have_posts() ) { //If there are posts
                 while( have_posts(  )) : the_post(); //Loop through the post
                 
-                    $the_post_id = get_the_ID(); //Get the ID
-                    $series = get_post_meta( $the_post_id, 'series_value', true ); //Get the Series
-
                     //Title
                     printf(
                         '<h1 class="page-title">%1$s</h1>', //HTML
-                        wp_kses_post( get_the_title()), //Get the Title
+                        wp_kses_post( $the_post_title), //Get the Title
                     );
                     ?>
                     <div>
@@ -47,9 +52,6 @@ get_header(); //Get the Header function
                     <div class="post-footer border-top border-5 border-secondary"> <!--Post Footer -->
                     <?php
 
-                        $prev_post = get_previous_post(); //Get the Prev Post
-                        $next_post = get_next_post(); //Get the Next Post
-
                         if( !empty($prev_post)) { //If there is a previous post
                         ?>
                             <button onclick="location.href='<?php echo esc_url(get_permalink($prev_post->ID));?>'" type="button" class="prev-post"> <!-- Prev Post Button -->
@@ -69,6 +71,33 @@ get_header(); //Get the Header function
                     </div>
                     <?php
                     get_template_part('template-parts/edit-btn'); //Get the Edit Button
+
+                    $related_args = array(  //Arguments for the Loop
+                        'post_type' => $the_post_type, //Post Type
+                        'posts_per_page' => $max_posts, //Posts on one page
+                        'orderby' => 'rand', //Order by date
+                        'post__not_in'   => array($the_post_id), //Exclude the post itself
+                        'meta_key'   => 'series_value', //Meta Key
+                        'meta_value' => $series, //Meta Value
+                        'date_query' => array( //Last 1 Month posts
+                            array(
+                              'after'   => '-1 month',
+                            ),
+                        ),          
+                    );
+
+                    $rquery = new WP_Query($related_args); //Related Posts Query
+
+                    if($rquery->have_posts()) { //If there are any related posts
+                        ?>
+                            <div class="related-section">
+                                <h2>You might also like: </h2> <!-- Related Section Heading -->
+                                <?php post_list( $rquery, 'child' ); //Print Post List?>
+                            </div>
+                        <?php
+                    }
+
+                    wp_reset_postdata(); //Reset the $POST data
                 endwhile;
             }
             ?>

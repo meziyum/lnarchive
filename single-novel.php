@@ -41,9 +41,6 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                                             ]
                                         );
                                     }
-                                    else {
-                                        //Default Wallpaper for light novels
-                                    }
                                     ?>
                                     <table class="novel-info-table">
                                     <?php
@@ -143,26 +140,28 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 
                     $universe_novels = array_merge( get_post_siblings( $the_post_id ), get_post_ancestors( $the_post_id ), get_post_children( $the_post_id ) ); //Get the novels in the same Universe
 
-                    $uquery_args = array( //Arguments for the Loop
-                        'post_type' => $the_post_type, //Post Types
-                        'posts_per_page' => -1, //Posts on one page
-                        'orderby' => 'rand', //Order by date
-                        'post__not_in'   => array( $the_post_id ), //Exclude the current post
-                        'post__in' => $universe_novels, //The queried posts should be present in the Universe Novels List
-                    );
+                    if( !empty($universe_novels) ) {
+                        $uquery_args = array( //Arguments for the Loop
+                            'post_type' => $the_post_type, //Post Types
+                            'posts_per_page' => -1, //Posts on one page
+                            'orderby' => 'rand', //Order by date
+                            'post__not_in'   => array( $the_post_id ), //Exclude the current post
+                            'post__in' => $universe_novels, //The queried posts should be present in the Universe Novels List
+                        );
 
-                    $uquery = new WP_Query( $uquery_args ); //Children List Query
+                        $uquery = new WP_Query( $uquery_args ); //Children List Query
 
-                    if($uquery->have_posts()) { //If there are any children
-                        ?>
-                            <div class="child-section">
-                                <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
-                                <?php novel_list( $uquery, 'child' ); //Print Novel List?>
-                            </div>
-                        <?php
+                        if($uquery->have_posts()) { //If there are any children
+                            ?>
+                                <div class="child-section">
+                                    <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
+                                    <?php novel_list( $uquery, 'child' ); //Print Novel List?>
+                                </div>
+                            <?php
+                        }
+
+                        wp_reset_postdata(); //Reset the $POST data
                     }
-
-                    wp_reset_postdata(); //Reset the $POST data
 
                     $rtags = array(); //Initialize an empty array to store all the term ids of the tags
 

@@ -81,8 +81,8 @@ class novel_tax{ //Novel Taxonomy Class
 
             //Default Publisher Term
             'default_term' => array(
-                'name' => 'No Publisher', //Name
-                'slug' => 'no_publisher', //Slug
+                'name' => 'Unknown', //Name
+                'slug' => 'unknown', //Slug
                 'description' => 'Default term for when no publisher is assigned.' //Desc
             ),
 
@@ -155,8 +155,8 @@ class novel_tax{ //Novel Taxonomy Class
 
             //Default Writer Term
             'default_term' => array(
-                'name' => 'No Author', //Name
-                'slug' => 'no_writer', //Slug
+                'name' => 'Unknown', //Name
+                'slug' => 'Unknown', //Slug
                 'description' => 'Default term for when no author is assigned.' //Desc
             ),
 
@@ -229,8 +229,8 @@ class novel_tax{ //Novel Taxonomy Class
 
             //Default Illustrator Term
             'default_term' => array(
-                'name' => 'No Illustrator', //Name
-                'slug' => 'no_illustrator', //Slug
+                'name' => 'Unknown', //Name
+                'slug' => 'unknown', //Slug
                 'description' => 'Default term for when no illustrator is assigned' //Desc
             ),
 
@@ -448,8 +448,8 @@ class novel_tax{ //Novel Taxonomy Class
 
             //Default Format Term
             'default_term' => array(
-                'name' => 'No Format', //Name
-                'slug' => 'no-format', //Slug
+                'name' => 'None', //Name
+                'slug' => 'none', //Slug
                 'description' => 'Default term when no formats are assigned.' //Desc
             ),
 
@@ -522,8 +522,8 @@ class novel_tax{ //Novel Taxonomy Class
 
             //Default Translator Term
             'default_term' => array(
-                'name' => 'No Translator', //Name
-                'slug' => 'no_translator', //Slug
+                'name' => 'Unknown', //Name
+                'slug' => 'unknown', //Slug
                 'description' => 'Default term for when no translator is assigned.' //Desc
             ),
 
@@ -595,8 +595,8 @@ class novel_tax{ //Novel Taxonomy Class
 
             //Default Genre Term
             'default_term' => array(
-                'name' => 'No Genre', //Name
-                'slug' => 'no_genre', //Slug
+                'name' => 'None', //Name
+                'slug' => 'none', //Slug
                 'description' => 'Default term for when no genre is assigned.' //Desc
             ),
 
@@ -623,15 +623,16 @@ class novel_tax{ //Novel Taxonomy Class
 
     public function save_post_function($post_id) { //Default Tag
 
+        $default_tag = "None";
         $tags = get_the_tags(); //Get the tags of the post
         
         if(empty($tags)) //If there are no tags already assigned
-            wp_set_post_tags( $post_id, 'No Tag', true ); //Assign the default tag
+            wp_set_post_tags( $post_id, $default_tag, true ); //Assign the default tag
         else if( count($tags)>1){ //If there are tags assigned
             foreach ($tags as $tag) { //Loop through all the tag terms
                 //if category is the default, then remove it
-                if ($tag->name == "No Tag") { //IF there is NO Tag with other tags
-                    wp_remove_object_terms($post_id, 'No Tag', 'post_tag'); //Remove the Default Tag
+                if ($tag->name == $default_tag) { //IF there is NO Tag with other tags
+                    wp_remove_object_terms($post_id, $default_tag, 'post_tag'); //Remove the Default Tag
                 }
             }
         }

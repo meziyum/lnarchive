@@ -6,6 +6,7 @@
 */
 get_header(); //Get the Header function
 
+$the_post_id = get_the_ID(); //Get the Post ID
 $the_post_title = get_the_title();
 ?>
 
@@ -24,7 +25,30 @@ $the_post_title = get_the_title();
                     ?>
 
                     <div class="info-section"> <!-- Volume Info Div -->
+                        <div class="row volume-row">
+                            <div class="volume-cover-div col-lg-3 col-md-4 cold-sm-12">
+                                <?php
+                                if (has_post_thumbnail( $the_post_id )) {
+                                        the_post_custom_thumbnail(
+                                            $the_post_id, //The volume ID
+                                            'novel-cover', //Name of the size
+                                            [
+                                                'class' => 'novel-cover', //Class attachment for css
+                                                'alt'  => esc_html($the_post_title), //Attach the title as the default alt for the img
+                                            ]
+                                        );
+                                    }
+                                ?>
+                            </div>
 
+                            <div class="volume-info col">
+                                <h4>Formats</h4>
+                                <?php
+                                    $format_terms = get_the_terms( get_post_meta( $the_post_id, 'series_value', true ), 'format'); //Get the formats
+                                    taxonomy_button_list( $format_terms , 'format'); //List the Formats Taxonomy
+                                ?>
+                            </div>
+                        </div>
                     </div>
                     <?php
                 endwhile;

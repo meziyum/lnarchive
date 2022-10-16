@@ -13,7 +13,6 @@ Singe Volume ISBN Metabox for all formats
 Single Volume formats Metabox
 
 Filter by clicking taxonomy name in admin menu fix
-Default Wallpaper for light novels
 
 Robot.txt Meta
 
@@ -33,4 +32,8 @@ Novel Info taxonoy display settings
 SEO Title and Desc Taxonomy Settings
 SEO Title and Desc Post Settings
 
+Logo Left Alignment
+
 Better Related Posts Algo for Single Posts
+
+Fix related novels for No Tag

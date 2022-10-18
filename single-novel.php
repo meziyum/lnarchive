@@ -14,7 +14,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
-    <div class="row main-row"> <!-- Main Row -->
+    <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row"> <!-- Main Row -->
         <div class="novel-wrap col-lg-9"> <!-- Novel Content Div -->
         <?php               
             if( have_posts(  ) ) {  //If there are posts
@@ -28,50 +28,52 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                 ?>
                     <div class="info-section"> <!-- Novel Info Div -->
                         <div class="row novel-row">
-                            <div class="novel-cover-div col-lg-4 col-md-5 cold-sm-12">
-                                <?php 
-                                
-                                    if (has_post_thumbnail( $the_post_id )) {
-                                        the_post_custom_thumbnail(
-                                            $the_post_id, //The novel ID
-                                            'novel-cover', //Name of the size
-                                            [
-                                                'class' => 'novel-cover', //Class attachment for css
-                                                'alt'  => esc_html($the_post_title), //Attach the title as the default alt for the img
-                                            ]
-                                        );
-                                    }
-                                    ?>
-                                    <table class="novel-info-table">
-                                    <?php
-
-                                    //List of all Iterms to display
-                                    $taxs = array('novel_status', 'language', 'publisher', 'format','writer', 'illustrator', 'translator');
-
-                                    foreach( $taxs as $tax) { //Loop through all items
-                                        $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
-
-                                        if( !empty($terms)) { //If there are no terms
+                            <div class="novel-cover-div col-lg-4 col-md-4 cold-sm-12">
+                                <div class="row"> <!-- Novel Cover Row -->
+                                    <div class="col"> <!-- Novel Cover Col -->
+                                        <?php 
+                                            if (has_post_thumbnail( $the_post_id )) { //If the novel has a thumbnail
+                                                the_post_custom_thumbnail(
+                                                    $the_post_id, //The novel ID
+                                                    'novel-cover', //Name of the size
+                                                    [
+                                                        'class' => 'novel-cover', //Class attachment for css
+                                                        'alt'  => esc_html($the_post_title), //Attach the title as the default alt for the img
+                                                    ]
+                                                );
+                                            }
                                         ?>
-                                        <tr>
-                                            <th><?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name)?> <th> <!-- Display the Name Label -->
-                                            <td>
-                                                <?php                   
-                                                    foreach( $terms as $key => $article_term) { //Loops through all article terms
-                                                        ?>
-                                                            <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
-                                                            <br> <!-- New Line for next entry -->
-                                                        <?php
-                                                    }                     
-                                                ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        }
-                                    }
+                                    </div>
 
-                                    ?>
+                                    <table class="novel-info-table col-lg-12 col-md-12 cold-sm-12 col-6"> <!-- Novel Taxonomies Col -->
+                                        <?php
+                                            //List of all Iterms to display
+                                            $taxs = array('novel_status', 'language', 'publisher', 'format','writer', 'illustrator', 'translator');
+
+                                            foreach( $taxs as $tax) { //Loop through all items
+                                                $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
+
+                                                if( !empty($terms)) { //If there are no terms
+                                                ?>
+                                                <tr>
+                                                    <th><?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name)?> <th> <!-- Display the Name Label -->
+                                                    <td>
+                                                        <?php                   
+                                                            foreach( $terms as $key => $article_term) { //Loops through all article terms
+                                                                ?>
+                                                                    <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
+                                                                    <br> <!-- New Line for next entry -->
+                                                                <?php
+                                                            }                     
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                }
+                                            }
+                                        ?>
                                     </table>
+                                </div>
                             </div>
 
                             <div class="novel-info col"> <!-- Novel Info Col -->
@@ -182,7 +184,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     if($rquery->have_posts()) { //If there are any related posts
                         ?>
                             <div class="related-section">
-                                <h2>Related Novels</h2> <!-- Related Section Heading -->
+                                <h2>Recommendations</h2> <!-- Related Section Heading -->
                                 <?php novel_list( $rquery, 'child' ); //Print Novel List?>
                             </div>
                         <?php

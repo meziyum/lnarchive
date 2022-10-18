@@ -16,7 +16,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
-    <div class="row main-row"> <!-- Main Row-->
+    <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row"> <!-- Main Row-->
         <div class="post-wrap content-wrap col-lg-9"> <!-- Post Content Div -->
             <?php
             if( have_posts() ) { //If there are posts

@@ -48,12 +48,12 @@ class assets{ //Assests Class
     public function register_scripts() { //Scripts
 
          //Registering Scripts
-         wp_register_script( 'fusfan_main_script', LNARCHIVE_BUILD_JS_URI . '/main.js', [], filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/main.js'), true ); //Main Javascript File
-         wp_register_script( 'bootstrap_bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js', ['jquery'], '5.2.2', true ); //Boostrap Bundle including all plugins and dependencies like popper.js
+         wp_register_script( 'fusfan_main_script', LNARCHIVE_BUILD_JS_URI . '/main.js', array('wp-api'), filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/main.js'), true ); //Main Javascript File
+         wp_register_script( 'bootstrap_bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js', array('jquery'), '5.2.2', true ); //Boostrap Bundle including all plugins and dependencies like popper.js
 
          //Enqueing Scripts
          wp_enqueue_script('fusfan_main_script');
-         wp_enqueue_script('bootstrap_bundle');
+         wp_enqueue_script('bootstrap_bundle');   
     }
 }
 ?>

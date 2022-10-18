@@ -5,6 +5,10 @@
 //Text Topography
 $body-text: (
 	"h1": ( //H1 Heading
+		"x-small": (
+			font-size: 24px,
+			line-height: 1.4,
+		),
 		"small": (
 			font-size: 26px,
 			line-height: 1.4,
@@ -19,6 +23,10 @@ $body-text: (
 		),
 	),
 	"h2": ( //H2 Heading
+		"x-small": (
+			font-size: 20px,
+			line-height: 1.4,
+		),
 		"small": (
 			font-size: 22px,
 			line-height: 1.4,
@@ -33,6 +41,10 @@ $body-text: (
 		),
 	),
 	"h3": ( //H3 Heading
+		"x-small": (
+			font-size: 16px,
+			line-height: 1.4,
+		),
 		"small": (
 			font-size: 18px,
 			line-height: 1.4,
@@ -47,6 +59,10 @@ $body-text: (
 		),
 	),
 	"h4": ( //H4 Heading
+		"x-small": (
+			font-size: 14px,
+			line-height: 1.4,
+		),
 		"small": (
 			font-size: 16px,
 			line-height: 1.4,
@@ -61,6 +77,10 @@ $body-text: (
 		),
 	),
 	"h5": ( //H5 Heading
+		"x-small": (
+			font-size: 12px,
+			line-height: 1.4,
+		),
 		"small": (
 			font-size: 14px,
 			line-height: 1.4,
@@ -75,6 +95,10 @@ $body-text: (
 		),
 	),
 	"h6": ( //H6 Heading
+		"x-small": (
+			font-size: 10px,
+			line-height: 1.4,
+		),
 		"small": (
 			font-size: 12px,
 			line-height: 1.4,
@@ -89,6 +113,10 @@ $body-text: (
 		),
 	),
 	"body": ( //Body Content size
+		"x-small": ( //X-Small Size
+			font-size: 14px,
+			line-height: 1.4,
+		),
 		"small": ( //Small Screen Size
 			font-size: 16px,
 			line-height: 1.4,

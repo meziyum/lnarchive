@@ -80,6 +80,7 @@ class volume{ //Assests Class
             'show_in_nav_menus'   => true, //Show in Nav Menu
             'show_in_admin_bar'   => true, //Show in Admin Bar
             'show_in_rest'        => true, //If to include the post type in Rest API
+            'rest_base'           => "volumes", //REST API base URL
             'menu_position'       => null, //Menu index position
             'menu_icon'           => 'dashicons-book', //Menu Icon
             'capability_type'     => 'post', //Capability required for the volume post type

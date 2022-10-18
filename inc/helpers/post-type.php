@@ -57,12 +57,13 @@ function novel_list( $loop, $name ) { //Function to display Novels List
                 while( $loop->have_posts()) : $loop->the_post(); //While there are volumes
                     
                     $post_id = get_the_ID(); //Get the post ID
+                    $permalink = get_permalink( $post_id ); //Get Post Permalink
 
                     if (has_post_thumbnail( $post_id )) { //If there is a post thumbnail
                         ?>
-                            <div class="archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4"> <!-- Archive Entry Col -->
-                                <div class="archive-entry"> <!-- Add Entry -->
-                                    <a href="<?php echo get_permalink( $post_id );?>"> <!-- The Permalink -->
+                            <div id="<?php echo esc_attr($post_id)?>" class="archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4"> <!-- Archive Entry Col -->
+                                <div class="<?php echo esc_attr($name)?>-entry archive-entry"> <!-- Add Entry -->
+                                    <a class="<?php echo $name?>-link" href="<?php echo esc_url(get_permalink())?>"> <!-- The Permalink -->
                                         <?php
                                 
                                             //Display the Featured Image

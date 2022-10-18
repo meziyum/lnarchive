@@ -11,7 +11,7 @@ $the_post_title = get_the_title();
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
-    <div class="row main-row"> <!-- Main Row -->
+    <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row"> <!-- Main Row -->
         <div class="volume-wrap col-lg-9"> <!-- Volume Content Div -->
         <?php
             if( have_posts() ) {

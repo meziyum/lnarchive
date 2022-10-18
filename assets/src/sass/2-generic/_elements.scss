@@ -37,6 +37,11 @@ button { //Button Element
 }
 
 //Table
+
+table{
+	border-collapse: separate;
+}
+
 table td, table td *, table th, table th * {
     vertical-align: top;
 }

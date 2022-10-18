@@ -1,14 +1,5 @@
 # Wordpress Theme - LNarchive
 
-Post Comment Functionality
-Single Novel Review Functionality
-Volumes Review Functionality
-Series Rating Functionality
-Volume Rating Functionality
-Author Box
-
-Single Volume UI
-
 Singe Volume ISBN Metabox for all formats
 Single Volume formats Metabox
 

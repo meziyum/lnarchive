@@ -8,7 +8,7 @@ get_header(); //Get the Header function
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
-    <div class="row main-row">
+    <div id="<?php echo esc_attr(get_the_ID());?>" class="row main-row">
         <div class="page-wrap content-wrap col-lg-9"> <!-- Page Content Div -->
             <?php
             if( have_posts(  ) ) { //If there are pages

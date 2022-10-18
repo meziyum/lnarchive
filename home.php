@@ -23,7 +23,7 @@ get_header(); //Get the Header
             }
         ?>
         </div>
-        <aside class="blog-sidebar col d-none d-lg-block"> <!-- Sidebar Div -->
+        <aside class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Div -->
             <?php get_sidebar('sidebar-main'); //Show the Sidebar?>
         </aside>
     </div>

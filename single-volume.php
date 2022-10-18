@@ -56,7 +56,7 @@ $the_post_title = get_the_title();
         ?>
         </div>
         <div class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Col -->
-            <?php get_sidebar('sidebar-main'); //Get the Sidebar?>
+            <?php get_sidebar('sidebar-novel'); //Get the Sidebar?>
         </div>
     </div>
 </main>

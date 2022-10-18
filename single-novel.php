@@ -218,7 +218,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
         ?>
         </div>
         <div class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Col -->
-            <?php get_sidebar('sidebar-main'); //Get the Sidebar?>
+            <?php get_sidebar('sidebar-novel'); //Get the Sidebar?>
         </div>
     </div>
 </main>

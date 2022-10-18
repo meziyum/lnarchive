@@ -26,15 +26,37 @@ class sidebars{ //Assests Class
           */
 
         //Adding functions to the hooks
-        add_action( 'widgets_init', [ $this, 'fn_register_sidebars']);
+        add_action( 'widgets_init', [ $this, 'ln_register_sidebars']);
     }
 
-    public function fn_register_sidebars() {
+    public function ln_register_sidebars() {
         
         register_sidebar( [ //Register Main Sidebar
                 'name' => 'Main Sidebar',
                 'id' => 'sidebar-main',
                 'description' => 'Main Sidebar',
+                'before_widget' => '<div id="%1$s" class="widget widget-sidebar %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h3 class=""widget-title>',
+                'after_title' => '</h3>',
+            ]
+        );
+
+        register_sidebar( [ //Register Post Sidebar
+                'name' => 'Post Sidebar',
+                'id' => 'sidebar-post',
+                'description' => 'Post Sidebar',
+                'before_widget' => '<div id="%1$s" class="widget widget-sidebar %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h3 class=""widget-title>',
+                'after_title' => '</h3>',
+            ]
+        );
+
+        register_sidebar( [ //Register Novel Sidebar
+                'name' => 'Novel Sidebar',
+                'id' => 'sidebar-novel',
+                'description' => 'Novel Sidebar',
                 'before_widget' => '<div id="%1$s" class="widget widget-sidebar %2$s">',
                 'after_widget' => '</div>',
                 'before_title' => '<h3 class=""widget-title>',

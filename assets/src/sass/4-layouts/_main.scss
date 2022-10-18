@@ -8,11 +8,20 @@
 
 //Sidebar
 .sidebar-wrap {
-    margin-left: 12px;
+    margin-right: 12px;
 }
 
-//Content and Sidebar Common
-.content-wrap,
+//Content Wrap
+.content-wrap {
+    padding: 16px;
+    margin-left: 12px;
+    margin-right: 12px;
+    border-radius: 8px;
+    flex-shrink: 1;
+    background-color: $white-text;
+}
+
+//Sidebar Wrap
 .sidebar-wrap {
     padding: 16px;
     border-radius: 8px;

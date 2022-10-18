@@ -249,9 +249,16 @@ h6 {
   text-align: center; }
 
 .sidebar-wrap {
-  margin-left: 12px; }
+  margin-right: 12px; }
 
-.content-wrap,
+.content-wrap {
+  padding: 16px;
+  margin-left: 12px;
+  margin-right: 12px;
+  border-radius: 8px;
+  flex-shrink: 1;
+  background-color: #ffffff; }
+
 .sidebar-wrap {
   padding: 16px;
   border-radius: 8px;

@@ -367,7 +367,7 @@ class post_type_meta_fields { //Post Type Meta Fields
             update_post_meta(
                 $post_id, //The post id
                 'published_date_value', //Key
-                $_POST['published_date'] //Value of the Meta
+                sanitize_text_field($_POST['published_date']), //Value of the Meta
              );
         }
         else{ //Default Date

@@ -2,6 +2,7 @@
 const path = require( 'path' ); //Main Path
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' ); //Plugin to extract a css file for each js file. Supports On-demand loading of CSS and Source Maps
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); //Plugin to optimize and minify css
+const TerserPlugin = require("terser-webpack-plugin"); //Plugin to minify js
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' ); //Automatically removes unused webpack assets on rebuild
 
 const JS_DIR = path.resolve( __dirname, 'src/js' ); //Javascript Directory
@@ -76,7 +77,9 @@ module.exports = ( env, argv ) => ({
 		rules: rules, //Rules
 	},
     optimization: { //Optimization
+		minimize: true,
 		minimizer: [ //Minification
+			new TerserPlugin(), //Js Minification Plugin
 			new CssMinimizerPlugin(), //Css Minification Plugin
 		]
 	},

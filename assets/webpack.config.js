@@ -31,8 +31,8 @@ const rules = [ //Rules
 		exclude: /node_modules/, //Exclude Directory
 		use: [
 			MiniCssExtractPlugin.loader, //MiniCssExtractPlugin.loader,
-			'css-loader', //CSS Loader
-			'sass-loader', //SASS Loader
+			{ loader: "css-loader", options: { sourceMap: true } },
+          	{ loader: "sass-loader", options: { sourceMap: true } },
 		]
 	},
 	{ //Images Test Case
@@ -60,7 +60,7 @@ const plugins = ( argv ) => [ //Plugins
 
     new CleanWebpackPlugin( { //CleanWebpack Plugin
 		cleanStaleWebpackAssets: ( 'production' === argv.mode  )
-	    } 
+	    }
     ),
 
 	new MiniCssExtractPlugin( { //MiniCssExtractPlugin
@@ -78,9 +78,11 @@ module.exports = ( env, argv ) => ({
 	},
     optimization: { //Optimization
 		minimize: true,
-		minimizer: [ //Minification
+		minimizer: [ //Minification		
+			new CssMinimizerPlugin({
+				parallel: true, //Activate Multiprocess pararell running
+			}), //Css Minification Plugin
 			new TerserPlugin(), //Js Minification Plugin
-			new CssMinimizerPlugin(), //Css Minification Plugin
 		]
 	},
 

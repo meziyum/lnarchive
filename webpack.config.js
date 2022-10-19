@@ -7,7 +7,7 @@ const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' ); //Automaticall
 
 const JS_DIR = path.resolve( __dirname, 'src/js' ); //Javascript Directory
 const IMG_DIR = path.resolve( __dirname, 'src/img' ); //Images Directory
-const BUILD_DIR = path.resolve( __dirname, 'build' ); //Build Directory
+const BUILD_DIR = path.resolve( __dirname, 'assets' ); //Build Directory
 
 const entry = { //Entrypoint Constant JSON
     main: JS_DIR + '/main.js', //Main.js Entry Point

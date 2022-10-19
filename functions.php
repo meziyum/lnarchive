@@ -14,31 +14,31 @@ if ( ! defined( 'LNARCHIVE_DIR_URI' ) ) {
 }
 
 if ( ! defined( 'LNARCHIVE_BUILD_URI' ) ) {
-	define( 'LNARCHIVE_BUILD_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/build' );
+	define( 'LNARCHIVE_BUILD_URI', untrailingslashit( get_template_directory_uri() ) . '/assets' );
 }
 
 if ( ! defined( 'LNARCHIVE_BUILD_JS_URI' ) ) {
-	define( 'LNARCHIVE_BUILD_JS_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/build/js' );
+	define( 'LNARCHIVE_BUILD_JS_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/js' );
 }
 
 if ( ! defined( 'LNARCHIVE_BUILD_JS_DIR_PATH' ) ) {
-	define( 'LNARCHIVE_BUILD_JS_DIR_PATH', untrailingslashit( get_template_directory() ) . '/assets/build/js' );
+	define( 'LNARCHIVE_BUILD_JS_DIR_PATH', untrailingslashit( get_template_directory() ) . '/assets/js' );
 }
 
 if ( ! defined( 'LNARCHIVE_BUILD_IMG_URI' ) ) {
-	define( 'LNARCHIVE_BUILD_IMG_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/build/src/img' );
+	define( 'LNARCHIVE_BUILD_IMG_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/src/img' );
 }
 
 if ( ! defined( 'LNARCHIVE_BUILD_CSS_URI' ) ) {
-	define( 'LNARCHIVE_BUILD_CSS_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/build/css' );
+	define( 'LNARCHIVE_BUILD_CSS_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/css' );
 }
 
 if ( ! defined( 'LNARCHIVE_BUILD_CSS_DIR_PATH' ) ) {
-	define( 'LNARCHIVE_BUILD_CSS_DIR_PATH', untrailingslashit( get_template_directory() ) . '/assets/build/css' );
+	define( 'LNARCHIVE_BUILD_CSS_DIR_PATH', untrailingslashit( get_template_directory() ) . '/assets/css' );
 }
 
 if ( ! defined( 'LNARCHIVE_BUILD_LIB_URI' ) ) {
-	define( 'LNARCHIVE_BUILD_LIB_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/build/library' );
+	define( 'LNARCHIVE_BUILD_LIB_URI', untrailingslashit( get_template_directory_uri() ) . '/assets/library' );
 }
 
 //Get the Helper Functions

@@ -1,106 +1,89 @@
 
-
-const path = require( 'path' );
-const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-const OptimizeCssAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
-const cssnano = require( 'cssnano' );
+const path = require( 'path' ); //Main Path
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' ); //Plugin to extract a css file for each js file. Supports On-demand loading of CSS and Source Maps
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); //Plugin to optimize and minify css
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' ); //Automatically removes unused webpack assets on rebuild
-const UglifyJsPlugin = require( 'uglifyjs-webpack-plugin' );
 
-const JS_DIR = path.resolve( __dirname, 'src/js' );
-const IMG_DIR = path.resolve( __dirname, 'src/img' );
-const LIB_DIR = path.resolve( __dirname, 'src/library' );
-const BUILD_DIR = path.resolve( __dirname, 'build' );
+const JS_DIR = path.resolve( __dirname, 'src/js' ); //Javascript Directory
+const IMG_DIR = path.resolve( __dirname, 'src/img' ); //Images Directory
+const BUILD_DIR = path.resolve( __dirname, 'build' ); //Build Directory
 
-const entry = {
-    main: JS_DIR + '/main.js',
-    admin: JS_DIR + '/admin.js',
+const entry = { //Entrypoint Constant JSON
+    main: JS_DIR + '/main.js', //Main.js Entry Point
+    admin: JS_DIR + '/admin.js', //Admin.js Entry Point
 };
 
-const output = {
-    path: BUILD_DIR,
-    filename: 'js/[name].js'
+const output = { //Endpoint Constant JSON
+    path: BUILD_DIR, //Path
+    filename: 'js/[name].js', //Output Filename for JS files
 };
 
-const rules = [
-    {
-		test: /\.js$/,
-		include: [ JS_DIR ],
-		exclude: /node_modules/,
-		use: 'babel-loader'
+const rules = [ //Rules
+    { //Javascript Test Case
+		test: /\.js$/, //Extensions
+		include: [ JS_DIR ], //Include Directory
+		exclude: /node_modules/, //Exclude Directory
+		use: 'babel-loader' //Babel Loader
 	},
-	{
-		test: /\.scss$/,
-		exclude: /node_modules/,
+	{ //SASS Test Case
+		test: /\.scss$/, //Extension
+		exclude: /node_modules/, //Exclude Directory
 		use: [
-			MiniCssExtractPlugin.loader,
-			'css-loader',
-			'sass-loader',
+			MiniCssExtractPlugin.loader, //MiniCssExtractPlugin.loader,
+			'css-loader', //CSS Loader
+			'sass-loader', //SASS Loader
 		]
 	},
-	{
-		test: /\.(png|jpg|svg|jpeg|gif|ico)$/,
-		use: {
-			loader: 'file-loader',
-			options: {
-				name: '[path][name].[ext]',
-				publicPath: 'production' === process.env.NODE_ENV ? '../' : '../../'
-			}
-		}
+	{ //Images Test Case
+		test: /\.(png|jpg|svg|jpeg|gif|ico)$/, //Extensions
+		type: 'asset/resource', //Use the Asset Resource Module
+		generator: {
+			filename: 'img/[hash][ext][query]', //Filename for the Output
+		},
 	},
-	{
-		test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-		exclude: [ IMG_DIR, /node_modules/ ],
-		use: {
-			loader: 'file-loader',
-			options: {
-				name: '[path][name].[ext]',
-				publicPath: 'production' === process.env.NODE_ENV ? '../' : '../../'
-			}
-		}
+	{ //Font Test Case
+		test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, //Extensions
+		exclude: [ IMG_DIR, /node_modules/ ], //Exclude
+		type: 'asset/resource', //Use the Asset Resource Module
+		generator: {
+			filename: 'font/[hash][ext][query]', //Filename for the Output
+		},
 	}
 ];
 
 /**
  * Note: argv.mode will return 'development' or 'production'.
  */
-const plugins = ( argv ) => [
 
-    new CleanWebpackPlugin( {
-		cleanStaleWebpackAssets: ( 'production' === argv.mode  ) // Automatically remove all unused webpack assets on rebuild, when set to true in production.
+const plugins = ( argv ) => [ //Plugins
+
+    new CleanWebpackPlugin( { //CleanWebpack Plugin
+		cleanStaleWebpackAssets: ( 'production' === argv.mode  )
 	    } 
     ),
 
-	new MiniCssExtractPlugin( {
-		filename: 'css/[name].css'
-	    } 
+	new MiniCssExtractPlugin( { //MiniCssExtractPlugin
+		filename: 'css/[name].css' //Directory
+	    }
     ),
 ];
 
 module.exports = ( env, argv ) => ({
-    entry: entry,
-    output: output,
-    devtool: 'source-map',
-    module: {
-		rules: rules,
+    entry: entry, //Entry Point
+    output: output, //End Point
+    devtool: 'source-map', //Source Map Style
+    module: { //Modules
+		rules: rules, //Rules
 	},
-    optimization: {
-		minimizer: [
-			new OptimizeCssAssetsPlugin( {
-				cssProcessor: cssnano
-			} ),
-
-			new UglifyJsPlugin( {
-				cache: false,
-				parallel: true,
-				sourceMap: false
-			} )
+    optimization: { //Optimization
+		minimizer: [ //Minification
+			new CssMinimizerPlugin(), //Css Minification Plugin
 		]
 	},
 
-	plugins: plugins( argv ),
+	plugins: plugins( argv ), //Plugins
 
-	externals: {
-		jquery: 'jQuery'
+	externals: { //Externals
+		jquery: 'jQuery' //jQuery
 	}
 });

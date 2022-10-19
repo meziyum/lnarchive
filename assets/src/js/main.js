@@ -2,6 +2,10 @@
 
 //import './directory';
 
+//import images
+import mainImage from '../img/test.png';
+img.src = mainImage;
+
 //Import Styles
 import '../sass/main.scss'
 

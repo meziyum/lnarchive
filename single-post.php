@@ -42,6 +42,8 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                             </button>
                         <?php
                     }
+
+                    get_template_part('template-parts/edit-btn'); //Get the Edit Button
                     ?>
                     </div>
                     <?php
@@ -70,7 +72,6 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     ?>
                     </div>
                     <?php
-                    get_template_part('template-parts/edit-btn'); //Get the Edit Button
 
                     $related_args = array(  //Arguments for the Loop
                         'post_type' => $the_post_type, //Post Type

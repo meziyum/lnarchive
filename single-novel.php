@@ -194,7 +194,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 
                     $args = array(  //Arguments for the Loop
                         'post_type' => 'post', //Post Type
-                        'posts_per_page' => $max_posts, //Posts on one page
+                        'posts_per_page' => 3, //Posts on one page
                         'meta_key' => 'series_value', //Meta Key
                         'meta_value' => $the_post_id, //Meta value
                     );
@@ -204,14 +204,14 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     if($loop->have_posts()) { //If there is post
                         ?>
                             <div class="posts-section">
-                            <div class="row"> <!-- Novel News Articles Div -->
-                                <h2>Related Articles</h2>
-                                <?php post_list( $loop, 'novel-articles' ); //Post List?>
-                            </div>
+                                <div class="row"> <!-- Novel News Articles Div -->
+                                    <h2>Related Articles</h2>
+                                    <?php post_list( $loop, 'novel-articles' ); //Post List?>
+                                </div>
                             </div>
                         <?php
                     }
-
+        
                     wp_reset_postdata(); //Reset the $POST data
             endwhile;
             }

@@ -82,7 +82,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                         'meta_value' => $series, //Meta Value
                         'date_query' => array( //Last 1 Month posts
                             array(
-                              'after'   => '-1 month',
+                              'after'   => '-1 month', //Only posts from last 1 month
                             ),
                         ),          
                     );

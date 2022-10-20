@@ -137,7 +137,7 @@ function post_list( $loop , $label) { //Function to display Posts List
                             ?>
                         </article>
                         </div>
-                    <?php
+                    <?php     
                 endwhile;
             ?>
         </div>

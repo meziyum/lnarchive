@@ -27,6 +27,7 @@ class admin_dashboard{ //Admin Dashboard Template
         add_filter( 'get_user_option_admin_color', [$this,'update_user_option_admin_color']);
         add_filter( 'admin_head-profile.php', [$this,'remove_color_scheme']);
         add_action( 'admin_enqueue_scripts', [$this,'load_admin_assets']);
+        add_filter( 'show_admin_bar', [$this, 'hide_admin_bar'] );
     }
 
     function load_admin_assets() { //Load Admin Assets
@@ -56,6 +57,10 @@ class admin_dashboard{ //Admin Dashboard Template
 
     function remove_color_scheme() { //Function to remove the color scheme picker feature
         remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' ); //Remvoe Color Scheme picker
+    }
+
+    function hide_admin_bar(){ //Hide the admin bar from the front end
+        return false; //Return false
     }
 }
 ?>

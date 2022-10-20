@@ -13,7 +13,12 @@
 }
 
 //Header Navigation
+
 .header-nav {
+	top: 0;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
 
 	.profile-pic{
 		border-radius: 50%;

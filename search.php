@@ -5,6 +5,8 @@
  * @package LNarchive
  */
 get_header(); //Get the Header
+
+$result_found = false; //Results Found Flag
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
@@ -22,7 +24,8 @@ get_header(); //Get the Header
                 $nquery = new WP_Query( $nargs ); //New query for Novel Listing
 
                 if($nquery->have_posts()) { //If there are novels
-                    ?><h2>Novels</h2> <!-- Novel Heading --> <?php
+                    $result_found = true; //Set the flag to true
+                    ?><h2 class="page-title">Novels</h2> <!-- Novel Heading --> <?php
                     novel_list($nquery, 'novel-search'); //Novel List      
                 }
 
@@ -36,15 +39,19 @@ get_header(); //Get the Header
                 $pquery = new WP_Query( $pargs ); //New query for Post Listing
  
                 if($pquery->have_posts()) { //If there are posts
-                    ?><h2>Posts</h2> <!-- Post Heading --> <?php
+                    $result_found = true; //Set the flag to true 
+                    ?><h2 class="page-title">Posts</h2> <!-- Post Heading --> <?php
                     post_list( $pquery, 'post-search-result'); //Post List
                 }
 
                 wp_reset_postdata(); //Reset the $POST data
 
+                if( $result_found == false) { //If the flag is false that is no results found
+                    echo "No Results Found";
+                }
             ?>
         </div>
-        <aside class="blog-sidebar col d-none d-lg-block"> <!-- Sidebar Div -->
+        <aside class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Div -->
             <?php get_sidebar('sidebar-main'); //Show the Sidebar?>
         </aside>
     </div>

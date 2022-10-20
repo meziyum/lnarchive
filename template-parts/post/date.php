@@ -11,7 +11,7 @@
 
     if( !empty( $article_terms ) && is_array( $article_terms )) { //If there are category terms
         foreach( $article_terms as $article_term) { //Loop through all the terms
-            if( get_term_meta( $article_term->term_id, 'date_visible_value', true) == 'yes' || is_home())  { //If Date Visibility is set to yes
+            if( get_term_meta( $article_term->term_id, 'date_visible_value', true) == 'yes' || !(is_single() && get_post_type( $the_post_id ) == "post"))  { //If Date Visibility is set to yes
                 
                 $time_string = '<time class="entry-date" datetime="%1$s">%2$s</time>'; //Define the time string if the published date is the modified date
 

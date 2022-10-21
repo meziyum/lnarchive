@@ -8,3 +8,7 @@
 *.json linguist-detectable=true
 
 *.css linguist-detectable=true
+
+*.html linguist-generated=false
+*.html linguist-documentation=false
+*.html linguist-detectable=true

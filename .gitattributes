@@ -6,3 +6,5 @@
 *.md linguist-detectable=true
 
 *.json linguist-detectable=true
+
+*.css linguist-detectable=true

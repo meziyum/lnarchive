@@ -8,4 +8,4 @@
 *.json linguist-generated=false
 *.json linguist-documentation=false
 *.json linguist-detectable=true
-package-lock* linguist-vendored
+package-lock linguist-vendored

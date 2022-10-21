@@ -5,7 +5,4 @@
 *.md linguist-documentation=false
 *.md linguist-detectable=true
 
-*.json linguist-generated=false
-*.json linguist-documentation=false
 *.json linguist-detectable=true
-package-lock linguist-vendored

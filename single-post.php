@@ -99,6 +99,11 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     }
 
                     wp_reset_postdata(); //Reset the $POST data
+
+                    // If comments are open or we have at least one comment, load up the comment template.
+                    if ( comments_open() || get_comments_number() ) {
+                        comments_template();
+                    }
                 endwhile;
             }
             ?>

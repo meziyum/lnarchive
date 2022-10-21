@@ -36,18 +36,37 @@ class lnarchive_theme{ //LNarchive Theme Class
          /**
           * Actions
           */
-
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
           add_action( 'template_redirect', [$this, 'rewrite_search_url']);
+
+          //Disable Global RSS Feeds
+          add_action('do_feed', [$this, 'wp_disable_feeds']);
+          add_action('do_feed_rdf', [$this, 'wp_disable_feeds']);
+          add_action('do_feed_rss', [$this, 'wp_disable_feeds']);
+          add_action('do_feed_rss2', [$this, 'wp_disable_feeds']);
+          add_action('do_feed_atom', [$this, 'wp_disable_feeds']);
+
+          //Disable Comment Feeds
+          add_action('do_feed_rss2_comments', [$this, 'wp_disable_feeds']);
+          add_action('do_feed_atom_comments', [$this, 'wp_disable_feeds']);
+
+          //Remove the RSS Links from HTML
+          add_action( 'feed_links_show_posts_feed', '__return_false', - 1 );
+          add_action( 'feed_links_show_comments_feed', '__return_false', - 1 );
+          remove_action( 'wp_head', 'feed_links', 2 );
+          remove_action( 'wp_head', 'feed_links_extra', 3 );
      }
 
      public function setup_theme() { //Main Setup Theme
 
-         add_theme_support('widgets-block-editor'); //Widgets Blocks Editor
-
+         add_theme_support( 'align-wide'); //Wide Alignment for Blocks
          add_theme_support( 'custom-logo', [
             'header-text'          => array( 'site-title', 'site-description' ) //Replace Title/Desc by Logo
          ]); //Custom Logo
+
+         add_theme_support('widgets-block-editor'); //Widgets Blocks Editor
+
+         
 
          $args = array(
             'default-color' => '3a7de8',
@@ -77,7 +96,7 @@ class lnarchive_theme{ //LNarchive Theme Class
 
          add_theme_support('wp-block-styles');
 
-         add_theme_support( 'align-wide'); //Wide Alignment for Blocks
+         
 
          add_theme_support( 'editor-styles' );
 
@@ -105,6 +124,11 @@ class lnarchive_theme{ //LNarchive Theme Class
              wp_redirect( home_url( "/search/" ) . urlencode( get_query_var( 's' ) ) ); //Restructure the URL
              exit(); //Exit
          }
+      }
+
+      function wp_disable_feeds() { //Disable all Feeds
+         wp_redirect( home_url() ); //Redirect to Homepage if trying to access Feeds
+         wp_die( __('Error: Feeds are disabled') ); //Error Message
       }
 }
  ?>

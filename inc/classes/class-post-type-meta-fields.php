@@ -100,17 +100,6 @@ class post_type_meta_fields { //Post Type Meta Fields
             null, //Args
         );
 
-        //ISBN for the Digital Novels
-        add_meta_box(
-            'isbn_digital', //The ID
-            'ISBN-13(Digital)', //The Heading
-            [ $this, 'isbn_digital_callback'], //The visual callback
-            ['volume'], //Post types
-            'side', //Location
-            'default', //Priority
-            null, //Args
-        );
-
         //ISBN for the Audiobook Novels
         add_meta_box(
             'isbn_audio', //The ID

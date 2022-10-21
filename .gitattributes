@@ -1,6 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+*.md linguist-generated=false
 *.md linguist-documentation=false
 *.md linguist-detectable=true
 *.json linguist-detectable=true

@@ -2,3 +2,4 @@
 * text=auto
 
 *.php linguist-language=PHP
+node_modules/* linguist-vendored

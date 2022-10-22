@@ -102,7 +102,10 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 
                     // If comments are open or we have at least one comment, load up the comment template.
                     if ( comments_open() || get_comments_number() ) {
-                        comments_template();
+                        ?>
+                            <h2 class="d-flex justify-content-center comment-title">Comments</h2> <!--Comment Section Headig-->
+                        <?php
+                            comments_template(); //Get the Comments Template
                     }
                 endwhile;
             }

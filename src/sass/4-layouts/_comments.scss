@@ -1,0 +1,32 @@
+
+//Comments Title
+.comment-title {
+    color: $white-text;
+    background-color: $light-dark-background;
+    text-align: center;
+}
+
+//Comments Section
+.comments-section {
+
+    .comment-list {
+
+        .comment-entry{
+            margin-bottom: 8px;
+
+            .comment-header {
+
+                .avatar {
+                    max-width: 75px;
+                    max-height: 75px;
+                    border-radius: 50%;
+                }
+            }
+
+            .comment-body {
+
+            }
+        }
+
+    }
+}

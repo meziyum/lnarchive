@@ -199,3 +199,39 @@ function get_post_siblings( $post_id) {
 
     return get_posts( $args );
 }
+
+function nested_comments() { //Finction to print nested comment entry
+
+    $gravatar = get_avatar( get_comment_author_email()); //Get the Avatar
+    $author_url = get_comment_author_url();
+    ?>
+ 
+    <li class="row comment-entry" id="comment-<?php comment_ID() ?>"> <!-- Comment Entry -->
+
+        <div class="comment-header col-1"> <!-- Comment Header -->
+            <a href="<?php echo esc_attr($author_url);?>"><?php echo $gravatar?></a> <!-- Display Avatar -->
+        </div>
+
+        <div class="comment-body col-11"> <!-- Comment Body -->
+            <h4><a href="<?php echo esc_attr($author_url);?>">
+                <?php echo ucfirst(esc_html(get_comment_author()));?>
+            </a></h4> <!-- Comment Author -->
+            <p><?php echo get_comment_text();?></p> <!-- Comment Content -->
+
+            <div class="comment-reply"> <!-- Reply Button -->
+                <?php    
+                    comment_reply_link( [ //Get the Reply Link
+                        'add_below' => true,
+                        'depth'     => 20,
+                        'max_depth' => 200,
+                        'before'    => '<div class="reply">',
+                        'after'     => '</div>'
+                    ]); 
+                ?>                            
+            </div>
+        </div>
+    </li>
+ 
+<?php }
+
+?>

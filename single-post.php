@@ -28,6 +28,12 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                         wp_kses_post( $the_post_title), //Get the Title
                     );
                     ?>
+                    <div class="col post-meta">
+                        <?php
+                            echo '<h6>Posted by '.ucfirst(esc_html(get_the_author_meta('nickname'))).' | Date: </h6>';
+                            get_template_part('template-parts/post/date');
+                        ?>
+                    </div>
                     <div>
                     <?php
 
@@ -49,27 +55,8 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     <?php
                     the_content(); //Display the Content
                     get_template_part('template-parts/post/page-nav'); //Get the Page Navigation
-                    get_template_part('template-parts/post/date'); //Get the Date Template
                     ?>
                     <div class="post-footer border-top border-5 border-secondary"> <!--Post Footer -->
-                    <?php
-
-                        if( !empty($prev_post)) { //If there is a previous post
-                        ?>
-                            <button onclick="location.href='<?php echo esc_url(get_permalink($prev_post->ID));?>'" type="button" class="prev-post"> <!-- Prev Post Button -->
-                                <a class="prev-link">Previous</a>
-                            </button>
-                        <?php
-                        }
-                    
-                        if( !empty($next_post)) { //If there is a next post
-                        ?>
-                            <button onclick="location.href='<?php echo esc_url(get_permalink($next_post->ID));?>'" type="button" class="next-post float-end"> <!-- Next Post Button -->
-                                <a class="next-link">Next</a>
-                            </button>
-                        <?php
-                        }
-                    ?>
                     </div>
                     <?php
 

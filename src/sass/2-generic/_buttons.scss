@@ -89,19 +89,6 @@
     }
 }
 
-//Next/Prev Button
-.prev-post,
-.next-post {
-    padding: 4px 8px;
-    font-size: 18px;
-    background-color: $theme-primary;
-
-    &:hover,
-    &:active {
-        background-color: $theme-primary-dark;
-    }
-}
-
 //Edit Button
 .edit-button {
     padding: 4px 8px;

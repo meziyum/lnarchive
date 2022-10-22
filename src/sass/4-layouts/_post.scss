@@ -36,12 +36,26 @@
     }
 }
 
-//Date
-.posted-on {
-    color: $not-imp;
-}
 
-//Pagination
-.page-numbers{
-    text-decoration: none;
+
+//Post Wrap
+.post-wrap {
+
+    .post-meta{
+        margin-bottom: 8px;
+
+        .avatar{
+            border-radius: 50%;
+        }
+    }
+
+    //Date
+    .posted-on {
+        color: $not-imp;
+    }
+
+    //Pagination
+    .page-numbers{
+        text-decoration: none;
+    }
 }

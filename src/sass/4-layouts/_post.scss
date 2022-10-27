@@ -49,13 +49,13 @@
         }
     }
 
-    //Date
-    .posted-on {
-        color: $not-imp;
-    }
-
     //Pagination
     .page-numbers{
         text-decoration: none;
     }
+}
+
+//Date
+.posted-on {
+    color: $not-imp;
 }

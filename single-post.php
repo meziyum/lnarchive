@@ -56,7 +56,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     the_content(); //Display the Content
                     get_template_part('template-parts/post/page-nav'); //Get the Page Navigation
                     ?>
-                    <div class="post-footer border-top border-5 border-secondary"> <!--Post Footer -->
+                    <div class="post-footer"> <!--Post Footer -->
                     </div>
                     <?php
 
@@ -78,10 +78,8 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 
                     if($rquery->have_posts()) { //If there are any related posts
                         ?>
-                            <div class="related-section">
-                                <h2>You might also like: </h2> <!-- Related Section Heading -->
-                                <?php post_list( $rquery, 'child' ); //Print Post List?>
-                            </div>
+                            <h2 class="page-title">You might also like: </h2> <!-- Related Section Heading -->
+                            <?php post_list( $rquery, 'child' ); //Print Post List?>
                         <?php
                     }
 

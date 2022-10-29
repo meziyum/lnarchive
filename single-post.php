@@ -28,12 +28,6 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                         wp_kses_post( $the_post_title), //Get the Title
                     );
                     ?>
-                    <div class="col post-meta">
-                        <?php
-                            echo '<h6>Posted by '.ucfirst(esc_html(get_the_author_meta('nickname'))).' | Date: </h6>';
-                            get_template_part('template-parts/post/date');
-                        ?>
-                    </div>
                     <div>
                     <?php
 
@@ -56,7 +50,11 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     the_content(); //Display the Content
                     get_template_part('template-parts/post/page-nav'); //Get the Page Navigation
                     ?>
-                    <div class="post-footer"> <!--Post Footer -->
+                    <div class="d-flex justify-content-between post-footer"> <!-- Post Footer -->
+                        <?php
+                            echo '<h6 class="posted-by">Posted by '.ucfirst(esc_html(get_the_author_meta('nickname'))); //Post Author
+                            get_template_part('template-parts/post/date'); //Get Post Date
+                        ?>
                     </div>
                     <?php
 

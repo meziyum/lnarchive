@@ -7,15 +7,15 @@
 get_header(); //Get the Header function
 
 $the_post_id = get_the_ID(); //Get the Post ID
-$the_post_title = get_the_title();
+$the_post_title = get_the_title(); //Get the Title
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
     <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row"> <!-- Main Row -->
         <div class="volume-wrap col-lg-9"> <!-- Volume Content Div -->
         <?php
-            if( have_posts() ) {
-                while(have_posts()) : the_post();
+            if( have_posts() ) { //If there are posts
+                while(have_posts()) : the_post(); //While there are posts
                     
                     //Title
                     printf(

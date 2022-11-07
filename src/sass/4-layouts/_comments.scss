@@ -11,16 +11,20 @@
     padding: 0px 8px;
 
     .comment-respond{
+
+        .comment-reply-title{
+
+            button{
+                border-radius: 50%;
+            }
+        }
         
         .comment-form{
 
-            .comment-form-comment{
-
-                textarea{
-                    width: 100%;
-                    border-radius: 12px;
-                    padding: 4px;
-                }
+            textarea{
+                width: 100%;
+                border-radius: 12px;
+                padding: 8px;
             }
 
             .form-submit{

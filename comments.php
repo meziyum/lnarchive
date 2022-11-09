@@ -18,7 +18,7 @@ if ( post_password_required() ) //If post is password protected return
                 'title_reply_to'    => 'Leave a Reply to '.ucfirst('%s'), //Leave a reply to HTML
                 'cancel_reply_before'   => '<button class="float-end">',
                 'cancel_reply_after' =>  '</button>',
-                'cancel_reply_link' => 'Test',
+                'cancel_reply_link' => '&times;',
                 'label_submit'  => 'Submit', //Button Label
                 'submit_field'  =>  '<p class="form-submit d-flex justify-content-end">%1$s %2$s</p>', //HTML for the markdown surrounding the submit button
                 'format'    => 'html5', //Format for the Comment

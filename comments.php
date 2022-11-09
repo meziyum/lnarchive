@@ -15,10 +15,10 @@ if ( post_password_required() ) //If post is password protected return
                 'title_reply'   => 'Leave a Comment', //Comment Msg
                 'comment_field' => '<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525"></textarea>', //Textarea HTML
                 'logged_in_as'  => '', //Logged in as Messages
-                'title_reply_to'    => 'Leave a Reply to '.ucfirst('%s'), //Leave a reply to HTML
-                'cancel_reply_before'   => '<button class="float-end">',
-                'cancel_reply_after' =>  '</button>',
-                'cancel_reply_link' => '&times;',
+                'cancel_reply_before'   => '<small class="float-end">', //HTML before cancel reply anchor
+                'cancel_reply_after'    => '</small>', //HTML after cancel reply anchor
+                'cancel_reply_link' => 'Cancel Reply', //Cancel Reply to anchor text
+                'title_reply_to'    => 'Leave a Reply to %s', //Leave a reply to HTML
                 'label_submit'  => 'Submit', //Button Label
                 'submit_field'  =>  '<p class="form-submit d-flex justify-content-end">%1$s %2$s</p>', //HTML for the markdown surrounding the submit button
                 'format'    => 'html5', //Format for the Comment

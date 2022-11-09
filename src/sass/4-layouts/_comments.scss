@@ -2,7 +2,7 @@
 //Comments Title
 .comment-title {
     color: $white-text;
-    background-color: $light-dark-background;
+    background-color: $comment-title-background;
     text-align: center;
 }
 
@@ -14,15 +14,17 @@
 
         .comment-reply-title{
 
-            button{
-                height: 30px;
-                width: 30px;
-                padding: 2px;
-                border-radius: 50%;
-                background-color: #F0544E;
+            a{
+                text-decoration: none;
+            }
+
+            small{
+                a{
+                    color: $cancel-reply-color;
+                }
             }
         }
-        
+
         .comment-form{
 
             textarea{

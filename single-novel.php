@@ -213,6 +213,10 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     }
         
                     wp_reset_postdata(); //Reset the $POST data
+                    ?>
+                        <h2 class="d-flex justify-content-center review-title">Reviews</h2> <!--Review Section Heading-->
+                    <?php
+                        comments_template('/reviews.php'); //Get the Comments Template
             endwhile;
             }
         ?>

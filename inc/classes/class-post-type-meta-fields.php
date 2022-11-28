@@ -289,7 +289,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         ?>
         <div class="alternate-names-div"> <!--Alternate Names Div -->
           <textarea name="alternate_names_meta" id="alternate_names_meta" rows="4" cols="35"><?php echo esc_html($alternate_names)?></textarea>
-          <p>Alternate names for the Novel. Separate multiple values by comma.</p>
+          <p>Alternate names for the Novel. Separate multiple values by comma. Leave Empty if there are none.</p>
         </div>
         <?php
     }
@@ -515,7 +515,7 @@ class post_type_meta_fields { //Post Type Meta Fields
                 $title = $title."..."; //Update the page seo title value to the title with a concatinated ... to understand that its not the full title
             }
             
-            update_post_meta( $post_id, 'seo_meta_title_val', strlen($title) );//Update the SEO Title value
+            update_post_meta( $post_id, 'seo_meta_title_val', $title );//Update the SEO Title value
         }     
         else { //IF the form field is set
             $value = sanitize_text_field( $_POST['seo_meta_title'] ); //Get the value from the form field

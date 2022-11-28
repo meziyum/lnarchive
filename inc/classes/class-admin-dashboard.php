@@ -28,6 +28,7 @@ class admin_dashboard{ //Admin Dashboard Template
         add_filter( 'admin_head-profile.php', [$this,'remove_color_scheme']);
         add_action( 'admin_enqueue_scripts', [$this,'load_admin_assets']);
         add_filter( 'show_admin_bar', [$this, 'hide_admin_bar'] );
+        add_filter( 'gettext', [$this, 'wpse22764_gettext']);
     }
 
     function load_admin_assets() { //Load Admin Assets
@@ -61,6 +62,25 @@ class admin_dashboard{ //Admin Dashboard Template
 
     function hide_admin_bar(){ //Hide the admin bar from the front end
         return false; //Return false
+    }
+
+    function wpse22764_gettext( $original ){ //Function to enhance excerpt labels
+
+        if(get_post_type() == 'post') //If the post type is post
+            return $original; //Return default label
+
+        if ( 'Excerpt' == $original ) { //Escerpt Title Label
+            return 'Description';//Return the text
+        }else{ //Excerpt Desc Label
+
+            $pos = strpos($original, 'Excerpts are optional hand-crafted summaries of your'); //Check that the text is the excerpt desc since we do not want to mess with all other text labels.
+
+            if ($pos !== false) { //If the text is excerpt label
+                return  '';//Remove the excerpt description 
+            }
+        }
+
+        return $original; //Return the orignal label
     }
 }
 ?>

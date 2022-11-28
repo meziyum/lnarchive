@@ -66,4 +66,6 @@ async function loadNames(post_id, post_type) {
 console.log(loadNames(post_id, post_type));
 
 //Novel Info
-document.getElementById("volume-no").innerHTML= document.getElementById("volume-list").children.length; //Update the number of volumes information
+var volumes_no = document.getElementById("volume-list").children.length;
+
+document.getElementById("volumes-no").innerText= "Volumes - ".concat(volumes_no)  //Update the number of volumes information

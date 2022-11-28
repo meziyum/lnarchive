@@ -3,3 +3,22 @@
 
 //Dashboard Theme
 @import "dashboard-theme";
+
+//Textarea
+textarea{
+    overflow-y: hidden;
+    resize: none;
+}
+
+textarea, #seo_meta_title{
+    width: 100%;
+}
+
+//Post Type Input Enhancements
+.inside{
+
+    #set-post-thumbnail{
+        display: flex;
+        justify-content: center;
+    }
+}

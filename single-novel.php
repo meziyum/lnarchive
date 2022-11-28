@@ -70,13 +70,8 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                                                 </tr>
                                                 <?php
                                                 }
-                                            }  
+                                            }
                                         ?>
-                                        <tr>
-                                            <th>Volumes</th>
-                                            <th></th>
-                                            <td id="volume-no">0</td>
-                                        </tr>
                                     </table>
                                 </div>
                             </div>
@@ -138,7 +133,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     if($vquery->have_posts()) { //If there are any volumes
                         ?>
                             <div class="volumes-section">
-                                <h2>Volumes</h2> <!-- Volumes Section Heading -->
+                                <h2 id="volumes-no">Volumes</h2> <!-- Volumes Section Heading -->
                                 <?php novel_list( $vquery, 'volume'); //Print Novel List ?>
                             </div>
                         <?php

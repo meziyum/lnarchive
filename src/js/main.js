@@ -64,3 +64,6 @@ async function loadNames(post_id, post_type) {
     return names;
 }
 console.log(loadNames(post_id, post_type));
+
+//Novel Info
+document.getElementById("volume-no").innerHTML= document.getElementById("volume-list").children.length; //Update the number of volumes information

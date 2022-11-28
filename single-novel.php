@@ -56,7 +56,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                                                 if( !empty($terms)) { //If there are no terms
                                                 ?>
                                                 <tr>
-                                                    <th><?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name)?> <th> <!-- Display the Name Label -->
+                                                    <th><?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name)?><th> <!-- Display the Name Label -->
                                                     <td>
                                                         <?php                   
                                                             foreach( $terms as $key => $article_term) { //Loops through all article terms
@@ -70,8 +70,13 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                                                 </tr>
                                                 <?php
                                                 }
-                                            }
+                                            }  
                                         ?>
+                                        <tr>
+                                            <th>Volumes</th>
+                                            <th></th>
+                                            <td id="volume-no">0</td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
@@ -82,21 +87,22 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 
                                 $alt_names = get_post_meta( $the_post_id, 'alternate_names_value', true ); //Get the Alt Name field
                                 $alt_names_array = explode( ",", $alt_names ); //Separate the multiple names using the comma
-                                ?>
 
-                                <h4>Alternate Names</h4> <!-- Title -->
-                                <p>
+                                if( !empty( $alt_names_array[0] )){ //If there are alternate names
+                                ?>
+                                    <h4>Alternate Names</h4> <!-- Title -->
+                                    <p>
+                                        <?php
+                                            foreach( $alt_names_array as $alt) { //Loop through all the names
+                                                ?>
+                                                    <?php echo $alt;//Print the name?>
+                                                    <br> <!--Break the Line -->
+                                                <?php
+                                            }
+                                        ?>
+                                    </p>
                                     <?php
-                                        foreach( $alt_names_array as $alt) { //Loop through all the names
-                                            ?>
-                                                <?php echo $alt;//Print the name?>
-                                                <br> <!--Break the Line -->
-                                            <?php
-                                        }
-                                    ?>
-                                </p>
-                                <?php
-                                
+                                }                           
 
                                 $genre_terms = get_the_terms($the_post_id, 'genre'); //Get the genres
                                 $tag_terms = get_the_terms($the_post_id, 'post_tag'); //Get the tags
@@ -106,7 +112,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                                     taxonomy_button_list( $genre_terms , 'genre'); //List the Genre Taxonomy
                                 }
 
-                                if( !empty( $tag_terms )){
+                                if( !empty( $tag_terms ) && $tag_terms[0]->name != 'None'){ //Perform static check that the only tag is not None and there are tags
                                     ?><h3>Tag</h3><?php //Tag Title
                                     taxonomy_button_list( $tag_terms, 'post-tag'); //List the Tag Taxonomy
                                 }

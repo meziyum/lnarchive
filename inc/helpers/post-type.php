@@ -52,7 +52,7 @@ function taxonomy_button_list( $tax_terms, $tax_name ) { //Function to List Taxo
 
 function novel_list( $loop, $name ) { //Function to display Novels List
     ?>
-        <div class="row <?php echo $name;?>-list"> <!-- Child List Row -->
+        <div class="row <?php echo $name;?>-list" id="<?php echo $name;?>-list"> <!-- Child List Row -->
             <?php
                 while( $loop->have_posts()) : $loop->the_post(); //While there are volumes
                     

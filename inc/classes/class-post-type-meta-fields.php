@@ -39,6 +39,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         add_action( 'save_post', [$this,'save_series'] );
         add_action( 'save_post', [$this,'save_alternate_names'] );
         add_action( 'save_post', [$this,'save_isbn_hard'] );
+        add_action( 'save_post', [$this,'save_isbn_paper'] );
         add_action( 'save_post', [$this,'save_isbn_digital'] );
         add_action( 'save_post', [$this,'save_isbn_audio'] );
     }
@@ -89,11 +90,22 @@ class post_type_meta_fields { //Post Type Meta Fields
             null, //Args
         );
 
-        //ISBN for the Digital Novels
+        //ISBN for the Hardcover Novels
         add_meta_box(
             'isbn_hard', //The ID
-            'ISBN-13(Paperback/Hardcover)', //The Heading
+            'ISBN-13(Hardcover)', //The Heading
             [ $this, 'isbn_hard_callback'], //The visual callback
+            ['volume'], //Post types
+            'side', //Location
+            'default', //Priority
+            null, //Args
+        );
+
+        //ISBN for the Paperback Novels
+        add_meta_box(
+            'isbn_paper', //The ID
+            'ISBN-13(Paperback)', //The Heading
+            [ $this, 'isbn_paper_callback'], //The visual callback
             ['volume'], //Post types
             'side', //Location
             'default', //Priority
@@ -112,7 +124,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         );
     }
 
-    function isbn_hard_callback( $post) { //Function to display the ISBN 13 for the softcover/hardcover format
+    function isbn_hard_callback( $post) { //Function to display the ISBN 13 for the hardcover format
 
         // Nonce Register
         wp_nonce_field( 'isbn_hard_nonce_action', 'isbn_hard_nonce');
@@ -120,14 +132,14 @@ class post_type_meta_fields { //Post Type Meta Fields
         $isbn_hard = get_post_meta( $post->ID, 'isbn_hard_value', true ); //Get the ISBN value
 
         ?>
-        <div class="isbn-hard-div"> <!--ISBN Softcover/Hardcover Div -->
+        <div class="isbn-hard-div"> <!--ISBN Hardcover Div -->
             <input type="text" name="isbn-hard" id="isbn-hard" value="<?php echo esc_html($isbn_hard)?>">
-            <p>The ISBN-13 for the Softcover/Hardcover of the novel.</p>
+            <p>The ISBN-13 for the Hardcover of the novel.</p>
         </div>
         <?php
     }
 
-    function save_isbn_hard( $post_id ) { //Function to update the ISBN 13 for the softcover/hardcover format
+    function save_isbn_hard( $post_id ) { //Function to update the ISBN 13 for the hardcover format
         
         // Nonce Verification
         if ( ! isset( $_POST['isbn_hard_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_hard_nonce'], 'isbn_hard_nonce_action')) {
@@ -148,6 +160,45 @@ class post_type_meta_fields { //Post Type Meta Fields
             $post_id, //The post id
             'isbn_hard_value', //Key
             sanitize_text_field($_POST['isbn-hard']) //Value of the Meta
+         );
+    }
+
+    function isbn_paper_callback( $post) { //Function to display the ISBN 13 for the softcover format
+
+        // Nonce Register
+        wp_nonce_field( 'isbn_paper_nonce_action', 'isbn_paper_nonce');
+
+        $isbn_hard = get_post_meta( $post->ID, 'isbn_paper_value', true ); //Get the ISBN value
+
+        ?>
+        <div class="isbn-paper-div"> <!--ISBN Softcover Div -->
+            <input type="text" name="isbn-paper" id="isbn-paper" value="<?php echo esc_html($isbn_hard)?>">
+            <p>The ISBN-13 for the Softcover of the novel.</p>
+        </div>
+        <?php
+    }
+
+    function save_isbn_paper( $post_id ) { //Function to update the ISBN 13 for the softcover format
+        
+        // Nonce Verification
+        if ( ! isset( $_POST['isbn_paper_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_paper_nonce'], 'isbn_paper_nonce_action')) {
+            return;
+        }
+        
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        update_post_meta(
+            $post_id, //The post id
+            'isbn_paper_value', //Key
+            sanitize_text_field($_POST['isbn-paper']) //Value of the Meta
          );
     }
 
@@ -456,9 +507,15 @@ class post_type_meta_fields { //Post Type Meta Fields
         // Updating the value
         if ( empty( $_POST['seo_meta_title'] ) ) { //If the meta_title is not set then default value
             $title = sanitize_text_field(get_the_title())." "; //Get the title
-            $title = substr($title, 0, $this->meta_title_length); //Truncate the title to the max char
-            $result = substr($title, 0, strrpos($title, ' ')); //Tuncate it again at last space so no half words are displayed
-            update_post_meta( $post_id, 'seo_meta_title_val', $result."..."); //Update the page seo title value to the title with a concatinated ... to understand that its not the full title
+            $meta_length = $this->meta_title_length; //Get the Meta title length
+
+            if(strlen( $title ) > $meta_length) {
+                $title = substr($title, 0, $meta_length); //Truncate the title to the max char
+                $title = substr($title, 0, strrpos($title, ' ')); //Tuncate it again at last space so no half words are displayed
+                $title = $title."..."; //Update the page seo title value to the title with a concatinated ... to understand that its not the full title
+            }
+            
+            update_post_meta( $post_id, 'seo_meta_title_val', strlen($title) );//Update the SEO Title value
         }     
         else { //IF the form field is set
             $value = sanitize_text_field( $_POST['seo_meta_title'] ); //Get the value from the form field

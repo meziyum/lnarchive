@@ -619,11 +619,14 @@ class novel_tax{ //Novel Taxonomy Class
             '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
 
         ));//End of Genre Taxonomy
+
+        //Unregister Taxonomies
+        unregister_taxonomy_for_object_type('post_tag', 'volume');
     }
 
     public function save_post_function($post_id) { //Default Tag
 
-        $default_tag = "None";
+        $default_tag = "None";//Default Tag Static Definition
         $tags = get_the_tags(); //Get the tags of the post
         
         if(empty($tags)) //If there are no tags already assigned

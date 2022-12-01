@@ -41,7 +41,6 @@ jQuery(document).ready(function() { //If the document is ready. Prevent executio
     }
 });
 
-
 const tx = document.getElementsByTagName("textarea"); //Select all the Textareas
 
 for (let i = 0; i < tx.length; i++) { //Loop through all the textareas

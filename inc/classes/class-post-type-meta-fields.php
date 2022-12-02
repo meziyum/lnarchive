@@ -38,10 +38,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         add_action( 'save_post', [$this,'save_published_date'] );
         add_action( 'save_post', [$this,'save_series'] );
         add_action( 'save_post', [$this,'save_alternate_names'] );
-        add_action( 'save_post', [$this,'save_isbn_hard'] );
-        add_action( 'save_post', [$this,'save_isbn_paper'] );
-        add_action( 'save_post', [$this,'save_isbn_digital'] );
-        add_action( 'save_post', [$this,'save_isbn_audio'] );
+        add_action( 'save_post', [$this,'save_isbn_meta'] );
     }
 
     function novel_metaboxes_add() { //Function to add metaboxes to the Novel and Volume postype
@@ -60,7 +57,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         //Published Date
         add_meta_box(
             'published_date', //The ID
-            'Published Date', //The Heading
+            'Publication Date', //The Heading
             [ $this, 'published_date_metabox_callback'], //The visual callback
             'volume', //Post types
             'side', //Location
@@ -79,44 +76,11 @@ class post_type_meta_fields { //Post Type Meta Fields
             null, //Args
         );
 
-        //ISBN for the Digital Novels
+        //ISBN Metabox
         add_meta_box(
-            'isbn_digital', //The ID
-            'ISBN-13(Digital)', //The Heading
-            [ $this, 'isbn_digital_callback'], //The visual callback
-            ['volume'], //Post types
-            'side', //Location
-            'default', //Priority
-            null, //Args
-        );
-
-        //ISBN for the Hardcover Novels
-        add_meta_box(
-            'isbn_hard', //The ID
-            'ISBN-13(Hardcover)', //The Heading
-            [ $this, 'isbn_hard_callback'], //The visual callback
-            ['volume'], //Post types
-            'side', //Location
-            'default', //Priority
-            null, //Args
-        );
-
-        //ISBN for the Paperback Novels
-        add_meta_box(
-            'isbn_paper', //The ID
-            'ISBN-13(Paperback)', //The Heading
-            [ $this, 'isbn_paper_callback'], //The visual callback
-            ['volume'], //Post types
-            'side', //Location
-            'default', //Priority
-            null, //Args
-        );
-
-        //ISBN for the Audiobook Novels
-        add_meta_box(
-            'isbn_audio', //The ID
-            'ISBN-13(Audio)', //The Heading
-            [ $this, 'isbn_audio_callback'], //The visual callback
+            'isbn_meta', //The ID
+            'ISBN-13', //The Heading
+            [ $this, 'isbn_meta_callback'], //The visual callback
             ['volume'], //Post types
             'side', //Location
             'default', //Priority
@@ -124,25 +88,48 @@ class post_type_meta_fields { //Post Type Meta Fields
         );
     }
 
-    function isbn_hard_callback( $post) { //Function to display the ISBN 13 for the hardcover format
+    function isbn_meta_callback( $post ) { //Function to display the ISBN-13 metabox
 
-        // Nonce Register
-        wp_nonce_field( 'isbn_hard_nonce_action', 'isbn_hard_nonce');
-
-        $isbn_hard = get_post_meta( $post->ID, 'isbn_hard_value', true ); //Get the ISBN value
+        wp_nonce_field( 'isbn_nonce_action', 'isbn_nonce'); // Nonce Register
 
         ?>
-        <div class="isbn-hard-div"> <!--ISBN Hardcover Div -->
-            <input type="text" name="isbn-hard" id="isbn-hard" value="<?php echo esc_html($isbn_hard)?>">
-            <p>The ISBN-13 for the Hardcover of the novel.</p>
+        <div class="isbn-div"> <!-- ISBN Div -->
+            <?php
+
+                $formats = get_terms('format', array( //Get all the format terms
+                    'hide_empty' => false, //Display the terms with no enteries
+                ));
+                ?>
+                <table> <!-- Table -->
+                    <?php
+                    foreach( $formats as $format){ //Loop through all the formats
+
+                        $format_name = $format->name; //Get the format name
+
+                        if( $format_name == "None"){ //If the format is not assigned
+                            continue; //Continue the loop
+                        }
+                        ?>
+                            <tr class="form-field isbn-<?php echo $format_name;?>"> <!-- Input Column -->
+                                <th>
+                                    <label for="isbn-<?php echo $format_name;?>"><?php echo $format_name;?></label> <!-- Label for the ISBN Input -->
+                                </th>
+                                <td>
+                                    <input name="isbn-<?php echo $format_name;?>" id="isbn-<?php echo $format_name;?>" value="<?php echo get_post_meta( $post->ID, 'isbn_'.$format_name.'_value', true );?>" maxlength="14"/> <!-- Value for the ISBN Input -->
+                                </td>
+                            </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
         </div>
         <?php
     }
 
-    function save_isbn_hard( $post_id ) { //Function to update the ISBN 13 for the hardcover format
-        
+    function save_isbn_meta( $post_id){ //Function to save the ISBN-13 values
+
         // Nonce Verification
-        if ( ! isset( $_POST['isbn_hard_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_hard_nonce'], 'isbn_hard_nonce_action')) {
+        if ( ! isset( $_POST['isbn_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_nonce'], 'isbn_nonce_action')) {
             return;
         }
         
@@ -156,128 +143,25 @@ class post_type_meta_fields { //Post Type Meta Fields
             return;
         }
 
-        update_post_meta(
-            $post_id, //The post id
-            'isbn_hard_value', //Key
-            sanitize_text_field($_POST['isbn-hard']) //Value of the Meta
-         );
-    }
+        $formats = get_terms('format', array( //Get all the format terms
+            'hide_empty' => false, //Include the terms with no enteries
+        ));
 
-    function isbn_paper_callback( $post) { //Function to display the ISBN 13 for the softcover format
+        foreach( $formats as $format){ //Loop through all the formats
 
-        // Nonce Register
-        wp_nonce_field( 'isbn_paper_nonce_action', 'isbn_paper_nonce');
+            $format_name = $format->name; //Get the format name
 
-        $isbn_hard = get_post_meta( $post->ID, 'isbn_paper_value', true ); //Get the ISBN value
+            if( $format_name == "None"){ //Continue the loop if its the default format
+                continue;
+            }
 
-        ?>
-        <div class="isbn-paper-div"> <!--ISBN Softcover Div -->
-            <input type="text" name="isbn-paper" id="isbn-paper" value="<?php echo esc_html($isbn_hard)?>">
-            <p>The ISBN-13 for the Softcover of the novel.</p>
-        </div>
-        <?php
-    }
+            update_post_meta( //Update the values
+                $post_id, //The post id
+                'isbn_'.$format_name.'_value', //Key
+                sanitize_text_field($_POST['isbn-'.$format_name]) //Value of the Meta
+            );
 
-    function save_isbn_paper( $post_id ) { //Function to update the ISBN 13 for the softcover format
-        
-        // Nonce Verification
-        if ( ! isset( $_POST['isbn_paper_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_paper_nonce'], 'isbn_paper_nonce_action')) {
-            return;
         }
-        
-        // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return;
-        }
-
-        //If the user doesnt have edit_post capability
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
-            return;
-        }
-
-        update_post_meta(
-            $post_id, //The post id
-            'isbn_paper_value', //Key
-            sanitize_text_field($_POST['isbn-paper']) //Value of the Meta
-         );
-    }
-
-    function isbn_digital_callback( $post) { //Function to display the ISBN 13 for the digital format
-
-        // Nonce Register
-        wp_nonce_field( 'isbn_digital_nonce_action', 'isbn_digital_nonce');
-
-        $isbn_digital = get_post_meta( $post->ID, 'isbn_digital_value', true ); //Get the ISBN value
-
-        ?>
-        <div class="isbn-digital-div"> <!--ISBN Digital Div -->
-            <input type="text" name="isbn-digital" id="isbn-digital" value="<?php echo esc_html($isbn_digital)?>">
-            <p>The ISBN-13 for the Digital format of the novel.</p>
-        </div>
-        <?php
-    }
-
-    function save_isbn_digital( $post_id ) { //Function to update the ISBN 13 for digital format
-        
-        // Nonce Verification
-        if ( ! isset( $_POST['isbn_digital_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_digital_nonce'], 'isbn_digital_nonce_action')) {
-            return;
-        }
-        
-        // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return;
-        }
-
-        //If the user doesnt have edit_post capability
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
-            return;
-        }
-
-        update_post_meta(
-            $post_id, //The post id
-            'isbn_digital_value', //Key
-            sanitize_text_field($_POST['isbn-digital']) //Value of the Meta
-         );
-    }
-
-    function isbn_audio_callback( $post) { //Function to display the ISBN 13 for the audio format
-
-        // Nonce Register
-        wp_nonce_field( 'isbn_audio_nonce_action', 'isbn_audio_nonce');
-
-        $isbn_audio = get_post_meta( $post->ID, 'isbn_audio_value', true ); //Get the ISBN value
-
-        ?>
-        <div class="isbn-audio-div"> <!--ISBN Audiobook Div -->
-            <input type="text" name="isbn-audio" id="isbn-audio" value="<?php echo esc_html($isbn_audio)?>">
-            <p>The ISBN-13 for the Audiobook format of the novel.</p>
-        </div>
-        <?php
-    }
-
-    function save_isbn_audio( $post_id ) { //Function to update the ISBN 13 for audio format
-        
-        // Nonce Verification
-        if ( ! isset( $_POST['isbn_audio_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_audio_nonce'], 'isbn_audio_nonce_action')) {
-            return;
-        }
-        
-        // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return;
-        }
-
-        //If the user doesnt have edit_post capability
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
-            return;
-        }
-
-        update_post_meta(
-            $post_id, //The post id
-            'isbn_audio_value', //Key
-            sanitize_text_field($_POST['isbn-audio']) //Value of the Meta
-         );
     }
 
     function alternate_names_metabox_callback ( $post ) { //Visual callback function for Alternate names Metabox
@@ -321,17 +205,74 @@ class post_type_meta_fields { //Post Type Meta Fields
 
     function published_date_metabox_callback( $post ) { //Function to display the Published Date Selection
 
-         // Nonce Register
-         wp_nonce_field( 'published_date_nonce_action', 'published_date_nonce' );
+        // Nonce Register
+        wp_nonce_field( 'published_date_nonce_action', 'published_date_nonce' );
 
-         $published_date = get_post_meta( $post->ID, 'published_date_value', true ); //Get the published date value
-         
-         ?>
-         <div class="published-date"> <!-- Published Date Div -->
-                    <label for="published_date">Published Date</label>
-                    <input name="published_date" type="date" value="<?php echo esc_html($published_date);?>">
-         </div>
-         <?php
+        $formats = get_terms('format', array( //Get all the format terms
+            'hide_empty' => false, //Include the terms with no enteries
+        ));
+
+        ?>
+        <table>
+            <?php
+                foreach( $formats as $format ){
+
+                    $format_name = $format->name; //Get the format name
+                    $published_date = get_post_meta( $post->ID, 'published_date_value_'.$format_name, true ); //Get the published date value
+
+                    if( $format_name == "None"){ //Continue the loop if its the default format
+                        continue;
+                    }
+                    ?>
+                        <tr class="published-date-<?php echo $format_name;?>"> <!-- Published Date Div -->
+                            <th>
+                                <label for="published_date_<?php echo $format_name;?>"><?php echo $format_name;?></label>
+                            </th>
+                            <td>
+                                <input name="published_date_<?php echo $format_name;?>" type="date" value="<?php echo esc_html($published_date);?>">
+                            </td>
+                        </tr>
+                    <?php
+                }
+            ?>
+        </table>
+        <?php
+    }
+
+    function save_published_date( $post_id) { //Function to save the published date value
+        
+        // Nonce Verification
+        if ( ! isset( $_POST['published_date_nonce'] ) || ! wp_verify_nonce( $_POST['published_date_nonce'], 'published_date_nonce_action')) {
+            return;
+        }
+
+        // If the post type is in autosave then the values dont need to be updated
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        //If the user doesnt have edit_post capability
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        $formats = get_terms('format', array( //Get all the format terms
+            'hide_empty' => false, //Include the terms with no enteries
+        ));
+
+        foreach( $formats as $format){
+            
+            $format_name = $format->name; //Get the format name
+
+            if( $format_name == "None") //Continue the loop if its the default format
+                continue;
+
+            update_post_meta(
+                $post_id, //The post id
+                'published_date_value_'.$format_name, //Key
+                sanitize_text_field($_POST['published_date_'.$format_name]), //Value of the Meta
+            );
+        }
     }
 
     function series_metabox_callback( $post ) { //Function to display series metabox
@@ -384,39 +325,6 @@ class post_type_meta_fields { //Post Type Meta Fields
             sanitize_text_field($_POST['series_meta']) //Value of the Meta
          );
 
-    }
-
-    function save_published_date( $post_id) { //Function to save the published date value
-        
-        // Nonce Verification
-        if ( ! isset( $_POST['published_date_nonce'] ) || ! wp_verify_nonce( $_POST['published_date_nonce'], 'published_date_nonce_action')) {
-            return;
-        }
-
-        // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return;
-        }
-
-        //If the user doesnt have edit_post capability
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
-            return;
-        }
-
-        if ( !empty( $_POST['published_date'] ) ) { //If the time is set
-            update_post_meta(
-                $post_id, //The post id
-                'published_date_value', //Key
-                sanitize_text_field($_POST['published_date']), //Value of the Meta
-             );
-        }
-        else{ //Default Date
-            update_post_meta(
-                $post_id, //The post id
-                'published_date_value', //Key
-                get_the_date(), //Pubished post date is set as the novel publish date by default
-             );
-        }
     }
 
     function add_seo_meta_desc() { //Function to add metaboxes to post types

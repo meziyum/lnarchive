@@ -24,17 +24,50 @@ class post_filter{ //Post or Custom Post Type filter
           * Actions
           */
 
-        $taxs = array('genre','publisher','status','language','writer', 'illustrator', 'translator', 'manager',); //List of the taxonomies for which to get filters
+        //Adding functions to the hooks
+
+        $taxs = array('series','genre','publisher','status','language','writer', 'illustrator', 'manager',); //List of the taxonomies for which to get filters
 
         foreach( $taxs as $tax) { //Loop through all the taxonomies
             add_action('restrict_manage_posts',[ $this, 'add_'.$tax.'_filter_to_posts_admin' ]); //Add the filter for the taxonomy
         }
 
         add_action('pre_get_posts',[ $this, 'add_taxonomy_filter_to_posts_query' ]);
+        add_action('pre_get_posts',[ $this, 'add_metadata_filter_to_posts_query' ]);
         add_action('pre_get_posts',[ $this, 'add_manager_filter_to_posts_query' ]);
-        
+    }
 
-        //Adding functions to the hooks
+    function add_series_filter_to_posts_admin( $post_type  ){
+
+        if( $post_type == 'volume'){
+
+            $series_args = array(
+                'numberposts' => -1,
+                'post_type' => 'novel',
+            );
+
+            $series = get_posts( $series_args );
+
+            ?>
+            <select name="series_filter" id="series_filter">
+                <option value="0" selected >All Series</option>
+                <option value="<?php echo count($series);?>">Test</option>
+            <?php
+            
+            foreach( $series as $novel){
+                ?>
+                    <option value="<?php echo $novel->ID;?>" <?php
+                        if(isset($_GET['series_filter']) && sanitize_text_field($_GET['series_filter']) == $novel->ID)
+                        echo 'selected'
+                    ?>>
+                    <?php echo $novel->post_title;;?>
+                    </option>
+                <?php
+            }
+            ?>
+            </select>
+            <?php
+        }        
     }
 
     function add_genre_filter_to_posts_admin( $post_type ) { //Add Genre Filter Admin
@@ -247,68 +280,55 @@ class post_filter{ //Post or Custom Post Type filter
         }
     }
 
-    function add_translator_filter_to_posts_admin( $post_type ) { //Add Translator Filter Admin
+    function add_metadata_filter_to_posts_query( $query ){ //Metadata Filter WP_QUERY
 
-        if( $post_type == 'novel') { //If the post_type is satisfied
-            $translator_args= array(
-                'show_option_all'   => 'All Translators', //Label for all taxonomy
-                'show_option_none'  => '', //Label for None
-                'orderby'           => 'name', //Order by
-                'order'             => 'ASC', //Order ASC or DESC
-                'show_count'        => 0, //Show count of the posts of the taxonomy
-                'hide_empty'        => 1, //Hide Empty Taxonomy
-                'child_of'          => 0, //Whether to show child of property
-                'exclude'           => array(), //Taxonomy Values to exclude from the dropdown
-                'echo'              => 1, //Whether to print the dropdown or not
-                'selected'          => 0, //Default selected id in the dropdown
-                'hierarchical'      => 0, //IF the taxonomy is displayed hierarchicaly
-                'name'              => 'translator_filter', //name of the taxonomy filter
-                'id'                => '', //The id of html element
-                'class'             => '', //The Class for the html element
-                'depth'             => 0, //Depth of the Element
-                'tab_index'         => 0, //Tabindex of the select element
-                'taxonomy'          => 'translator', //The taxonomy id
-                'hide_if_empty'     => false, //Whether to hide the taxonomy if it has no posts
-                'option_none_value' => -1, //Option none default value
-		        'value_field'       => 'term_id', //value in the dropdown
-                'required'          => false, //if the HTML5 is required in the select element
-            );
+        global $post_type, $pagenow; //Global post_type and current page var
 
-            if(isset($_GET['translator_filter'])){ //If the posts are already filtered
-                $translator_args['selected'] = sanitize_text_field($_GET['translator_filter']); //Change the dropdown value to the selected one
+        if( $pagenow == 'edit.php') { //Check if current page is edit.php
+            if($post_type == 'volume'){ //If the post_type is novel
+
+                if( isset($_GET['series_filter']) && sanitize_text_field($_GET['series_filter']) != 0 ) {
+                    $query->query_vars['meta_query'] = array( //Setting the taxonomy query values to the desired one
+                        array(
+                            'key' => 'series_value',
+                            'value' => sanitize_text_field($_GET['series_filter']),
+                        ),
+                    );
+                }
             }
-
-            wp_dropdown_categories($translator_args); //Display the Taxonomy Dropdown
         }
+
     }
 
     function add_taxonomy_filter_to_posts_query($query) { //Taxonomies Filter WP_QUERY
 
         global $post_type, $pagenow; //Global post_type and current page var
 
-        if( $pagenow == 'edit.php' && $post_type == 'novel') { //Check if current page is edit.php and the post_type is satisfied
+        if( $pagenow == 'edit.php') { //Check if current page is edit.php
+            if($post_type == 'novel'){ //If the post_type is novel
 
-            $filters = array();
-            $taxs = array('publisher', 'genre', 'translator', 'writer', 'illustrator', 'status', 'language');
+                $filters = array(); //Intialize Empty filters for the query
+                $taxs = array('publisher', 'genre', 'writer', 'illustrator', 'status', 'language'); //Possible taxonomy filters
 
-            foreach( $taxs as $tax) { //Run loop through all the taxonomies
-                if( isset($_GET[$tax.'_filter']) && sanitize_text_field($_GET[$tax.'_filter']) != 0 ) { //If a value is selected and the selected value is not all
-                    array_push( //Push the query in to the filters array
-                        $filters,
-                        array( //Array to store the args for the wp_query
-                            'taxonomy' => $tax, //The taxonomy which is to be filtered
-                            'field' => 'ID', //Slug
-                            'terms' => sanitize_text_field($_GET[$tax.'_filter']), //Filter the term by the selected dropdown option
-                        ),
+                foreach( $taxs as $tax) { //Run loop through all the taxonomies
+                    if( isset($_GET[$tax.'_filter']) && sanitize_text_field($_GET[$tax.'_filter']) != 0 ) { //If a value is selected and the selected value is not all
+                        array_push( //Push the query in to the filters array
+                            $filters,
+                            array( //Array to store the args for the wp_query
+                                'taxonomy' => $tax, //The taxonomy which is to be filtered
+                                'field' => 'ID', //Slug
+                                'terms' => sanitize_text_field($_GET[$tax.'_filter']), //Filter the term by the selected dropdown option
+                            ),
+                        );
+                    }
+                }
+
+                if( !empty($filters)) { //If at least one query has been applied
+                    $query->query_vars['tax_query'] = array( //Setting the taxonomy query values to the desired one
+                        'relation' => 'AND', //Apply all the Queries
+                            $filters,
                     );
                 }
-            }
-
-            if( !empty($filters)) { //If at least one query has been applied
-                $query->query_vars['tax_query'] = array( //Setting the taxonomy query values to the desired one
-                    'relation' => 'AND', //Apply all the Queries
-                        $filters,
-                );
             }
         }
     }

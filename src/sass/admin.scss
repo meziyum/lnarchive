@@ -17,6 +17,11 @@ textarea, #seo_meta_title{
 //Post Type Input Enhancements
 .inside{
 
+    .categorychecklist{
+        display: grid;
+        grid-template-columns: repeat( auto-fit, minmax(150px, 1fr) );
+    }
+
     #set-post-thumbnail{
         display: flex;
         justify-content: center;

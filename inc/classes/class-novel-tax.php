@@ -71,7 +71,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'publisher', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_dropdown_metabox'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => 'The entity responsible for the distribution of the light novel and its associated labels',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'A company or label publishing the novels', //Taxonomy Desc
@@ -293,7 +293,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'language', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_dropdown_metabox'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'The source language of the novel from which its translated from.',
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -366,7 +366,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'novel_status', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_dropdown_metabox'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'The current publishing status of the series.',
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -664,6 +664,58 @@ class novel_tax{ //Novel Taxonomy Class
             }
         }
                     
+    }
+
+    function taxonomies_dropdown_metabox( $post, $box ){ //Function to display the taxonomies as dropdown menu
+
+        $defaults = array( 'taxonomy' => 'language' ); //Default args
+
+        if( !isset($box['args']) || !is_array($box['args'])){ //If there are no arguments present or if its not an array
+            $args=array();//Intialize an empty args
+        }
+        else{ //If there is args
+            $args = $box['args'];//Store the args
+        }
+
+        extract(wp_parse_args($args, $defaults), EXTR_SKIP); //Merge the default and args and make local variables out of them
+
+        $tax = get_taxonomy($taxonomy); //Get the taxonomy
+        $selected = wp_get_object_terms($post->ID, $taxonomy, array('fields' => 'ids')); //Get the selected term
+        $hierarchical = $tax->hierarchical; //Flag to store if the taxonomy is heirarchical or not
+        ?>
+            <div id="taxonomy-<?php echo $taxonomy;?>" class="selectdiv"> <!-- Taxonomy Dropdown Div -->
+                <?php
+                    if (current_user_can($tax->cap->edit_terms)): //If the user has necessary capabilities
+
+                        if($hierarchical){ //IF its a heirarchical taxonomy
+                            wp_dropdown_categories(array( //Generate Taxonomy Dropdown
+                                'taxonomy' => $taxonomy, //Taxonomy
+                                'class' => 'widefat', //Classes
+                                'hide_empty' => 0, //Whether to hide the empty taxonomies
+                                'name' => "tax_input[$taxonomy][]", //Name field
+                                'selected' => count($selected) >= 1 ? $selected[0] : '', //Selected value
+                                'orderby' => 'name',  //Orderby
+                                'hierarchical' => 1, //Heirarchical
+                           ));
+                        }
+                        else{ //If its not a heirarchical taxonomy
+                        ?> 
+                          <select name="<?php echo "tax_input[$taxonomy][]"; ?>" class="widefat"> <!--Select -->
+                            <?php 
+                                foreach (get_terms($taxonomy, array('hide_empty' => false)) as $term): //Loop through all the taxonomy terms
+                                    ?>
+                                        <option value="<?php echo esc_attr($term->slug); ?>" <?php echo selected($term->term_id, count($selected) >= 1 ? $selected[0] : ''); ?>><?php echo esc_html($term->name); ?></option> <!-- Option -->
+                                    <?php 
+                                endforeach; 
+                            ?>
+                          </select>
+                        <?php
+                        }
+                    endif; 
+                ?>
+
+            </div>
+        <?php
     }
 }//End of Class
 ?>

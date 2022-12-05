@@ -134,7 +134,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                         ?>
                             <div class="volumes-section">
                                 <h2 id="volumes-no">Volumes</h2> <!-- Volumes Section Heading -->
-                                <?php novel_list( $vquery, 'volume'); //Print Novel List ?>
+                                <?php novel_list( $vquery, array( 'name' => 'volume')); //Print Novel List ?>
                             </div>
                         <?php
                     }
@@ -158,7 +158,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                             ?>
                                 <div class="child-section">
                                     <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
-                                    <?php novel_list( $uquery, 'child' ); //Print Novel List?>
+                                    <?php novel_list( $uquery, array( 'name' => 'child') ); //Print Novel List?>
                                 </div>
                             <?php
                         }
@@ -186,7 +186,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                         ?>
                             <div class="related-section">
                                 <h2>Recommendations</h2> <!-- Related Section Heading -->
-                                <?php novel_list( $rquery, 'child' ); //Print Novel List?>
+                                <?php novel_list( $rquery, array( 'name' => 'related', 'novel_no' => 6) ); //Print Novel List?>
                             </div>
                         <?php
                     }

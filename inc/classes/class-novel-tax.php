@@ -547,6 +547,80 @@ class novel_tax{ //Novel Taxonomy Class
 
         ));//End of Translator Taxonomy
 
+        //Register Narrator Taxonomy
+        register_taxonomy('narrator', ['volume'], array(
+            
+            //All Narrator Labels
+            'labels' => array(
+                'name' => 'Narrator', //General Name
+                'singular_name' => 'Narrator', //Singular Taxonomy Name
+                'search_items' =>  'Search Narrators', //Search
+                'popular_items' => 'Popular Narrators', //Popular
+                'all_items' => 'All Narrators', //List of all
+                'name_field_description' => 'Name of the Narrator of the audiobook', //Desc for name field on edit screen
+                'slug_field_description' => 'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', //Desc for the slug field
+                'desc_field_description' => 'Information about the Narrator', //Desc of the Description field
+                'edit_item' => 'Edit Narrator', //Edit
+                'view_item' => 'View Narrator', //View
+                'update_item' => 'Update Narrator', //Update
+                'add_new_item' => 'Add New Narrator', //Add New
+                'new_item_name' => 'New Narrator Name', //New Item Name
+                'separate_items_with_commas' => '', //Msg to separate non hierachy taxonomies
+                'add_or_remove_items' => 'Add or remove narrator', //Add/Remove Metabox
+                'choose_from_most_used' => '', //Choose from most used msg
+                'not_found' => 'No narrator found', //Not Found Msg
+                'no_terms' => 'No narrators', //Post and Media tables
+                'most_used' => '', //Most Used Msg
+                'back_to_items' => 'Back to Narrators', //Back to Narrators List
+                'item_link' => 'Narrators Link', //Taxonomy Link in Block Editor
+                'item_link_description' => 'A link to the narrator', //Desc for taxonomy Link in Block Editor
+                'menu_name' => 'Narrator', //Name in Menu
+            ),
+
+            'public' => true, //Public Use
+            'publicly_queryable' => true, //If its for front end
+            'show_ui' => true, //Show Default UI
+            'show_in_menu' => true, //Show in Admin Menu
+            'show_in_nav_menus' => true, //If it can be added to Nav Menus
+            'show_in_rest' => true, //Show in Guttenburg or REST API to be more specific
+            'rest_base' => 'narrator', //Base URL
+            'show_tagcloud' => false, //Tag Cloud Widget
+            'show_in_quick_edit' => false, //Quick Edit
+            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'description' => '',
+            'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
+            'description' => 'A person responsible for translating the light novel from its source language', //Taxonomy Desc
+            'update_count_callback' => '', //Callback for when the taxonomy count is updated
+            'query_var' => 'narrator', //Query name for the wp_query
+            'hierarchical' => false, //Hierarchy
+
+            //Default Narrator Term
+            'default_term' => array(
+                'name' => 'Unknown', //Name
+                'slug' => 'unknown', //Slug
+                'description' => 'Default term for when no narrator is assigned.' //Desc
+            ),
+
+            //Modify the Taxonomy Slug
+            'rewrite' => array(
+                'slug' => 'narrator',
+                'with_front' => false, //Hide the base slug
+                'hierarchical' => false, //If to display hierarchy in the url
+            ),
+
+            //Capabilities
+            'capabilities' => array(
+                'manage_terms' => 'manage_categories',
+                'edit_terms' => 'manage_categories',
+                'delete_terms' => 'manage_categories',
+                'assign_terms' => 'manage_categories',
+            ),
+
+            'sort' => false, //Whether this taxonomy should remember the order in which terms are added to objects
+            '_builtin' => false //IF native or build in taxonomy(Only for Core Development)
+
+        ));//End of Narrator Taxonomy
+
         //Register Genre Taxonomy
         register_taxonomy('genre', ['novel'], array(
             

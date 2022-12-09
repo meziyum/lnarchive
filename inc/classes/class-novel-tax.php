@@ -439,7 +439,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'format', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => [$this, 'taxonomies_dropdown_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => 'The formats in which the novels are published in',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'update_count_callback' => '', //Callback for when the taxonomy count is updated

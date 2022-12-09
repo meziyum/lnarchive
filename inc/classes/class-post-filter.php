@@ -35,46 +35,6 @@ class post_filter{ //Post or Custom Post Type filter
         add_action('pre_get_posts',[ $this, 'add_manager_filter_to_posts_query' ]);
     }
 
-    function add_series_filter_to_posts_admin( $post_type  ){ //function to add serues filter
-
-        if( $post_type == 'volume'){ //If the post type is novel
-
-            $series_args = array( //Get the series
-                'numberposts' => -1, //All series 
-                'post_type' => 'novel', //Post type
-            );
-
-            $series = get_posts( $series_args );
-            ?>
-            <input list="series_filter" 
-            name="series_choice" 
-            id="series_choice" 
-            autocomplete="on" 
-            <?php
-                if(!empty($_GET['series_choice'])){
-                    echo 'placeholder="'. get_the_title($_GET['series_choice']).'"';
-                    echo 'value="'.$_GET['series_choice'].'"';
-                }else{
-                    echo 'placeholder="All Series"';
-                }        
-            ?>
-            > <!-- Series Input -->
-            <datalist name="series_filter" id="series_filter"><!-- Series Datalist -->
-                <option value="0">All Series</option>
-                <?php
-                    foreach( $series as $novel){ //Loop through all the series options
-                        ?>
-                            <option value="<?php echo $novel->ID;?>"> <!-- Serie Option -->
-                                <?php echo $novel->post_title;;?> <!--Output Series Name -->
-                            </option>
-                        <?php
-                    }
-                ?>
-            </datalist>
-            <?php
-        }        
-    }
-
     function add_taxonomy_filters( $post_type ) { //Add taxonomy filters to the post listing
 
         $tax = array(); //Initialize an empty function
@@ -112,7 +72,7 @@ class post_filter{ //Post or Custom Post Type filter
             > <!-- Taxonomy Term Filter Input -->
 
             <datalist name="<?php echo esc_attr($taxonomy);?>_filter_list" id="<?php echo esc_attr($taxonomy);?>_filter_list"> <!-- Datalist -->
-                <option value="0">All <?php echo $taxonomy?></option>
+                <option value="All <?php echo esc_attr(get_taxonomy_labels(get_taxonomy($taxonomy))->name);?>">
                 <?php
                     foreach( $terms as $term) { //loop through all the valid terms
                         ?>
@@ -146,7 +106,7 @@ class post_filter{ //Post or Custom Post Type filter
         $filters = array(); //Intialize Empty filters for the query
 
         foreach( $taxs as $tax ) { //Loop through all the taxonomies
-            if( isset($_GET[$tax.'_filter']) && sanitize_text_field($_GET[$tax.'_filter']) != 0 && !empty($_GET[$tax.'_filter'])){
+            if( isset($_GET[$tax.'_filter']) && term_exists( $_GET[$tax.'_filter'], $tax )){ //IF value is set and the value is a taxonomy term
                 array_push( //Push the query in to the filters array
                     $filters, //Filter array
                     array( //Array to store the args for the wp_query
@@ -166,6 +126,43 @@ class post_filter{ //Post or Custom Post Type filter
         }
     }
 
+    function add_series_filter_to_posts_admin( $post_type  ){ //function to add serues filter
+
+        if( $post_type == 'volume'){ //If the post type is novel
+
+            $series_args = array( //Get the series
+                'numberposts' => -1, //All series 
+                'post_type' => 'novel', //Post type
+            );
+
+            $series = get_posts( $series_args );
+            ?>
+            <input list="series_filter" 
+            name="series_choice" 
+            id="series_choice" 
+            autocomplete="on" 
+            <?php
+                if(!empty($_GET['series_choice'])){ //If series choice is selected
+                    echo 'value="'.esc_attr($_GET['series_choice']).'"'; //Value
+                }else{
+                    echo 'placeholder="All Series"'; //Placeholder
+                }        
+            ?>
+            > <!-- Series Input -->
+            <datalist name="series_filter" id="series_filter"><!-- Series Datalist -->
+                <option value="All Series">
+                <?php
+                    foreach( $series as $novel){ //Loop through all the series options
+                        ?>
+                            <option value="<?php echo esc_attr($novel->post_title);?>"> <!-- Series Option -->
+                        <?php
+                    }
+                ?>
+            </datalist>
+            <?php
+        }        
+    }
+
     function add_metadata_filter_to_posts_query( $query ){ //Metadata Filter WP_QUERY
 
         global $post_type, $pagenow; //Global post_type and current page var
@@ -173,11 +170,16 @@ class post_filter{ //Post or Custom Post Type filter
         if( $pagenow == 'edit.php') { //Check if current page is edit.php
             if($post_type == 'volume'){ //If the post_type is novel
 
-                if( isset($_GET['series_choice']) && sanitize_text_field($_GET['series_choice']) != 0 && is_numeric($_GET['series_choice']) ) {
+                $novel = null;
+
+                if( isset($_GET['series_choice']))
+                $novel = get_page_by_title(sanitize_text_field($_GET['series_choice']), OBJECT, 'novel'); //Get the novel
+
+                if( $novel != null ) { //If the series_choice is not valid
                     $query->query_vars['meta_query'] = array( //Setting the taxonomy query values to the desired one
                         array(
                             'key' => 'series_value', //Meta key
-                            'value' => sanitize_text_field($_GET['series_choice']), //Meta value
+                            'value' => $novel->ID, //Meta value
                         ),
                     );
                 }

@@ -275,31 +275,29 @@ class post_type_meta_fields { //Post Type Meta Fields
         }
     }
 
-    function series_metabox_callback( $post ) { //Function to display series metabox
+    function series_metabox_callback( $post ) { //Function to display series datalist search dropdown
 
         // Nonce Register
         wp_nonce_field( 'series_nonce_action', 'series_nonce' );
 
-        //Post Status Conditions
-        $status=array('publish', 'draft', 'future');
-
-        $series = get_post_meta( $post->ID, 'series_value', true ); //Get the Series
-
-        //Dropdown Args
-        $arg=array(
-            'name' => 'series_meta', //Name of the HTML elemenent
-            'id' => 'series_meta', //ID of the HTML element
-            'orderby' => 'title', //Order by
-            'post_type'=>'novel', //Post Type
-            'show_option_none' => 'Select',
-            'selected' => $series, //Get the selected series
-            'post_status'=> $status, //List of post status conditions
-            'value_field' => 'id', //value to store in the database
-            'option_none_value' => 'none', //value of none for the database
+        $args = array( //Args for getting the series
+            'numberposts' => -1, //Get all
+            'post_type' => 'novel', //Post type novel
         );
 
-        wp_dropdown_pages($arg); //Display the Dropdown
-
+        $series = get_posts($args); //Get the list of series
+        ?>
+            <input list="series_list" class="widefat" name="series_meta" id="series_meta" autocomplete="on" value="<?php echo esc_attr(get_the_title(get_post_meta( $post->ID, 'series_value')[0]));?>"> <!-- Input and Search -->
+            <datalist id="series_list"> <!-- Series Datalist -->
+                <?php 
+                    foreach( $series as $novel ){ //Loop through all the series
+                        ?>
+                            <option value="<?php echo esc_attr($novel->post_title);?>"> <!-- Option -->
+                        <?php
+                    }
+                ?>
+            </datalist>
+        <?php
     }
 
     function save_series( $post_id) { //Function to save series 
@@ -322,7 +320,7 @@ class post_type_meta_fields { //Post Type Meta Fields
         update_post_meta(
             $post_id, //The post id
             'series_value', //Key
-            sanitize_text_field($_POST['series_meta']) //Value of the Meta
+            get_page_by_title( sanitize_text_field($_POST['series_meta']), OBJECT, 'novel' )->ID //Value of the Meta
          );
 
     }

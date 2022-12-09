@@ -71,7 +71,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'publisher', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => [$this, 'taxonomies_dropdown_metabox'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_datalist_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => 'The entity responsible for the distribution of the light novel and its associated labels',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'A company or label publishing the novels', //Taxonomy Desc
@@ -145,7 +145,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'writer', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_datalist_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => 'The author of the light novel in its source language.',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'An author is the creator or originator of any written work', //Taxonomy Desc
@@ -219,7 +219,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'illustrator', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_datalist_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => 'The artist responsible for the illustrations of the light novel.',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'An illustrator is an artist who specializes in enhancing writing or elucidating concepts by providing a visual representation that corresponds to the content of the associated text or idea.',
@@ -293,7 +293,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'language', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => [$this, 'taxonomies_dropdown_metabox'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_dropdown_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'The source language of the novel from which its translated from.',
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -366,7 +366,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'novel_status', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => [$this, 'taxonomies_dropdown_metabox'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_dropdown_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'The current publishing status of the series.',
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -439,7 +439,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'format', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_dropdown_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => 'The formats in which the novels are published in',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'update_count_callback' => '', //Callback for when the taxonomy count is updated
@@ -512,7 +512,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'translator', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_datalist_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => '',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'A person responsible for translating the light novel from its source language', //Taxonomy Desc
@@ -586,7 +586,7 @@ class novel_tax{ //Novel Taxonomy Class
             'rest_base' => 'narrator', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => null, //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => [$this, 'taxonomies_datalist_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => '',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'A person responsible for translating the light novel from its source language', //Taxonomy Desc
@@ -740,7 +740,61 @@ class novel_tax{ //Novel Taxonomy Class
                     
     }
 
-    function taxonomies_dropdown_metabox( $post, $box ){ //Function to display the taxonomies as dropdown menu
+    function taxonomies_datalist_display( $post, $box ) { //Function to display the taxonomies as datalist choice
+
+        $defaults = array(); //Default args
+
+        if( !isset($box['args']) || !is_array($box['args'])){ //If there are no arguments present or if its not an array
+            $args=array();//Intialize an empty args
+        }
+        else{ //If there is args
+            $args = $box['args'];//Store the args
+        }
+
+        extract(wp_parse_args($args, $defaults), EXTR_SKIP); //Merge the default and args and make local variables out of them
+
+        $tax = get_taxonomy($taxonomy); //Get the taxonomy
+        $hierarchical = $tax->hierarchical; //Flag to store if the taxonomy is heirarchical or not
+        ?>
+            <div id="taxonomy-<?php echo $taxonomy;?>" class="selectdiv"> <!-- Taxonomy Datalist Div -->
+                <?php
+                    if (current_user_can($tax->cap->edit_terms)): //If the user has necessary capabilities
+                            ?>
+                                <input list="tax_list" 
+                                name="<?php echo "tax_input[$taxonomy][]";?>" 
+                                id="<?php echo "tax_input[$taxonomy][]";?>" 
+                                class="widefat" 
+                                autocomplete="on" 
+                                <?php
+
+                                    $value = get_the_terms( $post, $taxonomy ); //Get the value
+
+                                    if( !empty( $value )){ //If there is value
+                                        echo 'value="'.$value[0]->name.'"'; //Value
+                                    }
+                                ?>
+                                > <!-- Series Input -->
+                                <datalist name="tax_list" id="tax_list"><!-- Series Datalist -->
+                                    <option value="0">All</option> <!-- All Option -->
+                                    <?php
+
+                                        $terms = get_terms($taxonomy, array('hide_empty' => false)); //Get all the terms
+
+                                        foreach( $terms as $term){ //Loop through all the series options
+                                            ?>
+                                                <option value="<?php echo $term->name ;?>"> <!-- Option -->
+                                            <?php
+                                        }
+                                    ?>
+                                </datalist>
+                            <?php
+                    endif;
+                ?>
+            </div>
+        <?php
+    }
+
+    function taxonomies_dropdown_display( $post, $box ){ //Function to display the taxonomies as dropdown menu choice
 
         $defaults = array( 'taxonomy' => 'language' ); //Default args
 
@@ -787,7 +841,6 @@ class novel_tax{ //Novel Taxonomy Class
                         }
                     endif; 
                 ?>
-
             </div>
         <?php
     }

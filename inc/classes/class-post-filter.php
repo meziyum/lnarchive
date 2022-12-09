@@ -26,13 +26,9 @@ class post_filter{ //Post or Custom Post Type filter
 
         //Adding functions to the hooks
 
-        $taxs = array('series', 'manager'); //List of the taxonomies for which to get filters
-
-        foreach( $taxs as $tax) { //Loop through all the taxonomies
-            add_action('restrict_manage_posts',[ $this, 'add_'.$tax.'_filter_to_posts_admin' ]); //Add the filter for the taxonomy
-        }
-
         add_action('restrict_manage_posts', [$this, 'add_taxonomy_filters']);
+        add_action('restrict_manage_posts',[ $this, 'add_series_filter_to_posts_admin' ]);
+        add_action('restrict_manage_posts',[ $this, 'add_manager_filter_to_posts_admin' ]);
 
         add_action('pre_get_posts',[ $this, 'add_taxonomy_filter_to_posts_query' ]);
         add_action('pre_get_posts',[ $this, 'add_metadata_filter_to_posts_query' ]);
@@ -50,9 +46,21 @@ class post_filter{ //Post or Custom Post Type filter
 
             $series = get_posts( $series_args );
             ?>
-            <input list="series_filter" name="series_choice" id="series_choice" autocomplete="on" placeholder="Select the Series"> <!-- Series Input -->
+            <input list="series_filter" 
+            name="series_choice" 
+            id="series_choice" 
+            autocomplete="on" 
+            <?php
+                if(!empty($_GET['series_choice'])){
+                    echo 'placeholder="'. get_the_title($_GET['series_choice']).'"';
+                    echo 'value="'.$_GET['series_choice'].'"';
+                }else{
+                    echo 'placeholder="All Series"';
+                }        
+            ?>
+            > <!-- Series Input -->
             <datalist name="series_filter" id="series_filter"><!-- Series Datalist -->
-                <option value="0" selected >All Series</option>
+                <option value="0">All Series</option>
                 <?php
                     foreach( $series as $novel){ //Loop through all the series options
                         ?>
@@ -72,7 +80,7 @@ class post_filter{ //Post or Custom Post Type filter
         $tax = array(); //Initialize an empty function
 
         if( $post_type == 'novel' ){ //Novel Post Type          
-            $taxs = array('publisher', 'genre', 'writer', 'illustrator', 'status', 'language'); //Possible taxonomy filters
+            $taxs = array('publisher', 'genre', 'post_tag', 'writer', 'illustrator', 'novel_status', 'language'); //Possible taxonomy filters
         }
         else if( $post_type == 'volume' ) { //Volume Post Type
             $taxs = array('format', 'translator', 'narrator'); //Possible taxonomy filters 
@@ -90,14 +98,25 @@ class post_filter{ //Post or Custom Post Type filter
         ) );
 
         ?>
-            <input list="<?php echo esc_attr($taxonomy);?>_filter_list" name="<?php echo esc_attr($taxonomy);?>_filter" id="<?php echo esc_attr($taxonomy);?>_filter" autocomplete="on" placeholder="<?php echo 'All '.esc_attr($taxonomy);?>"> <!-- Taxonomy Term Filter Input -->
+            <input  list="<?php echo esc_attr($taxonomy);?>_filter_list" 
+                    name="<?php echo esc_attr($taxonomy);?>_filter" 
+                    id="<?php echo esc_attr($taxonomy);?>_filter" 
+                    autocomplete="on"
+                    <?php
+                        if(!empty($_GET[esc_attr($taxonomy).'_filter'])){ //If a filter is already applied
+                            echo 'value="'.$_GET[esc_attr($taxonomy).'_filter'].'"'; //Assign a value
+                        }else{ //IF a filter is not applied
+                            echo 'placeholder="All '.esc_attr(get_taxonomy_labels(get_taxonomy($taxonomy))->name).'" '; //Default placeholder value
+                        }
+                    ?>
+            > <!-- Taxonomy Term Filter Input -->
 
             <datalist name="<?php echo esc_attr($taxonomy);?>_filter_list" id="<?php echo esc_attr($taxonomy);?>_filter_list"> <!-- Datalist -->
+                <option value="0">All <?php echo $taxonomy?></option>
                 <?php
                     foreach( $terms as $term) { //loop through all the valid terms
                         ?>
-                        <option value="<?php echo esc_attr($term->term_id) ;?>"> <!-- Option -->
-                            <?php echo esc_html($term->name)?> <!-- Echo the term name -->
+                        <option value="<?php echo esc_attr($term->name) ;?>"> <!-- Option -->
                         </option>
                         <?php
                     }
@@ -112,7 +131,7 @@ class post_filter{ //Post or Custom Post Type filter
 
         if( $pagenow == 'edit.php') { //Check if current page is edit.php
             if($post_type == 'novel'){ //If the post_type is novel
-                $taxs = array('publisher', 'genre', 'writer', 'illustrator', 'status', 'language'); //Possible taxonomy filters
+                $taxs = array('publisher', 'genre', 'post_tag', 'writer', 'illustrator', 'novel_status', 'language'); //Possible taxonomy filters
                 $this->filter_by_taxonomy( $taxs, $query ); //Filter function
             }
             else if( $post_type == 'volume' ) { //If the post type is volume
@@ -132,7 +151,7 @@ class post_filter{ //Post or Custom Post Type filter
                     $filters, //Filter array
                     array( //Array to store the args for the wp_query
                         'taxonomy' => $tax, //The taxonomy which is to be filtered
-                        'field' => 'ID', //Slug
+                        'field' => 'name', //Slug
                         'terms' => sanitize_text_field($_GET[$tax.'_filter']), //Filter the term by the selected dropdown option
                     ),
                 );

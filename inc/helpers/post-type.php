@@ -16,7 +16,7 @@ function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes 
 
     if( has_post_thumbnail( $post_id) ) { //If the post has thumbnail then lazy load
         $default_attributes = [
-            'loading' => 'lazy'
+            'loading' => 'eager'
         ];
     }
 
@@ -65,18 +65,30 @@ function novel_list( $loop, array $args ) { //Function to display Novels List
                 while( $loop->have_posts() && $novel_no>0 ) : $loop->the_post(); //While there are novels-volumes and we are supposed to display more according to $novel_no
                     
                     $post_id = get_the_ID(); //Get the post ID
-                    $permalink = get_permalink( $post_id ); //Get Post Permalink
+                    $tid = $post_id; //Default thumbnail id
 
-                    if (has_post_thumbnail( $post_id )) { //If there is a post thumbnail
+                    if ( !has_post_thumbnail( $post_id )) { //If the post doesnt have thumbnail then its novel post type
+
+                        $volume1_args = array(  //Arguments for the Loop
+                            'post_type' => 'volume', //Post Type
+                            'posts_per_page' => 1, //Posts on one page
+                            'orderby' => 'date', //Order by date
+                            'order' => 'ASC', //ASC or DEC
+                            'meta_key' => 'series_value', //Meta Key
+                            'meta_value' => $post_id, //Meta value
+                        );                       
+                        $volume1 = get_posts($volume1_args); //Get the first volume
+                        $tid = $volume1[0]->ID; //Get the thumbnail of the first volume
+                    }
                         ?>
-                            <div id="<?php echo esc_attr($post_id)?>" class="archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4"> <!-- Archive Entry Col -->
-                                <div class="<?php echo esc_attr($name)?>-entry archive-entry"> <!-- Add Entry -->
-                                    <a class="<?php echo $name?>-link" href="<?php echo esc_url(get_permalink())?>"> <!-- The Permalink -->
+                            <div class="<?php echo esc_attr($name);?>-entry-col col-lg-2 col-md-3 col-sm-3 col-4"> <!-- Archive Entry Col -->
+                                <div class="<?php echo esc_attr($name);?>-entry archive-entry"> <!-- Add Entry -->
+                                    <a id="<?php echo esc_attr($post_id)?>" class="<?php echo $name;?>-link" <?php if( get_post_type($post_id) != 'volume') echo 'href="'.esc_url(get_permalink()).'"';?>> <!-- The Permalink -->
                                         <?php
                                 
                                             //Display the Featured Image
                                             the_post_custom_thumbnail(
-                                            $post_id, //The post ID
+                                            $tid, //The thumbnail post id
                                             'novel-cover', //Name of the size
                                             [
                                                 'class' => 'novel-cover', //Class attachment for css
@@ -88,7 +100,7 @@ function novel_list( $loop, array $args ) { //Function to display Novels List
                                 </div>
                             </div>
                         <?php
-                    }
+                    
 
                     --$novel_no;//Decrement the Novel no count
 

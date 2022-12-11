@@ -11,6 +11,15 @@ $the_post_id = get_the_ID(); //Get the Post ID
 $the_post_title = get_the_title(); //Get the Title
 $the_post_type = get_post_type( $the_post_id ); //Get the Post Type
 $max_posts = get_option('posts_per_page'); //Get the max posts value
+$volume1_args = array(  //Arguments for the Loop
+    'post_type' => 'volume', //Post Type
+    'posts_per_page' => 1, //Posts on one page
+    'orderby' => 'date', //Order by date
+    'order' => 'ASC', //ASC or DEC
+    'meta_key' => 'series_value', //Meta Key
+    'meta_value' => $the_post_id, //Meta value
+);                       
+$volume1 = get_posts($volume1_args); //Get the first volume
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
@@ -23,7 +32,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                 //Title
                 printf(
                     '<h1 class="page-title">%1$s</h1>', //HTML
-                    wp_kses_post( $the_post_title), //Get the Title
+                    wp_kses_post( $volume1[0]->post_title  ), //Get the Title
                 );
                 ?>
                     <div class="info-section"> <!-- Novel Info Div -->
@@ -31,45 +40,49 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                             <div class="novel-cover-div col-lg-4 col-md-4 cold-sm-12">
                                 <div class="row"> <!-- Novel Cover Row -->
                                     <div class="col"> <!-- Novel Cover Col -->
-                                        <?php 
-                                            if (has_post_thumbnail( $the_post_id )) { //If the novel has a thumbnail
-                                                the_post_custom_thumbnail(
-                                                    $the_post_id, //The novel ID
-                                                    'novel-cover', //Name of the size
-                                                    [
-                                                        'class' => 'novel-cover', //Class attachment for css
-                                                        'alt'  => esc_html($the_post_title), //Attach the title as the default alt for the img
-                                                    ]
-                                                );
-                                            }
+                                        <?php
+                                            the_post_custom_thumbnail(
+                                                $volume1[0]->ID, //The volume ID of the first volume
+                                                'novel-cover', //Name of the size
+                                                [
+                                                    'class' => 'novel-cover', //Class attachment for css
+                                                    'alt'  => esc_html($the_post_title), //Attach the title as the default alt for the img
+                                                ]
+                                            );
                                         ?>
                                     </div>
-
                                     <table class="novel-info-table col-lg-12 col-md-12 cold-sm-12 col-6"> <!-- Novel Taxonomies Col -->
                                         <?php
                                             //List of all Iterms to display
-                                            $taxs = array('novel_status', 'language', 'publisher', 'format','writer', 'illustrator', 'translator');
+                                            $taxs = array('novel_status', 'language', 'publisher','writer', 'illustrator', 'translator','narrator');
 
                                             foreach( $taxs as $tax) { //Loop through all items
                                                 $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
-
-                                                if( !empty($terms)) { //If there are no terms
+                                                $flag = !empty($terms)
                                                 ?>
                                                 <tr>
-                                                    <th><?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name)?><th> <!-- Display the Name Label -->
-                                                    <td>
-                                                        <?php                   
-                                                            foreach( $terms as $key => $article_term) { //Loops through all article terms
-                                                                ?>
-                                                                    <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
-                                                                    <br> <!-- New Line for next entry -->
-                                                                <?php
+                                                    <th><?php
+                                                            if( $flag )
+                                                            echo esc_html(get_taxonomy_labels(get_taxonomy($tax))->name);
+                                                            else
+                                                            echo esc_html(ucfirst($tax));
+                                                        ?>
+                                                     <th> <!-- Display the Name Label -->
+                                                    <td id="<?php echo esc_attr($tax).'_info_value';?>">
+                                                        <?php
+                                                            if( $flag ){                   
+                                                                foreach( $terms as $key => $article_term) { //Loops through all article terms
+                                                                    ?>
+                                                                        <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
+                                                                        <br> <!-- New Line for next entry -->
+                                                                    <?php
+                                                                }
                                                             }                     
                                                         ?>
                                                     </td>
                                                 </tr>
                                                 <?php
-                                                }
+                                                
                                             }
                                         ?>
                                     </table>
@@ -78,7 +91,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 
                             <div class="novel-info col"> <!-- Novel Info Col -->
                                 <h2>Description</h2><?php //Desc Title
-                                the_excerpt(); //Get the excerpt
+                                echo apply_filters('the_content', ($volume1[0]->post_excerpt)); //Display the volume 0 excerpt
 
                                 $alt_names = get_post_meta( $the_post_id, 'alternate_names_value', true ); //Get the Alt Name field
                                 $alt_names_array = explode( ",", $alt_names ); //Separate the multiple names using the comma

@@ -95,4 +95,4 @@ class lnarchive_theme{ //LNarchive Theme Class
          wp_die( __('Error: Feeds are disabled') ); //Error Message
       }
 }
- ?>
+?>

@@ -286,8 +286,9 @@ class post_type_meta_fields { //Post Type Meta Fields
         );
 
         $series = get_posts($args); //Get the list of series
+        $series_value = get_post_meta( $post->ID, 'series_value'); //Get the series value
         ?>
-            <input list="series_list" class="widefat" name="series_meta" id="series_meta" autocomplete="on" value="<?php echo esc_attr(get_the_title(get_post_meta( $post->ID, 'series_value')[0]));?>"> <!-- Input and Search -->
+            <input list="series_list" class="widefat" name="series_meta" id="series_meta" autocomplete="on" value="<?php if( count( $series_value ) > 0 ) echo esc_attr(get_the_title($series_value[0]));?>"> <!-- Input and Search -->
             <datalist id="series_list"> <!-- Series Datalist -->
                 <?php 
                     foreach( $series as $novel ){ //Loop through all the series

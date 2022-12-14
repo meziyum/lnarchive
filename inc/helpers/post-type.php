@@ -81,7 +81,7 @@ function novel_list( $loop, array $args ) { //Function to display Novels List
                         $tid = $volume1[0]->ID; //Get the thumbnail of the first volume
                     }
                         ?>
-                            <div class="<?php echo esc_attr($name);?>-entry-col col-lg-2 col-md-3 col-sm-3 col-4"> <!-- Archive Entry Col -->
+                            <div class="<?php echo esc_attr($name);?>-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4"> <!-- Archive Entry Col -->
                                 <div class="<?php echo esc_attr($name);?>-entry archive-entry"> <!-- Add Entry -->
                                     <a id="<?php echo esc_attr($post_id)?>" class="<?php echo $name;?>-link" <?php if( get_post_type($post_id) != 'volume') echo 'href="'.esc_url(get_permalink()).'"';?>> <!-- The Permalink -->
                                         <?php

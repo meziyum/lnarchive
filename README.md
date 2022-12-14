@@ -23,12 +23,3 @@
 <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/npm/npm.png" alt="npm" height="40" style="vertical-align:top; margin:4px">
 <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/visual-studio-code/visual-studio-code.png" alt="VS Code" height="40" style="vertical-align:top; margin:4px">
 </p>
-
-Singe Volume ISBN Metabox for all formats
-Single Volume formats Metabox
-
-Filter by clicking taxonomy name in admin menu fix
-
-Novel Info taxonoy display settings
-SEO Title and Desc Taxonomy Settings
-SEO Title and Desc Post Settings

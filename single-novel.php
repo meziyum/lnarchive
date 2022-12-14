@@ -57,27 +57,25 @@ $volume1 = get_posts($volume1_args); //Get the first volume
                                             $taxs = array('novel_status', 'language', 'publisher','writer', 'illustrator', 'translator','narrator');
 
                                             foreach( $taxs as $tax) { //Loop through all items
+
                                                 $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
-                                                $flag = !empty($terms)
+                                                if( empty($terms) ) { //If there are no terms found for the taxonomy then the taxonomy is for the volume not the novel
+                                                    $terms = get_the_terms($volume1[0]->ID, $tax); //Get the taxonomy terms from the first volume of the novel
+                                                }
                                                 ?>
                                                 <tr>
                                                     <th><?php
-                                                            if( $flag )
-                                                            echo esc_html(get_taxonomy_labels(get_taxonomy($tax))->name);
-                                                            else
-                                                            echo esc_html(ucfirst($tax));
+                                                            echo esc_html(get_taxonomy_labels(get_taxonomy($tax))->name); //Output the Label of the Taxonomy Info Column
                                                         ?>
                                                      <th> <!-- Display the Name Label -->
                                                     <td id="<?php echo esc_attr($tax).'_info_value';?>">
-                                                        <?php
-                                                            if( $flag ){                   
+                                                        <?php        
                                                                 foreach( $terms as $key => $article_term) { //Loops through all article terms
                                                                     ?>
                                                                         <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
                                                                         <br> <!-- New Line for next entry -->
                                                                     <?php
-                                                                }
-                                                            }                     
+                                                                }            
                                                         ?>
                                                     </td>
                                                 </tr>

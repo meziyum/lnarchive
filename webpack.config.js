@@ -12,6 +12,7 @@ const BUILD_DIR = path.resolve( __dirname, 'assets' ); //Build Directory
 const entry = { //Entrypoint Constant JSON
     main: JS_DIR + '/main.js', //Main.js Entry Point
     admin: JS_DIR + '/admin.js', //Admin.js Entry Point
+	novel: JS_DIR + '/post-type/novel.js', //Novel.js Entry point
 };
 
 const output = { //Endpoint Constant JSON

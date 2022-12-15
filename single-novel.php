@@ -89,7 +89,7 @@ $volume1 = get_posts($volume1_args); //Get the first volume
 
                             <div class="novel-info col"> <!-- Novel Info Col -->
                                 <h2>Description</h2><?php //Desc Title
-                                echo apply_filters('the_content', ($volume1[0]->post_excerpt)); //Display the volume 0 excerpt
+                                echo '<div id="novel-excerpt">'.apply_filters('the_content', ($volume1[0]->post_excerpt)).'</div>'; //Display the volume 0 excerpt
 
                                 $alt_names = get_post_meta( $the_post_id, 'alternate_names_value', true ); //Get the Alt Name field
                                 $alt_names_array = explode( ",", $alt_names ); //Separate the multiple names using the comma
@@ -227,8 +227,11 @@ $volume1 = get_posts($volume1_args); //Get the first volume
                     wp_reset_postdata(); //Reset the $POST data
                     ?>
                         <h2 class="d-flex justify-content-center review-title">Reviews</h2> <!--Review Section Heading-->
+                        <div id="reviews-list">
+
+                        </div>
                     <?php
-                        comments_template('/reviews.php'); //Get the Comments Template
+                        /*comments_template('/reviews.php'); //Get the Comments Template*/
             endwhile;
             }
         ?>

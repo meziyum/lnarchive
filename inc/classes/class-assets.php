@@ -50,10 +50,18 @@ class assets{ //Assests Class
          //Registering Scripts
          wp_register_script( 'fusfan_main_script', LNARCHIVE_BUILD_JS_URI . '/main.js', array('wp-api'), filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/main.js'), true ); //Main Javascript File
          wp_register_script( 'bootstrap_bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js', array('jquery'), '5.2.2', true ); //Boostrap Bundle including all plugins and dependencies like popper.js
+         wp_register_script( 'reactjs', 'https://unpkg.com/react@18/umd/react.production.min.js', [], '18', true ); //React.js Library
+         wp_register_script( 'reactjs-dom', 'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', [], '18', true ); //React.js Library DOM
+
+         if( is_single(get_queried_object()) )
+         wp_register_script( 'post_script', LNARCHIVE_BUILD_JS_URI . '/'.get_post_type().'.js', array('wp-api'), filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/'.get_post_type().'.js'), true ); //Post specific javascript
 
          //Enqueing Scripts
          wp_enqueue_script('fusfan_main_script');
-         wp_enqueue_script('bootstrap_bundle');   
+         wp_enqueue_script('bootstrap_bundle');
+         wp_enqueue_script('reactjs');
+         wp_enqueue_script('reactjs-dom');
+         wp_enqueue_script('post_script');
     }
 }
 ?>

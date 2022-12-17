@@ -20,6 +20,8 @@ $volume1_args = array(  //Arguments for the Loop
     'meta_value' => $the_post_id, //Meta value
 );                       
 $volume1 = get_posts($volume1_args); //Get the first volume
+$volume1_id = $volume1[0]->ID; //Volume 1 ID
+$formats = get_the_terms($volume1_id, 'format'); //Get the formats
 ?>
 
 <main id="main" class="main-content" role="main"> <!-- Main Content Container -->
@@ -42,7 +44,7 @@ $volume1 = get_posts($volume1_args); //Get the first volume
                                     <div class="col"> <!-- Novel Cover Col -->
                                         <?php
                                             the_post_custom_thumbnail(
-                                                $volume1[0]->ID, //The volume ID of the first volume
+                                                $volume1_id, //The volume ID of the first volume
                                                 'novel-cover', //Name of the size
                                                 [
                                                     'class' => 'novel-cover', //Class attachment for css
@@ -54,28 +56,33 @@ $volume1 = get_posts($volume1_args); //Get the first volume
                                     <table class="novel-info-table col-lg-12 col-md-12 cold-sm-12 col-6"> <!-- Novel Taxonomies Col -->
                                         <?php
                                             //List of all Iterms to display
-                                            $taxs = array('novel_status', 'language', 'publisher','writer', 'illustrator', 'translator','narrator');
+                                            $taxs = array('novel_status', 'publisher','writer', 'illustrator', 'translator','narrator');
 
                                             foreach( $taxs as $tax) { //Loop through all items
 
-                                                $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
-                                                if( empty($terms) ) { //If there are no terms found for the taxonomy then the taxonomy is for the volume not the novel
-                                                    $terms = get_the_terms($volume1[0]->ID, $tax); //Get the taxonomy terms from the first volume of the novel
+                                                if( taxonomy_exists($tax) ){
+                                                    $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
+                                                    $flag = true;
+                                                    if( empty($terms) )//If there are no terms found for the taxonomy then the taxonomy is for the volume not the novel
+                                                        $terms = get_the_terms($volume1_id, $tax); //Get the taxonomy terms from the first volume of the novel
+                                                }
+                                                else {
+                                                    $flag = false;
                                                 }
                                                 ?>
                                                 <tr>
                                                     <th><?php
                                                             echo esc_html(get_taxonomy_labels(get_taxonomy($tax))->name); //Output the Label of the Taxonomy Info Column
                                                         ?>
-                                                     <th> <!-- Display the Name Label -->
+                                                    </th> <!-- Display the Name Label -->
                                                     <td id="<?php echo esc_attr($tax).'_info_value';?>">
-                                                        <?php        
+                                                        <?php      
                                                                 foreach( $terms as $key => $article_term) { //Loops through all article terms
                                                                     ?>
                                                                         <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
                                                                         <br> <!-- New Line for next entry -->
                                                                     <?php
-                                                                }            
+                                                                }               
                                                         ?>
                                                     </td>
                                                 </tr>
@@ -83,6 +90,22 @@ $volume1 = get_posts($volume1_args); //Get the first volume
                                                 
                                             }
                                         ?>
+                                        <tr> <!-- ISBN Info Volume 1-->
+                                            <th>
+                                                ISBN
+                                            </th>
+                                            <td id="ISBN_info_value">
+                                                <a><?php echo get_metadata( 'post', $volume1_id, 'isbn_'.$formats[0]->name.'_value')[0];?></a> <!-- Print the ISBN metadata -->
+                                            </td>
+                                        </tr>
+                                        <tr> <!-- Publication Date Info Volume 1-->
+                                            <th>
+                                                Publication Date                                         
+                                            </th>
+                                            <td id="Publication Date_info_value">
+                                            <a><?php echo get_metadata( 'post', $volume1_id, 'published_date_value_'.$formats[0]->name)[0];?></a> <!-- Print the Publication Date metadata-->
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
@@ -90,7 +113,23 @@ $volume1 = get_posts($volume1_args); //Get the first volume
                             <div class="novel-info col"> <!-- Novel Info Col -->
                                 <h2>Description</h2><?php //Desc Title
                                 echo '<div id="novel-excerpt">'.apply_filters('the_content', ($volume1[0]->post_excerpt)).'</div>'; //Display the volume 0 excerpt
-
+                                ?>
+                                    <ul id="format_info_value" class="d-flex justify-content-center"> <!-- Format List -->
+                                        <?php
+                                            foreach( $formats as $format ){ //Loop through all the formats
+                                                $format_name = $format->name; //Get the format Name
+                                                ?>
+                                                    <button class="<?php echo esc_attr($format_name.'_format format_button');?>"
+                                                    isbn="<?php echo get_metadata( 'post', $volume1_id, 'isbn_'.$format_name.'_value' )[0];?>"
+                                                    publication_date="<?php echo get_metadata( 'post', $volume1_id, 'published_date_value_'.$format_name)[0];?>"
+                                                    >
+                                                        <?Php echo esc_html($format->name);?> <!-- Output the format -->
+                                                    </button> <!--Format Button -->
+                                                <?php
+                                            }
+                                        ?>
+                                    </ul>
+                                <?php
                                 $alt_names = get_post_meta( $the_post_id, 'alternate_names_value', true ); //Get the Alt Name field
                                 $alt_names_array = explode( ",", $alt_names ); //Separate the multiple names using the comma
 

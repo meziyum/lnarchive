@@ -59,11 +59,43 @@
                 border-radius: 8px;
                 margin-bottom: 8px;
             }
+
+            .novel-info-table{
+                display: block;
+
+                tbody{
+
+                    @include respond-to( small ){
+                        max-height: 100px;
+                        overflow-y: scroll;
+                    }        
+                }      
+            }
         }
 
         .novel-info {
             background: white;
             border-radius: 8px;
+
+            #format_info_value{
+                list-style: none;
+                padding-left: 0;
+                margin: 24px 0px;
+
+                button{
+                    font-size: 16px;
+                    margin: 8px;
+                    padding: 8px;
+                    background-color: white;
+                    border: 1px solid $not-imp;
+                    border-radius: 4px;
+
+                    &:hover, &:active{
+                        background-color: lightgray;
+                    }
+                }
+
+            }
         }
     }
 }

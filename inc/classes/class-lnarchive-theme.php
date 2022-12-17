@@ -38,6 +38,7 @@ class lnarchive_theme{ //LNarchive Theme Class
           */
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
           add_action( 'template_redirect', [$this, 'rewrite_search_url']);
+          add_action( 'rest_api_init', [$this, 'register_meta']);
 
           //Disable Global RSS Feeds
           add_action('do_feed', [$this, 'wp_disable_feeds']);
@@ -71,7 +72,6 @@ class lnarchive_theme{ //LNarchive Theme Class
          add_theme_support('widgets-block-editor'); //Widgets Blocks Editor
          add_theme_support( 'post-thumbnails'); //Post Thumbnails
          add_theme_support('widgets'); //Add Widgets support
-         
 
          //Register Image Sizes
          add_image_size('featured-thumbnail', 350, 300, true); //Thumbnail Size
@@ -81,6 +81,31 @@ class lnarchive_theme{ //LNarchive Theme Class
          if( ! isset( $content_width) ) { //If $content_width is not set
             $content_width=1240; //Set Default Content Width
          }
+      }
+
+      function register_meta(){ //Register metadata
+
+         $formats = get_terms('format', array( //Get all the format terms
+            'hide_empty' => false, //Include the terms with no enteries
+         ));
+
+         foreach( $formats as $format ){ //Loop through all the formats
+
+            if( $format->name == "None") //Continue the loop if its the default format
+               continue;
+
+            register_meta( 'post', 'isbn_'.$format->name.'_value', array( //Register ISBN values
+               'object_subtype'  => 'volume',
+               'type'   => 'string',
+               'show_in_rest' => true,
+            ));
+
+            register_meta( 'post', 'published_date_value_'.$format->name, array( //Register Publication Date values
+               'object_subtype'  => 'volume',
+               'type'   => 'string',
+               'show_in_rest' => true,
+            ));
+         } 
       }
 
       function rewrite_search_url() { //Rewrite the search result url for better SEO

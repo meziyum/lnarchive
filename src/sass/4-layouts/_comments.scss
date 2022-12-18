@@ -71,3 +71,52 @@
 
     }
 }
+
+//Reviews Section
+.reviews-section {
+    padding: 0px 8px;
+
+    .review-title {
+        color: $white-text;
+        background-color: $comment-title-background;
+        text-align: center;
+    }
+
+    .comment-respond{
+
+        .comment-reply-title{
+
+            a{
+                text-decoration: none;
+            }
+
+            small{
+                a{
+                    color: $cancel-reply-color;
+                }
+            }
+        }
+
+        .comment-form{
+
+            textarea{
+                width: 100%;
+                border-radius: 12px;
+                padding: 8px;
+            }
+
+            .review-submit{
+
+                input{
+                    background-color: #3EB2FD;
+                    background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+                    background-size: calc(100% + 20px) calc(100% + 20px);
+                    border: none;
+                    border-radius: 100px;
+                    color: $white-text;
+                    padding: 6px 20px;
+                }
+            }
+        }
+    }
+}

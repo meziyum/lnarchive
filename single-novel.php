@@ -40,74 +40,70 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                     <div class="info-section"> <!-- Novel Info Div -->
                         <div class="row novel-row">
                             <div class="novel-cover-div col-lg-4 col-md-4 cold-sm-12">
-                                <div class="row"> <!-- Novel Cover Row -->
-                                    <div class="col"> <!-- Novel Cover Col -->
-                                        <?php
-                                            the_post_custom_thumbnail(
-                                                $volume1_id, //The volume ID of the first volume
-                                                'novel-cover', //Name of the size
-                                                [
-                                                    'class' => 'novel-cover', //Class attachment for css
-                                                    'alt'  => esc_html($the_post_title), //Attach the title as the default alt for the img
-                                                ]
-                                            );
-                                        ?>
-                                    </div>
-                                    <table class="novel-info-table col-lg-12 col-md-12 cold-sm-12 col-6"> <!-- Novel Taxonomies Col -->
-                                        <?php
-                                            //List of all Iterms to display
-                                            $taxs = array('novel_status', 'publisher','writer', 'illustrator', 'translator','narrator');
+                                <?php
+                                    the_post_custom_thumbnail(
+                                        $volume1_id, //The volume ID of the first volume
+                                        'novel-cover', //Name of the size
+                                        [
+                                            'class' => 'novel-cover', //Class attachment for css
+                                            'alt'  => esc_html($the_post_title), //Attach the title as the default alt for the img
+                                        ]
+                                    );
+                                ?>
+                                <table> <!-- Novel Taxonomies Table -->
+                                    <?php
+                                        //List of all Iterms to display
+                                        $taxs = array('novel_status', 'publisher','writer', 'illustrator', 'translator','narrator');
 
-                                            foreach( $taxs as $tax) { //Loop through all items
+                                        foreach( $taxs as $tax) { //Loop through all items
 
-                                                if( taxonomy_exists($tax) ){
-                                                    $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
-                                                    $flag = true;
-                                                    if( empty($terms) )//If there are no terms found for the taxonomy then the taxonomy is for the volume not the novel
-                                                        $terms = get_the_terms($volume1_id, $tax); //Get the taxonomy terms from the first volume of the novel
-                                                }
-                                                else {
-                                                    $flag = false;
-                                                }
-                                                ?>
-                                                <tr>
-                                                    <th><?php
-                                                            echo esc_html(get_taxonomy_labels(get_taxonomy($tax))->name); //Output the Label of the Taxonomy Info Column
-                                                        ?>
-                                                    </th> <!-- Display the Name Label -->
-                                                    <td id="<?php echo esc_attr($tax).'_info_value';?>">
-                                                        <?php      
-                                                                foreach( $terms as $key => $article_term) { //Loops through all article terms
-                                                                    ?>
-                                                                        <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
-                                                                        <br> <!-- New Line for next entry -->
-                                                                    <?php
-                                                                }               
-                                                        ?>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                                
+                                            if( taxonomy_exists($tax) ){
+                                                $terms = get_the_terms($the_post_id, $tax); //Get all the Terms
+                                                $flag = true;
+                                                if( empty($terms) )//If there are no terms found for the taxonomy then the taxonomy is for the volume not the novel
+                                                    $terms = get_the_terms($volume1_id, $tax); //Get the taxonomy terms from the first volume of the novel
                                             }
-                                        ?>
-                                        <tr> <!-- ISBN Info Volume 1-->
-                                            <th>
-                                                ISBN
-                                            </th>
-                                            <td id="ISBN_info_value">
-                                                <a><?php echo get_metadata( 'post', $volume1_id, 'isbn_'.$formats[0]->name.'_value')[0];?></a> <!-- Print the ISBN metadata -->
-                                            </td>
-                                        </tr>
-                                        <tr> <!-- Publication Date Info Volume 1-->
-                                            <th>
-                                                Publication Date                                         
-                                            </th>
-                                            <td id="Publication Date_info_value">
-                                            <a><?php echo get_metadata( 'post', $volume1_id, 'published_date_value_'.$formats[0]->name)[0];?></a> <!-- Print the Publication Date metadata-->
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                            else {
+                                                $flag = false;
+                                            }
+                                            ?>
+                                            <tr id="<?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name).'_row' ?>">
+                                                <th><?php
+                                                        echo esc_html(get_taxonomy_labels(get_taxonomy($tax))->name); //Output the Label of the Taxonomy Info Column
+                                                    ?>
+                                                </th> <!-- Display the Name Label -->
+                                                <td id="<?php echo esc_attr($tax).'_info_value';?>">
+                                                    <?php      
+                                                            foreach( $terms as $key => $article_term) { //Loops through all article terms
+                                                                ?>
+                                                                    <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a> <!-- Entry -->
+                                                                    <br> <!-- New Line for next entry -->
+                                                                <?php
+                                                            }               
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            
+                                        }
+                                    ?>
+                                    <tr> <!-- ISBN Info Volume 1-->
+                                        <th>
+                                            ISBN
+                                        </th>
+                                        <td id="ISBN_info_value">
+                                            <a><?php echo get_metadata( 'post', $volume1_id, 'isbn_'.$formats[0]->name.'_value')[0];?></a> <!-- Print the ISBN metadata -->
+                                        </td>
+                                    </tr>
+                                    <tr> <!-- Publication Date Info Volume 1-->
+                                        <th>
+                                            Publication Date                                         
+                                        </th>
+                                        <td id="Publication Date_info_value">
+                                        <a><?php echo get_metadata( 'post', $volume1_id, 'published_date_value_'.$formats[0]->name)[0];?></a> <!-- Print the Publication Date metadata-->
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
 
                             <div class="novel-info col"> <!-- Novel Info Col -->
@@ -265,9 +261,26 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
         
                     wp_reset_postdata(); //Reset the $POST data
                     ?>
-                        <h2 class="d-flex justify-content-center review-title">Reviews</h2> <!--Review Section Heading-->
-                        <div id="reviews-list">
+                        <div class="reviews-section"> <!-- Review Section -->
+                            <h2 class="d-flex justify-content-center review-title">Reviews</h2> <!--Review Section Heading-->
+                            <?php
+                                comment_form( array(
+                                    'title_reply'   => 'Leave a Review', //Review Msg
+                                    'comment_field' => '<textarea id="review" name="review" cols="45" rows="8" maxlength="65525"></textarea>', //Textarea HTML
+                                    'logged_in_as'  => '', //Logged in as Messages
+                                    'cancel_reply_before'   => '<small class="float-end">', //HTML before cancel reply anchor
+                                    'cancel_reply_after'    => '</small>', //HTML after cancel reply anchor
+                                    'cancel_reply_link' => 'Cancel Reply', //Cancel Reply to anchor text
+                                    'title_reply_to'    => 'Leave a Reply to %s', //Leave a reply to HTML
+                                    'label_submit'  => 'Submit', //Button Label
+                                    'submit_field'  =>  '<p class="review-submit d-flex justify-content-end">%1$s %2$s</p>', //HTML for the markdown surrounding the submit button
+                                    'format'    => 'html5', //Format for the Review
+                                    )
+                                );//Display the Review form 
+                            ?>
+                            <div id="reviews-list">
 
+                            </div>
                         </div>
                     <?php
                         /*comments_template('/reviews.php'); //Get the Comments Template*/

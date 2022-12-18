@@ -37,7 +37,7 @@ class post_filter{ //Post or Custom Post Type filter
 
     function add_taxonomy_filters( $post_type ) { //Add taxonomy filters to the post listing
 
-        $tax = array(); //Initialize an empty function
+        $taxs = array(); //Initialize an empty function
 
         if( $post_type == 'novel' ){ //Novel Post Type          
             $taxs = array('publisher', 'genre', 'post_tag', 'writer', 'illustrator', 'novel_status', 'language'); //Possible taxonomy filters

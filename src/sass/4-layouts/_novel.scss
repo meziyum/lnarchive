@@ -45,7 +45,7 @@
             border-radius: 8px;
             padding: 8px 12px 0px 12px;
             
-            @include respond-to( small ) {
+            @include respond-to( x-small ) {
                 margin-right: 0px;
                 margin-bottom: 16px;
             }
@@ -60,16 +60,8 @@
                 margin-bottom: 8px;
             }
 
-            .novel-info-table{
-                display: block;
-
-                tbody{
-
-                    @include respond-to( small ){
-                        max-height: 100px;
-                        overflow-y: scroll;
-                    }        
-                }      
+            table{
+                margin: 8px;
             }
         }
 
@@ -162,7 +154,7 @@
         margin: 8px;
     }
 
-    .child-list {
+    .related-list {
         margin: 0px;
 
         @include respond-to( x-small ){

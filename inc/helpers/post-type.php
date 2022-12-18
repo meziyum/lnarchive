@@ -114,8 +114,7 @@ function post_list( $loop , $label) { //Function to display Posts List
     ?>
         <div class="row <?php echo $label;?>"> <!-- Post Row -->
             <?php
-                while( $loop->have_posts()) : $loop->the_post(); //While there are posts
-                    
+                while( $loop->have_posts()) : $loop->the_post(); //While there are posts                    
                     $the_post_id = get_the_ID(); //Get the Post ID
                     ?>
                         <div class="col-lg-4 col-md-6 col-sm-12 col-12"> <!-- Blog Entry -->

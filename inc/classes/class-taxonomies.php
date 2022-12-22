@@ -9,7 +9,7 @@ namespace lnarchive\inc; //Namespace Definition
 use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 use WP_Error;
 
-class novel_tax{ //Novel Taxonomy Class
+class taxonomies{ //Novel Taxonomy Class
 
     use Singleton; //Using Sinlgetons
 

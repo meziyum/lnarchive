@@ -24,9 +24,9 @@ class lnarchive_theme{ //LNarchive Theme Class
          security::get_instance();
          novel::get_instance();
          volume::get_instance();
-         novel_tax::get_instance();
-         custom_tax_meta_fields::get_instance();
-         post_type_meta_fields::get_instance();
+         taxonomies::get_instance();
+         taxonomies_metafields::get_instance();
+         post_metafields::get_instance();
          post_filter::get_instance();
 
          $this->set_hooks(); //Setting the hook below

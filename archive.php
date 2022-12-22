@@ -17,8 +17,10 @@ get_header(); //Get the Header
         );
         ?>
 
-        <div class="col d-none d-lg-block">
+        <div class="filter-wrap col d-none d-lg-block">
+            <?php
 
+            ?>
         </div>
 
         <div class="archive-wrap col-lg-10"> <!-- Archive Div -->

@@ -14,6 +14,7 @@ const entry = { //Entrypoint Constant JSON
     admin: JS_DIR + '/admin.js', //Admin.js Entry Point
 	novel: JS_DIR + '/post-type/novel.js', //Novel.js Entry point
 	post: JS_DIR + '/post-type/post.js', //Post.js Entry point
+	archive: JS_DIR + '/admin.js', //Archive.js Entry Point
 };
 
 const output = { //Endpoint Constant JSON

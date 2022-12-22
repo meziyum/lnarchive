@@ -74,6 +74,7 @@
 
 //Reviews Section
 .reviews-section {
+    background: #ffffff;
     padding: 0px 8px;
 
     .review-title {
@@ -105,7 +106,7 @@
                 padding: 8px;
             }
 
-            .review-submit{
+            .form-submit{
 
                 input{
                     background-color: #3EB2FD;
@@ -117,6 +118,30 @@
                     padding: 6px 20px;
                 }
             }
+        }
+    }
+
+    #reviews-list{
+        padding-left: 0px;
+
+        .review-entry{
+            margin-bottom: 8px;
+            border-bottom: 2px dotted $not-imp;
+
+            .review-left{
+
+                .user_avatar {
+                    max-width: 75px;
+                    max-height: 75px;
+                    border-radius: 50%;
+                }
+
+            }
+
+            .review-right{
+                
+            }
+
         }
     }
 }

@@ -112,14 +112,19 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                                 ?>
                                     <ul id="format_info_value" class="d-flex justify-content-center"> <!-- Format List -->
                                         <?php
-                                            foreach( $formats as $format ){ //Loop through all the formats
-                                                $format_name = $format->name; //Get the format Name
+                                            for( $i=0; $i<count($formats); $i++){ //Loop through all the formats
+                                                $format_name = $formats[$i]->name; //Get the format Name
                                                 ?>
-                                                    <button class="<?php echo esc_attr($format_name.'_format format_button');?>"
+                                                    <button 
+                                                    class="<?php 
+                                                    echo esc_attr($format_name.'_format format_button '); //Button Classes
+                                                        if( $i==0 ) //If its the first format
+                                                            echo "selected_format"; //Assign it as the selected format
+                                                    ?>"
                                                     isbn="<?php echo get_metadata( 'post', $volume1_id, 'isbn_'.$format_name.'_value' )[0];?>"
                                                     publication_date="<?php echo get_metadata( 'post', $volume1_id, 'published_date_value_'.$format_name)[0];?>"
                                                     >
-                                                        <?Php echo esc_html($format->name);?> <!-- Output the format -->
+                                                        <?Php echo esc_html($format_name);?> <!-- Output the format -->
                                                     </button> <!--Format Button -->
                                                 <?php
                                             }
@@ -266,19 +271,19 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                             <?php
                                 comment_form( array(
                                     'title_reply'   => 'Leave a Review', //Review Msg
-                                    'comment_field' => '<textarea id="review" name="review" cols="45" rows="8" maxlength="65525"></textarea>', //Textarea HTML
+                                    'comment_field' => '<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525"></textarea>', //Textarea HTML
                                     'logged_in_as'  => '', //Logged in as Messages
                                     'cancel_reply_before'   => '<small class="float-end">', //HTML before cancel reply anchor
                                     'cancel_reply_after'    => '</small>', //HTML after cancel reply anchor
                                     'cancel_reply_link' => 'Cancel Reply', //Cancel Reply to anchor text
                                     'title_reply_to'    => 'Leave a Reply to %s', //Leave a reply to HTML
                                     'label_submit'  => 'Submit', //Button Label
-                                    'submit_field'  =>  '<p class="review-submit d-flex justify-content-end">%1$s %2$s</p>', //HTML for the markdown surrounding the submit button
+                                    'submit_field'  =>  '<p class="form-submit d-flex justify-content-end">%1$s %2$s</p>', //HTML for the markdown surrounding the submit button
                                     'format'    => 'html5', //Format for the Review
                                     )
                                 );//Display the Review form 
                             ?>
-                            <div id="reviews-list">
+                            <div id="reviews-list"> <!-- Reviews List Column -->
 
                             </div>
                         </div>

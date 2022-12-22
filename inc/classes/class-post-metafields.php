@@ -8,7 +8,7 @@
 namespace lnarchive\inc; //Namespace Definition
 use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
-class post_type_meta_fields { //Post Type Meta Fields
+class post_metafields { //Post Type Meta Fields
 
     use Singleton; //Using Sinlgeton
 
@@ -129,19 +129,16 @@ class post_type_meta_fields { //Post Type Meta Fields
     function save_isbn_meta( $post_id){ //Function to save the ISBN-13 values
 
         // Nonce Verification
-        if ( ! isset( $_POST['isbn_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_nonce'], 'isbn_nonce_action')) {
+        if ( ! isset( $_POST['isbn_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_nonce'], 'isbn_nonce_action'))
             return;
-        }
         
         // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
             return;
-        }
 
         //If the user doesnt have edit_post capability
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        if ( ! current_user_can( 'edit_post', $post_id ) )
             return;
-        }
 
         $formats = get_terms('format', array( //Get all the format terms
             'hide_empty' => false, //Include the terms with no enteries
@@ -151,9 +148,8 @@ class post_type_meta_fields { //Post Type Meta Fields
 
             $format_name = $format->name; //Get the format name
 
-            if( $format_name == "None"){ //Continue the loop if its the default format
+            if( $format_name == "None" || empty($_POST['isbn-'.$format_name])) //Continue the loop if its the default format or there is no value to be saved
                 continue;
-            }
 
             update_post_meta( //Update the values
                 $post_id, //The post id
@@ -181,19 +177,19 @@ class post_type_meta_fields { //Post Type Meta Fields
     function save_alternate_names( $post_id ) { //Function to save Alternate Names
         
         // Nonce Verification
-        if ( ! isset( $_POST['alternate_names_nonce'] ) || ! wp_verify_nonce( $_POST['alternate_names_nonce'], 'alternate_names_nonce_action')) {
+        if ( ! isset( $_POST['alternate_names_nonce'] ) || ! wp_verify_nonce( $_POST['alternate_names_nonce'], 'alternate_names_nonce_action'))
             return;
-        }
         
         // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
             return;
-        }
 
         //If the user doesnt have edit_post capability
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        if ( ! current_user_can( 'edit_post', $post_id ) )
             return;
-        }
+
+        if( empty($_POST['alternate_names_meta']) ) //If there is no value set to be saved
+            return;
 
         //Update Post Meta
         update_post_meta(
@@ -242,19 +238,16 @@ class post_type_meta_fields { //Post Type Meta Fields
     function save_published_date( $post_id) { //Function to save the published date value
         
         // Nonce Verification
-        if ( ! isset( $_POST['published_date_nonce'] ) || ! wp_verify_nonce( $_POST['published_date_nonce'], 'published_date_nonce_action')) {
+        if ( ! isset( $_POST['published_date_nonce'] ) || ! wp_verify_nonce( $_POST['published_date_nonce'], 'published_date_nonce_action'))
             return;
-        }
 
         // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
             return;
-        }
 
         //If the user doesnt have edit_post capability
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        if ( ! current_user_can( 'edit_post', $post_id ) )
             return;
-        }
 
         $formats = get_terms('format', array( //Get all the format terms
             'hide_empty' => false, //Include the terms with no enteries
@@ -264,7 +257,7 @@ class post_type_meta_fields { //Post Type Meta Fields
             
             $format_name = $format->name; //Get the format name
 
-            if( $format_name == "None") //Continue the loop if its the default format
+            if( $format_name == "None" || empty($_POST['published_date_'.$format_name])) //Continue the loop if its the default format or there is no value to save
                 continue;
 
             update_post_meta(
@@ -304,26 +297,25 @@ class post_type_meta_fields { //Post Type Meta Fields
     function save_series( $post_id) { //Function to save series 
 
         // Nonce Verification
-        if ( ! isset( $_POST['series_nonce'] ) || ! wp_verify_nonce( $_POST['series_nonce'], 'series_nonce_action')) {
+        if ( ! isset( $_POST['series_nonce'] ) || ! wp_verify_nonce( $_POST['series_nonce'], 'series_nonce_action'))
             return;
-        }
         
         // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
             return;
-        }
 
         //If the user doesnt have edit_post capability
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        if ( !current_user_can( 'edit_post', $post_id ) )
             return;
-        }
 
-        update_post_meta(
+        if( empty($_POST['series_meta'])) //If there is no value in the metabox
+            return;
+
+        update_post_meta( //Update the series value
             $post_id, //The post id
             'series_value', //Key
             get_page_by_title( sanitize_text_field($_POST['series_meta']), OBJECT, 'novel' )->ID //Value of the Meta
          );
-
     }
 
     function add_seo_meta_desc() { //Function to add metaboxes to post types
@@ -390,25 +382,21 @@ class post_type_meta_fields { //Post Type Meta Fields
         $post_type = get_post_type(); //Get the Post Type
 
         // Nonce Verification
-        if ( ! isset( $_POST['seo_meta_title_nonce'] ) || ! wp_verify_nonce( $_POST['seo_meta_title_nonce'], 'seo_meta_title_nonce_action')) {
+        if ( ! isset( $_POST['seo_meta_title_nonce'] ) || ! wp_verify_nonce( $_POST['seo_meta_title_nonce'], 'seo_meta_title_nonce_action'))
             return;
-        }
 
         // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
             return;
-        }
 
         // Verify User Permissions
         if ( isset( $post_type ) && 'page' == $post_type ) { //Check if its a page
-            if ( ! current_user_can( 'edit_page', $post_id ) ) { //If the user doesnt have edit_page capability
+            if ( ! current_user_can( 'edit_page', $post_id ) ) //If the user doesnt have edit_page capability
                 return;
-            }
         }
         else { //For all other post types
-            if ( ! current_user_can( 'edit_post', $post_id ) ) { //If the user doesnt have edit_post capability
+            if ( ! current_user_can( 'edit_post', $post_id ) ) //If the user doesnt have edit_post capability
                 return;
-            }
         }
 
         // Updating the value
@@ -435,25 +423,21 @@ class post_type_meta_fields { //Post Type Meta Fields
         $post_type = get_post_type(); //Get the Post Type
 
         // Nonce Verification
-        if ( ! isset( $_POST['seo_meta_desc_nonce'] ) || ! wp_verify_nonce( $_POST['seo_meta_desc_nonce'], 'seo_meta_desc_nonce_action')) {
+        if ( !isset( $_POST['seo_meta_desc_nonce'] ) || ! wp_verify_nonce( $_POST['seo_meta_desc_nonce'], 'seo_meta_desc_nonce_action'))
             return;
-        }
 
         // If the post type is in autosave then the values dont need to be updated
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
             return;
-        }
 
         // Verify User Permissions
         if ( isset( $post_type ) && 'page' == $post_type ) { //Check if its a page
-            if ( ! current_user_can( 'edit_page', $post_id ) ) { //If the user doesnt have edit_page capability
+            if ( ! current_user_can( 'edit_page', $post_id ) ) //If the user doesnt have edit_page capability
                 return;
-            }
         }
         else { //For all other post types
-            if ( ! current_user_can( 'edit_post', $post_id ) ) { //If the user doesnt have edit_post capability
+            if ( ! current_user_can( 'edit_post', $post_id ) ) //If the user doesnt have edit_post capability
                 return;
-            }
         }
 
         // Updating the value

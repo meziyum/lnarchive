@@ -12,6 +12,11 @@
     aspect-ratio: 4.1 / 5.8;
 }
 
+.selected_format {
+    background-color: #fef8f2 !important;
+    border-color: #FF9900 !important;
+}
+
 //Archive
 .archive-entry-col{
     padding: 0px;
@@ -62,6 +67,11 @@
 
             table{
                 margin: 8px;
+
+                td{
+                    color: $theme-primary;
+                    text-decoration: none;
+                }
             }
         }
 

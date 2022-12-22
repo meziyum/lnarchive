@@ -8,7 +8,7 @@
 namespace lnarchive\inc; //Namespace Definition
 use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
 
-class custom_tax_meta_fields{ //Custom Taxonomies Meta Fields Class
+class taxonomies_metafields{ //Custom Taxonomies Meta Fields Class
 
     use Singleton; //Using Sinlgeton
 

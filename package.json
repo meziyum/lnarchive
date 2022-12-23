@@ -1,6 +1,6 @@
 {
   "name": "lnarchive",
-  "version": "0.2.8.5",
+  "version": "0.2.9",
   "description": "LNarchive Theme packages",
   "main": "main.js",
   "scripts": {

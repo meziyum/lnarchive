@@ -4,6 +4,9 @@
  * 
  * @package LNarchive
  */
+
+use JetBrains\PhpStorm\Language;
+
 get_header(); //Get the Header
 ?>
 
@@ -19,11 +22,38 @@ get_header(); //Get the Header
 
         <div class="filter-wrap col d-none d-lg-block">
             <?php
+                $taxs = array( 'novel_status', 'language', 'publisher', 'writer', 'illustrator');
 
+                foreach( $taxs as $tax ){
+                    ?>
+                        <div>
+                        <h4><?php echo ucfirst(get_taxonomy($tax)->label);?></h4>
+                        <input list="<?php echo $tax;?>_filter" name="<?php echo $tax;?>_filter_input" id="<?php echo $tax;?>_filter_input" autocomplete="on">
+                        <datalist id="<?php echo $tax;?>_filter">
+                    <?php
+
+                    $terms = get_terms( array(
+                        'taxonomy' => $tax,
+                        'hide_empty' => true,
+                    ) );
+
+                    foreach( $terms as $term ){
+                        ?>
+                            <option id="option_<?php echo $term->name?>" value="<?php echo $term->name;?>">
+                                <?php echo $term->term_id?>
+                            </option>
+                        <?php
+                    }
+                    ?>
+                        </datalist>
+                        </div>
+                    <?php
+                }
             ?>
+            <button id="filter-apply">Filter</button>
         </div>
 
-        <div class="archive-wrap col-lg-10"> <!-- Archive Div -->
+        <div class="archive-wrap col-lg-9"> <!-- Archive Div -->
         <?php
         
         if(have_posts()) { //If there is post

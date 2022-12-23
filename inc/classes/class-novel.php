@@ -87,7 +87,7 @@ class novel{ //Assests Class
             'map_meta_cap'        => true, //Whether to use the internal default meta map capability handling
             
             // Features this CPT supports in Post Editor
-            'supports'            => array( 'title', 'author', 'comments', 'revisions', 'custom-fields','page-attributes'),
+            'supports'            => array( 'title', 'author', 'comments', 'thumbnail', 'revisions', 'custom-fields','page-attributes'),
 
             'register_meta_box_cb' => null, //Callback function to setup the metabox in edit form
 

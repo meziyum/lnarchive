@@ -16,7 +16,7 @@ function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes 
 
     if( has_post_thumbnail( $post_id) ) { //If the post has thumbnail then lazy load
         $default_attributes = [
-            'loading' => 'eager'
+            'loading' => 'lazy'
         ];
     }
 

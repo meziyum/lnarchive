@@ -21,13 +21,38 @@ get_header(); //Get the Header
         ?>
 
         <div class="filter-wrap col d-none d-lg-block">
+            <h3>Filters</h3>
             <?php
+
+                $taxs = array( 'genre', 'post_tag');
+
+                foreach( $taxs as $tax ){
+                    ?>
+                        <div>
+                            <h5><?php echo ucfirst(get_taxonomy($tax)->label);?></h5>
+                            <?php
+                                $terms = get_terms( array(
+                                    'taxonomy' => $tax,
+                                    'hide_empty' => true,
+                                ) );
+
+                                foreach( $terms as $term ){
+                                    ?>
+                                        <input type="checkbox" id="<?php echo $term->name.'_checkbox';?>" name="<?php echo $term->name.'_checkbox';?>" value="<?php echo $term->term_id;?>">
+                                        <label for="<?php echo $term->name.'_checkbox';?>"><?php echo $term->name;?></label><br>
+                                    <?php
+                                }
+                            ?>
+                        </div>
+                    <?php
+                }
+            
                 $taxs = array( 'novel_status', 'language', 'publisher', 'writer', 'illustrator');
 
                 foreach( $taxs as $tax ){
                     ?>
                         <div>
-                        <h4><?php echo ucfirst(get_taxonomy($tax)->label);?></h4>
+                        <h5><?php echo ucfirst(get_taxonomy($tax)->label);?></h5>
                         <input list="<?php echo $tax;?>_filter" name="<?php echo $tax;?>_filter_input" id="<?php echo $tax;?>_filter_input" autocomplete="on">
                         <datalist id="<?php echo $tax;?>_filter">
                     <?php
@@ -55,10 +80,9 @@ get_header(); //Get the Header
 
         <div class="archive-wrap col-lg-9"> <!-- Archive Div -->
         <?php
-        
-        if(have_posts()) { //If there is post
-            novel_list( $wp_query, array( 'name' => 'novel' )); //Print Novel List
-        }
+            if(have_posts()) { //If there is post
+                novel_list( $wp_query, array( 'name' => 'novel' )); //Print Novel List
+            }
         ?>
         </div>
     </div>

@@ -51,8 +51,7 @@ fetch( json_request_url+"comments?post="+post_id )
 
 
 var selected_format = document.getElementsByClassName("selected_format")[0]; //Get the Selected format element
-
-    
+   
 narrator_info_display(); ////Handle the display of narrator row
 formats_click_list( document.getElementsByClassName("format_button") ); //Apply click event listeners to initial formats
 

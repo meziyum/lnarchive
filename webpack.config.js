@@ -12,8 +12,8 @@ const BUILD_DIR = path.resolve( __dirname, 'assets' ); //Build Directory
 const entry = { //Entrypoint Constant JSON
     main: JS_DIR + '/main.js', //Main.js Entry Point
     admin: JS_DIR + '/admin.js', //Admin.js Entry Point
-	novel: JS_DIR + '/post-type/novel.js', //Novel.js Entry point
-	post: JS_DIR + '/post-type/post.js', //Post.js Entry point
+	novel: JS_DIR + '/novel.js', //Novel.js Entry point
+	post: JS_DIR + '/post.js', //Post.js Entry point
 	archive: JS_DIR + '/archive.js', //Archive.js Entry Point
 };
 
@@ -35,6 +35,7 @@ const rules = [ //Rules
 		use: [
 			MiniCssExtractPlugin.loader, //MiniCssExtractPlugin.loader,
 			{ loader: "css-loader", options: { sourceMap: true } },
+			{ loader: "postcss-loader", },
           	{ loader: "sass-loader", options: { sourceMap: true } },
 		]
 	},
@@ -60,6 +61,8 @@ const rules = [ //Rules
  */
 
 const plugins = ( argv ) => [ //Plugins
+
+	require('autoprefixer'),
 
     new CleanWebpackPlugin( { //CleanWebpack Plugin
 		cleanStaleWebpackAssets: ( 'production' === argv.mode  )

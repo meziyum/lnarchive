@@ -12,7 +12,7 @@ $header_menu_id = $menu_class->get_menu_id('fusfan_primary'); //Get the menu id 
 $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_items of the primary menu
 ?>
 
-<nav class="header-nav navbar navbar-expand-lg navbar-light bg-light">
+<nav class="header-nav navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container">
  
     <div class="navbar-brand">

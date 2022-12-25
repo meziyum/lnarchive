@@ -1,11 +1,9 @@
-// main.js
 
-//import './directory';
+//Import Libraries
+import bootstrap from 'bootstrap'
 
-//import images
+//Import Images
 import mainImage from '../img/test.png';
 
 //Import Styles
 import '../sass/main.scss'
-
-//Import the Images

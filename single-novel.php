@@ -37,9 +37,9 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                     wp_kses_post( $volume1[0]->post_title  ), //Get the Title
                 );
                 ?>
-                    <div class="info-section"> <!-- Novel Info Div -->
+                    <section class="info-section"> <!-- Novel Info Div -->
                         <div class="row novel-row">
-                            <div class="novel-cover-div col-lg-4 col-md-4 cold-sm-12">
+                            <div class="novel-info-left col-lg-4 col-md-4 cold-sm-12">
                                 <?php
                                     the_post_custom_thumbnail(
                                         $volume1_id, //The volume ID of the first volume
@@ -106,7 +106,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                                 </table>
                             </div>
 
-                            <div class="novel-info col"> <!-- Novel Info Col -->
+                            <div class="novel-info-right col"> <!-- Novel Info Col -->
                                 <h2>Description</h2><?php //Desc Title
                                 echo '<div id="novel-excerpt">'.apply_filters('the_content', ($volume1[0]->post_excerpt)).'</div>'; //Display the volume 0 excerpt
                                 ?>
@@ -116,11 +116,9 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                                                 $format_name = $formats[$i]->name; //Get the format Name
                                                 ?>
                                                     <button 
-                                                    class="<?php 
-                                                    echo esc_attr($format_name.'_format format_button '); //Button Classes
-                                                        if( $i==0 ) //If its the first format
-                                                            echo "selected_format"; //Assign it as the selected format
-                                                    ?>"
+                                                    id="<?php echo esc_attr($format_name.'-format');//ID of the format button?>" 
+                                                    class="format-button <?php if( $i==0 ) //Assign selected format class if first iteration of the format loop
+                                                            echo "selected-format";?>" 
                                                     isbn="<?php echo get_metadata( 'post', $volume1_id, 'isbn_'.$format_name.'_value' )[0];?>"
                                                     publication_date="<?php echo get_metadata( 'post', $volume1_id, 'published_date_value_'.$format_name)[0];?>"
                                                     >
@@ -167,7 +165,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                                 ?>
                             </div>
                         </div>
-                    </div>                       
+                    </section>                       
                 <?php
 
                     $vol_args = array(  //Arguments for the Loop
@@ -181,12 +179,12 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
 
                     $vquery = new WP_Query($vol_args); //Volumes List Query
 
-                    if($vquery->have_posts()) { //If there are any volumes
+                    if($vquery->post_count > 1 ) { //If there are more than one volumes for the novel
                         ?>
-                            <div class="volumes-section">
+                            <section class="volumes-section novels-list-section">
                                 <h2 id="volumes-no">Volumes</h2> <!-- Volumes Section Heading -->
                                 <?php novel_list( $vquery, array( 'name' => 'volume')); //Print Novel List ?>
-                            </div>
+                            </section>
                         <?php
                     }
 
@@ -207,10 +205,10 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
 
                         if($uquery->have_posts()) { //If there are any children
                             ?>
-                                <div class="child-section">
+                                <section class="child-section novels-list-section">
                                     <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
                                     <?php novel_list( $uquery, array( 'name' => 'child') ); //Print Novel List?>
-                                </div>
+                                </section>
                             <?php
                         }
 
@@ -235,10 +233,10 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
 
                     if($rquery->have_posts()) { //If there are any related posts
                         ?>
-                            <div class="related-section">
+                            <section class="related-section novels-list-section">
                                 <h2>Recommendations</h2> <!-- Related Section Heading -->
                                 <?php novel_list( $rquery, array( 'name' => 'related', 'novel_no' => 6) ); //Print Novel List?>
-                            </div>
+                            </section>
                         <?php
                     }
 
@@ -255,18 +253,18 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
 
                     if($loop->have_posts()) { //If there is post
                         ?>
-                            <div class="posts-section">
+                            <section class="posts-section">
                                 <div class="row"> <!-- Novel News Articles Div -->
                                     <h2>Related Articles</h2>
                                     <?php post_list( $loop, 'novel-articles' ); //Post List?>
                                 </div>
-                            </div>
+                            </section>
                         <?php
                     }
         
                     wp_reset_postdata(); //Reset the $POST data
                     ?>
-                        <div class="reviews-section"> <!-- Review Section -->
+                        <section class="reviews-section"> <!-- Review Section -->
                             <h2 class="d-flex justify-content-center review-title">Reviews</h2> <!--Review Section Heading-->
                             <?php
                                 comment_form( array(
@@ -286,7 +284,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                             <div id="reviews-list"> <!-- Reviews List Column -->
 
                             </div>
-                        </div>
+                        </section>
                     <?php
                         /*comments_template('/reviews.php'); //Get the Comments Template*/
             endwhile;

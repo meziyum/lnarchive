@@ -26,7 +26,7 @@ $result_found = false; //Results Found Flag
                 if($nquery->have_posts()) { //If there are novels
                     $result_found = true; //Set the flag to true
                     ?><h2 class="page-title">Novels</h2> <!-- Novel Heading --> <?php
-                    novel_list($nquery, 'novel-search'); //Novel List      
+                    novel_list($nquery, array( 'name' => 'novel-search' )); //Novel List      
                 }
 
                 wp_reset_postdata(); //Reset the $POST data

@@ -60,7 +60,7 @@ function novel_list( $loop, array $args ) { //Function to display Novels List
         $novel_no=$loop->post_count; //If key not defined then display all that is the length of the loop
 
     ?>
-        <div class="row <?php echo $name;?>-list" id="<?php echo $name;?>-list"> <!-- Child List Row -->
+        <div class="row novel-list" id="<?php echo $name;?>-list"> <!-- Novel List Row -->
             <?php
                 while( $loop->have_posts() && $novel_no>0 ) : $loop->the_post(); //While there are novels-volumes and we are supposed to display more according to $novel_no
                     

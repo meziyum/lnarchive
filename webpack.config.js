@@ -14,7 +14,10 @@ const entry = { //Entrypoint Constant JSON
     admin: JS_DIR + '/admin.js', //Admin.js Entry Point
 	novel: JS_DIR + '/novel.js', //Novel.js Entry point
 	post: JS_DIR + '/post.js', //Post.js Entry point
+	page: JS_DIR + '/page.js', //page.js Entry point
 	archive: JS_DIR + '/archive.js', //Archive.js Entry Point
+	archive_post: JS_DIR + '/archive-post.js', //Archive-post.js Entry Point
+	search: JS_DIR + '/search.js', //Archive.js Entry Point
 };
 
 const output = { //Endpoint Constant JSON
@@ -34,9 +37,9 @@ const rules = [ //Rules
 		exclude: /node_modules/, //Exclude Directory
 		use: [
 			MiniCssExtractPlugin.loader, //MiniCssExtractPlugin.loader,
-			{ loader: "css-loader", options: { sourceMap: true } },
+			{ loader: "css-loader", options: { sourceMap: true } }, //Translates the css into common javascript
 			{ loader: "postcss-loader", },
-          	{ loader: "sass-loader", options: { sourceMap: true } },
+          	{ loader: "sass-loader", options: { sourceMap: true } }, //Compiles sass into css
 		]
 	},
 	{ //Images Test Case
@@ -62,7 +65,7 @@ const rules = [ //Rules
 
 const plugins = ( argv ) => [ //Plugins
 
-	require('autoprefixer'),
+	require('autoprefixer'), //Autoprefixer plugin of the PostCSS
 
     new CleanWebpackPlugin( { //CleanWebpack Plugin
 		cleanStaleWebpackAssets: ( 'production' === argv.mode  )

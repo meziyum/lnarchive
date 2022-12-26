@@ -1,10 +1,11 @@
 
-//Import the Libraries
+//Libraries
+import './main.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 //Import Styles
-import '../sass/archive/archive.scss'
+import '../sass/archive/archive.scss';
 
 var site_url = window.location.origin;
 var json_request_url = site_url.concat("/wordpress/wp-json/wp/v2/");

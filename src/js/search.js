@@ -3,4 +3,4 @@
 import './main.js';
 
 //Import Styles
-import '../sass/post/post.scss';
+import '../sass/search/search.scss';

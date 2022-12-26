@@ -1,4 +1,7 @@
-// Essentials.
+// Essential Imports
+@import "~bootstrap/scss/bootstrap"; //Import Bootstrap first so it can be overwritten
 @import "0-settings/settings";
 @import "~sass-mq";
 @import "1-tools/tools";
+@import "2-generic/generic";
+@import "4-layouts/layouts";

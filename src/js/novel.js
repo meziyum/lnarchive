@@ -1,10 +1,12 @@
 
-//Import Libraries
+//Libraries
+import './main.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
 
 //Import Styles
-import '../sass/novel/novel.scss'
+import '../sass/novel/novel.scss';
 
 //get the Window information
 var site_url = window.location.origin;
@@ -17,50 +19,15 @@ slug = slug.substring(slug.lastIndexOf("/")+1);
 var post_type = "novel";
 var post_id = document.querySelector('.main-row').getAttribute('id');
 
-function Comment_card( props ){
-    return(
-        <div className="row">
-            <div className="review-left col-3 col-sm-2 col-md-2 col-lg-1">
-                <img className="user_avatar" srcset={props.author_avatar}></img>
-            </div>
-            <div className="review-right col">
-                <div className="review-header row">
-                    <h4 className="col-lg-9">{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1)}</h4>
-                    <time className="col">{props.date.slice(0, props.date.indexOf('T'))}</time>
-                </div>
-                <div className="review-content" dangerouslySetInnerHTML={{__html: props.content}}/>
-                <div className="review-footer">
-                        <i class="fa-solid fa-thumbs-up"></i>
-                        <i class="fa-solid fa-thumbs-down"></i>     
-                </div>
-            </div>
-        </div>
-    );
-}
+//Class Constants
+const selected_format_class = 'selected-format';
+const format_button_class = 'format-button';
+const audiobook_format_class = 'Audiobook-format';
 
-const comments_div = document.getElementById("reviews-list");
-
-fetch( json_request_url+"comments?post="+post_id )
-    .then( res => res.json())
-    .then( data => {
-        console.log(post_id)
-        console.log(data)
-
-        for( var i=0; i<data.length; i++){
-            var comment_entry = document.createElement("div");
-            comment_entry.className="review-entry"
-            comment_entry.id=data[i].id;
-            document.getElementById("reviews-list").append(comment_entry);
-            console
-            ReactDOM.render( <Comment_card comment_id={data[i].id} author_avatar={data[i].author_avatar_urls['96']} author_name={data[i].author_name} date={data[i].date} content={data[i].content.rendered}></Comment_card>, comment_entry );
-        }
-    })
-
-
-var selected_format = document.getElementsByClassName("selected_format")[0]; //Get the Selected format element
+var selected_format = document.getElementsByClassName(selected_format_class)[0]; //Get the Selected format element
    
 narrator_info_display(); ////Handle the display of narrator row
-formats_click_list( document.getElementsByClassName("format_button") ); //Apply click event listeners to initial formats
+formats_click_list( document.getElementsByClassName(format_button_class) ); //Apply click event listeners to initial formats
 
 /*
     Volumes Information Update
@@ -110,7 +77,7 @@ for( var i=0; i<volumes_list.length; i++){ //Loop through all the volumes
                             const tax_val = document.createElement("button"); //Create an anchor elements
                             
                             tax_val.innerText = tax_name; //Assign the insnerText to the anchor tags
-                            tax_val.className = tax_name+"_format format_button"; //ASssign classnames to the buttons
+                            tax_val.className = tax_name+"-format "+format_button_class; //ASssign classnames to the buttons
                             tax_val.setAttribute( 'isbn', data.meta["isbn_"+tax_name+"_value"][0] ); //Store the ISBN data in the button
                             tax_val.setAttribute( 'publication_date', data.meta["published_date_value_"+tax_name][0] ); //Store the publication date in the button
                             node.append(tax_val); //Append the anchor tag to the parent node
@@ -118,14 +85,14 @@ for( var i=0; i<volumes_list.length; i++){ //Loop through all the volumes
                             if( j==0 ){ //The first format values are treated as default values
                                 document.getElementById("ISBN_info_value").innerHTML = "<a>"+data.meta["isbn_"+tax_name+"_value"][0]+"</a>"; //Assign Default ISBN on selection
                                 document.getElementById("Publication Date_info_value").innerHTML = "<a>"+data.meta["published_date_value_"+tax_name][0]+"</a>"; //Assign Default Publication Date on selection
-                                selected_format = document.getElementsByClassName(tax_name+"_format format_button")[0]; //Update the selected format global variable
-                                selected_format.classList.add("selected_format"); //Assign the relvant class to the selected variable
+                                selected_format = document.getElementsByClassName(tax_name+"-format "+format_button_class)[0]; //Update the selected format global variable
+                                selected_format.classList.add(selected_format_class); //Assign the relvant class to the selected variable
                             }
                         }
                     }
                 }
                 narrator_info_display(); //Handle the display of narrator row
-                formats_click_list(document.getElementsByClassName("format_button")); //Apply click eventListeners to new formats
+                formats_click_list(document.getElementsByClassName(format_button_class)); //Apply click eventListeners to new formats
                 window.scrollTo(0, 0); //Scroll to the top
             })
     }
@@ -134,22 +101,58 @@ for( var i=0; i<volumes_list.length; i++){ //Loop through all the volumes
 
 document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
 
+fetch( json_request_url+"comments?post="+post_id )
+    .then( res => res.json())
+    .then( data => {
+        console.log(data)
+
+        for( var i=0; i<data.length; i++){
+            var comment_entry = document.createElement("div");
+            comment_entry.className="review-entry";
+            comment_entry.id=data[i].id;
+            document.getElementById("reviews-list").append(comment_entry);
+            const root = ReactDOMClient.createRoot(document.getElementById( data[i].id ));
+            root.render( <Review comment_id={data[i].id} author_avatar={data[i].author_avatar_urls['96']} author_name={data[i].author_name} date={data[i].date} content={data[i].content.rendered}></Review> );
+        }
+    })
+
 function formats_click_list( format_buttons ) { //Function to apply Event Listeners to all formats and store ISBN and publication values in the format buttons
     for( var i=0; i<format_buttons.length; i++) { //Loop through all the possible format buttons
         format_buttons[i].addEventListener('click', function() { //Listen to click event
             document.getElementById("ISBN_info_value").innerHTML = "<a>"+this.getAttribute("isbn")+"</a>"; //Update the Volume ISBN for format
             document.getElementById("Publication Date_info_value").innerHTML = "<a>"+this.getAttribute("publication_date")+"</a>"; //Update the Volume Publication Date for format
-            selected_format.classList.remove("selected_format"); //Remove the relevant class from the old element
+            selected_format.classList.remove(selected_format_class); //Remove the relevant class from the old element
             selected_format = this; //Update the selected_format global var
-            selected_format.classList.add("selected_format"); //Add the relevant class to the element which was clicked that is the selected format
+            selected_format.classList.add(selected_format_class); //Add the relevant class to the element which was clicked that is the selected format
             narrator_info_display(); //Handle the display of narrator row
         });
     }
 }
 
 function narrator_info_display() { //Function to handle visibility of the narrator row
-    if( document.getElementsByClassName("Audiobook_format")[0] != undefined && document.getElementsByClassName("Audiobook_format")[0].classList[2] != "selected_format") //If the volume of the novel does not have a audiobook format or if the Audiobook formated is not selected
-        document.getElementById("Narrator_row").style.display = 'none'; //Hide the Narrator column from view     
+    if( document.getElementById(audiobook_format_class) == undefined || selected_format != document.getElementById(audiobook_format_class)) //If the volume of the novel does not have a audiobook format or if the Audiobook formated is not selected
+        document.getElementById("Narrator_row").style.display = 'none'; //Hide the Narrator column from view 
     else //If the volume of the novel has audiobook format
         document.getElementById("Narrator_row").style.display = 'table-row'; //Display the Narrator column
+}
+
+function Review( props ){
+    return(
+        <div className="row">
+            <div className="review-left col-3 col-sm-2 col-md-2 col-lg-1">
+                <img className="user_avatar" srcSet={props.author_avatar}></img>
+            </div>
+            <div className="review-right col">
+                <div className="review-header row">
+                    <h4 className="col-lg-9">{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1)}</h4>
+                    <time className="col">{props.date.slice(0, props.date.indexOf('T'))}</time>
+                </div>
+                <div className="review-content" dangerouslySetInnerHTML={{__html: props.content}}/>
+                <div className="review-footer">
+                        <i className="fa-solid fa-thumbs-up"></i>
+                        <i className="fa-solid fa-thumbs-down"></i>     
+                </div>
+            </div>
+        </div>
+    );
 }

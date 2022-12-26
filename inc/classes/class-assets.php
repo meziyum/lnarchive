@@ -41,25 +41,44 @@ class assets{ //Assests Class
       wp_enqueue_style('main_css');
       wp_enqueue_style('fusfan_stylesheet');
       wp_enqueue_style('fontawesome');
+
+      $path= '';
+      $version_info = '';
+
+      if( is_single(get_queried_object()) || is_page()){ //Post types
+        $path= LNARCHIVE_BUILD_CSS_URI . '/'.get_post_type().'.css'; 
+        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/'.get_post_type().'.css');
+      }
+
+      wp_register_style( 'secondary_css', $path, [], $version_info, 'all'); //Sass Stylsheet
+      wp_enqueue_style('secondary_css');
     }
 
     public function register_scripts() { //Scripts
 
-         //Registering Scripts
-         wp_register_script( 'fusfan_main_script', LNARCHIVE_BUILD_JS_URI . '/main.js', array('wp-api'), filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/main.js'), true ); //Main Javascript File
+        $path= LNARCHIVE_BUILD_JS_URI . '/main.js'; // Default path for the main javascript file
+        $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/main.js'); //Version for the main javascript file
+        
+        //Override the path and version of the javascript file for the specific pages
+        if( is_single(get_queried_object()) || is_page()){ //Post types
+          $path= LNARCHIVE_BUILD_JS_URI . '/'.get_post_type().'.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/'.get_post_type().'.js');
+        }
+        else if( is_archive() ){ //All Novel type archives
+          $path= LNARCHIVE_BUILD_JS_URI . '/archive.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive.js');
+        }
+        else if( is_search() ){ //Search Results
+          $path= LNARCHIVE_BUILD_JS_URI . '/search.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/search.js');
+        }
+        else if( is_category() ){ //Category Archive
+          $path= LNARCHIVE_BUILD_JS_URI . '/archive-post.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive-post.js');
+        }
 
-         if( is_single(get_queried_object()) ){
-          wp_register_script( 'post_script', LNARCHIVE_BUILD_JS_URI . '/'.get_post_type().'.js', array('wp-api'), filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/'.get_post_type().'.js'), true ); //Post specific javascript
-          wp_enqueue_script('post_script');
-         }
-
-         if( is_archive() ){
-          wp_register_script( 'archive_script', LNARCHIVE_BUILD_JS_URI . '/archive.js', array('wp-api'), filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive.js'), true ); //Arhive Javascript
-          wp_enqueue_script('archive_script');
-         }
-
-         //Enqueing Scripts
-         wp_enqueue_script('fusfan_main_script');
+        wp_register_script('main', $path, array('wp-api'), $version_info , true ); //Register the Javascript
+        wp_enqueue_script('main');//Enqueue the Javascript
     }
 }
 ?>

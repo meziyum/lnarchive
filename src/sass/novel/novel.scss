@@ -1,0 +1,109 @@
+
+//Imports
+@import "../essentials";
+
+//Novels Listing Sections Common CSS
+.novels-list-section{
+    background: $novel-section-bg;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 16px;
+
+    h2{
+        margin: 8px;
+    }
+
+    .novel-list {
+        margin: 0px;
+
+        @include respond-to( x-small ){
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        @include respond-to( medium ) {
+            flex-wrap: wrap;
+            overflow: auto;
+        }
+    }
+}
+
+//Novel Information Section
+.info-section {
+    margin-bottom: 16px;
+
+    .novel-row {
+        margin: 0px;
+
+        .novel-info-left {
+            background: $novel-section-bg;
+            border-radius: 8px;
+            padding: 8px 12px 0px 12px;
+            
+            @include respond-to( x-small ) {
+                margin-right: 0px;
+                margin-bottom: 16px;
+            }
+
+            @include respond-to( medium) {
+                margin-right: 16px;
+                margin-bottom: 0px;
+            }
+
+            .novel-cover{
+                border-radius: 8px;
+                margin-bottom: 8px;
+            }
+
+            table{
+                margin: 8px;
+
+                td{
+                    color: $blue-bright;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .novel-info-right {
+            background: $novel-section-bg;
+            border-radius: 8px;
+
+            #format_info_value{
+                list-style: none;
+                padding-left: 0;
+                margin: 24px 0px;
+
+                .format-button{
+                    font-size: 16px;
+                    margin: 8px;
+                    padding: 8px;
+                    background-color: $format-button-bg;
+                    border: 1px solid $format-button-border;
+                    border-radius: 4px;
+
+                    &:hover, &:active{
+                        background-color: $format-button-bg-hover;
+                    }
+                }
+
+                .selected-format {
+                    background-color: $selected-format-bg !important;
+                    border-color: $selected-format-border !important;
+                }
+            }
+
+            .genre-button,
+            .format-button {
+                padding: 4px 8px;
+                font-size: 12px;
+                background-color: $theme-primary;
+
+                &:hover, 
+                &:active {
+                    background-color: $theme-primary-dark;
+                }
+            }
+        }
+    }
+}

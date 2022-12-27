@@ -29,7 +29,7 @@
 }
 
 //Novel Information Section
-.info-section {
+#info-section {
     margin-bottom: 16px;
 
     .novel-row {
@@ -104,6 +104,55 @@
                     background-color: $theme-primary-dark;
                 }
             }
+        }
+    }
+}
+
+//Reviews Section
+#reviews-section {
+    background: #ffffff;
+    padding: 0px 8px;
+
+    .review-title {
+        color: $white-text;
+        background-color: $comment-title-background;
+        text-align: center;
+    }
+
+    #reviews-form{
+
+            #review-submit{
+                    background-color: #3EB2FD;
+                    background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+                    background-size: calc(100% + 20px) calc(100% + 20px);
+                    border: none;
+                    border-radius: 100px;
+                    color: $white-text;
+                    padding: 6px 20px;
+            }
+    }
+
+    #reviews-list{
+        padding-left: 0px;
+
+        .review-entry{
+            margin-bottom: 8px;
+            border-bottom: 2px dotted $not-imp;
+
+            .review-left{
+
+                .user_avatar {
+                    max-width: 75px;
+                    max-height: 75px;
+                    border-radius: 50%;
+                }
+
+            }
+
+            .review-right{
+                
+            }
+
         }
     }
 }

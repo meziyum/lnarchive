@@ -35,8 +35,15 @@ button { //Button Element
 	}
 }
 
-//Table
+textarea{
+    overflow-y: hidden;
+    resize: none;
+	width: 100%;
+	border-radius: 12px;
+    padding: 8px;
+}
 
+//Table
 table{
 	border-collapse: separate;
 }

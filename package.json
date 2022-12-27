@@ -1,6 +1,6 @@
 {
   "name": "lnarchive",
-  "version": "0.2.9.2",
+  "version": "0.2.9.7",
   "description": "LNarchive Theme packages",
   "main": "main.js",
   "scripts": {
@@ -37,10 +37,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.2.1",
-    "@fortawesome/free-regular-svg-icons": "^6.2.1",
-    "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
     "@popperjs/core": "^2.11.6",
     "autoprefixer": "^10.4.13",
     "bootstrap": "^5.3.0-alpha1",

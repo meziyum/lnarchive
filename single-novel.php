@@ -37,7 +37,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                     wp_kses_post( $volume1[0]->post_title  ), //Get the Title
                 );
                 ?>
-                    <section class="info-section"> <!-- Novel Info Div -->
+                    <section id="info-section"> <!-- Novel Info Div -->
                         <div class="row novel-row">
                             <div class="novel-info-left col-lg-4 col-md-4 cold-sm-12">
                                 <?php
@@ -181,7 +181,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
 
                     if($vquery->post_count > 1 ) { //If there are more than one volumes for the novel
                         ?>
-                            <section class="volumes-section novels-list-section">
+                            <section id="volumes-section" class="novels-list-section">
                                 <h2 id="volumes-no">Volumes</h2> <!-- Volumes Section Heading -->
                                 <?php novel_list( $vquery, array( 'name' => 'volume')); //Print Novel List ?>
                             </section>
@@ -205,7 +205,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
 
                         if($uquery->have_posts()) { //If there are any children
                             ?>
-                                <section class="child-section novels-list-section">
+                                <section id="child-section" class="novels-list-section">
                                     <h2>Novels from same Universe</h2> <!-- Child Novels Section Heading -->
                                     <?php novel_list( $uquery, array( 'name' => 'child') ); //Print Novel List?>
                                 </section>
@@ -233,7 +233,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
 
                     if($rquery->have_posts()) { //If there are any related posts
                         ?>
-                            <section class="related-section novels-list-section">
+                            <section id="related-section" class="novels-list-section">
                                 <h2>Recommendations</h2> <!-- Related Section Heading -->
                                 <?php novel_list( $rquery, array( 'name' => 'related', 'novel_no' => 6) ); //Print Novel List?>
                             </section>
@@ -253,7 +253,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
 
                     if($loop->have_posts()) { //If there is post
                         ?>
-                            <section class="posts-section">
+                            <section id="posts-section">
                                 <div class="row"> <!-- Novel News Articles Div -->
                                     <h2>Related Articles</h2>
                                     <?php post_list( $loop, 'novel-articles' ); //Post List?>
@@ -264,26 +264,8 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
         
                     wp_reset_postdata(); //Reset the $POST data
                     ?>
-                        <section class="reviews-section"> <!-- Review Section -->
-                            <h2 class="d-flex justify-content-center review-title">Reviews</h2> <!--Review Section Heading-->
-                            <?php
-                                comment_form( array(
-                                    'title_reply'   => 'Leave a Review', //Review Msg
-                                    'comment_field' => '<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525"></textarea>', //Textarea HTML
-                                    'logged_in_as'  => '', //Logged in as Messages
-                                    'cancel_reply_before'   => '<small class="float-end">', //HTML before cancel reply anchor
-                                    'cancel_reply_after'    => '</small>', //HTML after cancel reply anchor
-                                    'cancel_reply_link' => 'Cancel Reply', //Cancel Reply to anchor text
-                                    'title_reply_to'    => 'Leave a Reply to %s', //Leave a reply to HTML
-                                    'label_submit'  => 'Submit', //Button Label
-                                    'submit_field'  =>  '<p class="form-submit d-flex justify-content-end">%1$s %2$s</p>', //HTML for the markdown surrounding the submit button
-                                    'format'    => 'html5', //Format for the Review
-                                    )
-                                );//Display the Review form 
-                            ?>
-                            <div id="reviews-list"> <!-- Reviews List Column -->
+                        <section id="reviews-section"> <!-- Review Section -->
 
-                            </div>
                         </section>
                     <?php
                         /*comments_template('/reviews.php'); //Get the Comments Template*/

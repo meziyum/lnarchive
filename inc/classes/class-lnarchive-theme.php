@@ -105,7 +105,21 @@ class lnarchive_theme{ //LNarchive Theme Class
                'type'   => 'string',
                'show_in_rest' => true,
             ));
-         } 
+         }
+         
+         register_meta( 'comment', 'likes', array(
+               'type'   => 'integer',
+               'single '   => true,
+               'default'   => 0,
+               'show_in_rest ' => true,
+         ));
+
+         register_meta( 'comment', 'dislikes', array(
+            'type'   => 'integer',
+            'single '   => true,
+            'default'   => 0,
+            'show_in_rest ' => true,
+         ));
       }
 
       function rewrite_search_url() { //Rewrite the search result url for better SEO

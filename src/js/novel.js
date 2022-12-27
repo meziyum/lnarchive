@@ -15,6 +15,19 @@ var path = window.location.pathname;
 var slug = path.substring(0, path.length-1);
 slug = slug.substring(slug.lastIndexOf("/")+1);
 
+const tx = document.getElementsByTagName("textarea"); //Select all the Textareas
+
+for (var i = 0; i < tx.length; i++) { //Loop through all the textareas
+    console.log('echo');
+    tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;"); //Set initial height based on the scroll height
+    tx[i].addEventListener("input", autoText, false); //Listen to inputs
+}
+
+function autoText() { //Auto adjustable textarea
+    this.style.height = 0; //Initial height
+    this.style.height = (this.scrollHeight) + "px"; //Calculate height
+}
+
 //Get the post information
 var post_type = "novel";
 var post_id = document.querySelector('.main-row').getAttribute('id');
@@ -28,15 +41,14 @@ var selected_format = document.getElementsByClassName(selected_format_class)[0];
    
 narrator_info_display(); ////Handle the display of narrator row
 formats_click_list( document.getElementsByClassName(format_button_class) ); //Apply click event listeners to initial formats
+reviews_display();
 
-/*
-    Volumes Information Update
-*/
+document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
 
 let volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel
 
+//Volumes Information Update Event
 for( var i=0; i<volumes_list.length; i++){ //Loop through all the volumes
-    console.log("click")
 
     volumes_list[i].addEventListener('click', function() { //Listen to the click event on the volumes
 
@@ -97,24 +109,7 @@ for( var i=0; i<volumes_list.length; i++){ //Loop through all the volumes
             })
     }
     );
-} 
-
-document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
-
-fetch( json_request_url+"comments?post="+post_id )
-    .then( res => res.json())
-    .then( data => {
-        console.log(data)
-
-        for( var i=0; i<data.length; i++){
-            var comment_entry = document.createElement("div");
-            comment_entry.className="review-entry";
-            comment_entry.id=data[i].id;
-            document.getElementById("reviews-list").append(comment_entry);
-            const root = ReactDOMClient.createRoot(document.getElementById( data[i].id ));
-            root.render( <Review comment_id={data[i].id} author_avatar={data[i].author_avatar_urls['96']} author_name={data[i].author_name} date={data[i].date} content={data[i].content.rendered}></Review> );
-        }
-    })
+}
 
 function formats_click_list( format_buttons ) { //Function to apply Event Listeners to all formats and store ISBN and publication values in the format buttons
     for( var i=0; i<format_buttons.length; i++) { //Loop through all the possible format buttons
@@ -136,21 +131,60 @@ function narrator_info_display() { //Function to handle visibility of the narrat
         document.getElementById("Narrator_row").style.display = 'table-row'; //Display the Narrator column
 }
 
-function Review( props ){
+function reviews_display() { //Function to display the Reviews Section
+
+    fetch( json_request_url+"comments?post="+post_id ) //Fetch the comments
+    .then( res => res.json()) //Convert the data from Promise to JSON
+    .then( data => { //Execut function after data is fetched
+        console.log(data)
+        console.log(json_request_url+"comments?post="+post_id);
+        const comments_list = data.map( comment => { //Map the fetched data into a comments list
+            return (
+                    <Review 
+                        key={comment.id} //Map Key
+                        {...comment} //Comment Data
+                    />
+            );
+        });
+
+        const root = ReactDOMClient.createRoot(document.getElementById('reviews-section')); //Create the Root
+        root.render(<Review_Section comment_data={comments_list} />); //Render the Review Section
+    })
+}
+
+function Review_Section( props ){ //Review Section React Component
     return(
-        <div className="row">
+        <div>
+            <h2 className="d-flex justify-content-center review-title">Reviews</h2>
+            <h4>Your Review</h4>
+            <div id="reviews-form">
+                <textarea name="review-content" id="review-content" />
+                <div className="review-footer">
+                    <button id="review-submit" className="float-end">Submit</button>
+                </div>
+            </div>
+            <div id="reviews-list">
+                {props.comment_data}
+            </div>
+        </div>
+    );
+}
+
+function Review( props ){ //Review Entry React Component
+    return(
+        <div className="row review-entry">
             <div className="review-left col-3 col-sm-2 col-md-2 col-lg-1">
-                <img className="user_avatar" srcSet={props.author_avatar}></img>
+                <img className="user_avatar" srcSet={props.author_avatar_urls['96']}></img>
             </div>
             <div className="review-right col">
                 <div className="review-header row">
                     <h4 className="col-lg-9">{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1)}</h4>
                     <time className="col">{props.date.slice(0, props.date.indexOf('T'))}</time>
                 </div>
-                <div className="review-content" dangerouslySetInnerHTML={{__html: props.content}}/>
+                <div className="review-content" dangerouslySetInnerHTML={{__html: props.content.rendered}}/>
                 <div className="review-footer">
-                        <i className="fa-solid fa-thumbs-up"></i>
-                        <i className="fa-solid fa-thumbs-down"></i>     
+                    <i className="fa-regular fa-thumbs-up"></i>
+                    <i className="fa-regular fa-thumbs-down"></i>     
                 </div>
             </div>
         </div>

@@ -79,6 +79,12 @@ class assets{ //Assests Class
 
         wp_register_script('main', $path, array('wp-api'), $version_info , true ); //Register the Javascript
         wp_enqueue_script('main');//Enqueue the Javascript
+        wp_localize_script( 'main', 'LNarchive_variables', array( //Localize the script with variables
+          'nonce' => wp_create_nonce( 'wp_rest' ), //User Nonce for API Authentication
+          'object_id' => get_the_ID(), //Object ID
+          'object_type' =>  get_post_type(), //Object Type
+          'wp_rest_url' => get_rest_url(), //Main REST API url
+      ) );
     }
 }
 ?>

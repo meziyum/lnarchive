@@ -17,6 +17,7 @@ class lnarchive_theme{ //LNarchive Theme Class
 
          //Load all Classes
          assets::get_instance();
+         custom_api::get_instance();
          menus::get_instance();
          sidebars::get_instance();
          admin_dashboard::get_instance();
@@ -85,6 +86,18 @@ class lnarchive_theme{ //LNarchive Theme Class
 
       function register_meta(){ //Register metadata
 
+         register_meta('comment', 'likes', [ //Register Like Meta for Comments
+            'type' => 'number', //Datatype
+            'single' => true, //Only one value
+            'show_in_rest' => true, //Show in REST API
+         ]);
+
+         register_meta('comment', 'dislikes', [ //Register Dislike Meta for Comments
+            'type' => 'number', //Datatype
+            'single' => true, //Only one value
+            'show_in_rest' => true, //Show in REST API
+         ]);
+
          $formats = get_terms('format', array( //Get all the format terms
             'hide_empty' => false, //Include the terms with no enteries
          ));
@@ -106,20 +119,6 @@ class lnarchive_theme{ //LNarchive Theme Class
                'show_in_rest' => true,
             ));
          }
-         
-         register_meta( 'comment', 'likes', array(
-               'type'   => 'integer',
-               'single '   => true,
-               'default'   => 0,
-               'show_in_rest ' => true,
-         ));
-
-         register_meta( 'comment', 'dislikes', array(
-            'type'   => 'integer',
-            'single '   => true,
-            'default'   => 0,
-            'show_in_rest ' => true,
-         ));
       }
 
       function rewrite_search_url() { //Rewrite the search result url for better SEO

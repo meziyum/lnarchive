@@ -1,19 +1,10 @@
 
-//Libraries
-import './main.js';
+//Imports
+import * as Main from './main.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ReactDOMClient from 'react-dom/client';
-
-//Import Styles
 import '../sass/novel/novel.scss';
-
-//get the Window information
-var site_url = window.location.origin;
-var json_request_url = site_url.concat("/wordpress/wp-json/wp/v2/");
-var path = window.location.pathname;
-var slug = path.substring(0, path.length-1);
-slug = slug.substring(slug.lastIndexOf("/")+1);
 
 const tx = document.getElementsByTagName("textarea"); //Select all the Textareas
 
@@ -28,31 +19,37 @@ function autoText() { //Auto adjustable textarea
     this.style.height = (this.scrollHeight) + "px"; //Calculate height
 }
 
-//Get the post information
-var post_type = "novel";
-var post_id = document.querySelector('.main-row').getAttribute('id');
+//Localised Constants from Server
+const post_type = LNarchive_variables.object_type
+const post_id = LNarchive_variables.object_id;
+const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
+const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 
 //Class Constants
 const selected_format_class = 'selected-format';
 const format_button_class = 'format-button';
 const audiobook_format_class = 'Audiobook-format';
 
+//React Root
+const reviews_root = ReactDOMClient.createRoot(document.getElementById('reviews-section')); //Create the Reviews Root
+
+//Global Page Variables
 var selected_format = document.getElementsByClassName(selected_format_class)[0]; //Get the Selected format element
-   
-narrator_info_display(); ////Handle the display of narrator row
+
+//Intial Function Calls
+narrator_info_display(); //Handle the display of narrator row
 formats_click_list( document.getElementsByClassName(format_button_class) ); //Apply click event listeners to initial formats
-reviews_display();
-
 document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
+reviews_display(); //Display the Reviews Section
 
-let volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel
+var volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel
 
 //Volumes Information Update Event
 for( var i=0; i<volumes_list.length; i++){ //Loop through all the volumes
 
     volumes_list[i].addEventListener('click', function() { //Listen to the click event on the volumes
 
-        fetch( json_request_url+"volumes/"+this.id+"?_embed&_fields=title,excerpt,featured_media,_links,meta" ) //Fetch the JSON data
+        fetch( wp_request_url+"volumes/"+this.id+"?_embed&_fields=title,excerpt,featured_media,_links,meta" ) //Fetch the JSON data
             .then( res => res.json()) //The fetch API Response
             .then( data => { //The fetch api data
                 
@@ -133,11 +130,11 @@ function narrator_info_display() { //Function to handle visibility of the narrat
 
 function reviews_display() { //Function to display the Reviews Section
 
-    fetch( json_request_url+"comments?post="+post_id ) //Fetch the comments
+    fetch( wp_request_url+"comments?post="+post_id ) //Fetch the comments
     .then( res => res.json()) //Convert the data from Promise to JSON
     .then( data => { //Execut function after data is fetched
         console.log(data)
-        console.log(json_request_url+"comments?post="+post_id);
+        console.log(wp_request_url+"comments?post="+post_id);
         const comments_list = data.map( comment => { //Map the fetched data into a comments list
             return (
                     <Review 
@@ -146,13 +143,35 @@ function reviews_display() { //Function to display the Reviews Section
                     />
             );
         });
-
-        const root = ReactDOMClient.createRoot(document.getElementById('reviews-section')); //Create the Root
-        root.render(<Review_Section comment_data={comments_list} />); //Render the Review Section
+        reviews_root.render(<Review_Section comment_data={comments_list} />); //Render the Review Section
     })
 }
 
 function Review_Section( props ){ //Review Section React Component
+
+    function submit_review(){ //Submit Review Button onclick function
+
+        var review_content = Main.esc_html(document.getElementById('review-content').value); //Get the Comment Content
+        document.getElementById('review-content').value = '';
+
+        fetch( wp_request_url+"comments", { //Fetch the comments
+            method: "POST", //Method
+            credentials: 'same-origin', //Send Credentials
+            headers: { //Actions on the HTTP Request
+                'Content-Type': 'application/json',
+                'X-WP-Nonce' : LNarchive_variables.nonce,
+            },
+            body: JSON.stringify({ //Data to attach to the HTTP Request
+                content: review_content, //Review Content
+                post: post_id, //Post Id
+            })
+        }) //Fetch the comments
+        .then( res => res.json()) //Convert the data from Promise to JSON
+        .then( data => { //Execut function after data is fetched
+            reviews_display(); //Rerender the reviews section
+        })
+    }
+
     return(
         <div>
             <h2 className="d-flex justify-content-center review-title">Reviews</h2>
@@ -160,7 +179,7 @@ function Review_Section( props ){ //Review Section React Component
             <div id="reviews-form">
                 <textarea name="review-content" id="review-content" />
                 <div className="review-footer">
-                    <button id="review-submit" className="float-end">Submit</button>
+                    <button id="review-submit" className="float-end" onClick={submit_review}>Submit</button>
                 </div>
             </div>
             <div id="reviews-list">
@@ -171,6 +190,41 @@ function Review_Section( props ){ //Review Section React Component
 }
 
 function Review( props ){ //Review Entry React Component
+
+    function comment_like(){ //Increase like count function
+
+        fetch( custom_api_request_url+'comment/like/'+props.id, {
+            method: "POST", //Method
+            credentials: 'same-origin', //Send Credentials
+            headers: { //Actions on the HTTP Request
+                'Content-Type': 'application/json',
+                'X-WP-Nonce' : LNarchive_variables.nonce,
+            },
+            body: JSON.stringify({ meta: { likes: ++props.meta.likes }}),
+        }) //Fetch the comments
+        .then( res => res.json()) //Convert the data from Promise to JSON
+        .then( data => { //Execut function after data is fetched
+            console.log(wp_request_url+"comments/"+props.id)
+        })
+    }
+
+    function comment_dislike(){ //Increase Dislike Count function
+        
+        fetch( custom_api_request_url+'comment/dislike/'+props.id, {
+            method: "POST", //Method
+            credentials: 'same-origin', //Send Credentials
+            headers: { //Actions on the HTTP Request
+                'Content-Type': 'application/json',
+                'X-WP-Nonce' : LNarchive_variables.nonce,
+            },
+            body: JSON.stringify({ meta: { dislikes: ++props.meta.dislikes }}),
+        }) //Fetch the comments
+        .then( res => res.json()) //Convert the data from Promise to JSON
+        .then( data => { //Execut function after data is fetched
+            console.log(wp_request_url+"comments/"+props.id)
+        })
+    }
+
     return(
         <div className="row review-entry">
             <div className="review-left col-3 col-sm-2 col-md-2 col-lg-1">
@@ -182,9 +236,11 @@ function Review( props ){ //Review Entry React Component
                     <time className="col">{props.date.slice(0, props.date.indexOf('T'))}</time>
                 </div>
                 <div className="review-content" dangerouslySetInnerHTML={{__html: props.content.rendered}}/>
-                <div className="review-footer">
-                    <i className="fa-regular fa-thumbs-up"></i>
-                    <i className="fa-regular fa-thumbs-down"></i>     
+                <div className="review-footer d-flex">
+                    <i className="fa-regular fa-thumbs-up" onClick={comment_like}></i>
+                    <p>{props.meta.likes}</p>
+                    <i className="fa-regular fa-thumbs-down" onClick={comment_dislike}></i>
+                    <p>{props.meta.dislikes}</p>     
                 </div>
             </div>
         </div>

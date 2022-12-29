@@ -24,6 +24,7 @@ const post_type = LNarchive_variables.object_type
 const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
+console.log(LNarchive_variables.nonce);
 
 //Class Constants
 const selected_format_class = 'selected-format';

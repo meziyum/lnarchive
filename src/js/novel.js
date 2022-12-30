@@ -231,47 +231,9 @@ function Review( props ){ //Review Entry React Component
 
     const [ likes_count, update_likes] = React.useState(props.meta.likes);
     const [ dislikes_count, update_dislikes] = React.useState(props.meta.dislikes);
-    const [ user_response, update_response] = props.user_comment_response.length != 0? React.useState(props.user_comment_response[0].response_type): React.useState(0);
+    const [ user_response, update_response] = props.user_comment_response.length != 0? React.useState(props.user_comment_response[0].response_type): React.useState('none');
 
-    function comment_like(){ //Increase like count function
-        fetch( custom_api_request_url+'comment/like/'+props.id, {
-            method: "POST", //Method
-            credentials: 'same-origin', //Send Credentials
-            headers: { //Actions on the HTTP Request
-                'Content-Type': 'application/json',
-                'X-WP-Nonce' : user_nonce,
-            },
-            body: JSON.stringify({ meta: { likes: ++props.meta.likes+1 }}),
-        }) //Fetch the comments
-        .then( res => res.json()) //Convert the data from Promise to JSON
-        .then( data => { //Execut function after data is fetched
-            if(user_response == 'dislike')
-                update_dislikes( old_dislikes => --old_dislikes);
-            update_likes( old_likes => ++old_likes);
-            update_response( old_response => 'like' );
-        })
-    }
-
-    function comment_dislike(){ //Increase Dislike Count function        
-        fetch( custom_api_request_url+'comment/dislike/'+props.id, {
-            method: "POST", //Method
-            credentials: 'same-origin', //Send Credentials
-            headers: { //Actions on the HTTP Request
-                'Content-Type': 'application/json',
-                'X-WP-Nonce' : user_nonce,
-            },
-            body: JSON.stringify({ meta: { dislikes: props.meta.dislikes+1 }}),
-        }) //Fetch the comments
-        .then( res => res.json()) //Convert the data from Promise to JSON
-        .then( data => { //Execut function after data is fetched
-            if(user_response == 'like')
-                update_likes( old_likes => --old_likes);
-            update_dislikes( old_dislikes => ++old_dislikes);
-            update_response( old_response => 'dislike' );
-        })
-    }
-
-    function update_response_in_database( action ){
+    function update_response_in_database( action ){ //Function to update the user response
         fetch( custom_api_request_url+'comment/'+action+'/'+props.id, {
             method: "POST", //Method
             credentials: 'same-origin', //Send Credentials
@@ -279,14 +241,37 @@ function Review( props ){ //Review Entry React Component
                 'Content-Type': 'application/json',
                 'X-WP-Nonce' : user_nonce,
             },
-            body: JSON.stringify({ meta: { dislikes: props.meta[action]+1 }}),
         }) //Fetch the comments
         .then( res => res.json()) //Convert the data from Promise to JSON
-        .then( data => { //Execut function after data is fetched
-            if(user_response != action)
-                update_likes( old_likes => --old_likes);
-            update_dislikes( old_dislikes => ++old_dislikes);
-            update_response( old_response => 'dislike' );
+        .then( data => { //Execute function after data is fetched
+
+            if( user_response == 'like' ){
+                if( action == 'dislike'){ //Change user response from dislike to like
+                    update_likes( old_likes => --old_likes);
+                    update_dislikes( old_dislikes => ++old_dislikes);
+                }
+                else if(action == 'none'){ //like
+                    update_likes( old_likes => --old_likes);            
+                }
+            }
+            else if( user_response == 'dislike' ) {
+                if( action == 'like'){ //Change user response from like to dislike
+                    update_dislikes( old_dislikes => --old_dislikes);
+                    update_likes( old_likes => ++old_likes);
+                }
+                else if(action == 'none'){ //dislike
+                    update_dislikes( old_dislikes => --old_dislikes);
+                }
+            }
+            else{
+                if( action == 'like'){ //Remove like response
+                    update_likes( old_likes => ++old_likes);
+                }
+                else if( action == 'dislike'){ //Remove dislike response
+                    update_dislikes( old_dislikes => ++old_dislikes);        
+                }
+            }
+            update_response( () => action ); //update the response state
         })
     }
 
@@ -309,12 +294,12 @@ function Review( props ){ //Review Entry React Component
                         <FontAwesomeIcon 
                             icon={faThumbsUpSolid} size="xl" 
                             style={{ color: 'limegreen' }}
-                            onClick={ () => update_response_in_database( 'like', -1) }
+                            onClick={ () => is_loggedin ? update_response_in_database('none'): null }
                         />
                         : <FontAwesomeIcon 
                             icon={faThumbsUp} 
                             size="xl" style={{ color: 'limegreen' }} 
-                            onClick={ is_loggedin ? comment_like: null}
+                            onClick={ () => is_loggedin ? update_response_in_database('like'): null }
                         />
                     }
                     <p>{likes_count}</p>
@@ -325,13 +310,14 @@ function Review( props ){ //Review Entry React Component
                             icon={faThumbsDownSolid} 
                             size="xl" 
                             style={{ color: 'crimson' }}
+                            onClick={ () => is_loggedin ? update_response_in_database('none'): null }
                         />
                         :
                         <FontAwesomeIcon 
                             icon={faThumbsDown} 
                             size="xl" 
                             style={{ color: 'crimson' }} 
-                            onClick={is_loggedin ? comment_dislike: null}
+                            onClick={ () => is_loggedin ? update_response_in_database('dislike'): null }
                         />
                     }
                     <p>{dislikes_count}</p>

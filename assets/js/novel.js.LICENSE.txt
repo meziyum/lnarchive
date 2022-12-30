@@ -1,3 +1,9 @@
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
 /*!
   * Bootstrap v5.3.0-alpha1 (https://getbootstrap.com/)
   * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
@@ -68,7 +74,11 @@
 
 /*! ./arrow.js */
 
+/*! ./checkPropTypes */
+
 /*! ./cjs/react-dom.development.js */
+
+/*! ./cjs/react-is.development.js */
 
 /*! ./cjs/react.development.js */
 
@@ -101,6 +111,8 @@
 /*! ./eventListeners.js */
 
 /*! ./expandToHashMap.js */
+
+/*! ./factoryWithTypeCheckers */
 
 /*! ./flip.js */
 
@@ -151,6 +163,10 @@
 /*! ./isScrollParent.js */
 
 /*! ./isTableElement.js */
+
+/*! ./lib/ReactPropTypesSecret */
+
+/*! ./lib/has */
 
 /*! ./listScrollParents.js */
 
@@ -206,15 +222,29 @@
 
 /*! ./utils/validateModifiers.js */
 
+/*! @fortawesome/fontawesome-svg-core */
+
+/*! @fortawesome/free-regular-svg-icons */
+
+/*! @fortawesome/free-solid-svg-icons */
+
+/*! @fortawesome/react-fontawesome */
+
 /*! @popperjs/core */
 
 /*! bootstrap */
+
+/*! object-assign */
+
+/*! prop-types */
 
 /*! react */
 
 /*! react-dom */
 
 /*! react-dom/client */
+
+/*! react-is */
 
 /*! scheduler */
 
@@ -242,6 +272,10 @@
   !*** ./node_modules/react/index.js ***!
   \*************************************/
 
+/*!****************************************!*\
+  !*** ./node_modules/react-is/index.js ***!
+  \****************************************/
+
 /*!*****************************************!*\
   !*** ./node_modules/react-dom/index.js ***!
   \*****************************************/
@@ -251,8 +285,20 @@
   \*****************************************/
 
 /*!******************************************!*\
+  !*** ./node_modules/prop-types/index.js ***!
+  \******************************************/
+
+/*!******************************************!*\
   !*** ./node_modules/react-dom/client.js ***!
   \******************************************/
+
+/*!********************************************!*\
+  !*** ./node_modules/prop-types/lib/has.js ***!
+  \********************************************/
+
+/*!*********************************************!*\
+  !*** ./node_modules/object-assign/index.js ***!
+  \*********************************************/
 
 /*!**************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/enums.js ***!
@@ -264,6 +310,10 @@
 
 /*!***************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/popper.js ***!
+  \***************************************************/
+
+/*!***************************************************!*\
+  !*** ./node_modules/prop-types/checkPropTypes.js ***!
   \***************************************************/
 
 /*!*****************************************************!*\
@@ -310,6 +360,10 @@
   !*** ./node_modules/@popperjs/core/lib/utils/uniqueBy.js ***!
   \***********************************************************/
 
+/*!***********************************************************!*\
+  !*** ./node_modules/react-is/cjs/react-is.development.js ***!
+  \***********************************************************/
+
 /*!************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/modifiers/arrow.js ***!
   \************************************************************/
@@ -322,12 +376,20 @@
   !*** ./node_modules/@popperjs/core/lib/utils/userAgent.js ***!
   \************************************************************/
 
+/*!************************************************************!*\
+  !*** ./node_modules/prop-types/factoryWithTypeCheckers.js ***!
+  \************************************************************/
+
 /*!*************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/modifiers/offset.js ***!
   \*************************************************************/
 
 /*!*************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/utils/getAltAxis.js ***!
+  \*************************************************************/
+
+/*!*************************************************************!*\
+  !*** ./node_modules/prop-types/lib/ReactPropTypesSecret.js ***!
   \*************************************************************/
 
 /*!*************************************************************!*\
@@ -355,6 +417,10 @@
   \****************************************************************/
 
 /*!*****************************************************************!*\
+  !*** ./node_modules/@fortawesome/react-fontawesome/index.es.js ***!
+  \*****************************************************************/
+
+/*!*****************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js ***!
   \*****************************************************************/
 
@@ -369,6 +435,14 @@
 /*!*****************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/utils/orderModifiers.js ***!
   \*****************************************************************/
+
+/*!******************************************************************!*\
+  !*** ./node_modules/@fortawesome/fontawesome-svg-core/index.mjs ***!
+  \******************************************************************/
+
+/*!******************************************************************!*\
+  !*** ./node_modules/@fortawesome/free-solid-svg-icons/index.mjs ***!
+  \******************************************************************/
 
 /*!******************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js ***!
@@ -389,6 +463,10 @@
 /*!*******************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/utils/rectToClientRect.js ***!
   \*******************************************************************/
+
+/*!********************************************************************!*\
+  !*** ./node_modules/@fortawesome/free-regular-svg-icons/index.mjs ***!
+  \********************************************************************/
 
 /*!********************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js ***!
@@ -511,6 +589,26 @@
   \********************************************************************************/
 
 /**
+ * @license React
+ * react-dom.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * @license React
+ * scheduler.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
  * Checks if an event is supported in the current execution environment.
  *
  * NOTE: This will not work correctly for non-generic events such as `change`,
@@ -522,4 +620,13 @@
  * @return {boolean} True if the event is supported.
  * @internal
  * @license Modernizr 3.0.0pre (Custom Build) | MIT
+ */
+
+/** @license React v16.13.1
+ * react-is.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */

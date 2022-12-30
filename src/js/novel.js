@@ -5,6 +5,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/novel/novel.scss';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+//import regular Fontawesome icons
+import  {
+        faThumbsDown , 
+        faThumbsUp,
+        } 
+from '@fortawesome/free-regular-svg-icons';
+
+//Import solid Fontawesome icons
+import  {    
+        faThumbsDown as faThumbsDownSolid, 
+        faThumbsUp as faThumbsUpSolid,
+        faTriangleExclamation,
+        faTrash,
+        faFilePen,
+        } 
+from '@fortawesome/free-solid-svg-icons';
 
 const tx = document.getElementsByTagName("textarea"); //Select all the Textareas
 
@@ -24,7 +42,7 @@ const post_type = LNarchive_variables.object_type
 const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
-console.log(LNarchive_variables.nonce);
+const user_nonce = LNarchive_variables.nonce;
 
 //Class Constants
 const selected_format_class = 'selected-format';
@@ -36,6 +54,8 @@ const reviews_root = ReactDOMClient.createRoot(document.getElementById('reviews-
 
 //Global Page Variables
 var selected_format = document.getElementsByClassName(selected_format_class)[0]; //Get the Selected format element
+var is_loggedin = false; //Variable to store user logged in status
+var user_id = -1;
 
 //Intial Function Calls
 narrator_info_display(); //Handle the display of narrator row
@@ -44,6 +64,19 @@ document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.ge
 reviews_display(); //Display the Reviews Section
 
 var volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel
+
+fetch( custom_api_request_url+"current_user", { //Fetch current user data
+    headers: { //Actions on the HTTP Request
+        'X-WP-Nonce' : user_nonce,
+    },
+}) //Fetch the JSON data
+    .then( res => res.json()) //The fetch API Response
+    .then( data => { //The fetch api data
+        if( data != false) //If output is returned then the user is logged in
+            is_loggedin = true;
+        user_id = data.ID;    
+        console.log(user_id)
+    })
 
 //Volumes Information Update Event
 for( var i=0; i<volumes_list.length; i++){ //Loop through all the volumes
@@ -131,10 +164,14 @@ function narrator_info_display() { //Function to handle visibility of the narrat
 
 function reviews_display() { //Function to display the Reviews Section
 
-    fetch( wp_request_url+"comments?post="+post_id ) //Fetch the comments
+    fetch( wp_request_url+"comments?post="+post_id, {
+        headers: { //Actions on the HTTP Request
+            'X-WP-Nonce' : user_nonce,
+        },
+    }) //Fetch the comments
     .then( res => res.json()) //Convert the data from Promise to JSON
     .then( data => { //Execut function after data is fetched
-        console.log(data)
+        console.log(data);
         console.log(wp_request_url+"comments?post="+post_id);
         const comments_list = data.map( comment => { //Map the fetched data into a comments list
             return (
@@ -152,7 +189,7 @@ function Review_Section( props ){ //Review Section React Component
 
     function submit_review(){ //Submit Review Button onclick function
 
-        var review_content = Main.esc_html(document.getElementById('review-content').value); //Get the Comment Content
+        var review_content = document.getElementById('review-content').value; //Get the Comment Content
         document.getElementById('review-content').value = '';
 
         fetch( wp_request_url+"comments", { //Fetch the comments
@@ -160,10 +197,10 @@ function Review_Section( props ){ //Review Section React Component
             credentials: 'same-origin', //Send Credentials
             headers: { //Actions on the HTTP Request
                 'Content-Type': 'application/json',
-                'X-WP-Nonce' : LNarchive_variables.nonce,
+                'X-WP-Nonce' : user_nonce,
             },
             body: JSON.stringify({ //Data to attach to the HTTP Request
-                content: review_content, //Review Content
+                content: Main.esc_html(review_content), //Review Content
                 post: post_id, //Post Id
             })
         }) //Fetch the comments
@@ -192,37 +229,64 @@ function Review_Section( props ){ //Review Section React Component
 
 function Review( props ){ //Review Entry React Component
 
-    function comment_like(){ //Increase like count function
+    const [ likes_count, update_likes] = React.useState(props.meta.likes);
+    const [ dislikes_count, update_dislikes] = React.useState(props.meta.dislikes);
+    const [ user_response, update_response] = props.user_comment_response.length != 0? React.useState(props.user_comment_response[0].response_type): React.useState(0);
 
+    function comment_like(){ //Increase like count function
         fetch( custom_api_request_url+'comment/like/'+props.id, {
             method: "POST", //Method
             credentials: 'same-origin', //Send Credentials
             headers: { //Actions on the HTTP Request
                 'Content-Type': 'application/json',
-                'X-WP-Nonce' : LNarchive_variables.nonce,
+                'X-WP-Nonce' : user_nonce,
             },
-            body: JSON.stringify({ meta: { likes: ++props.meta.likes }}),
+            body: JSON.stringify({ meta: { likes: ++props.meta.likes+1 }}),
         }) //Fetch the comments
         .then( res => res.json()) //Convert the data from Promise to JSON
         .then( data => { //Execut function after data is fetched
-            console.log(wp_request_url+"comments/"+props.id)
+            if(user_response == 'dislike')
+                update_dislikes( old_dislikes => --old_dislikes);
+            update_likes( old_likes => ++old_likes);
+            update_response( old_response => 'like' );
         })
     }
 
-    function comment_dislike(){ //Increase Dislike Count function
-        
+    function comment_dislike(){ //Increase Dislike Count function        
         fetch( custom_api_request_url+'comment/dislike/'+props.id, {
             method: "POST", //Method
             credentials: 'same-origin', //Send Credentials
             headers: { //Actions on the HTTP Request
                 'Content-Type': 'application/json',
-                'X-WP-Nonce' : LNarchive_variables.nonce,
+                'X-WP-Nonce' : user_nonce,
             },
-            body: JSON.stringify({ meta: { dislikes: ++props.meta.dislikes }}),
+            body: JSON.stringify({ meta: { dislikes: props.meta.dislikes+1 }}),
         }) //Fetch the comments
         .then( res => res.json()) //Convert the data from Promise to JSON
         .then( data => { //Execut function after data is fetched
-            console.log(wp_request_url+"comments/"+props.id)
+            if(user_response == 'like')
+                update_likes( old_likes => --old_likes);
+            update_dislikes( old_dislikes => ++old_dislikes);
+            update_response( old_response => 'dislike' );
+        })
+    }
+
+    function update_response_in_database( action ){
+        fetch( custom_api_request_url+'comment/'+action+'/'+props.id, {
+            method: "POST", //Method
+            credentials: 'same-origin', //Send Credentials
+            headers: { //Actions on the HTTP Request
+                'Content-Type': 'application/json',
+                'X-WP-Nonce' : user_nonce,
+            },
+            body: JSON.stringify({ meta: { dislikes: props.meta[action]+1 }}),
+        }) //Fetch the comments
+        .then( res => res.json()) //Convert the data from Promise to JSON
+        .then( data => { //Execut function after data is fetched
+            if(user_response != action)
+                update_likes( old_likes => --old_likes);
+            update_dislikes( old_dislikes => ++old_dislikes);
+            update_response( old_response => 'dislike' );
         })
     }
 
@@ -237,11 +301,62 @@ function Review( props ){ //Review Entry React Component
                     <time className="col">{props.date.slice(0, props.date.indexOf('T'))}</time>
                 </div>
                 <div className="review-content" dangerouslySetInnerHTML={{__html: props.content.rendered}}/>
-                <div className="review-footer d-flex">
-                    <i className="fa-regular fa-thumbs-up" onClick={comment_like}></i>
-                    <p>{props.meta.likes}</p>
-                    <i className="fa-regular fa-thumbs-down" onClick={comment_dislike}></i>
-                    <p>{props.meta.dislikes}</p>     
+                <div className="review-footer">
+                    <div className='float-start d-flex'>
+                    { 
+                        user_response == 'like' 
+                        ? 
+                        <FontAwesomeIcon 
+                            icon={faThumbsUpSolid} size="xl" 
+                            style={{ color: 'limegreen' }}
+                            onClick={ () => update_response_in_database( 'like', -1) }
+                        />
+                        : <FontAwesomeIcon 
+                            icon={faThumbsUp} 
+                            size="xl" style={{ color: 'limegreen' }} 
+                            onClick={ is_loggedin ? comment_like: null}
+                        />
+                    }
+                    <p>{likes_count}</p>
+                    { 
+                        user_response == 'dislike' 
+                        ? 
+                        <FontAwesomeIcon 
+                            icon={faThumbsDownSolid} 
+                            size="xl" 
+                            style={{ color: 'crimson' }}
+                        />
+                        :
+                        <FontAwesomeIcon 
+                            icon={faThumbsDown} 
+                            size="xl" 
+                            style={{ color: 'crimson' }} 
+                            onClick={is_loggedin ? comment_dislike: null}
+                        />
+                    }
+                    <p>{dislikes_count}</p>
+                    </div>
+                    <div className="float-end d-flex">
+                    {
+                        user_id == props.author 
+                        ? 
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={faFilePen} 
+                                size="xl" 
+                                style={{ color: 'yellow' }}
+                            />
+                            <FontAwesomeIcon 
+                                icon={faTrash} 
+                                size="xl" 
+                                style={{ color: 'crimson' }}
+                            />
+                        </div> 
+                        : 
+                        null 
+                    }
+                    {is_loggedin ? <FontAwesomeIcon icon={faTriangleExclamation} size="xl" style={{ color: 'red' }}/> : null}
+                    </div>                 
                 </div>
             </div>
         </div>

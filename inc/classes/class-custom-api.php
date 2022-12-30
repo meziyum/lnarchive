@@ -40,6 +40,20 @@ class custom_api{ //Template Class
             'methods' => 'POST', //Method
             'callback' => [ $this, 'comment_actions'], //Callback after receving request
         ));
+        register_rest_route( 'lnarchive/v1', 'current_user', array( //Register Current User Actions
+            'methods' => 'GET', //Method
+            'callback' => [ $this, 'current_user_actions'], //Callback after receving request
+        ));
+    }
+
+    function current_user_actions( $request ){
+
+        if(!is_user_logged_in())
+            return false;
+
+        $user_data = get_userdata(get_current_user_id());
+
+        return $user_data;
     }
 
     function comment_actions($request) { //Function to handle the comment actions route
@@ -86,7 +100,7 @@ class custom_api{ //Template Class
         $table_name = $wpdb->prefix . 'comment_response'; //Response Table name
         $comment_id = $comment["id"]; //Get comment id
         $user_id = get_current_user_id(); //Get current user id (nonce must be used for authentication)
-        return $wpdb->get_results("SELECT response_type FROM $table_name WHERE comment_id=".$comment_id." AND user_id=".$user_id.""); //return the results;
+        return $wpdb->get_results("SELECT response_type FROM $table_name WHERE comment_id=$comment_id AND user_id=$user_id"); //return the results;
     }
 }
 ?>

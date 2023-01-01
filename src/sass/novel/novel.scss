@@ -14,7 +14,6 @@
     }
 
     .novel-list {
-        margin: 0px;
 
         @include respond-to( x-small ){
             flex-wrap: nowrap;
@@ -33,7 +32,6 @@
     margin-bottom: 16px;
 
     .novel-row {
-        margin: 0px;
 
         .novel-info-left {
             background: $novel-section-bg;
@@ -139,20 +137,16 @@
             margin-bottom: 8px;
             border-bottom: 2px dotted $not-imp;
 
-            .review-left{
+            .review-header{
+                padding: 12px 12px;
 
                 .user_avatar {
                     max-width: 75px;
                     max-height: 75px;
                     border-radius: 50%;
+                    margin-right: 16px;
                 }
-
             }
-
-            .review-right{
-                
-            }
-
         }
     }
 }

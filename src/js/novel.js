@@ -21,6 +21,7 @@ import  {
         faTriangleExclamation,
         faTrash,
         faFilePen,
+        faEllipsis,
         } 
 from '@fortawesome/free-solid-svg-icons';
 
@@ -162,6 +163,13 @@ function narrator_info_display() { //Function to handle visibility of the narrat
         document.getElementById("Narrator_row").style.display = 'table-row'; //Display the Narrator column
 }
 
+function format_date( old_date) { //function to format the date
+    let year= old_date.substring(0,4); //Get the year from the old date
+    let month= Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(parseInt(old_date.substring(5,7)))); //Get the month from old date, convert it to int and then get the equivalent month name using the Intl API
+    let day=old_date.substring(8); //get the day from the old date
+    return day+' '+month+", "+year; //Returned the merged date
+}
+
 function reviews_display() { //Function to display the Reviews Section
 
     fetch( wp_request_url+"comments?post="+post_id, {
@@ -187,10 +195,12 @@ function reviews_display() { //Function to display the Reviews Section
 
 function Review_Section( props ){ //Review Section React Component
 
+    const [ comment_list, update_comments_list ] = React.useState( props.comment_data); //State of the Comments List
+
     function submit_review(){ //Submit Review Button onclick function
 
         var review_content = document.getElementById('review-content').value; //Get the Comment Content
-        document.getElementById('review-content').value = '';
+        document.getElementById('review-content').value = ''; //Remove the content from the comment box
 
         fetch( wp_request_url+"comments", { //Fetch the comments
             method: "POST", //Method
@@ -205,8 +215,15 @@ function Review_Section( props ){ //Review Section React Component
             })
         }) //Fetch the comments
         .then( res => res.json()) //Convert the data from Promise to JSON
-        .then( data => { //Execut function after data is fetched
-            reviews_display(); //Rerender the reviews section
+        .then( data => { //Execute function after data is fetched
+            update_comments_list( prev_comments_list => { //Update State of the comment list
+                return [ <Review 
+                    key={data.id} //Map Key
+                    {...data} //Comment Data
+                    />, //New Review Element
+                    ...prev_comments_list //Previous Review elements stored in the array
+                    ]
+            })
         })
     }
 
@@ -221,7 +238,7 @@ function Review_Section( props ){ //Review Section React Component
                 </div>
             </div>
             <div id="reviews-list">
-                {props.comment_data}
+                {comment_list}
             </div>
         </div>
     );
@@ -229,9 +246,9 @@ function Review_Section( props ){ //Review Section React Component
 
 function Review( props ){ //Review Entry React Component
 
-    const [ likes_count, update_likes] = React.useState(props.meta.likes);
-    const [ dislikes_count, update_dislikes] = React.useState(props.meta.dislikes);
-    const [ user_response, update_response] = props.user_comment_response.length != 0? React.useState(props.user_comment_response[0].response_type): React.useState('none');
+    const [ likes_count, update_likes] = React.useState(props.meta.likes); //Define likes count state
+    const [ dislikes_count, update_dislikes] = React.useState(props.meta.dislikes); //Define dislike count state
+    const [ user_response, update_response] = props.user_comment_response.length != 0? React.useState(props.user_comment_response[0].response_type): React.useState('none'); //Define user response state
 
     function update_response_in_database( action ){ //Function to update the user response
         fetch( custom_api_request_url+'comment/'+action+'/'+props.id, {
@@ -242,108 +259,110 @@ function Review( props ){ //Review Entry React Component
                 'X-WP-Nonce' : user_nonce,
             },
         }) //Fetch the comments
-        .then( res => res.json()) //Convert the data from Promise to JSON
-        .then( data => { //Execute function after data is fetched
 
-            if( user_response == 'like' ){
-                if( action == 'dislike'){ //Change user response from dislike to like
-                    update_likes( old_likes => --old_likes);
-                    update_dislikes( old_dislikes => ++old_dislikes);
-                }
-                else if(action == 'none'){ //like
-                    update_likes( old_likes => --old_likes);            
-                }
+        if( user_response == 'like' ){
+            if( action == 'dislike'){ //Change user response from dislike to like
+                update_likes( old_likes => --old_likes);
+                update_dislikes( old_dislikes => ++old_dislikes);
             }
-            else if( user_response == 'dislike' ) {
-                if( action == 'like'){ //Change user response from like to dislike
-                    update_dislikes( old_dislikes => --old_dislikes);
-                    update_likes( old_likes => ++old_likes);
-                }
-                else if(action == 'none'){ //dislike
-                    update_dislikes( old_dislikes => --old_dislikes);
-                }
+            else if(action == 'none') //like
+                update_likes( old_likes => --old_likes);        
+        }
+        else if( user_response == 'dislike' ) {
+            if( action == 'like'){ //Change user response from like to dislike
+                update_dislikes( old_dislikes => --old_dislikes);
+                update_likes( old_likes => ++old_likes);
             }
-            else{
-                if( action == 'like'){ //Remove like response
-                    update_likes( old_likes => ++old_likes);
-                }
-                else if( action == 'dislike'){ //Remove dislike response
-                    update_dislikes( old_dislikes => ++old_dislikes);        
-                }
+            else if(action == 'none') //dislike
+                update_dislikes( old_dislikes => --old_dislikes);
+        }
+        else{
+            if( action == 'like'){ //Remove like response
+                update_likes( old_likes => ++old_likes);
             }
-            update_response( () => action ); //update the response state
-        })
+            else if( action == 'dislike') //Remove dislike response
+                update_dislikes( old_dislikes => ++old_dislikes);
+        }
+        update_response( () => action ); //update the response state
+    }
+
+    function delete_review() {
+
+        var confirmation = window.confirm("Are you sure you want to delete your Review?");
+
+        if( confirmation ){
+            console.log('deleted');
+        }
     }
 
     return(
         <div className="row review-entry">
-            <div className="review-left col-3 col-sm-2 col-md-2 col-lg-1">
-                <img className="user_avatar" srcSet={props.author_avatar_urls['96']}></img>
+            <div className="review-header row">
+                    <div className='col-3 col-sm-3 col-md-2 col-lg-1'>
+                        <img className="user_avatar float-start" srcSet={props.author_avatar_urls['96']}></img>
+                    </div>     
+                    <div className='col'>
+                        <h4>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1)}</h4>
+                        <time>{format_date(props.date.slice(0, props.date.indexOf('T')))}</time>
+                    </div>     
             </div>
-            <div className="review-right col">
-                <div className="review-header row">
-                    <h4 className="col-lg-9">{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1)}</h4>
-                    <time className="col">{props.date.slice(0, props.date.indexOf('T'))}</time>
+            <div className="review-content" dangerouslySetInnerHTML={{__html: props.content.rendered}}/>
+            <div className="review-footer">
+                <div className='float-start d-flex'>
+                { 
+                    user_response == 'like' 
+                    ? 
+                    <FontAwesomeIcon 
+                        icon={faThumbsUpSolid} size="xl" 
+                        style={{ color: 'limegreen' }}
+                        onClick={ () => is_loggedin ? update_response_in_database('none'): null }
+                    />
+                    : <FontAwesomeIcon 
+                        icon={faThumbsUp} 
+                        size="xl" style={{ color: 'limegreen' }} 
+                        onClick={ () => is_loggedin ? update_response_in_database('like'): null }
+                    />
+                }
+                <p>{likes_count}</p>
+                { 
+                    user_response == 'dislike' 
+                    ? 
+                    <FontAwesomeIcon 
+                        icon={faThumbsDownSolid} 
+                        size="xl" 
+                        style={{ color: 'crimson' }}
+                        onClick={ () => is_loggedin ? update_response_in_database('none'): null }
+                    />
+                    :
+                    <FontAwesomeIcon 
+                        icon={faThumbsDown} 
+                        size="xl" 
+                        style={{ color: 'crimson' }} 
+                        onClick={ () => is_loggedin ? update_response_in_database('dislike'): null }
+                    />
+                }
+                <p>{dislikes_count}</p>
                 </div>
-                <div className="review-content" dangerouslySetInnerHTML={{__html: props.content.rendered}}/>
-                <div className="review-footer">
-                    <div className='float-start d-flex'>
-                    { 
-                        user_response == 'like' 
-                        ? 
-                        <FontAwesomeIcon 
-                            icon={faThumbsUpSolid} size="xl" 
-                            style={{ color: 'limegreen' }}
-                            onClick={ () => is_loggedin ? update_response_in_database('none'): null }
-                        />
-                        : <FontAwesomeIcon 
-                            icon={faThumbsUp} 
-                            size="xl" style={{ color: 'limegreen' }} 
-                            onClick={ () => is_loggedin ? update_response_in_database('like'): null }
-                        />
-                    }
-                    <p>{likes_count}</p>
-                    { 
-                        user_response == 'dislike' 
-                        ? 
-                        <FontAwesomeIcon 
-                            icon={faThumbsDownSolid} 
-                            size="xl" 
-                            style={{ color: 'crimson' }}
-                            onClick={ () => is_loggedin ? update_response_in_database('none'): null }
-                        />
-                        :
-                        <FontAwesomeIcon 
-                            icon={faThumbsDown} 
-                            size="xl" 
-                            style={{ color: 'crimson' }} 
-                            onClick={ () => is_loggedin ? update_response_in_database('dislike'): null }
-                        />
-                    }
-                    <p>{dislikes_count}</p>
+                {
+                    is_loggedin
+                    ?
+                    <div className="float-end dropstart">
+                        <a id="comment_user_actions" data-bs-toggle="dropdown" aria-expanded="false">
+                            <FontAwesomeIcon 
+                                icon={faEllipsis} 
+                                size="xl" 
+                                style={{ color: 'grey' }}
+                            />
+                        </a>
+                        <ul className="dropdown-menu" aria-labelledby="comment_user_actions">
+                            {user_id == props.author ? <a className="dropdown-item" >Edit</a> : null}
+                            {user_id == props.author ? <a className="dropdown-item" onClick={delete_review}>Delete</a>: null}
+                            <a className="dropdown-item" >Report</a>
+                        </ul>
                     </div>
-                    <div className="float-end d-flex">
-                    {
-                        user_id == props.author 
-                        ? 
-                        <div>
-                            <FontAwesomeIcon 
-                                icon={faFilePen} 
-                                size="xl" 
-                                style={{ color: 'yellow' }}
-                            />
-                            <FontAwesomeIcon 
-                                icon={faTrash} 
-                                size="xl" 
-                                style={{ color: 'crimson' }}
-                            />
-                        </div> 
-                        : 
-                        null 
-                    }
-                    {is_loggedin ? <FontAwesomeIcon icon={faTriangleExclamation} size="xl" style={{ color: 'red' }}/> : null}
-                    </div>                 
-                </div>
+                    :
+                    null
+                }                 
             </div>
         </div>
     );

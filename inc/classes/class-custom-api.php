@@ -68,7 +68,10 @@ class custom_api{ //Template Class
         $user_response_value = $wpdb->get_var("SELECT response_type FROM $table_name WHERE comment_id=".$comment_id." AND user_id=".$user_id.""); //return the current user response to the comment
         $user_action = $request['action']; //User current action
 
-        if( $user_action == 'none' ){
+        if( $user_action == $user_response_value ){ //If the requests are too sent to fast before the database is updated. Avoids multiple enteries with same action
+            return false;
+        }
+        else if( $user_action == 'none' ){
             $wpdb->delete( $table_name, array( 'user_id' => $user_id, 'comment_id' => $comment_id) );
             $count_action = get_comment_meta($comment_id, $user_response_value.'s', true); //Get the count of curent response comment meta
             $meta_update_output_new = update_comment_meta( $comment_id, $user_response_value.'s', --$count_action); //Update the count of current response comment meta

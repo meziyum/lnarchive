@@ -5,26 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/novel/novel.scss';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Review from './Components/Review.js';
-
-//import regular Fontawesome icons
-import  {
-        faThumbsDown , 
-        faThumbsUp,
-        } 
-from '@fortawesome/free-regular-svg-icons';
-
-//Import solid Fontawesome icons
-import  {    
-        faThumbsDown as faThumbsDownSolid, 
-        faThumbsUp as faThumbsUpSolid,
-        faTriangleExclamation,
-        faTrash,
-        faFilePen,
-        faEllipsis,
-        } 
-from '@fortawesome/free-solid-svg-icons';
 
 const tx = document.getElementsByTagName("textarea"); //Select all the Textareas
 
@@ -215,6 +196,8 @@ function Review_Section( props ){ //Review Section React Component
             update_comments_list( prev_comments_list => { //Update State of the comment list
                 return [ <Review 
                     key={data.id} //Map Key
+                    is_loggedin={is_loggedin}
+                        user_id={user_id}
                     {...data} //Comment Data
                     />, //New Review Element
                     ...prev_comments_list //Previous Review elements stored in the array
@@ -223,17 +206,26 @@ function Review_Section( props ){ //Review Section React Component
         })
     }
 
+    function comment_filter(){
+        
+    }
+
     return(
         <div>
             <h2 className="d-flex justify-content-center review-title">Reviews</h2>
             <h4>Your Review</h4>
-            <div id="reviews-form">
+            <form id="reviews-form">
                 <textarea name="review-content" id="review-content" />
-                <div className="review-footer">
-                    <button id="review-submit" className="float-end" onClick={submit_review}>Submit</button>
-                </div>
-            </div>
+                <div className="d-flex justify-content-end"> 
+                <button id="review-submit" onClick={submit_review}>Submit</button>
+                </div>        
+            </form>
             <div id="reviews-list">
+                <label for="comment_filter">Filter by:</label>
+                <select name="comment_filter" id="comment_filter" onSelect={ comment_filter }>
+                <option value="popularity">Popularity</option>
+                <option value="newest">Newest</option>
+                </select>
                 {comment_list}
             </div>
         </div>

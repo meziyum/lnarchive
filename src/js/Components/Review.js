@@ -22,6 +22,7 @@ import  {
 from '@fortawesome/free-solid-svg-icons';
 
 //Constant Variables from server side
+const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 const user_nonce = LNarchive_variables.nonce;
 
@@ -32,6 +33,7 @@ export default function Review( props ){ //Review Entry React Component
     const [ user_response, update_response] = props.user_comment_response.length != 0? React.useState(props.user_comment_response[0].response_type): React.useState('none'); //Define user response state
     const [ review_expanded, update_review_expanded] = React.useState( false ); //Define Review expanded or collapsed status
     const [ review_editable, update_review_editable] = React.useState( false ); //Define review editable status
+    const [ review_visibility, update_review_visibility] = React.useState( true); //Deinfe review view status
 
     //Local Component Variables
     var user_id =props.user_id;
@@ -75,21 +77,26 @@ export default function Review( props ){ //Review Entry React Component
         update_response( () => action ); //update the response state
     }
 
-    function delete_review() {
+    function delete_review() { //Delete Review function
 
-        var confirmation = window.confirm("Are you sure you want to delete your Review?");
+        var confirmation = window.confirm("Are you sure you want to delete your Review?"); //Confirmation message
 
-        if( confirmation ){
-            console.log('deleted');
-        }
-    }
+        if( !confirmation ) //If the user doesnt click OK
+            return;
 
-    function update_edit(){
-        update_review_editable( true );
-        console.log(review_editable);
+        fetch( wp_request_url+"comments/"+props.id, {
+            method: "DELETE", //Method
+            headers: { //Actions on the HTTP Request
+                'X-WP-Nonce' : user_nonce,
+            },
+        }) //Fetch the comments
+
+        update_review_visibility( old_value => !old_value); //Update the review visibility
     }
 
     return(
+        review_visibility
+        ?
         <div className="row review-entry">
             <div className="review-header row">
                     <div className='col-3 col-sm-3 col-md-2 col-lg-1'>
@@ -128,7 +135,8 @@ export default function Review( props ){ //Review Entry React Component
                         style={{ color: 'limegreen' }}
                         onClick={ () => is_loggedin ? update_response_in_database('none'): null }
                     />
-                    : <FontAwesomeIcon 
+                    : 
+                    <FontAwesomeIcon
                         icon={faThumbsUp} 
                         size="xl" 
                         style={{ color: 'limegreen' }} 
@@ -167,7 +175,7 @@ export default function Review( props ){ //Review Entry React Component
                             />
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="comment_user_actions">
-                            {user_id == props.author ? <a className="dropdown-item" onClick={ update_edit}>Edit</a> : null}
+                            {user_id == props.author ? <a className="dropdown-item" onClick={ () => update_review_editable( true )}>Edit</a> : null}
                             {user_id == props.author ? <a className="dropdown-item" onClick={delete_review}>Delete</a>: null}
                             <a className="dropdown-item" >Report</a>
                         </ul>
@@ -177,5 +185,7 @@ export default function Review( props ){ //Review Entry React Component
                 }                 
             </div>
         </div>
+        :
+        false
     );
 }

@@ -86,7 +86,7 @@ module.exports = ( env, argv ) => ({
 		rules: rules, //Rules
 	},
     optimization: { //Optimization
-		minimize: true,
+		minimize: false, //If to run the plugins in dev mode
 		minimizer: [ //Minification		
 			new CssMinimizerPlugin({
 				parallel: true, //Activate Multiprocess pararell running

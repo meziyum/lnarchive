@@ -1,40 +1,4 @@
 
-//Category Button
-.category-button {
-    padding: 4px 8px;
-    font-size: 12px;
-    background-color: $bright-green;
-
-    &:hover, 
-    &:active {
-        background-color: $dark-green;
-    }
-}
-
-//Post Tag button
-.post-tag-button {
-    padding: 4px 8px;
-    font-size: 12px;
-    background-color: $theme-primary;
-
-    &:hover, 
-    &:active {
-        background-color: $theme-primary-dark;
-    }
-}
-
-//Series Button
-.series-button {
-    padding: 4px 8px;
-    font-size: 12px;
-    background-color: $theme-primary;
-
-    &:hover, 
-    &:active {
-        background-color: $theme-primary-dark;
-    }
-}
-
 //Pagination Mixin
 .pagination-button {
     padding: 8px 8px;

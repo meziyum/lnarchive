@@ -82,14 +82,9 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
                     }
 
                     wp_reset_postdata(); //Reset the $POST data
-
-                    // If comments are open or we have at least one comment, load up the comment template.
-                    if ( comments_open() || get_comments_number() ) {
-                        ?>
-                            <h2 class="d-flex justify-content-center comment-title">Comments</h2> <!--Comment Section Heading-->
-                        <?php
-                            comments_template(); //Get the Comments Template
-                    }
+                    ?>
+                        <section id="reviews-section" class="py-0 px-2"/> <!-- Review Section -->
+                    <?php
                 endwhile;
             }
             ?>

@@ -1,6 +1,7 @@
 
 //Imports
 @import "../essentials";
+@import "../archive-post/archive-post.scss";
 
 //Novels Listing Sections Common CSS
 .novels-list-section{
@@ -92,7 +93,8 @@
             }
 
             .genre-button,
-            .format-button {
+            .format-button,
+            .post-tag-button {
                 padding: 4px 8px;
                 font-size: 12px;
                 background-color: $theme-primary;
@@ -109,7 +111,6 @@
 //Reviews Section
 #reviews-section {
     background: #ffffff;
-    padding: 0px 8px;
 
     .review-title {
         color: $white-text;
@@ -126,25 +127,27 @@
                 border: none;
                 border-radius: 100px;
                 color: $white-text;
-                padding: 6px 20px;
         }
     }
 
+    #review-filter{
+        border: 1px solid #e2eded;
+    }
+
+    #reviews-filter-header{
+        border-bottom: 2px dotted $not-imp;
+    }
+
     #reviews-list{
-        padding-left: 0px;
 
         .review-entry{
-            margin-bottom: 8px;
             border-bottom: 2px dotted $not-imp;
 
             .review-header{
-                padding: 12px 12px;
 
                 .user_avatar {
                     max-width: 75px;
                     max-height: 75px;
-                    border-radius: 50%;
-                    margin-right: 16px;
                 }
             }
         }

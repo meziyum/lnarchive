@@ -49,6 +49,10 @@ class assets{ //Assests Class
         $path= LNARCHIVE_BUILD_CSS_URI . '/'.get_post_type().'.css'; 
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/'.get_post_type().'.css');
       }
+      else if( !is_front_page() && is_home()){ //Blog Page
+        $path= LNARCHIVE_BUILD_CSS_URI . '/archive_post.css'; 
+        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/archive_post.css');
+      }
 
       wp_register_style( 'secondary_css', $path, [], $version_info, 'all'); //Sass Stylsheet
       wp_enqueue_style('secondary_css');

@@ -264,11 +264,8 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
         
                     wp_reset_postdata(); //Reset the $POST data
                     ?>
-                        <section id="reviews-section"> <!-- Review Section -->
-
-                        </section>
+                        <section id="reviews-section" class="py-0 px-2"/> <!-- Review Section -->
                     <?php
-                        /*comments_template('/reviews.php'); //Get the Comments Template*/
             endwhile;
             }
         ?>

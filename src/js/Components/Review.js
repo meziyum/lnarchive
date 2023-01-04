@@ -1,6 +1,6 @@
 
-//Import Libraries
-import * as Main from '../main.js';
+//Imports
+import * as Utilities from '../utilities';
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -34,12 +34,10 @@ export default function Review( props ){ //Review Entry React Component
     const [ review_expanded, update_review_expanded] = React.useState( false ); //Define Review expanded or collapsed status
     const [ review_editable, update_review_editable] = React.useState( false ); //Define review editable status
     const [ review_visibility, update_review_visibility] = React.useState( true); //Deinfe review view status
-
-    //Local Component Variables
-    var user_id =props.user_id;
-    var is_loggedin=props.is_loggedin;
-    var read_more_length = 700;
-    var comment_content = props.content.rendered;
+    var user_id =props.user_id; //user id
+    var is_loggedin=props.is_loggedin; //isloggedin status
+    var read_more_length = 700; //Minimum characters to show read more button
+    var comment_content = props.content.rendered; //Comment content to render
 
     function update_response_in_database( action ){ //Function to update the user response
         fetch( custom_api_request_url+'comment/'+action+'/'+props.id, {
@@ -97,14 +95,14 @@ export default function Review( props ){ //Review Entry React Component
     return(
         review_visibility
         ?
-        <div className="row review-entry">
-            <div className="review-header row">
+        <div className="row review-entry mb-3">
+            <div className="review-header row p-3">
                     <div className='col-3 col-sm-3 col-md-2 col-lg-1'>
-                        <img className="user_avatar float-start" srcSet={props.author_avatar_urls['96']}></img>
+                        <img className="user_avatar float-start rounded-circle" srcSet={props.author_avatar_urls['96']}></img>
                     </div>     
                     <div className='col'>
                         <h4>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1) /* Capitalize the name of the Author */}</h4>
-                        <time>{Main.format_date(props.date.slice(0, props.date.indexOf('T')) /* Convert the format of the date using the function in external library*/)}</time>
+                        <time>{Utilities.format_date(props.date.slice(0, props.date.indexOf('T')) /* Convert the format of the date using the function in external library*/)}</time>
                     </div>     
             </div>
 

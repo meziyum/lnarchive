@@ -5,6 +5,7 @@ import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/novel/novel.scss';
 import Review from './Components/Review.js';
+import Review_Section from './Components/Review_Section';
 
 const tx = document.getElementsByTagName("textarea"); //Select all the Textareas
 
@@ -20,7 +21,6 @@ function autoText() { //Auto adjustable textarea
 }
 
 //Localised Constants from Server
-const post_type = LNarchive_variables.object_type
 const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
@@ -31,8 +31,6 @@ const user_id = LNarchive_variables.user_id;
 const selected_format_class = 'selected-format';
 const format_button_class = 'format-button';
 const audiobook_format_class = 'Audiobook-format';
-
-//React Root
 const reviews_root = ReactDOMClient.createRoot(document.getElementById('reviews-section')); //Create the Reviews Root
 
 //Global Page Variables
@@ -160,88 +158,6 @@ function reviews_display() { //Function to display the Reviews Section
             );
         });
         console.log(data)
-        reviews_root.render(<Review_Section comment_data={comments_map} />); //Render the Review Section
+        reviews_root.render(<Review_Section comment_data={comments_map} is_loggedin={is_loggedin} comment_type='review'/>); //Render the Review Section
     })
-}
-
-function Review_Section( props ){ //Review Section React Component
-
-    const [ comment_list, update_comments_list ] = React.useState( props.comment_data ); //State of the Comments List
-
-    function submit_review(){ //Submit Review Button onclick function
-
-        var review_content = document.getElementById('review-content').value; //Get the Comment Content
-        document.getElementById('review-content').value = ''; //Remove the content from the comment box
-
-        fetch( wp_request_url+"comments", { //Fetch the comments
-            method: "POST", //Method
-            credentials: 'same-origin', //Send Credentials
-            headers: { //Actions on the HTTP Request
-                'Content-Type': 'application/json',
-                'X-WP-Nonce' : user_nonce,
-            },
-            body: JSON.stringify({ //Data to attach to the HTTP Request
-                content: Main.esc_html(review_content), //Review Content
-                post: post_id, //Post Id
-                meta: [ {"likes": 0}, {"dislikes": 0}]
-            })
-        }) //Fetch the comments
-        .then( res => res.json()) //Convert the data from Promise to JSON
-        .then( data => { //Execute function after data is fetched
-            update_comments_list( prev_comments_list => { //Update State of the comment list
-                return [ <Review 
-                    key={data.id} //Map Key
-                    is_loggedin={is_loggedin}
-                        user_id={user_id}
-                    {...data} //Comment Data
-                    />, //New Review Element
-                    ...prev_comments_list //Previous Review elements stored in the array
-                    ]
-            });
-        });
-    }
-
-    function apply_sort( orderby, page_no ){
-        fetch( wp_request_url+"comments?post="+post_id+"&orderby="+orderby+"&per_page=10&page="+page_no, {
-            headers: { //Actions on the HTTP Request
-                'X-WP-Nonce' : user_nonce,
-            },
-        }) //Fetch the comments
-        .then( res => res.json()) //Convert the data from Promise to JSON
-        .then( data => { //Execut function after data is fetched
-            const comments_map = data.map( comment => { //Map the fetched data into a comments list
-                return (
-                        <Review 
-                            key={comment.id} //Map Key
-                            is_loggedin={is_loggedin}
-                            user_id={user_id}
-                            {...comment} //Comment Data
-                        />
-                );
-            });
-            update_comments_list( () => comments_map );
-        })
-    }
-
-    return(
-        <div>
-            <h2 className="d-flex justify-content-center review-title">Reviews</h2>
-            <h4>Your Review</h4>
-            <form id="reviews-form">
-                <textarea name="review-content" id="review-content" />
-                <div className="d-flex justify-content-end"> 
-                <button type="button" id="review-submit" onClick={ () => submit_review()}>Submit</button>
-                </div>        
-            </form>
-            <label htmlFor="comment_filter">Sort by:</label>
-            <select name="comment_filter" id="comment_filter">
-            <option value="likes">Popularity</option>
-            <option value="date">Newest</option>
-            </select>
-            <button type="button" id="filter-apply-button" onClick={ () => apply_sort( document.getElementById('comment_filter').value, 1 )}>Filter</button>
-            <div id="reviews-list">
-                {comment_list}
-            </div>
-        </div>
-    );
 }

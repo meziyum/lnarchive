@@ -90,12 +90,14 @@ class lnarchive_theme{ //LNarchive Theme Class
          register_meta('comment', 'likes', [ //Register Like Meta for Comments
             'type' => 'number', //Datatype
             'single' => true, //Only one value
+            'default' => 0, //default value
             'show_in_rest' => true, //Show in REST API
          ]);
 
          register_meta('comment', 'dislikes', [ //Register Dislike Meta for Comments
             'type' => 'number', //Datatype
             'single' => true, //Only one value
+            'default' => 0, //default value
             'show_in_rest' => true, //Show in REST API
          ]);
 

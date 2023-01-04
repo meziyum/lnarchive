@@ -26,6 +26,7 @@ class custom_api{ //Template Class
         //Adding functions to the hooks
         add_action( 'rest_api_init', [$this, 'custom_endpoints']);
         add_action( 'rest_api_init', [$this, 'register_custom_fields']);
+        add_action( 'rest_api_init', [$this, 'addOrderbySupportRest']);
     }
 
     function register_custom_fields() { //Function to register custom field to wp json
@@ -97,5 +98,38 @@ class custom_api{ //Template Class
         $user_id = get_current_user_id(); //Get current user id (nonce must be used for authentication)
         return $wpdb->get_results("SELECT response_type FROM $table_name WHERE comment_id=$comment_id AND user_id=$user_id"); //return the results
     }
+
+    function addOrderbySupportRest(){
+        
+        // Add meta your meta field to the allowed values of the REST API orderby parameter
+        add_filter(
+            'rest_comment_collection_params',
+            function( $params ) {
+                $fields = ["likes"];
+                foreach ($fields as $key => $value) {
+                    $params['orderby']['enum'][] = $value;
+                }
+                return $params;
+            },
+            10,
+            1
+        );
+        
+        // Manipulate query
+        add_filter(
+            'rest_comment_query',
+            function ( $args, $request ) {
+                $fields = ["likes"];
+                $order_by = $request->get_param( 'orderby' );
+                if ( isset( $order_by ) && in_array($order_by, $fields)) {
+                    $args['meta_key'] = $order_by;
+                    $args['orderby']  = 'meta_value_num';
+                }
+                return $args;
+            },
+            10,
+            2
+        );
+    } // addOrderbySupportRest function ends. 
 }
 ?>

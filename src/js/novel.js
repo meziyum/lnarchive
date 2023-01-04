@@ -2,7 +2,6 @@
 //Imports
 import * as Main from './main.js';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/novel/novel.scss';
 import Review from './Components/Review.js';
@@ -26,6 +25,7 @@ const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 const user_nonce = LNarchive_variables.nonce;
+const user_id = LNarchive_variables.user_id;
 
 //Class Constants
 const selected_format_class = 'selected-format';
@@ -38,26 +38,22 @@ const reviews_root = ReactDOMClient.createRoot(document.getElementById('reviews-
 //Global Page Variables
 var selected_format = document.getElementsByClassName(selected_format_class)[0]; //Get the Selected format element
 var is_loggedin = false; //Variable to store user logged in status
-var user_id = -1;
-
-fetch( custom_api_request_url+"current_user", { //Fetch current user data
-    headers: { //Actions on the HTTP Request
-        'X-WP-Nonce' : user_nonce,
-    },
-}) //Fetch the JSON data
-    .then( res => res.json()) //The fetch API Response
-    .then( data => { //The fetch api data
-        if( data != false) //If output is returned then the user is logged in
-            is_loggedin = true;
-        user_id = data.ID;    
-        console.log(user_id)
-    })
 
 //Intial Function Calls
 narrator_info_display(); //Handle the display of narrator row
 formats_click_list( document.getElementsByClassName(format_button_class) ); //Apply click event listeners to initial formats
 document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
-reviews_display(); //Display the Reviews Section
+fetch( custom_api_request_url+"current_user", { //Fetch current user data
+    headers: { //Actions on the HTTP Request
+        'X-WP-Nonce' : user_nonce,
+    },
+}) //Fetch the JSON data
+.then( res => res.json()) //The fetch API Response
+.then( data => { //The fetch api data
+    if( data != false) //If output is returned then the user is logged in
+        is_loggedin = true;
+    reviews_display(); //Display the Reviews Section initially with popularity that is likes after the user information has been fetched
+})
 
 var volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel
 
@@ -146,17 +142,14 @@ function narrator_info_display() { //Function to handle visibility of the narrat
 }
 
 function reviews_display() { //Function to display the Reviews Section
-
-    fetch( wp_request_url+"comments?post="+post_id, {
+    fetch( wp_request_url+"comments?post="+post_id+"&orderby=likes&per_page=10&page=1", {
         headers: { //Actions on the HTTP Request
             'X-WP-Nonce' : user_nonce,
         },
     }) //Fetch the comments
     .then( res => res.json()) //Convert the data from Promise to JSON
     .then( data => { //Execut function after data is fetched
-        console.log(data);
-        console.log(wp_request_url+"comments?post="+post_id);
-        const comments_list = data.map( comment => { //Map the fetched data into a comments list
+        const comments_map = data.map( comment => { //Map the fetched data into a comments list
             return (
                     <Review 
                         key={comment.id} //Map Key
@@ -166,13 +159,14 @@ function reviews_display() { //Function to display the Reviews Section
                     />
             );
         });
-        reviews_root.render(<Review_Section comment_data={comments_list} />); //Render the Review Section
+        console.log(data)
+        reviews_root.render(<Review_Section comment_data={comments_map} />); //Render the Review Section
     })
 }
 
 function Review_Section( props ){ //Review Section React Component
 
-    const [ comment_list, update_comments_list ] = React.useState( props.comment_data); //State of the Comments List
+    const [ comment_list, update_comments_list ] = React.useState( props.comment_data ); //State of the Comments List
 
     function submit_review(){ //Submit Review Button onclick function
 
@@ -189,6 +183,7 @@ function Review_Section( props ){ //Review Section React Component
             body: JSON.stringify({ //Data to attach to the HTTP Request
                 content: Main.esc_html(review_content), //Review Content
                 post: post_id, //Post Id
+                meta: [ {"likes": 0}, {"dislikes": 0}]
             })
         }) //Fetch the comments
         .then( res => res.json()) //Convert the data from Promise to JSON
@@ -202,12 +197,30 @@ function Review_Section( props ){ //Review Section React Component
                     />, //New Review Element
                     ...prev_comments_list //Previous Review elements stored in the array
                     ]
-            })
-        })
+            });
+        });
     }
 
-    function comment_filter(){
-        
+    function apply_sort( orderby, page_no ){
+        fetch( wp_request_url+"comments?post="+post_id+"&orderby="+orderby+"&per_page=10&page="+page_no, {
+            headers: { //Actions on the HTTP Request
+                'X-WP-Nonce' : user_nonce,
+            },
+        }) //Fetch the comments
+        .then( res => res.json()) //Convert the data from Promise to JSON
+        .then( data => { //Execut function after data is fetched
+            const comments_map = data.map( comment => { //Map the fetched data into a comments list
+                return (
+                        <Review 
+                            key={comment.id} //Map Key
+                            is_loggedin={is_loggedin}
+                            user_id={user_id}
+                            {...comment} //Comment Data
+                        />
+                );
+            });
+            update_comments_list( () => comments_map );
+        })
     }
 
     return(
@@ -217,15 +230,16 @@ function Review_Section( props ){ //Review Section React Component
             <form id="reviews-form">
                 <textarea name="review-content" id="review-content" />
                 <div className="d-flex justify-content-end"> 
-                <button id="review-submit" onClick={submit_review}>Submit</button>
+                <button type="button" id="review-submit" onClick={ () => submit_review()}>Submit</button>
                 </div>        
             </form>
+            <label htmlFor="comment_filter">Sort by:</label>
+            <select name="comment_filter" id="comment_filter">
+            <option value="likes">Popularity</option>
+            <option value="date">Newest</option>
+            </select>
+            <button type="button" id="filter-apply-button" onClick={ () => apply_sort( document.getElementById('comment_filter').value, 1 )}>Filter</button>
             <div id="reviews-list">
-                <label for="comment_filter">Filter by:</label>
-                <select name="comment_filter" id="comment_filter" onSelect={ comment_filter }>
-                <option value="popularity">Popularity</option>
-                <option value="newest">Newest</option>
-                </select>
                 {comment_list}
             </div>
         </div>

@@ -176,7 +176,7 @@ export default function Review( props ){ //Review Entry React Component
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="comment_user_actions">
                             {user_id == props.author ? <a className="dropdown-item" onClick={ () => update_review_editable( true )}>Edit</a> : null}
-                            {user_id == props.author ? <a className="dropdown-item" onClick={delete_review}>Delete</a>: null}
+                            {user_id == props.author ? <a className="dropdown-item" onClick={delete_review}>Delete</a>: props.author}
                             <a className="dropdown-item" >Report</a>
                         </ul>
                     </div>

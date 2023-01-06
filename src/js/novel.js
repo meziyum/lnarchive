@@ -7,19 +7,6 @@ import '../sass/novel/novel.scss';
 import Review from './Components/Review.js';
 import Review_Section from './Components/Review_Section';
 
-const tx = document.getElementsByTagName("textarea"); //Select all the Textareas
-
-for (var i = 0; i < tx.length; i++) { //Loop through all the textareas
-    console.log('echo');
-    tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;"); //Set initial height based on the scroll height
-    tx[i].addEventListener("input", autoText, false); //Listen to inputs
-}
-
-function autoText() { //Auto adjustable textarea
-    this.style.height = 0; //Initial height
-    this.style.height = (this.scrollHeight) + "px"; //Calculate height
-}
-
 //Localised Constants from Server
 const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
@@ -146,7 +133,7 @@ function reviews_display() { //Function to display the Reviews Section
         },
     }) //Fetch the comments
     .then( res => res.json()) //Convert the data from Promise to JSON
-    .then( data => { //Execut function after data is fetched
+    .then( data => { //Execute function after data is fetched
         const comments_map = data.map( comment => { //Map the fetched data into a comments list
             return (
                     <Review 
@@ -158,6 +145,6 @@ function reviews_display() { //Function to display the Reviews Section
             );
         });
         console.log(data)
-        reviews_root.render(<Review_Section comment_data={comments_map} is_loggedin={is_loggedin} comment_type='review'/>); //Render the Review Section
+        reviews_root.render(<Review_Section comment_data={comments_map} is_loggedin={is_loggedin} comment_type='review' comment_count={100}/>); //Render the Review Section
     })
 }

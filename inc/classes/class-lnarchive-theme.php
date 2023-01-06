@@ -29,6 +29,7 @@ class lnarchive_theme{ //LNarchive Theme Class
          taxonomies_metafields::get_instance();
          post_metafields::get_instance();
          post_filter::get_instance();
+         comment::get_instance();
 
          $this->set_hooks(); //Setting the hook below
      }
@@ -86,20 +87,6 @@ class lnarchive_theme{ //LNarchive Theme Class
       }
 
       function register_meta(){ //Register metadata
-
-         register_meta('comment', 'likes', [ //Register Like Meta for Comments
-            'type' => 'number', //Datatype
-            'single' => true, //Only one value
-            'default' => 0, //default value
-            'show_in_rest' => true, //Show in REST API
-         ]);
-
-         register_meta('comment', 'dislikes', [ //Register Dislike Meta for Comments
-            'type' => 'number', //Datatype
-            'single' => true, //Only one value
-            'default' => 0, //default value
-            'show_in_rest' => true, //Show in REST API
-         ]);
 
          $formats = get_terms('format', array( //Get all the format terms
             'hide_empty' => false, //Include the terms with no enteries

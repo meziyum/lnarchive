@@ -4,9 +4,6 @@
  * 
  * @package LNarchive
  */
-
-use JetBrains\PhpStorm\Language;
-
 get_header(); //Get the Header
 ?>
 

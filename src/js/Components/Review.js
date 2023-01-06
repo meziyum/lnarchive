@@ -28,16 +28,33 @@ const user_nonce = LNarchive_variables.nonce;
 
 export default function Review( props ){ //Review Entry React Component
 
-    const [ likes_count, update_likes] = React.useState(props.meta.likes); //Define likes count state
-    const [ dislikes_count, update_dislikes] = React.useState(props.meta.dislikes); //Define dislike count state
-    const [ user_response, update_response] = props.user_comment_response.length != 0? React.useState(props.user_comment_response[0].response_type): React.useState('none'); //Define user response state
-    const [ review_expanded, update_review_expanded] = React.useState( false ); //Define Review expanded or collapsed status
-    const [ review_editable, update_review_editable] = React.useState( false ); //Define review editable status
-    const [ review_visibility, update_review_visibility] = React.useState( true); //Deinfe review view status
-    var user_id =props.user_id; //user id
-    var is_loggedin=props.is_loggedin; //isloggedin status
-    var read_more_length = 700; //Minimum characters to show read more button
-    var comment_content = props.content.rendered; //Comment content to render
+    let user_id =props.user_id; //user id
+    let is_loggedin=props.is_loggedin; //isloggedin status
+    let read_more_length = 100; //Minimum characters to show read more button
+    let content_long = props.content.rendered; //Full comment content rendered
+    let content_short = props.content.rendered.substring(0, props.content.rendered.substring(0,read_more_length).lastIndexOf(" "))+"..."; //Commment content of read_more_length
+
+    const [ review_info, update_review_info] = React.useState({ //All Review States
+        content: content_long <= read_more_length ? content_long : content_short, //State for current loaded comment content
+        like: props.meta.likes, //State for current number of likes
+        dislike: props.meta.dislikes, //State for current number of dislikes
+        user_response: props.user_comment_response.length != 0 ? props.user_comment_response[0].response_type : 'none', //State for current user response to the commment
+        visible: true, //State for the comment visibility
+        expanded: false, //State for the expanded status of read more that is all content is visible or not
+        editable: false, //State for if the comment is editable
+    });
+
+    let read_more_button = null; //Read more button JSX
+
+    if( props.content.rendered.length > read_more_length ){ //Render the Read more button if the current comment content state has length more than read_more_length
+        read_more_button =  <a onClick={read_more_click}>
+                                    <FontAwesomeIcon 
+                                        icon={ review_info.expanded ? faChevronUp : faChevronDown}
+                                        size="lg"
+                                    />
+                                    Read more
+                                </a>
+    }
 
     function update_response_in_database( action ){ //Function to update the user response
         fetch( custom_api_request_url+'comment/'+action+'/'+props.id, {
@@ -47,39 +64,61 @@ export default function Review( props ){ //Review Entry React Component
                 'Content-Type': 'application/json',
                 'X-WP-Nonce' : user_nonce,
             },
-        }) //Fetch the comments
+        }) //Comment Action API Request
 
-        if( user_response == 'like' ){
+        let current_response = review_info.user_response; //The current response of the user to the comment
+
+        if( current_response == 'like' ){
             if( action == 'dislike'){ //Change user response from dislike to like
-                update_likes( old_likes => --old_likes);
-                update_dislikes( old_dislikes => ++old_dislikes);
+                update_review_info( prev_info => ({
+                    ...prev_info,
+                    like: --prev_info.like,
+                    dislike: ++prev_info.dislike,
+                }));
             }
-            else if(action == 'none') //like
-                update_likes( old_likes => --old_likes);        
+            else if(action == 'none') //remove a like
+                update_review_info( prev_info => ({
+                    ...prev_info,
+                    like: --prev_info.like,
+                }));        
         }
-        else if( user_response == 'dislike' ) {
+        else if( current_response == 'dislike' ) {
             if( action == 'like'){ //Change user response from like to dislike
-                update_dislikes( old_dislikes => --old_dislikes);
-                update_likes( old_likes => ++old_likes);
+                update_review_info( prev_info => ({
+                    ...prev_info,
+                    like: ++prev_info.like,
+                    dislike: --prev_info.dislike,
+                }));
             }
-            else if(action == 'none') //dislike
-                update_dislikes( old_dislikes => --old_dislikes);
+            else if(action == 'none') //remove a dislike
+                update_review_info( prev_info => ({
+                    ...prev_info,
+                    dislike: --prev_info.dislike,
+                }));
         }
         else{
-            if( action == 'like'){ //Remove like response
-                update_likes( old_likes => ++old_likes);
+            if( action == 'like'){ //like a comment
+                update_review_info( prev_info => ({ 
+                    ...prev_info,
+                    like: ++prev_info.like,
+                }));
             }
-            else if( action == 'dislike') //Remove dislike response
-                update_dislikes( old_dislikes => ++old_dislikes);
+            else if(action == 'dislike') //dislike a comment
+                update_review_info( prev_info => ({
+                    ...prev_info,
+                    dislike: ++prev_info.dislike,
+                }));
         }
-        update_response( () => action ); //update the response state
+
+        update_review_info( prev_info => ({ //update user current respones to the comment
+            ...prev_info,
+            user_response: action,
+        }));
     }
 
     function delete_review() { //Delete Review function
 
-        var confirmation = window.confirm("Are you sure you want to delete your Review?"); //Confirmation message
-
-        if( !confirmation ) //If the user doesnt click OK
+        if( !window.confirm("Are you sure you want to delete your Review?") ) //If the user doesnt click OK
             return;
 
         fetch( wp_request_url+"comments/"+props.id, {
@@ -89,11 +128,29 @@ export default function Review( props ){ //Review Entry React Component
             },
         }) //Fetch the comments
 
-        update_review_visibility( old_value => !old_value); //Update the review visibility
+        update_review_info( prev_info => ({ //Remove comment visibility so the comment appears deleted
+            ...prev_info,
+            visible: false,
+        }));
+    }
+
+    function read_more_click(){ //Read more button click function
+        update_review_info( prev_info => ({ //Update the rendered content and expanded status of the review
+            ...prev_info,
+            content: review_info.expanded ? content_short : content_long,
+            expanded: !review_info.expanded,
+        }))
+    }
+
+    function review_edit(){ //Enable review edit function
+        update_review_info( prev_info => ({ //Allow edit of review
+            ...prev_info,
+            editable: true,
+        }));
     }
 
     return(
-        review_visibility
+        review_info.visible
         ?
         <div className="row review-entry mb-3">
             <div className="review-header row p-3">
@@ -105,27 +162,14 @@ export default function Review( props ){ //Review Entry React Component
                         <time>{Utilities.format_date(props.date.slice(0, props.date.indexOf('T')) /* Convert the format of the date using the function in external library*/)}</time>
                     </div>     
             </div>
-
-                <div className="review-content" contentEditable={review_editable} dangerouslySetInnerHTML={ {__html:  (review_expanded || comment_content.length<=read_more_length) ?  comment_content : comment_content.substring(0, comment_content.substring(0,read_more_length).lastIndexOf(" "))+"..."}}/>
+                <div className="review-content" contentEditable={review_info.editable} dangerouslySetInnerHTML={ {__html: review_info.content}}/>
             <div className="d-flex justify-content-center">
-                {
-                    comment_content.length > read_more_length
-                    ?
-                    <a onClick={ () => update_review_expanded( old_value =>  !old_value)}>
-                        <FontAwesomeIcon 
-                            icon={ review_expanded ? faChevronUp : faChevronDown}
-                            size="lg"
-                        />
-                        Read more
-                    </a>
-                    :
-                    null
-                }
+                {read_more_button}
             </div>
             <div className="review-footer">
                 <div className='float-start d-flex'>
                 { 
-                    user_response == 'like' 
+                    review_info.user_response == 'like'
                     ? 
                     <FontAwesomeIcon 
                         icon={faThumbsUpSolid} 
@@ -141,9 +185,9 @@ export default function Review( props ){ //Review Entry React Component
                         onClick={ () => is_loggedin ? update_response_in_database('like'): null }
                     />
                 }
-                <p>{likes_count}</p>
+                <p>{review_info.like}</p>
                 { 
-                    user_response == 'dislike' 
+                    review_info.user_response == 'dislike'
                     ? 
                     <FontAwesomeIcon 
                         icon={faThumbsDownSolid} 
@@ -159,7 +203,7 @@ export default function Review( props ){ //Review Entry React Component
                         onClick={ () => is_loggedin ? update_response_in_database('dislike'): null }
                     />
                 }
-                <p>{dislikes_count}</p>
+                <p>{review_info.dislike}</p>
                 </div>
                 {
                     is_loggedin
@@ -173,8 +217,14 @@ export default function Review( props ){ //Review Entry React Component
                             />
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="comment_user_actions">
-                            {user_id == props.author ? <a className="dropdown-item" onClick={ () => update_review_editable( true )}>Edit</a> : null}
-                            {user_id == props.author ? <a className="dropdown-item" onClick={delete_review}>Delete</a>: props.author}
+                            {
+                            user_id == props.author 
+                            ? 
+                            <a className="dropdown-item" onClick={review_edit}>Edit</a>
+                            : 
+                            null
+                            }
+                            {user_id == props.author ? <a className="dropdown-item" onClick={delete_review}>Delete</a>: null}
                             <a className="dropdown-item" >Report</a>
                         </ul>
                     </div>
@@ -184,6 +234,6 @@ export default function Review( props ){ //Review Entry React Component
             </div>
         </div>
         :
-        false
+        null
     );
 }

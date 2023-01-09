@@ -1,8 +1,9 @@
 
 //Imports
 import * as Utilities from '../utilities';
-import React from 'react';
+import React, { Fragment } from 'react';
 import Review from './Review.js';
+import Pagination from './Pagination';
 
 //Localised Constants from Server
 const post_id = LNarchive_variables.object_id;
@@ -12,11 +13,34 @@ const user_id = LNarchive_variables.user_id;
 
 export default function Review_Section( props ){ //Review Section React Component
 
+    const [ section_info, update_section_info ] = React.useState({
+        pagination: comment_pagination(5),
+        current_page: 1,
+    });
+
     const [ comment_list, update_comments_list ] = React.useState( props.comment_data ); //State of the Comments List
-    const is_loggedin = props.is_loggedin; //Logged in status
-    const comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1); //Comment type
-    const comments_total_count = props.comment_count; //Get total count of comments for the post
-    const comments_per_page = 10; //Number of comments to display per page
+    let is_loggedin = props.is_loggedin; //Logged in status
+    let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1); //Comment type
+    let comments_total_count = 111; //Get total count of comments for the post
+    let comments_per_page = 10; //Number of comments to display per page
+
+    function comment_pagination( current_page ){
+
+        var pagination=[];
+        var length = Math.ceil(comments_total_count/comments_per_page);
+
+        for( let i=1; i<= length; i++){
+
+            if( i<=current_page+2 && i>=current_page-2){
+                pagination.push(
+                    <Pagination key={i} page_no={i}/>
+                );
+            }
+        }
+        console.log(pagination)
+
+        return pagination;
+    }
 
     function submit_review(){ //Submit Review Button onclick function
 
@@ -77,7 +101,7 @@ export default function Review_Section( props ){ //Review Section React Componen
     }
 
     return(
-        <div>
+        <>
             <h2 className="d-flex justify-content-center review-title">{comment_type+"s"}</h2>
             <h4>Write a {comment_type}</h4>
             <form id="reviews-form" className="mb-3">
@@ -97,7 +121,8 @@ export default function Review_Section( props ){ //Review Section React Componen
                 {comment_list}
             </div>
             <div id="review-pagination">
+                {section_info.pagination}
             </div>
-        </div>
+        </>
     );
 }

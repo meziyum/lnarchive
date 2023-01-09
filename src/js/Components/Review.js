@@ -48,12 +48,12 @@ export default function Review( props ){ //Review Entry React Component
 
     if( props.content.rendered.length > read_more_length ){ //Render the Read more button if the current comment content state has length more than read_more_length
         read_more_button =  <a onClick={read_more_click}>
-                                    <FontAwesomeIcon 
-                                        icon={ review_info.expanded ? faChevronUp : faChevronDown}
-                                        size="lg"
-                                    />
-                                    Read more
-                                </a>
+                                <FontAwesomeIcon 
+                                    icon={ review_info.expanded ? faChevronUp : faChevronDown}
+                                    size="lg"
+                                />
+                                Read more
+                            </a>
     }
 
     function update_response_in_database( action ){ //Function to update the user response
@@ -151,7 +151,7 @@ export default function Review( props ){ //Review Entry React Component
 
     return(
         review_info.visible
-        ?
+        &&
         <div className="row review-entry mb-3">
             <div className="review-header row p-3">
                     <div className='col-3 col-sm-3 col-md-2 col-lg-1'>
@@ -175,14 +175,14 @@ export default function Review( props ){ //Review Entry React Component
                         icon={faThumbsUpSolid} 
                         size="xl" 
                         style={{ color: 'limegreen' }}
-                        onClick={ () => is_loggedin ? update_response_in_database('none'): null }
+                        onClick={ () => is_loggedin && update_response_in_database('none')}
                     />
                     : 
                     <FontAwesomeIcon
                         icon={faThumbsUp} 
                         size="xl" 
                         style={{ color: 'limegreen' }} 
-                        onClick={ () => is_loggedin ? update_response_in_database('like'): null }
+                        onClick={ () => is_loggedin && update_response_in_database('like')}
                     />
                 }
                 <p>{review_info.like}</p>
@@ -193,21 +193,21 @@ export default function Review( props ){ //Review Entry React Component
                         icon={faThumbsDownSolid} 
                         size="xl" 
                         style={{ color: 'crimson' }}
-                        onClick={ () => is_loggedin ? update_response_in_database('none'): null }
+                        onClick={ () => is_loggedin && update_response_in_database('none')}
                     />
                     :
                     <FontAwesomeIcon 
                         icon={faThumbsDown} 
                         size="xl" 
                         style={{ color: 'crimson' }} 
-                        onClick={ () => is_loggedin ? update_response_in_database('dislike'): null }
+                        onClick={ () => is_loggedin && update_response_in_database('dislike')}
                     />
                 }
                 <p>{review_info.dislike}</p>
                 </div>
                 {
                     is_loggedin
-                    ?
+                    &&
                     <div className="float-end dropstart">
                         <a id="comment_user_actions" data-bs-toggle="dropdown" aria-expanded="false">
                             <FontAwesomeIcon 
@@ -217,23 +217,13 @@ export default function Review( props ){ //Review Entry React Component
                             />
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="comment_user_actions">
-                            {
-                            user_id == props.author 
-                            ? 
-                            <a className="dropdown-item" onClick={review_edit}>Edit</a>
-                            : 
-                            null
-                            }
-                            {user_id == props.author ? <a className="dropdown-item" onClick={delete_review}>Delete</a>: null}
+                            { user_id == props.author && <a className="dropdown-item" onClick={review_edit}>Edit</a>}
+                            { user_id == props.author && <a className="dropdown-item" onClick={delete_review}>Delete</a>}
                             <a className="dropdown-item" >Report</a>
                         </ul>
                     </div>
-                    :
-                    null
                 }                 
             </div>
         </div>
-        :
-        null
     );
 }

@@ -144,7 +144,6 @@ function reviews_display() { //Function to display the Reviews Section
                     />
             );
         });
-        console.log(data)
         reviews_root.render(<Review_Section comment_data={comments_map} is_loggedin={is_loggedin} comment_type='review' comment_count={100}/>); //Render the Review Section
     })
 }

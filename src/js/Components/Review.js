@@ -30,12 +30,12 @@ export default function Review( props ){ //Review Entry React Component
 
     let user_id =props.user_id; //user id
     let is_loggedin=props.is_loggedin; //isloggedin status
-    let read_more_length = 100; //Minimum characters to show read more button
+    let read_more_length = 750; //Minimum characters to show read more button
     let content_long = props.content.rendered; //Full comment content rendered
     let content_short = props.content.rendered.substring(0, props.content.rendered.substring(0,read_more_length).lastIndexOf(" "))+"..."; //Commment content of read_more_length
 
     const [ review_info, update_review_info] = React.useState({ //All Review States
-        content: content_long <= read_more_length ? content_long : content_short, //State for current loaded comment content
+        content: content_long.length <= read_more_length ? content_long : content_short, //State for current loaded comment content
         like: props.meta.likes, //State for current number of likes
         dislike: props.meta.dislikes, //State for current number of dislikes
         user_response: props.user_comment_response.length != 0 ? props.user_comment_response[0].response_type : 'none', //State for current user response to the commment

@@ -3,7 +3,6 @@
 import * as Utilities from '../utilities';
 import React, { Fragment } from 'react';
 import Review from './Review.js';
-import Pagination from './Pagination';
 
 //Localised Constants from Server
 const post_id = LNarchive_variables.object_id;
@@ -16,6 +15,7 @@ export default function Review_Section( props ){ //Review Section React Componen
     const [ section_info, update_section_info ] = React.useState({
         pagination: comment_pagination(5),
         current_page: 1,
+        review_content: "",
     });
 
     const [ comment_list, update_comments_list ] = React.useState( props.comment_data ); //State of the Comments List
@@ -33,22 +33,24 @@ export default function Review_Section( props ){ //Review Section React Componen
 
             if( i<=current_page+2 && i>=current_page-2){
                 pagination.push(
-                    <Pagination key={i} page_no={i}/>
+                    <button key={i} onClick={handle_page_select}>{i}</button>
                 );
             }
         }
-        console.log(pagination)
 
         return pagination;
     }
 
-    function submit_review(){ //Submit Review Button onclick function
+    function handle_page_select(){
+        console.log('hmn')
+    }
 
-        if( document.getElementById('review-content').value == '') //Prevent Submission when no content has been entered
+    function submit_review( event ){ //Submit Review Button onclick function
+
+        event.preventDefault();
+
+        if( section_info.review_content == '') //Prevent Submission when no content has been entered
             return;
-
-        var review_content = document.getElementById('review-content').value; //Get the Comment Content
-        document.getElementById('review-content').value = ''; //Remove the content from the comment box
 
         fetch( wp_request_url+"comments", { //Fetch the comments
             method: "POST", //Method
@@ -58,13 +60,17 @@ export default function Review_Section( props ){ //Review Section React Componen
                 'X-WP-Nonce' : user_nonce,
             },
             body: JSON.stringify({ //Data to attach to the HTTP Request
-                content: Utilities.esc_html(review_content), //Review Content
+                content: Utilities.esc_html(section_info.review_content), //Review Content
                 post: post_id, //Post Id
                 meta: {"likes": 0, "dislikes": 0}, //Default meta values
             })
         }) //Fetch the comments
         .then( res => res.json()) //Convert the data from Promise to JSON
         .then( data => { //Execute function after data is fetched
+            update_section_info( prev_info => ({ //Update the form data
+                ...prev_info,
+                review_content: "",
+            }));
             update_comments_list( prev_comments_list => { //Update State of the comment list
                 return [ <Review
                     key={data.id} //Map Key
@@ -100,14 +106,24 @@ export default function Review_Section( props ){ //Review Section React Componen
         })
     }
 
+    function handle_change( event ){ //Function to handle all changes in the form
+
+        const {name, value, type} = event.target; //Destructure the values from the target element
+
+        update_section_info( prev_info => ({ //Update the form states
+            ...prev_info,
+            [name]: value,
+        }));
+    }
+
     return(
         <>
             <h2 className="d-flex justify-content-center review-title">{comment_type+"s"}</h2>
             <h4>Write a {comment_type}</h4>
-            <form id="reviews-form" className="mb-3">
-                <textarea name="review-content" id="review-content"/>
+            <form id="reviews-form" className="mb-3" onSubmit={submit_review}>
+                <textarea name="review_content" id="review_content" onChange={handle_change} value={section_info.review_content}/>
                 <div className="d-flex justify-content-end"> 
-                <button type="button" className="px-3 py-2" id="review-submit" onClick={ () => submit_review()}>Submit</button>
+                <button className="px-3 py-2" id="review-submit">Submit</button>
                 </div>        
             </form>
             <div id="reviews-filter-header" className="d-flex justify-content-end">

@@ -120,6 +120,10 @@
 
     #reviews-form{
 
+        #review_content{
+            white-space: pre-wrap,
+        }
+
         #review-submit{
                 background-color: #3EB2FD;
                 background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);

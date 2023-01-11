@@ -1,8 +1,9 @@
 
 //Imports
 import * as Utilities from '../utilities';
-import React, { Fragment } from 'react';
+import React from 'react';
 import Review from './Review.js';
+import Pagination from './Pagination';
 
 //Localised Constants from Server
 const post_id = LNarchive_variables.object_id;
@@ -12,9 +13,8 @@ const user_id = LNarchive_variables.user_id;
 
 export default function Review_Section( props ){ //Review Section React Component
 
-    const [ section_info, update_section_info ] = React.useState({
+    const [ section_info, update_section_info ] = React.useState({ //Section INformation States
         comment_list: [],
-        pagination: [],
         pagination_display: false,
         current_page: 1,
         current_sort: 'likes',
@@ -23,12 +23,11 @@ export default function Review_Section( props ){ //Review Section React Componen
 
     let is_loggedin = props.is_loggedin; //Logged in status
     let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1); //Comment type
-    let comments_total_count = 11; //Get total count of comments for the post
+    let comments_total_count = props.comments_count; //Get total count of comments for the post
     let comments_per_page = 10; //Number of comments to display per page
 
-    React.useEffect( function(){ //Initial effect on first render
+    React.useEffect( function(){ //useMemo Hook
         fetch_comments( 'likes', section_info.current_page);
-        comment_pagination();
     }, [ section_info.current_page, section_info.current_sort]);
 
     async function submit_review( event ){ //Submit Review Button onclick function
@@ -53,18 +52,20 @@ export default function Review_Section( props ){ //Review Section React Componen
         }) //Submit a comment
         const data = await res.json(); //Conver the data into json
 
-        update_section_info( prev_info => ({ //Update the section states
-            ...prev_info,
-            comment_list: [ <Review
-                key={data.id} //Map Key
-                is_loggedin={is_loggedin}
-                    user_id={user_id}
-                {...data} //Comment Data
-                />, //New Review Element
-                ...prev_info.comment_list,          
-            ],
-            review_content: "",
-        }));
+        if( res.status === 200 ){ //If successful response
+            update_section_info( prev_info => ({ //Update the section states
+                ...prev_info,
+                comment_list: [ <Review
+                    key={data.id} //Map Key
+                    is_loggedin={is_loggedin}
+                        user_id={user_id}
+                    {...data} //Comment Data
+                    />, //New Review Element
+                    ...prev_info.comment_list,          
+                ],
+                review_content: "",
+            }));
+        }
     }
 
     async function fetch_comments(){
@@ -75,21 +76,23 @@ export default function Review_Section( props ){ //Review Section React Componen
             },
         }) //Fetch the comments
         const data= await res.json(); //convert the data into json
-        const comments_map = data.map( comment => { //Map the fetched data into a comments list
-            return (
-                    <Review
-                        key={comment.id} //Map Key
-                        is_loggedin={is_loggedin}
-                        user_id={user_id}
-                        {...comment} //Comment Data
-                    />
-            );
-        });
 
-        update_section_info( prev_info => ({ //Update the form data
-            ...prev_info,
-            comment_list: comments_map,
-        }));
+        if( res.status === 200 ){ //If successful response
+            const comments_map = data.map( comment => { //Map the fetched data into a comments list
+                return (
+                        <Review
+                            key={comment.id} //Map Key
+                            is_loggedin={is_loggedin}
+                            user_id={user_id}
+                            {...comment} //Comment Data
+                        />
+                );
+            });
+            update_section_info( prev_info => ({ //Update the form data
+                ...prev_info,
+                comment_list: comments_map,
+            }));
+        }
     }
 
     function handle_change( event ){ //Function to handle all changes in the form
@@ -99,43 +102,6 @@ export default function Review_Section( props ){ //Review Section React Componen
         update_section_info( prev_info => ({ //Update the form states
             ...prev_info,
             [name]: value,
-        }));
-    }
-
-    function comment_pagination(){
-
-        var pagination=[];
-        var current_page = section_info.current_page;
-        var length = Math.ceil(comments_total_count/comments_per_page);
-
-        var start = current_page-2 > 1 ? current_page-2: 1;
-        var end = current_page+2 > length ? length : current_page+2;
-
-        while( start<=end){
-            pagination.push(
-                <button key={start} value={start} onClick={handle_page_select} className={ start==current_page ? "current" : undefined}>{start}</button>
-            );
-            start++;
-        }
-
-        if( current_page-2>1 )
-            pagination=[
-                <button key='1' value='1' onClick={handle_page_select}>{'<<'}</button>,
-                <button key='...'>{'...'}</button>,
-                ...pagination,
-            ];
-        
-        if( current_page+2<length )
-            pagination=[
-                ...pagination,
-                <button key='....'>{'...'}</button>,
-                <button key={length} value={length} onClick={handle_page_select}>{'>>'}</button>,
-            ];
-
-        update_section_info( prev_info => ({
-            ...prev_info,
-            pagination: [pagination],
-            pagination_display: length!=1 ? true : false,
         }));
     }
 
@@ -168,9 +134,7 @@ export default function Review_Section( props ){ //Review Section React Componen
                 {section_info.comment_list}
             </div>
             <div id="review-pagination" className="d-flex justify-content-center">
-                <div className="page-list">
-                    {section_info.pagination_display && section_info.pagination}
-                </div>
+                <Pagination current_page={section_info.current_page} length={Math.ceil(comments_total_count/comments_per_page)} siblings={2} handleclick={handle_page_select}></Pagination>
             </div>
         </>
     );

@@ -95,6 +95,7 @@ class assets{ //Assests Class
           'user_id' => get_current_user_id(), //Current User ID
           'object_id' => get_the_ID(), //Object ID
           'object_type' =>  get_post_type(), //Object Type
+          'comments_count' => get_comments_number(get_the_ID()), //Comments Count
           'wp_rest_url' => get_rest_url(), //Main REST API url
       ) );
     }

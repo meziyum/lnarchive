@@ -7,5 +7,4 @@
 
 package.json linguist-detectable
 *.json linguist-detectable=true
-
 *.css linguist-detectable=true

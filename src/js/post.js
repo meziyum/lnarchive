@@ -10,6 +10,7 @@ import Review_Section from './Components/Review_Section';
 //Localised Constants from Server
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 const user_nonce = LNarchive_variables.nonce;
+const comments_total_count = LNarchive_variables.comments_count;
 
 //Class Constants
 const reviews_root = ReactDOMClient.createRoot(document.getElementById('reviews-section')); //Create the Reviews Root
@@ -26,5 +27,5 @@ fetch( custom_api_request_url+"current_user", { //Fetch current user data
 .then( data => { //The fetch api data
     if( data != false) //If output is returned then the user is logged in
         is_loggedin = true;
-    reviews_root.render(<Review_Section is_loggedin={is_loggedin} comment_type='comment'/>); //Render the Review Section
+    reviews_root.render(<Review_Section is_loggedin={is_loggedin} comment_type='comment' comments_count={comments_total_count}/>); //Render the Review Section
 })

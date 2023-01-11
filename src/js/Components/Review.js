@@ -57,7 +57,7 @@ export default function Review( props ){ //Review Entry React Component
     }
 
     function update_response_in_database( action ){ //Function to update the user response
-        fetch( custom_api_request_url+'comment/'+action+'/'+props.id, {
+        fetch( `${custom_api_request_url}comment/${action}/${props.id}`, {
             method: "POST", //Method
             credentials: 'same-origin', //Send Credentials
             headers: { //Actions on the HTTP Request
@@ -66,52 +66,12 @@ export default function Review( props ){ //Review Entry React Component
             },
         }) //Comment Action API Request
 
-        let current_response = review_info.user_response; //The current response of the user to the comment
+        var current_response = review_info.user_response; //The current response of the user to the comment
 
-        if( current_response == 'like' ){
-            if( action == 'dislike'){ //Change user response from dislike to like
-                update_review_info( prev_info => ({
-                    ...prev_info,
-                    like: --prev_info.like,
-                    dislike: ++prev_info.dislike,
-                }));
-            }
-            else if(action == 'none') //remove a like
-                update_review_info( prev_info => ({
-                    ...prev_info,
-                    like: --prev_info.like,
-                }));        
-        }
-        else if( current_response == 'dislike' ) {
-            if( action == 'like'){ //Change user response from like to dislike
-                update_review_info( prev_info => ({
-                    ...prev_info,
-                    like: ++prev_info.like,
-                    dislike: --prev_info.dislike,
-                }));
-            }
-            else if(action == 'none') //remove a dislike
-                update_review_info( prev_info => ({
-                    ...prev_info,
-                    dislike: --prev_info.dislike,
-                }));
-        }
-        else{
-            if( action == 'like'){ //like a comment
-                update_review_info( prev_info => ({ 
-                    ...prev_info,
-                    like: ++prev_info.like,
-                }));
-            }
-            else if(action == 'dislike') //dislike a comment
-                update_review_info( prev_info => ({
-                    ...prev_info,
-                    dislike: ++prev_info.dislike,
-                }));
-        }
-
-        update_review_info( prev_info => ({ //update user current respones to the comment
+        update_review_info( prev_info => ({ //Update the likes and dislikes state
             ...prev_info,
+            [current_response]: prev_info[current_response]-1,
+            [action != 'none' ? action : '']: prev_info[action]+1, //No values will increase when action is none
             user_response: action,
         }));
     }
@@ -126,7 +86,7 @@ export default function Review( props ){ //Review Entry React Component
             headers: { //Actions on the HTTP Request
                 'X-WP-Nonce' : user_nonce,
             },
-        }) //Fetch the comments
+        }) //Delete a comment
 
         update_review_info( prev_info => ({ //Remove comment visibility so the comment appears deleted
             ...prev_info,
@@ -179,7 +139,7 @@ export default function Review( props ){ //Review Entry React Component
                     />
                     : 
                     <FontAwesomeIcon
-                        icon={faThumbsUp} 
+                        icon={faThumbsUp}
                         size="xl" 
                         style={{ color: 'limegreen' }} 
                         onClick={ () => is_loggedin && update_response_in_database('like')}

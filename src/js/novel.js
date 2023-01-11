@@ -4,15 +4,12 @@ import * as Main from './main.js';
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/novel/novel.scss';
-import Review from './Components/Review.js';
 import Review_Section from './Components/Review_Section';
 
 //Localised Constants from Server
-const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 const user_nonce = LNarchive_variables.nonce;
-const user_id = LNarchive_variables.user_id;
 
 //Class Constants
 const selected_format_class = 'selected-format';
@@ -28,7 +25,8 @@ var is_loggedin = false; //Variable to store user logged in status
 narrator_info_display(); //Handle the display of narrator row
 formats_click_list( document.getElementsByClassName(format_button_class) ); //Apply click event listeners to initial formats
 document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
-fetch( custom_api_request_url+"current_user", { //Fetch current user data
+
+fetch( `${custom_api_request_url}current_user`, { //Fetch current user data
     headers: { //Actions on the HTTP Request
         'X-WP-Nonce' : user_nonce,
     },
@@ -37,8 +35,8 @@ fetch( custom_api_request_url+"current_user", { //Fetch current user data
 .then( data => { //The fetch api data
     if( data != false) //If output is returned then the user is logged in
         is_loggedin = true;
-    reviews_display(); //Display the Reviews Section initially with popularity that is likes after the user information has been fetched
-})
+    reviews_root.render(<Review_Section is_loggedin={is_loggedin} comment_type='review' comment_count={100}/>); //Render the Review Section
+});
 
 var volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel
 
@@ -124,26 +122,4 @@ function narrator_info_display() { //Function to handle visibility of the narrat
         document.getElementById("Narrator_row").style.display = 'none'; //Hide the Narrator column from view 
     else //If the volume of the novel has audiobook format
         document.getElementById("Narrator_row").style.display = 'table-row'; //Display the Narrator column
-}
-
-function reviews_display() { //Function to display the Reviews Section
-    fetch( wp_request_url+"comments?post="+post_id+"&orderby=likes&per_page=10&page=1", {
-        headers: { //Actions on the HTTP Request
-            'X-WP-Nonce' : user_nonce,
-        },
-    }) //Fetch the comments
-    .then( res => res.json()) //Convert the data from Promise to JSON
-    .then( data => { //Execute function after data is fetched
-        const comments_map = data.map( comment => { //Map the fetched data into a comments list
-            return (
-                    <Review 
-                        key={comment.id} //Map Key
-                        is_loggedin={is_loggedin}
-                        user_id={user_id}
-                        {...comment} //Comment Data
-                    />
-            );
-        });
-        reviews_root.render(<Review_Section comment_data={comments_map} is_loggedin={is_loggedin} comment_type='review' comment_count={100}/>); //Render the Review Section
-    })
 }

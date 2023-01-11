@@ -156,4 +156,34 @@
             }
         }
     }
+
+    #review-pagination{
+
+        .page-list{
+            display: block;
+            border-radius: 35px;
+            overflow: hidden;
+
+            button{
+                transition: 400ms ease;
+                color: $not-imp;
+                margin: 0px;
+                border-radius: 0%;
+                padding: 0 12px;
+
+                &:hover,
+                &.current {
+                    background-color: $theme-primary;
+                    color: #ffffff;
+                }
+
+                &.prev:hover,
+                &.next:hover {
+                    background-color: transparent;
+                    color: $theme-primary;
+                }
+        }
+        }
+        
+    }
 }

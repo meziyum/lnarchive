@@ -27,7 +27,7 @@ export default function Review_Section( props ){ //Review Section React Componen
     let comments_per_page = 10; //Number of comments to display per page
 
     React.useEffect( function(){ //useMemo Hook
-        fetch_comments( 'likes', section_info.current_page);
+        fetch_comments( section_info.current_sort, section_info.current_page);
     }, [ section_info.current_page, section_info.current_sort]);
 
     async function submit_review( event ){ //Submit Review Button onclick function
@@ -52,13 +52,14 @@ export default function Review_Section( props ){ //Review Section React Componen
         }) //Submit a comment
         const data = await res.json(); //Conver the data into json
 
-        if( res.status === 200 ){ //If successful response
+        if( res.status === 201 ){ //If successfully created comment
             update_section_info( prev_info => ({ //Update the section states
                 ...prev_info,
                 comment_list: [ <Review
                     key={data.id} //Map Key
                     is_loggedin={is_loggedin}
-                        user_id={user_id}
+                    user_id={user_id}
+                    delete_review={delete_review}
                     {...data} //Comment Data
                     />, //New Review Element
                     ...prev_info.comment_list,          
@@ -84,6 +85,7 @@ export default function Review_Section( props ){ //Review Section React Componen
                             key={comment.id} //Map Key
                             is_loggedin={is_loggedin}
                             user_id={user_id}
+                            delete_review={delete_review}
                             {...comment} //Comment Data
                         />
                 );
@@ -105,14 +107,28 @@ export default function Review_Section( props ){ //Review Section React Componen
         }));
     }
 
-    function handle_page_select( event ){
+    function handle_page_select( event ){ //Function to handle page select
         update_section_info( prev_info => ({
             ...prev_info,
             current_page: parseInt(event.target.value),
         }));
-        document.getElementById("reviews-list").scrollIntoView();
+        document.getElementById("reviews-form").scrollIntoView(true); //Scroll to top of the comments list
     }
 
+    function delete_review( id, event ) { //Delete Review function
+
+        if( !window.confirm("Are you sure you want to delete your Review?") ) //If the user doesnt click OK
+            return;
+
+        fetch( `${wp_request_url}comments/${id}`, {
+            method: "DELETE", //Method
+            headers: { //Actions on the HTTP Request
+                'X-WP-Nonce' : user_nonce,
+            },
+        }) //Delete a comment
+        fetch_comments( section_info.current_sort, section_info.current_page); //Rerender the comments
+    }
+    
     return(
         <>
             <h2 className="d-flex justify-content-center review-title">{comment_type+"s"}</h2>

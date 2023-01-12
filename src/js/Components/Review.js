@@ -22,7 +22,6 @@ import  {
 from '@fortawesome/free-solid-svg-icons';
 
 //Constant Variables from server side
-const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 const user_nonce = LNarchive_variables.nonce;
 
@@ -39,7 +38,6 @@ export default function Review( props ){ //Review Entry React Component
         like: props.meta.likes, //State for current number of likes
         dislike: props.meta.dislikes, //State for current number of dislikes
         user_response: props.user_comment_response.length != 0 ? props.user_comment_response[0].response_type : 'none', //State for current user response to the commment
-        visible: true, //State for the comment visibility
         expanded: false, //State for the expanded status of read more that is all content is visible or not
         editable: false, //State for if the comment is editable
     });
@@ -76,24 +74,6 @@ export default function Review( props ){ //Review Entry React Component
         }));
     }
 
-    function delete_review() { //Delete Review function
-
-        if( !window.confirm("Are you sure you want to delete your Review?") ) //If the user doesnt click OK
-            return;
-
-        fetch( wp_request_url+"comments/"+props.id, {
-            method: "DELETE", //Method
-            headers: { //Actions on the HTTP Request
-                'X-WP-Nonce' : user_nonce,
-            },
-        }) //Delete a comment
-
-        update_review_info( prev_info => ({ //Remove comment visibility so the comment appears deleted
-            ...prev_info,
-            visible: false,
-        }));
-    }
-
     function read_more_click(){ //Read more button click function
         update_review_info( prev_info => ({ //Update the rendered content and expanded status of the review
             ...prev_info,
@@ -110,8 +90,6 @@ export default function Review( props ){ //Review Entry React Component
     }
 
     return(
-        review_info.visible
-        &&
         <div className="row review-entry mb-3">
             <div className="review-header row p-3">
                     <div className='col-3 col-sm-3 col-md-2 col-lg-1'>
@@ -178,7 +156,7 @@ export default function Review( props ){ //Review Entry React Component
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="comment_user_actions">
                             { user_id == props.author && <a className="dropdown-item" onClick={review_edit}>Edit</a>}
-                            { user_id == props.author && <a className="dropdown-item" onClick={delete_review}>Delete</a>}
+                            { user_id == props.author && <a className="dropdown-item" onClick={ () => props.delete_review(props.id)}>Delete</a>}
                             <a className="dropdown-item" >Report</a>
                         </ul>
                     </div>

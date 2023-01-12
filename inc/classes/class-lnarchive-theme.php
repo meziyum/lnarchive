@@ -138,8 +138,19 @@ class lnarchive_theme{ //LNarchive Theme Class
          response_type VARCHAR(100) NOT NULL,
          PRIMARY KEY  (response_id)
          ) $charset_collate;"; //Create the Table Args
+
+         $ratings_table_name = $wpdb->prefix . 'user_ratings'; //User Ratings Table Name
+
+         $ratings_query = "CREATE TABLE " . $ratings_table_name . " (
+         rating_id bigint(20) NOT NULL AUTO_INCREMENT,
+         object_type VARCHAR(100) NOT NULL,
+         object_id bigint(20) NOT NULL,
+         user_id bigint(20) NOT NULL,
+         ratings bigint(20) NOT NULL check(ratings >= 0 AND ratings <= 10),
+         PRIMARY KEY  (rating_id)
+         ) $charset_collate;"; //Create the Table Args
          
-         dbDelta($comment_response_query);//Execute the Query
+         dbDelta([$comment_response_query, $ratings_query], true);//Execute the Queries
       }
 }
 ?>

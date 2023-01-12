@@ -4,7 +4,6 @@ import * as Main from './main.js';
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/post/post.scss';
-import Review from './Components/Review.js';
 import Review_Section from './Components/Review_Section';
 
 //Localised Constants from Server

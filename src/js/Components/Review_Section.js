@@ -15,6 +15,8 @@ export default function Review_Section( props ){ //Review Section React Componen
 
     const [ section_info, update_section_info ] = React.useState({ //Section INformation States
         comment_list: [],
+        comments_count: props.comments_count,
+        pagination: null,
         pagination_display: false,
         current_page: 1,
         current_sort: 'likes',
@@ -23,12 +25,11 @@ export default function Review_Section( props ){ //Review Section React Componen
 
     let is_loggedin = props.is_loggedin; //Logged in status
     let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1); //Comment type
-    let comments_total_count = props.comments_count; //Get total count of comments for the post
-    let comments_per_page = 10; //Number of comments to display per page
+    let comments_per_page = 3; //Number of comments to display per page
 
     React.useEffect( function(){ //useMemo Hook
         fetch_comments( section_info.current_sort, section_info.current_page);
-    }, [ section_info.current_page, section_info.current_sort]);
+    }, [ section_info.current_page, section_info.current_sort, section_info.comments_count]);
 
     async function submit_review( event ){ //Submit Review Button onclick function
 
@@ -55,15 +56,8 @@ export default function Review_Section( props ){ //Review Section React Componen
         if( res.status === 201 ){ //If successfully created comment
             update_section_info( prev_info => ({ //Update the section states
                 ...prev_info,
-                comment_list: [ <Review
-                    key={data.id} //Map Key
-                    is_loggedin={is_loggedin}
-                    user_id={user_id}
-                    delete_review={delete_review}
-                    {...data} //Comment Data
-                    />, //New Review Element
-                    ...prev_info.comment_list,          
-                ],
+                comments_count: ++prev_info.comments_count,
+                current_sort: 'date',
                 review_content: "",
             }));
         }
@@ -81,18 +75,19 @@ export default function Review_Section( props ){ //Review Section React Componen
         if( res.status === 200 ){ //If successful response
             const comments_map = data.map( comment => { //Map the fetched data into a comments list
                 return (
-                        <Review
-                            key={comment.id} //Map Key
-                            is_loggedin={is_loggedin}
-                            user_id={user_id}
-                            delete_review={delete_review}
-                            {...comment} //Comment Data
-                        />
-                );
-            });
+                    <Review
+                        key={comment.id} //Map Key
+                        is_loggedin={is_loggedin}
+                        user_id={user_id}
+                        delete_review={delete_review}
+                        {...comment} //Comment Data
+                    />
+            )});
+
             update_section_info( prev_info => ({ //Update the form data
                 ...prev_info,
                 comment_list: comments_map,
+                pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
             }));
         }
     }
@@ -126,31 +121,44 @@ export default function Review_Section( props ){ //Review Section React Componen
                 'X-WP-Nonce' : user_nonce,
             },
         }) //Delete a comment
-        fetch_comments( section_info.current_sort, section_info.current_page); //Rerender the comments
+        update_section_info( prev_info => ({
+            ...prev_info,
+            comments_count: --prev_info.comments_count,
+        }))
     }
     
     return(
         <>
             <h2 className="d-flex justify-content-center review-title">{comment_type+"s"}</h2>
-            <h4>Write a {comment_type}</h4>
-            <form id="reviews-form" className="mb-3" onSubmit={submit_review}>
-                <textarea name="review_content" id="review_content" onChange={handle_change} value={section_info.review_content}/>
-                <div className="d-flex justify-content-end"> 
-                <button className="px-3 py-2" id="review-submit">Submit</button>
-                </div>        
-            </form>
-            <div id="reviews-filter-header" className="d-flex justify-content-end">
-                <label htmlFor="review-filter" className="me-1">Sort by:</label>
-                <select name="current_sort" id="review-filter" onChange={handle_change}>
-                <option value="likes">Popularity</option>
-                <option value="date">Newest</option>
-            </select>
-            </div>
+            {
+                is_loggedin 
+                ?
+                <form id="reviews-form" className="mb-3" onSubmit={submit_review}>
+                    <h4>Write a {comment_type}</h4>
+                    <textarea name="review_content" id="review_content" onChange={handle_change} value={section_info.review_content}/>
+                    <div className="d-flex justify-content-end"> 
+                    <button className="px-3 py-2" id="review-submit">Submit</button>
+                    </div>        
+                </form>
+                :
+                <h3></h3>
+            }
+            {
+                section_info.comments_count>0
+                &&
+                <div id="reviews-filter-header" className="d-flex justify-content-end">
+                    <label htmlFor="review-filter" className="me-1">Sort by:</label>
+                    <select name="current_sort" id="review-filter" onChange={handle_change}>
+                    <option value="likes">Popularity</option>
+                    <option value="date">Newest</option>
+                    </select>
+                </div>
+            }
             <div id="reviews-list" className="ps-0">
                 {section_info.comment_list}
             </div>
             <div id="review-pagination" className="d-flex justify-content-center">
-                <Pagination current_page={section_info.current_page} length={Math.ceil(comments_total_count/comments_per_page)} siblings={2} handleclick={handle_page_select}></Pagination>
+                {section_info.pagination}
             </div>
         </>
     );

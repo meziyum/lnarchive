@@ -25,7 +25,8 @@ var is_loggedin = false; //Variable to store user logged in status
 //Intial Function Calls
 narrator_info_display(); //Handle the display of narrator row
 formats_click_list( document.getElementsByClassName(format_button_class) ); //Apply click event listeners to initial formats
-document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
+if( document.getElementById("volumes-no") != null)
+    document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
 
 fetch( `${custom_api_request_url}current_user`, { //Fetch current user data
     headers: { //Actions on the HTTP Request
@@ -36,7 +37,7 @@ fetch( `${custom_api_request_url}current_user`, { //Fetch current user data
 .then( data => { //The fetch api data
     if( data != false) //If output is returned then the user is logged in
         is_loggedin = true;
-    reviews_root.render(<Review_Section is_loggedin={is_loggedin} comment_type='review' comment_count={100} comments_count={comments_total_count}/>); //Render the Review Section
+    reviews_root.render(<Review_Section is_loggedin={is_loggedin} comment_type='review' comment_count={comments_total_count} comments_count={comments_total_count}/>); //Render the Review Section
 });
 
 var volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel

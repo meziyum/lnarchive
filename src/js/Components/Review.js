@@ -3,22 +3,23 @@
 import * as Utilities from '../utilities';
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Ratings from './Ratings';
 
-//import regular Fontawesome icons
-import  {
+//Import regular Fontawesome icons
+import {
     faThumbsDown , 
     faThumbsUp,
     } 
 from '@fortawesome/free-regular-svg-icons';
 
 //Import solid Fontawesome icons
-import  {    
+import {    
     faThumbsDown as faThumbsDownSolid,
     faThumbsUp as faThumbsUpSolid,
     faEllipsis,
     faChevronDown,
     faChevronUp
-    } 
+    }
 from '@fortawesome/free-solid-svg-icons';
 
 //Constant Variables from server side
@@ -92,11 +93,15 @@ export default function Review( props ){ //Review Entry React Component
     return(
         <div className="row review-entry mb-3">
             <div className="review-header row p-3">
-                    <div className='col-3 col-sm-3 col-md-2 col-lg-1'>
+                    <div className='col-3 col-sm-2 col-md-2 col-lg-1 p-0'>
                         <img className="user_avatar float-start rounded-circle" srcSet={props.author_avatar_urls['96']}></img>
                     </div>     
                     <div className='col'>
-                        <h4>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1) /* Capitalize the name of the Author */}</h4>
+                        <h4>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1) /* Capitalize the name of the Author */}
+                        <div className="float-end">
+                            <Ratings rating={3.5}/>
+                        </div>
+                        </h4>
                         <time>{Utilities.format_date(props.date.slice(0, props.date.indexOf('T')) /* Convert the format of the date using the function in external library*/)}</time>
                     </div>     
             </div>

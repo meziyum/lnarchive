@@ -42,3 +42,8 @@ export default function Pagination( props ){ //Pagination Component
         }</>
     );
 }
+
+//Default Prop Values
+Pagination.defaultProps ={
+    siblings: 2,
+}

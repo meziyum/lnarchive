@@ -17,7 +17,6 @@ class lnarchive_theme{ //LNarchive Theme Class
 
          //Load all Classes
          assets::get_instance();
-         custom_api::get_instance();
          menus::get_instance();
          sidebars::get_instance();
          admin_dashboard::get_instance();
@@ -25,11 +24,13 @@ class lnarchive_theme{ //LNarchive Theme Class
          security::get_instance();
          novel::get_instance();
          volume::get_instance();
+         comment::get_instance();
+         ratings::get_instance();
+         users::get_instance();
          taxonomies::get_instance();
          taxonomies_metafields::get_instance();
          post_metafields::get_instance();
          post_filter::get_instance();
-         comment::get_instance();
 
          $this->set_hooks(); //Setting the hook below
      }
@@ -41,7 +42,6 @@ class lnarchive_theme{ //LNarchive Theme Class
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
           add_action( 'template_redirect', [$this, 'rewrite_search_url']);
           add_action( 'rest_api_init', [$this, 'register_meta']);
-          add_action('after_switch_theme', [$this, 'create_datbases']);
 
           //Disable Global RSS Feeds
           add_action('do_feed', [$this, 'wp_disable_feeds']);
@@ -121,36 +121,6 @@ class lnarchive_theme{ //LNarchive Theme Class
       function wp_disable_feeds() { //Disable all Feeds
          wp_redirect( home_url() ); //Redirect to Homepage if trying to access Feeds
          wp_die( __('Error: Feeds are disabled') ); //Error Message
-      }
-
-      function create_datbases() { //Function to create custom databases
-
-         global $wpdb; //Wpdb Class
-         $charset_collate = $wpdb->get_charset_collate(); //Get the Charset Collate
-         require_once(ABSPATH . 'wp-admin/includes/upgrade.php'); //Make sure Upgrade.php is imported
-         
-         $comment_response_table_name = $wpdb->prefix . 'comment_response'; //Comment Response Table Name
-
-         $comment_response_query = "CREATE TABLE " . $comment_response_table_name . " (
-         response_id bigint(20) NOT NULL AUTO_INCREMENT,
-         comment_id bigint(20) NOT NULL,
-         user_id bigint(20) NOT NULL,
-         response_type VARCHAR(100) NOT NULL,
-         PRIMARY KEY  (response_id)
-         ) $charset_collate;"; //Create the Table Args
-
-         $ratings_table_name = $wpdb->prefix . 'user_ratings'; //User Ratings Table Name
-
-         $ratings_query = "CREATE TABLE " . $ratings_table_name . " (
-         rating_id bigint(20) NOT NULL AUTO_INCREMENT,
-         object_type VARCHAR(100) NOT NULL,
-         object_id bigint(20) NOT NULL,
-         user_id bigint(20) NOT NULL,
-         rating bigint(20) NOT NULL check(rating >= 0 AND rating <= 5),
-         PRIMARY KEY  (rating_id)
-         ) $charset_collate;"; //Create the Table Args
-         
-         dbDelta([$comment_response_query, $ratings_query], true);//Execute the Queries
       }
 }
 ?>

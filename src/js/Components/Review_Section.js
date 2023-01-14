@@ -25,7 +25,7 @@ export default function Review_Section( props ){ //Review Section React Componen
 
     let is_loggedin = props.is_loggedin; //Logged in status
     let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1); //Comment type
-    let comments_per_page = 3; //Number of comments to display per page
+    let comments_per_page = 10; //Number of comments to display per page
 
     React.useMemo( function(){ //useMemo Hook
         fetch_comments( section_info.current_sort, section_info.current_page);
@@ -62,9 +62,11 @@ export default function Review_Section( props ){ //Review Section React Componen
         }
     }
 
-    async function fetch_comments(){
+    async function fetch_comments(){ //Function to fetch the comments
 
-        const res = await fetch( `${wp_request_url}comments?post=${post_id}&orderby=${section_info.current_sort}&per_page=${comments_per_page}&page=${section_info.current_page}`, {
+        let fields = "&_fields=id,author_name,author_avatar_urls,content,date,user_id,meta,is_logged_in,user_comment_response"; //Comment fields to get
+
+        const res = await fetch( `${wp_request_url}comments?post=${post_id}&orderby=${section_info.current_sort}&per_page=${comments_per_page}&page=${section_info.current_page}${fields}`, {
             headers: { //Actions on the HTTP Request
                 'X-WP-Nonce' : user_nonce,
             },
@@ -89,7 +91,6 @@ export default function Review_Section( props ){ //Review Section React Componen
                 pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
             }));
         }
-        console.log(section_info.comment_list)
     }
 
     function handle_change( event ){ //Function to handle all changes in the form

@@ -5,6 +5,7 @@
 
 namespace lnarchive\inc; //Namespace
 use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+use WP_Error;
 
 class ratings{ //Ratings Class
 
@@ -25,8 +26,15 @@ class ratings{ //Ratings Class
         //Adding functions to the hooks
         add_action( 'rest_api_init', [$this, 'custom_endpoints']);
         add_action('after_switch_theme', [$this, 'create_datbases']);
-        add_action('user_rating_submitted', [$this, 'update_ratings_in_comments']);
         add_action( 'rest_api_init', [$this, 'register_meta']);
+        add_action( 'rest_api_init', [$this, 'register_rest_fields']);
+        add_action( 'user_rating_submitted', [$this, 'calculate_ratings']);
+    }
+
+    function register_rest_fields(){ //Function to register rest fields
+        register_rest_field( "comment", 'rating', array( //Register Comment Response field in comment info request
+            'get_callback' => [$this, 'get_user_rating'], //Get value callback
+        ));
     }
 
     function register_meta(){ //Register Metadatas
@@ -45,6 +53,12 @@ class ratings{ //Ratings Class
         ));
     }
 
+    function get_user_rating( $comment ){ //Function to get the user rating
+        global $wpdb; //WPDB class
+        $table_name = $wpdb->prefix . 'user_ratings'; //Ratings Table name
+        return $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$comment['post']." AND user_id=".$comment['author']); //Return the rating
+    }
+
     function submit_rating( $request ){ //Endpoint to submit/update a rating
         if( ! is_user_logged_in()) //Error if the user is not logged in
             return new \WP_Error( 'user_not_logged_in', 'The users cannot submit a rating without logging in');
@@ -55,13 +69,13 @@ class ratings{ //Ratings Class
         $object_id = $request['object_id']; //Store the object id
         $body = $request->get_json_params(); //Get the body json
 
-        if( $wpdb->get_var("SELECT rating FROM $table_name WHERE object_type='".$body['object_type']."' AND object_id=".$object_id." AND user_id=".$user_id) == null){ //Add a new entry
-            $response = $wpdb->insert( $table_name, array( 'rating' => $body['rating'], 'object_type' => $body['object_type'], 'object_id' => $object_id, 'user_id' => $user_id ));
+        if( $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$object_id." AND user_id=".$user_id) == null){ //Add a new entry
+            $response = $wpdb->insert( $table_name, array( 'rating' => $body['rating'], 'object_id' => $object_id, 'user_id' => $user_id ));
         }
         else{ //If the entry is already present then update the entry
-            $response = $wpdb->update( $table_name, array( 'rating' => $body['rating']), array('object_id' => $object_id, 'user_id' => $user_id, 'object_type' => $body['object_type'] ));
+            $response = $wpdb->update( $table_name, array( 'rating' => $body['rating']), array('object_id' => $object_id, 'user_id' => $user_id));
         }
-        do_action( 'user_rating_submitted', array( 'user_id'=> $user_id, 'object_type' => $body['object_type'], 'object_id' => $object_id, 'rating' => $body['rating']));
+        do_action( 'user_rating_submitted', array( 'object_id'=> $object_id));
         return $response;
     }
 
@@ -75,7 +89,6 @@ class ratings{ //Ratings Class
 
         $ratings_query = "CREATE TABLE " . $ratings_table_name . " (
         rating_id bigint(20) NOT NULL AUTO_INCREMENT,
-        object_type VARCHAR(100) NOT NULL,
         object_id bigint(20) NOT NULL,
         user_id bigint(20) NOT NULL,
         rating bigint(20) NOT NULL check(rating >= 0 AND rating <= 5),
@@ -85,23 +98,18 @@ class ratings{ //Ratings Class
         dbDelta([$ratings_query], true);//Execute the Queries
     }
 
-    function update_ratings_in_comments( $args){ //function to update the ratings in comments
-        $comments = get_comments(
-            array(
-              'post_id' => $args['object_id'],
-              'fields ' => 'ids',
-              'author__in ' => [$args['user_id']],
-              'status' => 'approve' //Change this to the type of comments to be displayed
-            )
-          );
-
-        foreach( $comments as $comment){
-            update_comment_meta( $comment, 'rating', $args['rating']);
-        }
-    }
-
     function calculate_ratings( $args ) { //Calculate and Store ratings
+        global $wpdb; //WPDB class
+        $table_name = $wpdb->prefix . 'user_ratings'; //Ratings Table name
+        $ratings = $wpdb->get_results("SELECT rating FROM $table_name WHERE object_id=".$args['object_id']); //Get all the ratings
 
+        $total = 0;
+
+        foreach( $ratings as $rating){ //Calculating Total
+            $total+=$rating->rating;
+        }
+
+        update_post_meta( $args['object_id'], 'rating', $total/count($ratings)); //Updating the rating of the post
     }
 }
 ?>

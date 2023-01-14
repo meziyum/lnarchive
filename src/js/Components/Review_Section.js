@@ -64,7 +64,7 @@ export default function Review_Section( props ){ //Review Section React Componen
 
     async function fetch_comments(){ //Function to fetch the comments
 
-        let fields = "&_fields=id,author_name,author_avatar_urls,content,date,user_id,meta,is_logged_in,user_comment_response"; //Comment fields to get
+        let fields = "&_fields=id,author_name,author,author_avatar_urls,content,date,post,user_id,meta,is_logged_in,user_comment_response,rating"; //Comment fields to get
 
         const res = await fetch( `${wp_request_url}comments?post=${post_id}&orderby=${section_info.current_sort}&per_page=${comments_per_page}&page=${section_info.current_page}${fields}`, {
             headers: { //Actions on the HTTP Request
@@ -91,6 +91,7 @@ export default function Review_Section( props ){ //Review Section React Componen
                 pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
             }));
         }
+        console.log(section_info.comment_list)
     }
 
     function handle_change( event ){ //Function to handle all changes in the form

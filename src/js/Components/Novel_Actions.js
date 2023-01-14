@@ -24,7 +24,6 @@ export default function Novel_Actions( props ){
             },
             body: JSON.stringify({ //Data to attach to the HTTP Request
                 rating: value,
-                object_type: 'novel',
             })
         }) //Submit Rating API REquest
         update_action_states( prev_states => ({ //Update the value of new rating submission

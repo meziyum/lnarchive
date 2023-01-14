@@ -107,6 +107,7 @@ $formats = get_the_terms($volume1_id, 'format'); //Get the formats
                             </div>
 
                             <div class="novel-info-right col"> <!-- Novel Info Col -->
+                                <div id="novel-actions"></div> <!-- Novel Actions Section -->
                                 <h2>Description</h2><?php //Desc Title
                                 echo '<div id="novel-excerpt">'.apply_filters('the_content', ($volume1[0]->post_excerpt)).'</div>'; //Display the volume 0 excerpt
                                 ?>

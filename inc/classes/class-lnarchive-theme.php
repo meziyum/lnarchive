@@ -146,7 +146,7 @@ class lnarchive_theme{ //LNarchive Theme Class
          object_type VARCHAR(100) NOT NULL,
          object_id bigint(20) NOT NULL,
          user_id bigint(20) NOT NULL,
-         ratings bigint(20) NOT NULL check(ratings >= 0 AND ratings <= 10),
+         rating bigint(20) NOT NULL check(rating >= 0 AND rating <= 5),
          PRIMARY KEY  (rating_id)
          ) $charset_collate;"; //Create the Table Args
          

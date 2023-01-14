@@ -5,6 +5,7 @@ import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/novel/novel.scss';
 import Review_Section from './Components/Review_Section';
+import Novel_Actions from './Components/Novel_Actions.js';
 
 //Localised Constants from Server
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
@@ -17,6 +18,7 @@ const selected_format_class = 'selected-format';
 const format_button_class = 'format-button';
 const audiobook_format_class = 'Audiobook-format';
 const reviews_root = ReactDOMClient.createRoot(document.getElementById('reviews-section')); //Create the Reviews Root
+const novel_actions_root = ReactDOMClient.createRoot(document.getElementById('novel-actions'));
 
 //Global Page Variables
 var selected_format = document.getElementsByClassName(selected_format_class)[0]; //Get the Selected format element
@@ -37,6 +39,7 @@ fetch( `${custom_api_request_url}current_user`, { //Fetch current user data
 .then( data => { //The fetch api data
     if( data != false) //If output is returned then the user is logged in
         is_loggedin = true;
+    novel_actions_root.render(<Novel_Actions />); //Render the novel actions
     reviews_root.render(<Review_Section is_loggedin={is_loggedin} comment_type='review' comment_count={comments_total_count} comments_count={comments_total_count}/>); //Render the Review Section
 });
 

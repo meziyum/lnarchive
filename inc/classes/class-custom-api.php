@@ -45,15 +45,37 @@ class custom_api{ //Template Class
             'methods' => 'GET', //Method
             'callback' => [ $this, 'current_user_actions'], //Callback after receving request
         ));
+        register_rest_route( 'lnarchive/v1', 'submit_rating/(?P<object_id>\d+)', array( //Register submit rating route
+            'methods' => 'POST', //Method
+            'callback' => [ $this, 'submit_rating'], //Callback after receving request
+        ));
     }
 
-    function current_user_actions( $request ){
+    function submit_rating( $request ){ //Endpoint to submit/update a rating
+        if( ! is_user_logged_in()) //Error if the user is not logged in
+            return new \WP_Error( 'user_not_logged_in', 'The users cannot submit a rating without logging in');
 
-        if(!is_user_logged_in())
+        global $wpdb; //WPDB class
+        $table_name = $wpdb->prefix . 'user_ratings'; //Ratings Table name
+        $user_id = get_current_user_id(); //Get current user id (nonce must be used for authentication)
+        $object_id = $request['object_id']; //Store the object id
+        $body = $request->get_json_params(); //Get the body json
+
+        if( $wpdb->get_var("SELECT rating FROM $table_name WHERE object_type='".$body['object_type']."' AND object_id=".$object_id." AND user_id=".$user_id) == null){ //Add a new entry
+            $response = $wpdb->insert( $table_name, array( 'rating' => $body['rating'], 'object_type' => $body['object_type'], 'object_id' => $object_id, 'user_id' => $user_id ));
+        }
+        else{ //If the entry is already present then update the entry
+            $response = $wpdb->update( $table_name, array( 'rating' => $body['rating']), array('object_id' => $object_id, 'user_id' => $user_id, 'object_type' => $body['object_type'] ));
+        }
+        return $response;
+    }
+
+    function current_user_actions( $request ){ //Get Current User Data
+
+        if(!is_user_logged_in()) //Return false if the user is not logged in
             return false;
 
         $user_data = get_userdata(get_current_user_id());
-
         return $user_data;
     }
 

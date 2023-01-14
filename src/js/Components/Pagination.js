@@ -1,9 +1,19 @@
 
-//Imports
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function Pagination( props ){ //Pagination Component
-
+/**
+ * Pagination Component
+ * 
+ * @param {Object} props - Component props
+ * @param {number} props.current_page - Current page number
+ * @param {number} props.length - Total number of pages
+ * @param {number} [props.siblings=2] - Number of sibling pages to show on either side of the current page
+ * @param {function} props.handleclick - Function to handle button click events
+ * 
+ * @returns {JSX} - Component JSX
+ */
+export default function Pagination(props) { 
     //Local Variables
     let pagination=[]; //store all pages which are to be rendered
     let current_page = props.current_page; //current page
@@ -42,6 +52,14 @@ export default function Pagination( props ){ //Pagination Component
         }</>
     );
 }
+
+//Default Prop Types
+Pagination.propTypes = {
+  current_page: PropTypes.number.isRequired,
+  length: PropTypes.number.isRequired,
+  handleclick: PropTypes.func.isRequired,
+  siblings: PropTypes.number
+};
 
 //Default Prop Values
 Pagination.defaultProps ={

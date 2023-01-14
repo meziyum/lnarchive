@@ -27,7 +27,7 @@ export default function Review_Section( props ){ //Review Section React Componen
     let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1); //Comment type
     let comments_per_page = 3; //Number of comments to display per page
 
-    React.useEffect( function(){ //useMemo Hook
+    React.useMemo( function(){ //useMemo Hook
         fetch_comments( section_info.current_sort, section_info.current_page);
     }, [ section_info.current_page, section_info.current_sort, section_info.comments_count]);
 
@@ -51,7 +51,6 @@ export default function Review_Section( props ){ //Review Section React Componen
                 meta: {"likes": 0, "dislikes": 0}, //Default meta values
             })
         }) //Submit a comment
-        const data = await res.json(); //Conver the data into json
 
         if( res.status === 201 ){ //If successfully created comment
             update_section_info( prev_info => ({ //Update the section states
@@ -90,6 +89,7 @@ export default function Review_Section( props ){ //Review Section React Componen
                 pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
             }));
         }
+        console.log(section_info.comment_list)
     }
 
     function handle_change( event ){ //Function to handle all changes in the form

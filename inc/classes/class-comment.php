@@ -39,6 +39,12 @@ class comment{ //Comment Class
             'single' => true, //Only one value
             'show_in_rest' => true, //Show in REST API
          ]);
+
+         register_meta('comment', 'rating', [ //Register Rating Meta for comments
+            'type' => 'number', //Datatype
+            'single' => true, //Only one value
+            'show_in_rest' => true, //Show in REST API
+         ]);
     }
 
     function default_meta_values(){

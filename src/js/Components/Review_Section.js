@@ -150,7 +150,7 @@ export default function Review_Section( props ){ //Review Section React Componen
                 &&
                 <div id="reviews-filter-header" className="d-flex justify-content-end">
                     <label htmlFor="review-filter" className="me-1">Sort by:</label>
-                    <select name="current_sort" id="review-filter" onChange={handle_change}>
+                    <select name="current_sort" id="review-filter" onChange={handle_change} value={section_info.current_sort}>
                     <option value="likes">Popularity</option>
                     <option value="date">Newest</option>
                     </select>

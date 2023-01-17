@@ -12,6 +12,7 @@ const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 const user_nonce = LNarchive_variables.nonce;
 const comments_total_count = LNarchive_variables.comments_count;
+const login_url = LNarchive_variables.login_url;
 
 //Class Constants
 const selected_format_class = 'selected-format';
@@ -39,8 +40,8 @@ fetch( `${custom_api_request_url}current_user`, { //Fetch current user data
 .then( data => { //The fetch api data
     if( data != false) //If output is returned then the user is logged in
         is_loggedin = true;
-    novel_actions_root.render(<Novel_Actions />); //Render the novel actions
-    reviews_root.render(<Review_Section is_loggedin={is_loggedin} comment_type='review' comment_count={comments_total_count} comments_count={comments_total_count}/>); //Render the Review Section
+    novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin}/>); //Render the novel actions
+    reviews_root.render(<Review_Section is_loggedin={is_loggedin} login_url={login_url} comment_type='review' comment_count={comments_total_count} comments_count={comments_total_count}/>); //Render the Review Section
 });
 
 var volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel

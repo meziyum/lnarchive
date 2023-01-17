@@ -33,6 +33,6 @@ export default function Novel_Actions( props ){
     }
 
     return(
-        <><Ratings ratings_submit={submit_ratings} size={'xl'} rating={action_states.rating} mode={'form'}/></>
+        <>{props.is_loggedin && <Ratings ratings_submit={submit_ratings} size={'xl'} rating={action_states.rating} mode={'form'}/>}</>
     )
 }

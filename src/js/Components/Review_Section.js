@@ -143,7 +143,7 @@ export default function Review_Section( props ){ //Review Section React Componen
                     </div>        
                 </form>
                 :
-                <h3></h3>
+                <h3>You need to be <a href={props.login_url}>logged in</a> to submit a {comment_type}</h3>
             }
             {
                 section_info.comments_count>0

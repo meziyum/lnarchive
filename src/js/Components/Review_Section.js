@@ -48,7 +48,6 @@ export default function Review_Section( props ){ //Review Section React Componen
             body: JSON.stringify({ //Data to attach to the HTTP Request
                 content: Utilities.esc_html(section_info.review_content), //Review Content
                 post: post_id, //Post Id
-                meta: {"likes": 0, "dislikes": 0}, //Default meta values
             })
         }) //Submit a comment
 
@@ -149,8 +148,9 @@ export default function Review_Section( props ){ //Review Section React Componen
                 section_info.comments_count>0
                 &&
                 <div id="reviews-filter-header" className="d-flex justify-content-end">
-                    <label htmlFor="review-filter" className="me-1">Sort by:</label>
+                    <label htmlFor="review-filter" className="me-1">Sort:</label>
                     <select name="current_sort" id="review-filter" onChange={handle_change} value={section_info.current_sort}>
+                    <option value="author">Your {comment_type}s</option>
                     <option value="likes">Popularity</option>
                     <option value="date">Newest</option>
                     </select>

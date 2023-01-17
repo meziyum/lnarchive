@@ -23,25 +23,33 @@ class comment{ //Comment Class
           */
 
         //Adding functions to the hooks
-        add_action( 'rest_api_init', [$this, 'register_comment_meta']);
-        add_action( 'rest_api_init', [$this, 'register_custom_fields']);
-        add_action( 'rest_api_init', [$this, 'custom_endpoints']);
+        add_action( 'rest_api_init', [$this, 'register_comment_system']);
         add_action( 'rest_api_init', [$this, 'addOrderbySupportRest']);
         add_action('after_switch_theme', [$this, 'create_datbases']);
     }
 
-    function register_comment_meta(){ //Function to register comment metas
+    function register_comment_system(){ //Function to register comment metas
         
         register_meta('comment', 'likes', [ //Register Like Meta for Comments
             'type' => 'number', //Datatype
             'single' => true, //Only one value
-            'show_in_rest' => true, //Show in REST API
+            'show_in_rest' => array( //Rest API Schema
+                'schema' => array(
+                    'type'  => 'number',
+                    'default' => 0,
+                ),
+            ),
          ]);
 
          register_meta('comment', 'dislikes', [ //Register Dislike Meta for Comments
             'type' => 'number', //Datatype
             'single' => true, //Only one value
-            'show_in_rest' => true, //Show in REST API
+            'show_in_rest' => array( //Rest API Schema
+                'schema' => array(
+                    'type'  => 'number',
+                    'default' => 0,
+                ),
+            ),
          ]);
 
          register_meta('comment', 'rating', [ //Register Rating Meta for comments
@@ -49,16 +57,11 @@ class comment{ //Comment Class
             'single' => true, //Only one value
             'show_in_rest' => true, //Show in REST API
          ]);
-    }
 
-    function register_custom_fields() { //Function to register custom field to wp json
-
-        register_rest_field( "comment", 'user_comment_response', array( //Register Comment Response field in comment info request
+         register_rest_field( "comment", 'user_comment_response', array( //Register Comment Response field in comment info request
             'get_callback' => [$this, 'get_user_comment_response'], //Get value callback
         ));
-    }
 
-    function custom_endpoints(){ //Function to Register Custom Endpoints
         register_rest_route( 'lnarchive/v1', 'comment/(?P<action>[a-zA-Z0-9-]+)/(?P<comment_id>\d+)', array( //Register Comment Actions
             'methods' => 'POST', //Method
             'callback' => [ $this, 'comment_actions'], //Callback after receving request
@@ -113,13 +116,13 @@ class comment{ //Comment Class
         add_filter(
             'rest_comment_collection_params',
             function( $params ) {
-                $fields = ["likes"];
-                foreach ($fields as $key => $value) {
+                $fields = ["likes", "author"];
+                foreach ($fields as $value) {
                     $params['orderby']['enum'][] = $value;
                 }
                 return $params;
             },
-            10,
+            20,
             1
         );
         
@@ -127,11 +130,15 @@ class comment{ //Comment Class
         add_filter(
             'rest_comment_query',
             function ( $args, $request ) {
-                $fields = ["likes"];
-                $order_by = $request->get_param( 'orderby' );
-                if ( isset( $order_by ) && in_array($order_by, $fields)) {
-                    $args['meta_key'] = $order_by;
-                    $args['orderby']  = 'meta_value_num';
+                $order_by = $request->get_param( 'orderby' ); //Get the sorting parameter
+                if( isset( $order_by ) ){ //If a orderby isset
+                    if ( $order_by=='likes' ) { //sort by likes
+                        $args['meta_key'] = $order_by;
+                        $args['orderby']  = 'meta_value_num';
+                    }
+                    else if( $order_by=='author' ){ //sort by author
+                        $args['user_id'] = get_current_user_id();
+                    }
                 }
                 return $args;
             },
@@ -140,7 +147,7 @@ class comment{ //Comment Class
         );
     } // addOrderbySupportRest function ends. 
 
-    function create_datbases() { //Function to create custom databases
+    function create_datbases() { //Create comment database
 
         global $wpdb; //Wpdb Class
         $charset_collate = $wpdb->get_charset_collate(); //Get the Charset Collate

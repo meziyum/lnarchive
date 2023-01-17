@@ -24,30 +24,25 @@ class ratings{ //Ratings Class
           */
 
         //Adding functions to the hooks
-        add_action( 'rest_api_init', [$this, 'custom_endpoints']);
+        add_action( 'rest_api_init', [$this, 'register_rating']);
         add_action('after_switch_theme', [$this, 'create_datbases']);
-        add_action( 'rest_api_init', [$this, 'register_meta']);
-        add_action( 'rest_api_init', [$this, 'register_rest_fields']);
         add_action( 'user_rating_submitted', [$this, 'calculate_ratings']);
     }
 
-    function register_rest_fields(){ //Function to register rest fields
-        register_rest_field( "comment", 'rating', array( //Register Comment Response field in comment info request
+    function register_rating(){ //Function to handle all rating system registerations
+
+        register_rest_field( "comment", 'rating', array( //Register Rating field to Comment Endpoint
             'get_callback' => [$this, 'get_user_rating'], //Get value callback
         ));
-    }
 
-    function register_meta(){ //Register Metadatas
-        register_meta( 'post', 'rating', array( //Register Rating meta
+        register_meta( 'post', 'rating', array( //Register Rating meta to the Novel
             'object_subtype'  => 'novel',
             'type'   => 'number',
             'single ' => true,
             'show_in_rest' => true,
         ));
-    }
 
-    function custom_endpoints(){ //Function to Register Custom Endpoints
-        register_rest_route( 'lnarchive/v1', 'submit_rating/(?P<object_id>\d+)', array( //Register submit rating route
+        register_rest_route( 'lnarchive/v1', 'submit_rating/(?P<object_id>\d+)', array( //Register submit rating route/endpoint
             'methods' => 'POST', //Method
             'callback' => [ $this, 'submit_rating'], //Callback after receving request
         ));

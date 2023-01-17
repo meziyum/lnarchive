@@ -29,7 +29,7 @@ class sidebars{ //Assests Class
         add_action( 'widgets_init', [ $this, 'ln_register_sidebars']);
     }
 
-    public function ln_register_sidebars() {
+    public function ln_register_sidebars() { //Function to register all sidebars
         
         register_sidebar( [ //Register Main Sidebar
                 'name' => 'Main Sidebar',

@@ -56,7 +56,15 @@ class taxonomies_metafields{ //Custom Taxonomies Meta Fields Class
       }
     }
 
-    function category_add_meta() {
+    function update_taxonomy_weightage( $term ){ //Update taxonomy weightage in taxonomies
+      update_term_meta( //Update the Date Visibility Value
+        $term->term_id, //ID of the object
+        'weightage', //The key
+        get_term_meta( $term->term_id, 'weightage', true), //Update the weightage of the taxonomy term
+      );
+    }
+
+    function category_add_meta() { //Add Meta terms in Categories
 
       //Register Nonce
       wp_nonce_field( 'category_meta_nonce_action', 'category_meta_nonce' );
@@ -95,7 +103,7 @@ class taxonomies_metafields{ //Custom Taxonomies Meta Fields Class
       <?php
     }
 
-    function category_save_meta( $term_id ){ //Save Meta terms to Categories
+    function category_save_meta( $term_id ){ //Save Meta terms in Categories
 
       // Nonce Verification
       if ( ! isset( $_POST['category_meta_nonce'] ) || ! wp_verify_nonce( $_POST['category_meta_nonce'], 'category_meta_nonce_action')) {
@@ -115,7 +123,7 @@ class taxonomies_metafields{ //Custom Taxonomies Meta Fields Class
 
     }
 
-    function seo_meta_add_terms() { //Add SEO Meta terms to Custom Taxonomies
+    function seo_meta_add_terms() { //Add SEO Meta terms to Taxonomies
 
       //Nonce Register
       wp_nonce_field( 'seo_nonce_action', 'seo_nonce' );
@@ -135,7 +143,7 @@ class taxonomies_metafields{ //Custom Taxonomies Meta Fields Class
       </div>';
     }
 
-    function seo_meta_edit_terms( $term ) { //Edit SEO Meta terms of Custom Taxonomies
+    function seo_meta_edit_terms( $term ) { //Edit SEO Meta terms in Taxonomies
 
       //Get the current stored values in the meta-title and meta-desc from the database
       $value1 = get_term_meta( $term->term_id, 'tax_meta_title_val', true);
@@ -167,7 +175,7 @@ class taxonomies_metafields{ //Custom Taxonomies Meta Fields Class
       </tr>';
     }
 
-    function seo_meta_save_terms( $term_id ) { //Save SEO Meta terms
+    function seo_meta_save_terms( $term_id ) { //Save SEO Meta terms in Taxonomies
 
       // Nonce Verification
       if ( ! isset( $_POST['seo_nonce'] ) || ! wp_verify_nonce( $_POST['seo_nonce'], 'seo_nonce_action')) {

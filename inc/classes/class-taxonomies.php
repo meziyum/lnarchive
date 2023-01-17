@@ -698,7 +698,7 @@ class taxonomies{ //Novel Taxonomy Class
         unregister_taxonomy_for_object_type('post_tag', 'volume');
     }
 
-    public function save_post_function($post_id) { //Default Tag
+    public function save_post_function($post_id) { //Function to handle the default values of all the taxonmies
 
         $default_tag = "None";//Default Tag Static Definition
         $tags = get_the_tags(); //Get the tags of the post

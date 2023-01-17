@@ -40,8 +40,7 @@ class menus{ //Assests Class
         );
     }
 
-    //Get Menu Id from location
-    public function get_menu_id( $location ) {       
+    public function get_menu_id( $location ) { //Function to get menu_id from location 
         //Get all the locations
         $locations = get_nav_menu_locations();
         //Get object id by location

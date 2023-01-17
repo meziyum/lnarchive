@@ -21,6 +21,7 @@ export default function Review_Section( props ){ //Review Section React Componen
         current_page: 1,
         current_sort: 'likes',
         review_content: "",
+        progress: 0,
     });
 
     let is_loggedin = props.is_loggedin; //Logged in status
@@ -48,6 +49,7 @@ export default function Review_Section( props ){ //Review Section React Componen
             body: JSON.stringify({ //Data to attach to the HTTP Request
                 content: Utilities.esc_html(section_info.review_content), //Review Content
                 post: post_id, //Post Id
+                meta: {"progress": section_info.progress},
             })
         }) //Submit a comment
 
@@ -135,7 +137,14 @@ export default function Review_Section( props ){ //Review Section React Componen
                 is_loggedin 
                 ?
                 <form id="reviews-form" className="mb-3" onSubmit={submit_review}>
-                    <h4>Write a {comment_type}</h4>
+                    {
+                        comment_type == 'Review' && props.max_progress>0 &&
+                        <div className="float-end"> 
+                            <label htmlFor="progress"><h5>No of Volumes(Read): </h5></label>
+                            <input type="number" id="progress" name="progress" value={section_info.progress} onChange={handle_change} min="0" max={props.max_progress}/>
+                        </div>
+                    }
+                    <h4 className="float-start">Write your {comment_type}</h4>
                     <textarea name="review_content" id="review_content" onChange={handle_change} value={section_info.review_content}/>
                     <div className="d-flex justify-content-end"> 
                     <button className="px-3 py-2" id="review-submit">Submit</button>
@@ -150,9 +159,10 @@ export default function Review_Section( props ){ //Review Section React Componen
                 <div id="reviews-filter-header" className="d-flex justify-content-end">
                     <label htmlFor="review-filter" className="me-1">Sort:</label>
                     <select name="current_sort" id="review-filter" onChange={handle_change} value={section_info.current_sort}>
-                    <option value="author">Your {comment_type}s</option>
+                    { is_loggedin && <option value="author">Your {comment_type}s</option>}
                     <option value="likes">Popularity</option>
                     <option value="date">Newest</option>
+                    { props.max_progress >0 && <option value="progress">Progress</option>}
                     </select>
                 </div>
             }
@@ -164,4 +174,11 @@ export default function Review_Section( props ){ //Review Section React Componen
             </div>
         </>
     );
+}
+
+Review_Section.defaultProps ={
+    is_loggedin: false, //Use logged in status
+    comment_type: 'comment', //default comment type
+    comments_count: 0, //Total no of comments
+    max_progress: 0, //Max value for progress input( if 0 then disable progress input)
 }

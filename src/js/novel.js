@@ -41,7 +41,7 @@ fetch( `${custom_api_request_url}current_user`, { //Fetch current user data
     if( data != false) //If output is returned then the user is logged in
         is_loggedin = true;
     novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin}/>); //Render the novel actions
-    reviews_root.render(<Review_Section is_loggedin={is_loggedin} login_url={login_url} comment_type='review' comment_count={comments_total_count} comments_count={comments_total_count}/>); //Render the Review Section
+    reviews_root.render(<Review_Section is_loggedin={is_loggedin} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={document.getElementById("volume-list").children.length}/>); //Render the Review Section
 });
 
 var volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel

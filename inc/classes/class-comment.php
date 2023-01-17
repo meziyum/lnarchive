@@ -33,6 +33,7 @@ class comment{ //Comment Class
         register_meta('comment', 'likes', [ //Register Like Meta for Comments
             'type' => 'number', //Datatype
             'single' => true, //Only one value
+            'default ' => 0, //Default likes
             'show_in_rest' => array( //Rest API Schema
                 'schema' => array(
                     'type'  => 'number',
@@ -44,6 +45,19 @@ class comment{ //Comment Class
          register_meta('comment', 'dislikes', [ //Register Dislike Meta for Comments
             'type' => 'number', //Datatype
             'single' => true, //Only one value
+            'default ' => 0, //default dislikes
+            'show_in_rest' => array( //Rest API Schema
+                'schema' => array(
+                    'type'  => 'number',
+                    'default' => 0,
+                ),
+            ),
+         ]);
+
+         register_meta('comment', 'progress', [ //Register Progress meta for reviews
+            'type' => 'number', //Datatype
+            'single' => true, //Only one value
+            'default ' => 0, //Default Progress Value
             'show_in_rest' => array( //Rest API Schema
                 'schema' => array(
                     'type'  => 'number',
@@ -116,13 +130,13 @@ class comment{ //Comment Class
         add_filter(
             'rest_comment_collection_params',
             function( $params ) {
-                $fields = ["likes", "author"];
+                $fields = ["likes", "progress", "author"];
                 foreach ($fields as $value) {
                     $params['orderby']['enum'][] = $value;
                 }
                 return $params;
             },
-            20,
+            30,
             1
         );
         
@@ -132,9 +146,23 @@ class comment{ //Comment Class
             function ( $args, $request ) {
                 $order_by = $request->get_param( 'orderby' ); //Get the sorting parameter
                 if( isset( $order_by ) ){ //If a orderby isset
-                    if ( $order_by=='likes' ) { //sort by likes
-                        $args['meta_key'] = $order_by;
-                        $args['orderby']  = 'meta_value_num';
+                    if ( $order_by=='likes' || $order_by=='progress') { //sort by likes
+                        $args['meta_query'] = array(
+                            'relation' => 'OR',
+                            'meta_exists' => array(
+                                'key' => $order_by,
+                                'compare' => 'EXISTS',
+                            ),
+                            'meta_not_exists' => array(
+                                'key' => $order_by,
+                                'compare' => 'NOT EXISTS',
+                            ));
+                        $args['orderby']  = array( 
+                            'meta_exists' => 'meta_value_num',
+                            'meta_not_exists' => 'comment_date',
+                        );
+                        $args['order '] = 'DESC';
+                    ;
                     }
                     else if( $order_by=='author' ){ //sort by author
                         $args['user_id'] = get_current_user_id();

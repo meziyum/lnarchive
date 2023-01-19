@@ -82,6 +82,7 @@ export default function Review_Section( props ){ //Review Section React Componen
                         is_loggedin={is_loggedin}
                         user_id={user_id}
                         delete_review={delete_review}
+                        max_progress={props.max_progress}
                         {...comment} //Comment Data
                     />
             )});
@@ -92,7 +93,6 @@ export default function Review_Section( props ){ //Review Section React Componen
                 pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
             }));
         }
-        console.log(section_info.comment_list)
     }
 
     function handle_change( event ){ //Function to handle all changes in the form

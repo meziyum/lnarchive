@@ -103,6 +103,9 @@ export default function Review( props ){ //Review Entry React Component
                         </div>
                         </h4>
                         <time>{Utilities.format_date(props.date.slice(0, props.date.indexOf('T')) /* Convert the format of the date using the function in external library*/)}</time>
+                        <div className="float-end">
+                            <h5>Progress: {props.meta.progress}/{props.max_progress}</h5>
+                        </div>
                     </div>     
             </div>
                 <div className="review-content" contentEditable={review_info.editable} dangerouslySetInnerHTML={ {__html: review_info.content}}/>

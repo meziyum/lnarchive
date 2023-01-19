@@ -144,9 +144,11 @@ class comment{ //Comment Class
         add_filter(
             'rest_comment_query',
             function ( $args, $request ) {
+
+                $metas = array( 'likes', 'progress');
                 $order_by = $request->get_param( 'orderby' ); //Get the sorting parameter
                 if( isset( $order_by ) ){ //If a orderby isset
-                    if ( $order_by=='likes' || $order_by=='progress') { //sort by likes
+                    if ( in_array( $order_by, $metas) ) { //sort by likes
                         $args['meta_query'] = array(
                             'relation' => 'OR',
                             'meta_exists' => array(
@@ -159,9 +161,7 @@ class comment{ //Comment Class
                             ));
                         $args['orderby']  = array( 
                             'meta_exists' => 'meta_value_num',
-                            'meta_not_exists' => 'comment_date',
                         );
-                        $args['order '] = 'DESC';
                     ;
                     }
                     else if( $order_by=='author' ){ //sort by author

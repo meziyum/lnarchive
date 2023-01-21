@@ -115,21 +115,22 @@ export default function Review_Section( props ){ //Review Section React Componen
         document.getElementById("reviews-form").scrollIntoView(true); //Scroll to top of the comments list
     }
 
-    function delete_review( id, event ) { //Delete Review function
+    async function delete_review( id) { //Delete Review function
 
         if( !window.confirm("Are you sure you want to delete your Review?") ) //If the user doesnt click OK
             return;
 
-        fetch( `${wp_request_url}comments/${id}`, {
+        await fetch( `${wp_request_url}comments/${id}`, {
             method: "DELETE", //Method
             headers: { //Actions on the HTTP Request
                 'X-WP-Nonce' : user_nonce,
             },
         }) //Delete a comment
-        update_section_info( prev_info => ({
+
+        update_section_info( prev_info => ({ //Update Comment Count
             ...prev_info,
-            comments_count: --prev_info.comments_count,
-        }))
+            comments_count: prev_info.comments_count-1,
+        }));
     }
     
     return(

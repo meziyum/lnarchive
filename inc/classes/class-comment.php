@@ -67,12 +67,6 @@ class comment{ //Comment Class
             ),
          ]);
 
-         register_meta('comment', 'rating', [ //Register Rating Meta for comments
-            'type' => 'number', //Datatype
-            'single' => true, //Only one value
-            'show_in_rest' => true, //Show in REST API
-         ]);
-
          register_rest_field( "comment", 'user_comment_response', array( //Register Comment Response field in comment info request
             'get_callback' => [$this, 'get_user_comment_response'], //Get value callback
         ));

@@ -27,19 +27,27 @@ class users{ //Users Class
     }
 
     function custom_endpoints(){ //Function to Register Custom Endpoints
-        register_rest_route( 'lnarchive/v1', 'current_user', array( //Register Current User Actions
+        register_rest_route( 'lnarchive/v1', 'current_user/(?P<object_id>\d+)', array( //Register Current User Actions
             'methods' => 'GET', //Method
-            'callback' => [ $this, 'current_user_actions'], //Callback after receving request
+            'callback' => [ $this, 'current_user_data'], //Callback after receving request
         ));
     }
     
-    function current_user_actions( $request ){ //Get Current User Data
+    function current_user_data( $request ){ //Get Current User Data for the current post
 
         if(!is_user_logged_in()) //Return false if the user is not logged in
             return false;
 
-        $user_data = get_userdata(get_current_user_id());
-        return $user_data;
+        global $wpdb; //WPDB class
+        $table_name = $wpdb->prefix . 'user_ratings'; //Ratings Table name
+        $object_id = $request['object_id'];
+        $user_id = get_current_user_id();
+        
+        $return = array (
+            'user_id' => $user_id,
+            'user_rating' => $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$object_id." AND user_id=".$user_id),
+        );
+        return $return;
     }
 }
 ?>

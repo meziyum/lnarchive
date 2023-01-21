@@ -9,7 +9,6 @@ import Pagination from './Pagination';
 const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const user_nonce = LNarchive_variables.nonce;
-const user_id = LNarchive_variables.user_id;
 
 export default function Review_Section( props ){ //Review Section React Component
 
@@ -25,6 +24,7 @@ export default function Review_Section( props ){ //Review Section React Componen
     });
 
     let is_loggedin = props.is_loggedin; //Logged in status
+    let user_id = props.user_id; //User ID
     let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1); //Comment type
     let comments_per_page = 10; //Number of comments to display per page
 

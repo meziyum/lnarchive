@@ -161,6 +161,7 @@ class comment{ //Comment Class
                             ));
                         $args['orderby']  = array( 
                             'meta_exists' => 'meta_value_num',
+                            'meta_not_exists' => 'meta_value_num',
                         );
                     ;
                     }

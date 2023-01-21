@@ -13,6 +13,7 @@ const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 const user_nonce = LNarchive_variables.nonce;
 const comments_total_count = LNarchive_variables.comments_count;
 const login_url = LNarchive_variables.login_url;
+const novel_id = LNarchive_variables.object_id;
 
 //Class Constants
 const selected_format_class = 'selected-format';
@@ -31,7 +32,7 @@ formats_click_list( document.getElementsByClassName(format_button_class) ); //Ap
 if( document.getElementById("volumes-no") != null)
     document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
 
-fetch( `${custom_api_request_url}current_user`, { //Fetch current user data
+fetch( `${custom_api_request_url}current_user/${novel_id}`, { //Fetch current user data
     headers: { //Actions on the HTTP Request
         'X-WP-Nonce' : user_nonce,
     },
@@ -40,9 +41,11 @@ fetch( `${custom_api_request_url}current_user`, { //Fetch current user data
 .then( data => { //The fetch api data
     if( data != false) //If output is returned then the user is logged in
         is_loggedin = true;
-    novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin}/>); //Render the novel actions
-    reviews_root.render(<Review_Section is_loggedin={is_loggedin} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={document.getElementById("volume-list").children.length}/>); //Render the Review Section
+    novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin} rating={parseInt(data.user_rating)}/>); //Render the novel actions
+    reviews_root.render(<Review_Section is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={document.getElementById("volume-list").children.length}/>); //Render the Review Section
+    console.log(data);
 });
+
 
 var volumes_list = document.getElementsByClassName("volume-link"); //Get all the volumes of the novel
 

@@ -99,7 +99,7 @@ export default function Review( props ){ //Review Entry React Component
                     <div className='col'>
                         <h4>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1) /* Capitalize the name of the Author */}
                         <div className="float-end">
-                            <Ratings rating={props.rating} mode={'display'} size={'1x'}/>
+                            <Ratings rating={parseInt(props.rating)} mode={'display'} size={'1x'}/>
                         </div>
                         </h4>
                         <time>{Utilities.format_date(props.date.slice(0, props.date.indexOf('T')) /* Convert the format of the date using the function in external library*/)}</time>

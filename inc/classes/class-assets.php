@@ -92,7 +92,6 @@ class assets{ //Assests Class
         wp_enqueue_script('main');//Enqueue the Javascript
         wp_localize_script( 'main', 'LNarchive_variables', array( //Localize the script with variables
           'nonce' => wp_create_nonce( 'wp_rest' ), //User Nonce for API Authentication
-          'user_id' => get_current_user_id(), //Current User ID
           'object_id' => get_the_ID(), //Object ID
           'object_type' =>  get_post_type(), //Object Type
           'comments_count' => get_comments_number(get_the_ID()), //Comments Count

@@ -96,6 +96,7 @@ class assets{ //Assests Class
           'object_type' =>  get_post_type(), //Object Type
           'comments_count' => get_comments_number(get_the_ID()), //Comments Count
           'wp_rest_url' => get_rest_url(), //Main REST API url
+          'custom_api_url' => get_rest_url().'lnarchive/v1/',
           'login_url' => wp_login_url(), //Login URL
       ) );
     }

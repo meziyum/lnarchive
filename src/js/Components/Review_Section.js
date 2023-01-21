@@ -8,6 +8,7 @@ import Pagination from './Pagination';
 //Localised Constants from Server
 const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
+const custom_api_request_url = LNarchive_variables.custom_api_url;
 const user_nonce = LNarchive_variables.nonce;
 
 export default function Review_Section( props ){ //Review Section React Component
@@ -39,7 +40,7 @@ export default function Review_Section( props ){ //Review Section React Componen
         if( section_info.review_content == '') //Prevent Submission when no content has been entered
             return;
 
-        const res = await fetch( `${wp_request_url}comments`, { //Fetch the comments
+        const res = await fetch( `${custom_api_request_url}submit_comment`, { //Fetch the comments
             method: "POST", //Method
             credentials: 'same-origin', //Send Credentials
             headers: { //Actions on the HTTP Request
@@ -48,8 +49,8 @@ export default function Review_Section( props ){ //Review Section React Componen
             },
             body: JSON.stringify({ //Data to attach to the HTTP Request
                 content: Utilities.esc_html(section_info.review_content), //Review Content
-                post: post_id, //Post Id
-                meta: {"progress": section_info.progress},
+                post_id: post_id, //Post Id
+                progress: section_info.progress, //Progress
             })
         }) //Submit a comment
 
@@ -93,6 +94,7 @@ export default function Review_Section( props ){ //Review Section React Componen
                 pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
             }));
         }
+        console.log(data)
     }
 
     function handle_change( event ){ //Function to handle all changes in the form

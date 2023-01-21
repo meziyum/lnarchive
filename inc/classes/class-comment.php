@@ -62,6 +62,7 @@ class comment{ //Comment Class
                 'schema' => array(
                     'type'  => 'number',
                     'default' => 0,
+                    'context'     => [ 'view', 'edit' ],
                 ),
             ),
          ]);
@@ -76,10 +77,41 @@ class comment{ //Comment Class
             'get_callback' => [$this, 'get_user_comment_response'], //Get value callback
         ));
 
-        register_rest_route( 'lnarchive/v1', 'comment/(?P<action>[a-zA-Z0-9-]+)/(?P<comment_id>\d+)', array( //Register Comment Actions
+        register_rest_route( 'lnarchive/v1', 'submit_comment', array( //Register Comment Submit Route
+            'methods' => 'POST', //Method
+            'callback' => [ $this, 'submit_comment_route'], //Callback after receving request
+        ));
+
+        register_rest_route( 'lnarchive/v1', 'comment_(?P<action>[a-zA-Z0-9-]+)/(?P<comment_id>\d+)', array( //Register Comment Actions
             'methods' => 'POST', //Method
             'callback' => [ $this, 'comment_actions'], //Callback after receving request
         ));
+    }
+
+    function submit_comment_route( $request ){ //Function to handle submit comment route
+
+        if( ! is_user_logged_in()) //Error if the user is not logged in
+            return new \WP_Error( 'user_not_logged_in', 'The user cannot post a comment without logging in');
+
+        $current_user = wp_get_current_user(); //Get the current user
+        $body = $request->get_json_params(); //Get the body
+            
+        $comment_data = array( //Comment Data
+            'comment_post_ID'      => $body['post_id'],
+            'comment_content'      => $body['content'],
+            'user_id'              => $current_user->ID,
+            'comment_author'       => $current_user->user_login,
+            'comment_author_email' => $current_user->user_email,
+            'comment_author_url'   => $current_user->user_url,
+            'comment_meta'         => array(
+                'likes' => 0,
+                'dislikes' => 0,
+                'progress' => $body['progress'],
+            ),
+        );
+        wp_insert_comment($comment_data); //Insert the comment
+
+        return new \WP_REST_Response( array( 'message' => 'Comment successfully created!' ), 201 ); //Return Response
     }
 
     function comment_actions($request) { //Function to handle the comment actions route
@@ -149,21 +181,8 @@ class comment{ //Comment Class
                 $order_by = $request->get_param( 'orderby' ); //Get the sorting parameter
                 if( isset( $order_by ) ){ //If a orderby isset
                     if ( in_array( $order_by, $metas) ) { //sort by likes
-                        $args['meta_query'] = array(
-                            'relation' => 'OR',
-                            'meta_exists' => array(
-                                'key' => $order_by,
-                                'compare' => 'EXISTS',
-                            ),
-                            'meta_not_exists' => array(
-                                'key' => $order_by,
-                                'compare' => 'NOT EXISTS',
-                            ));
-                        $args['orderby']  = array( 
-                            'meta_exists' => 'meta_value_num',
-                            'meta_not_exists' => 'meta_value_num',
-                        );
-                    ;
+                        $args['meta_key'] = $order_by;
+                        $args['orderby'] = 'meta_value_num';
                     }
                     else if( $order_by=='author' ){ //sort by author
                         $args['user_id'] = get_current_user_id();

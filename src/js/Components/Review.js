@@ -23,7 +23,7 @@ import {
 from '@fortawesome/free-solid-svg-icons';
 
 //Constant Variables from server side
-const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
+const custom_api_request_url = LNarchive_variables.custom_api_url;
 const user_nonce = LNarchive_variables.nonce;
 
 export default function Review( props ){ //Review Entry React Component
@@ -56,7 +56,7 @@ export default function Review( props ){ //Review Entry React Component
     }
 
     function update_response_in_database( action ){ //Function to update the user response
-        fetch( `${custom_api_request_url}comment/${action}/${props.id}`, {
+        fetch( `${custom_api_request_url}comment_${action}/${props.id}`, {
             method: "POST", //Method
             credentials: 'same-origin', //Send Credentials
             headers: { //Actions on the HTTP Request

@@ -116,12 +116,12 @@ function post_list( $loop , $label) { //Function to display Posts List
             <?php
                 while( $loop->have_posts()) : $loop->the_post(); //While there are posts                    
                     $the_post_id = get_the_ID(); //Get the Post ID
+                    if( has_post_thumbnail($the_post_id)) { //If the entry has a thumbnail
                     ?>
                         <div class="col-lg-4 col-md-6 col-sm-12 col-12"> <!-- Blog Entry -->
                         <article id="post-<?php echo esc_attr($the_post_id);?>" class="blog-entry"> <!--Entry Card -->
                             <?php
-                            if( has_post_thumbnail($the_post_id)) { //If the entry has a thumbnail
-                        
+                            
                                 $post_link = get_permalink( $the_post_id ); //Get Post Permalink
                                 $post_title = get_the_title( $the_post_id ); //Get Post Title
                                 
@@ -155,11 +155,11 @@ function post_list( $loop , $label) { //Function to display Posts List
                                     ?>
                                 </div>
                                 <?php
-                            }
                             ?>
                         </article>
                         </div>
-                    <?php     
+                    <?php
+                    }     
                 endwhile;
             ?>
         </div>

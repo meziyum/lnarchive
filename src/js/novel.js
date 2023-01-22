@@ -24,7 +24,7 @@ const novel_actions_root = ReactDOMClient.createRoot(document.getElementById('no
 
 //Global Page Variables
 var selected_format = document.getElementsByClassName(selected_format_class)[0]; //Get the Selected format element
-var is_loggedin = false; //Variable to store user logged in status
+var is_loggedin = true; //Variable to store user logged in status
 
 //Intial Function Calls
 narrator_info_display(); //Handle the display of narrator row
@@ -39,11 +39,10 @@ fetch( `${custom_api_request_url}current_user/${novel_id}`, { //Fetch current us
 }) //Fetch the JSON data
 .then( res => res.json()) //The fetch API Response
 .then( data => { //The fetch api data
-    if( data.data.status != 401) //If output is returned then the user is logged in
-        is_loggedin = true;
+    if( data.data != undefined && data.data.status == 401) //If the status code is 401
+        is_loggedin = false;
     novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin} rating={parseInt(data.user_rating)}/>); //Render the novel actions
     reviews_root.render(<Review_Section is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={document.getElementById("volume-list").children.length}/>); //Render the Review Section
-    console.log(data);
 });
 
 

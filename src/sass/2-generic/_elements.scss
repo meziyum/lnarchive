@@ -7,9 +7,9 @@ body {
 }
 
 main { //Main Element
-    background-color: $main-background; //Main Background Color
-    padding: 8px 12px 8px 12px; //Padding for the Main
-	min-height: 480px; //Min Body height in case of empty content
+    background-color: $main-background;
+    padding: 8px 12px 8px 12px;
+	min-height: 60vh;
 }
 
 img { //Image Element

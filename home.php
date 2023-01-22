@@ -48,7 +48,7 @@ get_header(); //Get the Header
             printf( '<nav class="blog-links d-flex justify-content-center">%s</nav>', wp_kses( paginate_links( $args), $allowed_tags ));
         ?>
         </div>
-        <aside class="sidebar col d-none d-lg-block"> <!-- Sidebar Div -->
+        <aside class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Div -->
             <?php get_sidebar('sidebar-main'); //Show the Sidebar?>
         </aside>
     </div>

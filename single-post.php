@@ -33,7 +33,7 @@ $max_posts = get_option('posts_per_page'); //Get the max posts value
 
                     taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category'); //Get the Category List
                     
-                    if( $series != 'none') { //If the Series is not set
+                    if( $series != null) { //If the Series is not set
                         ?>
                             <button onclick="location.href='<?php echo esc_url(get_post_permalink($series));?>'" type="button" class="series-button float-end"> <!-- Series Button -->
                                 <a class= "series-link"> <!-- The Series text -->

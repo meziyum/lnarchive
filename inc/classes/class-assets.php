@@ -77,7 +77,7 @@ class assets{ //Assests Class
         }
         else if( is_category() ){ //Category Archive( must be checked before general archive )
           $path= LNARCHIVE_BUILD_JS_URI . '/archive-post.js'; 
-          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive-post.js');
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive_post.js');
         }
         else if( is_archive() ){ //All Novel type archives
           $path= LNARCHIVE_BUILD_JS_URI . '/archive.js'; 

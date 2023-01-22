@@ -74,18 +74,21 @@ class comment{ //Comment Class
         register_rest_route( 'lnarchive/v1', 'submit_comment', array( //Register Comment Submit Route
             'methods' => 'POST', //Method
             'callback' => [ $this, 'submit_comment_route'], //Callback after receving request
+            'permission_callback' => function(){ //Permission Callback
+                return is_user_logged_in();
+            },
         ));
 
         register_rest_route( 'lnarchive/v1', 'comment_(?P<action>[a-zA-Z0-9-]+)/(?P<comment_id>\d+)', array( //Register Comment Actions
             'methods' => 'POST', //Method
             'callback' => [ $this, 'comment_actions'], //Callback after receving request
+            'permission_callback' => function(){ //Permission Callback
+                return is_user_logged_in();
+            },
         ));
     }
 
     function submit_comment_route( $request ){ //Function to handle submit comment route
-
-        if( ! is_user_logged_in()) //Error if the user is not logged in
-            return new \WP_Error( 'user_not_logged_in', 'The user cannot post a comment without logging in');
 
         $current_user = wp_get_current_user(); //Get the current user
         $body = $request->get_json_params(); //Get the body
@@ -109,9 +112,6 @@ class comment{ //Comment Class
     }
 
     function comment_actions($request) { //Function to handle the comment actions route
-
-        if( ! is_user_logged_in()) //Error if the user is not logged in
-            return new \WP_Error( 'user_not_logged_in', 'The users cannot like a post without logging in');
 
         global $wpdb; //WPDB class
         $table_name = $wpdb->prefix . 'comment_response'; //Response Table name

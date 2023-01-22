@@ -30,13 +30,13 @@ class users{ //Users Class
         register_rest_route( 'lnarchive/v1', 'current_user/(?P<object_id>\d+)', array( //Register Current User Actions
             'methods' => 'GET', //Method
             'callback' => [ $this, 'current_user_data'], //Callback after receving request
+            'permission_callback' => function(){ //Permission Callback
+                return is_user_logged_in();
+            },
         ));
     }
     
     function current_user_data( $request ){ //Get Current User Data for the current post
-
-        if(!is_user_logged_in()) //Return false if the user is not logged in
-            return false;
 
         global $wpdb; //WPDB class
         $table_name = $wpdb->prefix . 'user_ratings'; //Ratings Table name
@@ -47,7 +47,7 @@ class users{ //Users Class
             'user_id' => $user_id,
             'user_rating' => $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$object_id." AND user_id=".$user_id),
         );
-        return $return;
+        return $return; //Return the data
     }
 }
 ?>

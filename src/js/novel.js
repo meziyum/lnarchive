@@ -39,7 +39,7 @@ fetch( `${custom_api_request_url}current_user/${novel_id}`, { //Fetch current us
 }) //Fetch the JSON data
 .then( res => res.json()) //The fetch API Response
 .then( data => { //The fetch api data
-    if( data != false) //If output is returned then the user is logged in
+    if( data.data.status != 401) //If output is returned then the user is logged in
         is_loggedin = true;
     novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin} rating={parseInt(data.user_rating)}/>); //Render the novel actions
     reviews_root.render(<Review_Section is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={document.getElementById("volume-list").children.length}/>); //Render the Review Section

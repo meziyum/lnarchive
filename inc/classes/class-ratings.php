@@ -45,6 +45,9 @@ class ratings{ //Ratings Class
         register_rest_route( 'lnarchive/v1', 'submit_rating/(?P<object_id>\d+)', array( //Register submit rating route/endpoint
             'methods' => 'POST', //Method
             'callback' => [ $this, 'submit_rating'], //Callback after receving request
+            'permission_callback' => function(){ //Permission Callback
+                return is_user_logged_in();
+            },
         ));
     }
 
@@ -55,8 +58,6 @@ class ratings{ //Ratings Class
     }
 
     function submit_rating( $request ){ //Endpoint to submit/update a rating
-        if( ! is_user_logged_in()) //Error if the user is not logged in
-            return new \WP_Error( 'user_not_logged_in', 'The users cannot submit a rating without logging in');
 
         global $wpdb; //WPDB class
         $table_name = $wpdb->prefix . 'user_ratings'; //Ratings Table name
@@ -72,6 +73,20 @@ class ratings{ //Ratings Class
         }
         do_action( 'user_rating_submitted', array( 'object_id'=> $object_id));
         return $response;
+    }
+
+    function calculate_ratings( $args ) { //Calculate and Store ratings
+        global $wpdb; //WPDB class
+        $table_name = $wpdb->prefix . 'user_ratings'; //Ratings Table name
+        $ratings = $wpdb->get_results("SELECT rating FROM $table_name WHERE object_id=".$args['object_id']); //Get all the ratings
+
+        $total = 0;
+
+        foreach( $ratings as $rating){ //Calculating Total
+            $total+=$rating->rating;
+        }
+
+        update_post_meta( $args['object_id'], 'rating', $total/count($ratings)); //Updating the rating of the post
     }
 
     function create_datbases() { //Function to create custom databases
@@ -91,20 +106,6 @@ class ratings{ //Ratings Class
         ) $charset_collate;"; //Create the Table Args
         
         dbDelta([$ratings_query], true);//Execute the Queries
-    }
-
-    function calculate_ratings( $args ) { //Calculate and Store ratings
-        global $wpdb; //WPDB class
-        $table_name = $wpdb->prefix . 'user_ratings'; //Ratings Table name
-        $ratings = $wpdb->get_results("SELECT rating FROM $table_name WHERE object_id=".$args['object_id']); //Get all the ratings
-
-        $total = 0;
-
-        foreach( $ratings as $rating){ //Calculating Total
-            $total+=$rating->rating;
-        }
-
-        update_post_meta( $args['object_id'], 'rating', $total/count($ratings)); //Updating the rating of the post
     }
 }
 ?>

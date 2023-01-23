@@ -145,7 +145,7 @@ class taxonomies{ //Novel Taxonomy Class
             'rest_base' => 'writer', //Base URL
             'show_tagcloud' => false, //Tag Cloud Widget
             'show_in_quick_edit' => false, //Quick Edit
-            'meta_box_cb' => [$this, 'taxonomies_datalist_display'], //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
+            'meta_box_cb' => '', //If to use custom callbacks for the taxonomy or default ones (not supported by the Gutenberg Editor)
             'description' => 'The author of the light novel in its source language.',
             'show_admin_column' => true, //Show Automatic Taxonomy Columns on Post Types
             'description' => 'An author is the creator or originator of any written work', //Taxonomy Desc
@@ -760,11 +760,12 @@ class taxonomies{ //Novel Taxonomy Class
                 <?php
                     if (current_user_can($tax->cap->edit_terms)): //If the user has necessary capabilities
                             ?>
-                                <input list="tax_list" 
+                                <input list="tax_list_<?php echo $taxonomy;?>" 
                                 name="<?php echo "tax_input[$taxonomy][]";?>" 
                                 id="<?php echo "tax_input[$taxonomy][]";?>" 
                                 class="widefat" 
-                                autocomplete="on" 
+                                autocomplete="on"
+                                multiple
                                 <?php
 
                                     $value = get_the_terms( $post, $taxonomy ); //Get the value
@@ -774,7 +775,7 @@ class taxonomies{ //Novel Taxonomy Class
                                     }
                                 ?>
                                 > <!-- Series Input -->
-                                <datalist name="tax_list" id="tax_list"><!-- Series Datalist -->
+                                <datalist name="tax_list_<?php echo $taxonomy;?>" id="tax_list_<?php echo $taxonomy;?>"><!-- Series Datalist -->
                                     <option value="0">All</option> <!-- All Option -->
                                     <?php
 

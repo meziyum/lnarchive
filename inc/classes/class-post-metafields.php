@@ -31,7 +31,7 @@ class post_metafields { //Post Type Meta Fields
           */
 
         //Adding functions to the hooks
-        add_action( 'add_meta_boxes', [ $this, 'add_seo_meta_desc'] );
+        add_action( 'add_meta_boxes', [ $this, 'add_seo_meta'] );
         add_action( 'add_meta_boxes', [ $this, 'novel_metaboxes_add'] );
         add_action( 'save_post', [ $this, 'save_seo_meta_title'] );
         add_action( 'save_post', [ $this, 'save_seo_meta_desc'] );
@@ -318,7 +318,7 @@ class post_metafields { //Post Type Meta Fields
          );
     }
 
-    function add_seo_meta_desc() { //Function to add metaboxes to post types
+    function add_seo_meta() { //Function to add SEO metaboxes
         
         $screens = get_post_types(); //Get all the post types
 

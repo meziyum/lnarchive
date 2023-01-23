@@ -78,6 +78,7 @@ class custom_settings{ //Custom Settings Class
 
         register_setting( $option_group, 'seo-title-length'); //Register SEO Title Setting
         register_setting( $option_group, 'seo-desc-length'); //Register SEO Desc Setting
+        register_setting( $option_group, 'seo-taxonomies'); //Register SEO Taxonomies
 
         add_settings_field( //Add SEO Title Settings
             'seo-title-length', //ID
@@ -116,7 +117,7 @@ class custom_settings{ //Custom Settings Class
         foreach( $taxonomies as $tax ) {
             ?>
                 
-                <input type="checkbox" id="seo_taxonomies[<?php echo $tax?>]" name="seo_taxonomies[<?php echo $tax?>]" value="<?php echo $tax?>" <?php checked(1, get_option('seo-taxonomies['.$tax.']'), true); ?>>
+                <input type="checkbox" id="seo_taxonomies[<?php echo $tax?>]" name="seo_taxonomies[<?php echo $tax?>]" value="1" <?php echo checked(1, get_option('seo-taxonomies['.$tax.']'), true); ?>>
                 <label for="seo_taxonomies[<?php echo $tax?>]"><?php echo get_taxonomy($tax)->labels->name; ?></label><br>
                 
             <?php

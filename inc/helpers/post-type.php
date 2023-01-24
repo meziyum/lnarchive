@@ -8,16 +8,16 @@
 
 function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes ) { //Function to get the post thumbnail for listing
 
+    if( ! has_post_thumbnail( $post_id) ) //If the post has thumbnail then lazy load
+        return null;
+
     $custom_thumbnail =''; //decalre a null local variable to store the image
+    $default_attributes = [
+        'loading' => 'lazy'
+    ];
 
     if( null === $post_id) { //If the post id is null then get the post id
        $post_id=get_the_ID();
-    }
-
-    if( has_post_thumbnail( $post_id) ) { //If the post has thumbnail then lazy load
-        $default_attributes = [
-            'loading' => 'lazy'
-        ];
     }
 
     $attributes = array_merge($additional_attributes, $default_attributes); //Merge the additional attributes with the lazy load attributes

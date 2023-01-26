@@ -26,6 +26,7 @@ class volume{ //Assests Class
 
         //Adding functions to the hooks
         add_action( 'init', [ $this, 'register_volume']);
+        add_action('save_post_volume', [$this, 'auto_volume']);
     }
 
     public function register_volume() {
@@ -114,6 +115,21 @@ class volume{ //Assests Class
 
         //Register the Volume post type
         register_post_type( 'volume', $args );
+    }
+
+    function auto_volume( $post_id ){ //Auto update Volume post type
+        
+        $formats = get_terms('format', array(
+            'hide_empty' => false,
+        ));
+ 
+        foreach( $formats as $format ){
+            $isbn = get_post_meta( $post_id, 'isbn_'.$format->name.'_value');
+            $date = get_post_meta( $post_id, 'published_date_value_'.$format->name);
+
+            if( !empty($isbn) || !empty($date)) //If the volume has either a date or isbn assigned then add the current loop format to it
+                wp_set_post_terms( $post_id, [ $format->term_id], 'format', true);
+        }
     }
 }//End of Class
 ?>

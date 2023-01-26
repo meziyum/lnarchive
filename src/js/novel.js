@@ -25,12 +25,15 @@ const novel_actions_root = ReactDOMClient.createRoot(document.getElementById('no
 //Global Page Variables
 var selected_format = document.getElementsByClassName(selected_format_class)[0]; //Get the Selected format element
 var is_loggedin = true; //Variable to store user logged in status
+var max_progress = 0;
 
 //Intial Function Calls
 narrator_info_display(); //Handle the display of narrator row
 formats_click_list( document.getElementsByClassName(format_button_class) ); //Apply click event listeners to initial formats
-if( document.getElementById("volumes-no") != null)
+if( document.getElementById("volumes-no") != null){
+    max_progress = document.getElementById("volume-list").children.length;
     document.getElementById("volumes-no").innerText= "Volumes - ".concat(document.getElementById("volume-list").children.length)  //Update the number of volumes information
+}
 
 fetch( `${custom_api_request_url}current_user/${novel_id}`, { //Fetch current user data
     headers: { //Actions on the HTTP Request
@@ -42,7 +45,7 @@ fetch( `${custom_api_request_url}current_user/${novel_id}`, { //Fetch current us
     if( data.data != undefined && data.data.status == 401) //If the status code is 401
         is_loggedin = false;
     novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin} rating={parseInt(data.user_rating)}/>); //Render the novel actions
-    reviews_root.render(<Review_Section is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={document.getElementById("volume-list").children.length}/>); //Render the Review Section
+    reviews_root.render(<Review_Section is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={max_progress}/>); //Render the Review Section
 });
 
 
@@ -126,6 +129,7 @@ function formats_click_list( format_buttons ) { //Function to apply Event Listen
 }
 
 function narrator_info_display() { //Function to handle visibility of the narrator row
+    
     if( document.getElementById(audiobook_format_class) == undefined || selected_format != document.getElementById(audiobook_format_class)) //If the volume of the novel does not have a audiobook format or if the Audiobook formated is not selected
         document.getElementById("Narrator_row").style.display = 'none'; //Hide the Narrator column from view 
     else //If the volume of the novel has audiobook format

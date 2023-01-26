@@ -26,6 +26,7 @@ class novel{ //Assests Class
 
         //Adding functions to the hooks
         add_action( 'init', [ $this, 'register_novel']);
+        add_action('save_post_novel', [$this, 'auto_novel']);
     }
 
     public function register_novel() {
@@ -114,6 +115,28 @@ class novel{ //Assests Class
 
         //Register the Novel post type
         register_post_type( 'novel', $args );
+    }
+
+    function auto_novel( $post_id ){ //Auto update Novel Post Type
+
+        $status = wp_get_post_terms( $post_id, 'novel_status');
+        
+        if( $status != null ){
+            $oneshot = 'Oneshot';
+            $args = array(
+                    'posts_per_page' => -1,
+                    'numberposts' => -1,
+                    'post_type' => 'volume',
+                    'meta_key'     => 'series_value',
+                    'meta_value'   => $post_id,
+            );
+            $posts = get_posts( $args);
+
+            if( has_tag($oneshot) && (count($posts) != 1 || $status[0]->name !='Completed'))
+                wp_remove_object_terms($post_id, $oneshot, 'post_tag'); //Remove the term */
+            else if( count($posts) == 1 && $status[0]->name =='Completed')
+                wp_set_post_terms( $post_id, [$oneshot], 'post_tag', true);
+        }
     }
 }//End of Class
 ?>

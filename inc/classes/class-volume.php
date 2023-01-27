@@ -93,7 +93,7 @@ class volume{ //Assests Class
             'register_meta_box_cb' => null, //Callback function to setup the metabox in edit form
 
             // You can associate this CPT with a taxonomy or custom taxonomy.
-            'taxonomies'          => array( 'genre', 'translator', 'post_tag', ),
+            'taxonomies'          => array( 'genre', 'translator', 'format'),
 
             'has_archive' => true, //Whether the post type has archive
 
@@ -107,10 +107,6 @@ class volume{ //Assests Class
             'query_var' => 'volume',
             'can_export'          => true, //Export Functionality
             'delete_with_user'  => false, //Whether to delete the post type with the user
-
-            /*
-                Post Type Template and Template Lock
-            */
         );
 
         //Register the Volume post type

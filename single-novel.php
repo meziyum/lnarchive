@@ -42,7 +42,7 @@ if( $has_volume1){ //Get the first volume id and formats if there is first volum
                 ?>
                     <section id="info-section"> <!-- Novel Info Div -->
                         <div class="row novel-row">
-                            <div class="novel-info-left col-lg-4 col-md-4 cold-sm-12">
+                            <div class="novel-info-left col-lg-4 col-md-4 col-sm-12 col-12">
                                 <?php
                                     the_post_custom_thumbnail(
                                         $the_post_id, //The Novel ID

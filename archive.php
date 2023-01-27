@@ -75,7 +75,7 @@ get_header(); //Get the Header
             <button id="filter-apply">Filter</button>
         </div>
 
-        <div class="archive-wrap col-lg-9"> <!-- Archive Div -->
+        <div id="archive-wrap"> <!-- Archive Div -->
         <?php
             if(have_posts()) { //If there is post
                 novel_list( $wp_query, array( 'name' => 'novel' )); //Print Novel List

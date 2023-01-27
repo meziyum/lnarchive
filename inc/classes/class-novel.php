@@ -27,6 +27,7 @@ class novel{ //Assests Class
         //Adding functions to the hooks
         add_action( 'init', [ $this, 'register_novel']);
         add_action('save_post_novel', [$this, 'auto_novel']);
+        add_action( 'rest_api_init', [$this, 'register_routes']);
     }
 
     public function register_novel() {
@@ -117,7 +118,45 @@ class novel{ //Assests Class
         register_post_type( 'novel', $args );
     }
 
-    function auto_novel( $post_id ){ //Auto update Novel Post Type
+    public function register_routes(){
+        register_rest_route( 'lnarchive/v1', 'novel_filters', array( //Register Comment Submit Route
+            'methods' => 'GET', //Method
+            'callback' => [ $this, 'get_novel_filters'], //Callback after receving request
+            'permission_callback' => function(){ //Permission Callback
+                return is_user_logged_in();
+            },
+        ));
+    }
+
+    public function get_novel_filters( $request ){ //Function to return novels filter taxonomy data
+
+        $filter_taxonomies = array( 'novel_status', 'language', 'publisher', 'writer', 'illustrator' );
+        $response = array();
+
+        foreach( $filter_taxonomies as $tax){
+
+            $terms = get_terms( $tax, array(
+                'hide_empty' => true,
+            )); //Get all the term objects
+            
+            $terms_list=array();
+            foreach( $terms as $term){
+                array_push($terms_list, array(
+                    'term_id' => $term->term_id,
+                    'term_name' => $term->name,  
+                ));
+            }
+
+            array_push($response, array(
+                'tax_label' => get_taxonomy($tax)->label,
+                'list' => $terms_list,
+            ));
+        }
+
+        return $response;
+    }
+
+    public function auto_novel( $post_id ){ //Auto update Novel Post Type
 
         $status = wp_get_post_terms( $post_id, 'novel_status');
         

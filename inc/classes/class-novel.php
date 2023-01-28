@@ -130,7 +130,7 @@ class novel{ //Assests Class
 
     public function get_novel_filters( $request ){ //Function to return novels filter taxonomy data
 
-        $filter_taxonomies = array( 'novel_status', 'language', 'publisher', 'writer', 'illustrator' );
+        $filter_taxonomies = array( 'genre', 'post_tag', 'novel_status', 'language', 'publisher', 'writer', 'illustrator',);
         $response = array();
 
         foreach( $filter_taxonomies as $tax){
@@ -148,6 +148,7 @@ class novel{ //Assests Class
             }
 
             array_push($response, array(
+                'tax_name' => $tax,
                 'tax_label' => get_taxonomy($tax)->label,
                 'list' => $terms_list,
             ));

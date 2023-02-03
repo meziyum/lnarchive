@@ -18,11 +18,6 @@ get_header(); //Get the Header
         ?>
 
         <div id="archive-wrap"> <!-- Archive Div -->
-        <?php
-            if(have_posts()) { //If there is post
-                novel_list( $wp_query, array( 'name' => 'novel' )); //Print Novel List
-            }
-        ?>
         </div>
     </div>
 </main>

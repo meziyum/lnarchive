@@ -42,6 +42,7 @@ class lnarchive_theme{ //LNarchive Theme Class
           */
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
           add_action( 'template_redirect', [$this, 'rewrite_search_url']);
+          add_filter('upload_mimes',[$this, 'restrict_mime']); 
 
           //Disable Global RSS Feeds
           add_action('do_feed', [$this, 'wp_disable_feeds']);
@@ -96,6 +97,13 @@ class lnarchive_theme{ //LNarchive Theme Class
       function wp_disable_feeds() { //Disable all Feeds
          wp_redirect( home_url() ); //Redirect to Homepage if trying to access Feeds
          wp_die( __('Error: Feeds are disabled') ); //Error Message
+      }
+
+      function restrict_mime($mimes) {  //Function to restrict image upload types
+         $mimes = array( 
+                        'webp' => 'image/webp',
+         );
+         return $mimes;
       }
 }
 ?>

@@ -80,17 +80,17 @@ function Archive( props ){
         get_novels();
     },[ archive_info.current_page, applied_filters]);
 
-    async function get_novels(){ //Function to fetch novels
+    async function get_novels(){
 
         let filters='';
         Object.entries(applied_filters).forEach(value => {
             const [tax_name, list] = value;
             if( list.length>0){
-                let current_filter=`&${tax_name}=`;
+                let current_filter='';
                 list.forEach(term => {
-                    current_filter+=term.value+',';
+                    current_filter+=`&${tax_name}=${term.value}`;
                 });
-                filters+=current_filter.substring(0,current_filter.length-1);
+                filters+=current_filter;
             }
         });
 
@@ -110,14 +110,14 @@ function Archive( props ){
         }));
     }
 
-    function handleFilter( data, name ){ //Handle changes in  filters
+    function handleFilter( data, name ){
         update_filters( prev_info => ({
             ...prev_info,
             [name]: data,
         }));
     }
 
-    function handle_page_select( event ){ //function to handle page selection
+    function handle_page_select( event ){
         update_archive_info( prev_info => ({
             ...prev_info,
             current_page: parseInt(event.target.value),
@@ -137,7 +137,7 @@ function Archive( props ){
     );
 }
 
-function Novel( props ){ //Novel Component
+function Novel( props ){
     return (
         <div className="novel-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
             <div className="novel-entry archive-entry">

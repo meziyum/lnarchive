@@ -1,0 +1,79 @@
+
+/*
+* Notes: This file is imported in post.scss and novel.scss
+*/
+
+#reviews-section {
+    background: $review-section-background;
+
+    .review-title {
+        color: $review-title-col;
+        background-color: $review-title-background;
+        text-align: center;
+    }
+
+    #reviews-form{
+
+        #review-submit{
+                background-color: #3EB2FD;
+                background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+                background-size: calc(100% + 20px) calc(100% + 20px);
+                border: none;
+                border-radius: 100px;
+                color: $review-submit-button-col;
+        }
+    }
+
+    #review-filter{
+        border: 1px solid #e2eded;
+        outline: none;
+    }
+
+    #reviews-filter-header{
+        border-bottom: 2px dotted $review-border-col;
+    }
+
+    #reviews-list{
+
+        .review-entry{
+            border-bottom: 2px dotted $review-border-col;
+
+            .review-header{
+
+                .user_avatar {
+                    max-width: 75px;
+                    max-height: 75px;
+                }
+            }
+        }
+    }
+
+    #review-pagination{
+
+        .page-list{
+            display: block;
+            border-radius: 35px;
+            overflow: hidden;
+
+            button{
+                transition: 400ms ease;
+                color: $not-imp;
+                margin: 0px;
+                border-radius: 0%;
+                padding: 0 12px;
+
+                &:hover,
+                &.current {
+                    background-color: $theme-primary;
+                    color: #ffffff;
+                }
+
+                &.prev:hover,
+                &.next:hover {
+                    background-color: transparent;
+                    color: $theme-primary;
+                }
+            }
+        }
+    }
+}

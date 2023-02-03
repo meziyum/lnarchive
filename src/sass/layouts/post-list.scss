@@ -1,0 +1,40 @@
+
+/*
+* Notes: This file is imported in post.scss, novel.scss and archive-post.scss
+*/
+
+.blog-entry {
+    background-color: $post-list-background-col;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px $post-list-shadow-col;
+    margin-bottom: 16px;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+    transition: all .1s ease-in;
+  
+    &:hover, 
+    &:active {
+      box-shadow: 0 4px 5px $post-list-shadow-hover-col;
+      top: -2px;
+    }
+  
+    .attachment-featured-img {
+      object-fit: cover;
+      padding: 0;
+    }
+  
+    .blog-entry-info {
+      padding: 8px;
+  
+      .blog-entry-title {
+        color: $post-list-title-col;
+        text-decoration: none;
+      }
+  
+      .posted-on {
+        cursor: default;
+      }
+    }
+}
+  

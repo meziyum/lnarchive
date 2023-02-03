@@ -43,6 +43,7 @@ class lnarchive_theme{ //LNarchive Theme Class
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
           add_action( 'template_redirect', [$this, 'rewrite_search_url']);
           add_filter('upload_mimes',[$this, 'restrict_mime']); 
+          add_filter( 'login_display_language_dropdown', '__return_false' ); //Disable login page language switcher
 
           //Disable Global RSS Feeds
           add_action('do_feed', [$this, 'wp_disable_feeds']);

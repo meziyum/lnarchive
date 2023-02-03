@@ -1,17 +1,21 @@
 
+/*
+* Notes: This file is imported in post.scss, novel.scss and archive-post.scss
+*/
+
 //Category Button
 .category-button {
-    padding: 4px 8px;
+    background-color: $category-button-col;
     font-size: 12px;
-    background-color: $bright-green;
+    padding: 4px 8px;
 
-    &:hover, 
-    &:active {
-        background-color: $dark-green;
+    &:active, 
+    &:hover {
+        background-color: $category-button-hover-col;
     }
 }
 
 //Date and Author Meta
 .posted-on, .posted-by {
-    color: $not-imp;
+    color: $post-meta-col;
 }

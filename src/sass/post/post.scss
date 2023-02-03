@@ -1,12 +1,11 @@
 
-//Imports
 @import "../main.scss";
 @import "../layouts/post-components";
+@import "../layouts/post-list";
+@import "../layouts/review";
 
-//Post Wrap
 .post-wrap {
 
-    //Series Button
     .series-button {
         padding: 4px 8px;
         font-size: 12px;
@@ -18,84 +17,7 @@
         }
     }
 
-    //Pagination
     .page-numbers{
         text-decoration: none;
-    }
-}
-
-//Reviews Section
-#reviews-section {
-    background: #ffffff;
-
-    .review-title {
-        color: $white-text;
-        background-color: $comment-title-background;
-        text-align: center;
-    }
-
-    #reviews-form{
-
-        #review-submit{
-                background-color: #3EB2FD;
-                background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
-                background-size: calc(100% + 20px) calc(100% + 20px);
-                border: none;
-                border-radius: 100px;
-                color: $white-text;
-        }
-    }
-
-    #review-filter{
-        border: 1px solid #e2eded;
-    }
-
-    #reviews-filter-header{
-        border-bottom: 2px dotted $not-imp;
-    }
-
-    #reviews-list{
-
-        .review-entry{
-            border-bottom: 2px dotted $not-imp;
-
-            .review-header{
-
-                .user_avatar {
-                    max-width: 75px;
-                    max-height: 75px;
-                }
-            }
-        }
-    }
-
-    #review-pagination{
-
-        .page-list{
-            display: block;
-            border-radius: 35px;
-            overflow: hidden;
-
-            button{
-                transition: 400ms ease;
-                color: $not-imp;
-                margin: 0px;
-                border-radius: 0%;
-                padding: 0 12px;
-
-                &:hover,
-                &.current {
-                    background-color: $theme-primary;
-                    color: #ffffff;
-                }
-
-                &.prev:hover,
-                &.next:hover {
-                    background-color: transparent;
-                    color: $theme-primary;
-                }
-        }
-        }
-        
     }
 }

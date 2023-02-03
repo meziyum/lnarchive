@@ -2,39 +2,4 @@
 //Imports
 @import "../main.scss";
 @import "../layouts/post-components";
-
-//Blog Page
-.blog-entry {
-    background-color: $white-text;
-    box-shadow: 0 2px 5px $shadow-color;
-    margin-bottom: 16px;
-    position: relative;
-    top: 0;
-    transition: all .1s ease-in;
-    border-radius: 12px;
-    overflow: hidden;
-
-    .attachment-featured-img {
-        padding: 0px;
-        object-fit: cover;
-    }
-
-    .blog-entry-info {
-        padding: 8px;
-
-        .blog-entry-title {
-            text-decoration: none;
-            color: $black-background;
-        }
-
-        .posted-on {
-            cursor: default;
-        }
-    }
-
-    &:hover, 
-    &:active {
-        top: -2px;
-        box-shadow: 0 4px 5px $shadow-color-hover;
-    }
-}
+@import "../layouts/post-list";

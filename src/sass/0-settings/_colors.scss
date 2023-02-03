@@ -5,8 +5,6 @@
 $theme-primary: #387ef2;
 $theme-primary-dark: #3344d9;
 
-$not-imp: #9e9fad;
-
 $bright-green: #4CAF50;
 $dark-green: #3e8342;
 
@@ -23,19 +21,24 @@ $grey-text: #1d2327;
 $shadow-color: #3333;
 $shadow-color-hover: #00000033;
 
+$not-imp: #9e9fad;
+
 $cancel: red;
 
 //Comments
-$comment-title-background: $light-dark-background;
 $cancel-reply-color: $cancel;
 
 //Colors List
 $white: #ffffff;
 $white-vista: #fef8f2;
 $orange-amazon: #FF9900;
+$green-emerald: #50C878;
+$green-shamrock: #009E60;
 $blue-bright: #0096FF;
+$grey-silver: #C0C0C0;
 $grey-light: #D3D3D3;
 $grey-dark: #5A5A5A;
+$black: #171C1F;
 
 
 /****** Novel ******/
@@ -49,3 +52,21 @@ $format-button-bg-hover: $grey-light;
 $format-button-border: $grey-dark;
 $selected-format-bg: $white-vista;
 $selected-format-border: $orange-amazon;
+
+/****** Post ******/
+
+$category-button-col: $green-emerald;
+$category-button-hover-col: $green-shamrock;
+$post-meta-col: $grey-silver;
+
+$post-list-title-col: $black;
+$post-list-background-col: $white;
+$post-list-shadow-col: $shadow-color;
+$post-list-shadow-hover-col: $shadow-color-hover;
+
+$review-section-background: $white;
+$review-title-col: $white;
+$review-title-background: $light-dark-background;
+$review-border-col: $grey-silver;
+$review-submit-button-col: $white;
+$review-submit-button-background-col: $white;

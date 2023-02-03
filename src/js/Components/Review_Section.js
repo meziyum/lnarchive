@@ -94,7 +94,6 @@ export default function Review_Section( props ){ //Review Section React Componen
                 pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
             }));
         }
-        console.log(data)
     }
 
     function handle_change( event ){ //Function to handle all changes in the form

@@ -4,57 +4,56 @@
  * 
  * @package LNarchive
  */
-get_header(); //Get the Header
+get_header();
 
-$result_found = false; //Results Found Flag
+$result_found = false;
 ?>
 
-<main id="main" class="main-content" role="main"> <!-- Main Content Container -->
-    <div class="row main-row"> <!-- Main Row -->
-        <div class="search-result-wrap col-lg-9"> <!-- Blog Content Div -->
+<main id="main" class="main-content" role="main">
+    <div class="row main-row">
+        <div id="search-results" class="search-result-wrap col-lg-9">
             <?php
                 
-                $s=get_search_query(); //Get the Searc Query
+                $s=get_search_query();
                 
-                $nargs = array( //Novel Query Args
+                $nargs = array(
                     's' =>$s,
                     'post_type' => 'novel',
                 );
                 
-                $nquery = new WP_Query( $nargs ); //New query for Novel Listing
+                $nquery = new WP_Query( $nargs );
 
-                if($nquery->have_posts()) { //If there are novels
-                    $result_found = true; //Set the flag to true
-                    ?><h2 class="page-title">Novels</h2> <!-- Novel Heading --> <?php
-                    novel_list($nquery, array( 'name' => 'novel-search' )); //Novel List      
+                if($nquery->have_posts()){
+                    $result_found = true;
+                    ?><h2 class="page-title">Novels</h2><?php
+                    novel_list($nquery, array( 'name' => 'novel-search' ));    
                 }
 
-                wp_reset_postdata(); //Reset the $POST data
+                wp_reset_postdata();
 
-                $pargs = array( //Post Query Args
+                $pargs = array(
                     's' =>$s,
                     'post_type' => 'post',
                 );
-                
-                $pquery = new WP_Query( $pargs ); //New query for Post Listing
+                $pquery = new WP_Query( $pargs );
  
-                if($pquery->have_posts()) { //If there are posts
-                    $result_found = true; //Set the flag to true 
-                    ?><h2 class="page-title">Posts</h2> <!-- Post Heading --> <?php
-                    post_list( $pquery, 'post-search-result'); //Post List
+                if($pquery->have_posts()) {
+                    $result_found = true; 
+                    ?><h2 class="page-title">Posts</h2><?php
+                    post_list( $pquery, 'post-search-result');
                 }
 
-                wp_reset_postdata(); //Reset the $POST data
+                wp_reset_postdata();
 
-                if( $result_found == false) { //If the flag is false that is no results found
+                if( $result_found == false) {
                     echo "No Results Found";
                 }
             ?>
         </div>
-        <aside class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Div -->
-            <?php get_sidebar('sidebar-main'); //Show the Sidebar?>
+        <aside class="sidebar-wrap col d-none d-lg-block">
+            <?php get_sidebar('sidebar-main');?>
         </aside>
     </div>
 </main>
 
-<?php get_footer(); //Get the Footer ?>
+<?php get_footer();?>

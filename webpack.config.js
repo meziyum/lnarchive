@@ -1,103 +1,98 @@
 
-const path = require( 'path' ); //Main Path
-const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' ); //Plugin to extract a css file for each js file. Supports On-demand loading of CSS and Source Maps
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); //Plugin to optimize and minify css
-const TerserPlugin = require("terser-webpack-plugin"); //Plugin to minify js
-const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' ); //Automatically removes unused webpack assets on rebuild
+const path = require( 'path' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 
-const JS_DIR = path.resolve( __dirname, 'src/js' ); //Javascript Directory
-const IMG_DIR = path.resolve( __dirname, 'src/img' ); //Images Directory
-const BUILD_DIR = path.resolve( __dirname, 'assets' ); //Build Directory
+const JS_DIR = path.resolve( __dirname, 'src/js' );
+const IMG_DIR = path.resolve( __dirname, 'src/img' );
+const BUILD_DIR = path.resolve( __dirname, 'assets' );
 
-const entry = { //Entrypoint Constant JSON
-    main: JS_DIR + '/main.js', //Main.js Entry Point
-    admin: JS_DIR + '/admin.js', //Admin.js Entry Point
-	novel: JS_DIR + '/novel.js', //Novel.js Entry point
-	post: JS_DIR + '/post.js', //Post.js Entry point
-	page: JS_DIR + '/page.js', //page.js Entry point
-	archive: JS_DIR + '/archive.js', //Archive.js Entry Point
-	archive_post: JS_DIR + '/archive-post.js', //Archive-post.js Entry Point
-	search: JS_DIR + '/search.js', //Archive.js Entry Point
+const entry = {
+    main: JS_DIR + '/main.js',
+    admin: JS_DIR + '/admin.js',
+	novel: JS_DIR + '/novel.js',
+	post: JS_DIR + '/post.js',
+	page: JS_DIR + '/page.js',
+	archive: JS_DIR + '/archive.js',
+	archive_post: JS_DIR + '/archive-post.js',
+	search: JS_DIR + '/search.js',
 };
 
-const output = { //Endpoint Constant JSON
-    path: BUILD_DIR, //Path
-    filename: 'js/[name].js', //Output Filename for JS files
+const output = {
+    path: BUILD_DIR,
+    filename: 'js/[name].js',
 };
 
-const rules = [ //Rules
-    { //Javascript Test Case
-		test: /\.js$/, //Extensions
-		include: [ JS_DIR ], //Include Directory
-		exclude: /node_modules/, //Exclude Directory
-		use: 'babel-loader' //Babel Loader
+const rules = [
+    {
+		test: /\.js$/,
+		include: [ JS_DIR ],
+		exclude: /node_modules/,
+		use: 'babel-loader'
 	},
-	{ //SASS Test Case
-		test: /\.scss$/, //Extension
-		exclude: /node_modules/, //Exclude Directory
+	{
+		test: /\.scss$/,
+		exclude: /node_modules/,
 		use: [
-			MiniCssExtractPlugin.loader, //MiniCssExtractPlugin.loader,
-			{ loader: "css-loader", options: { sourceMap: true } }, //Translates the css into common javascript
+			MiniCssExtractPlugin.loader,
+			{ loader: "css-loader", options: { sourceMap: true } },
 			{ loader: "postcss-loader", },
-          	{ loader: "sass-loader", options: { sourceMap: true } }, //Compiles sass into css
+          	{ loader: "sass-loader", options: { sourceMap: true } },
 		]
 	},
-	{ //Images Test Case
-		test: /\.(png|jpg|svg|jpeg|gif|ico)$/, //Extensions
-		type: 'asset/resource', //Use the Asset Resource Module
+	{
+		test: /\.(png|jpg|svg|jpeg|gif|ICO)$/,
+		type: 'asset/resource',
 		generator: {
-			filename: 'img/[hash][ext][query]', //Filename for the Output
+			filename: 'img/[hash][ext][query]',
 		},
 	},
-	{ //Font Test Case
-		test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, //Extensions
-		exclude: [ IMG_DIR, /node_modules/ ], //Exclude
-		type: 'asset/resource', //Use the Asset Resource Module
+	{
+		test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+		exclude: [ IMG_DIR, /node_modules/ ],
+		type: 'asset/resource',
 		generator: {
-			filename: 'font/[hash][ext][query]', //Filename for the Output
+			filename: 'font/[hash][ext][query]',
 		},
 	}
 ];
 
-/**
- * Note: argv.mode will return 'development' or 'production'.
- */
+const plugins = ( argv ) => [
+	require('autoprefixer'),
 
-const plugins = ( argv ) => [ //Plugins
-
-	require('autoprefixer'), //Autoprefixer plugin of the PostCSS
-
-    new CleanWebpackPlugin( { //CleanWebpack Plugin
+    new CleanWebpackPlugin( {
 		cleanStaleWebpackAssets: ( 'production' === argv.mode  )
 	    }
     ),
 
-	new MiniCssExtractPlugin( { //MiniCssExtractPlugin
-		filename: 'css/[name].css' //Directory
+	new MiniCssExtractPlugin( {
+		filename: 'css/[name].css'
 	    }
     ),
 ];
 
-module.exports = ( env, argv ) => ({
-    entry: entry, //Entry Point
-    output: output, //End Point
-    devtool: 'source-map', //Source Map Style
-    module: { //Modules
-		rules: rules, //Rules
+module.exports = (env, argv) => ({
+    entry: entry,
+    output: output,
+    devtool: 'inline-source-map',
+    module: {
+		rules: rules,
 	},
-    optimization: { //Optimization
-		minimize: true,
-		minimizer: [ //Minification		
+    optimization: {
+		minimize: argv.mode === 'production',
+		minimizer: [
 			new CssMinimizerPlugin({
-				parallel: true, //Activate Multiprocess pararell running
-			}), //Css Minification Plugin
-			new TerserPlugin(), //Js Minification Plugin
+				parallel: true,
+			}),
+			new TerserPlugin(),
 		]
 	},
 
-	plugins: plugins( argv ), //Plugins
+	plugins: plugins(argv),
 
-	externals: { //Externals
-		jquery: 'jQuery' //jQuery
+	externals: {
+		jquery: 'jQuery'
 	}
 });

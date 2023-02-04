@@ -35,10 +35,12 @@ $orange-amazon: #FF9900;
 $green-emerald: #50C878;
 $green-shamrock: #009E60;
 $blue-bright: #0096FF;
+$violet-blue: #6351ce;
+$violet-blue-dark: #6b00b3;
 $grey-silver: #C0C0C0;
 $grey-light: #D3D3D3;
 $grey-dark: #5A5A5A;
-$black: #171C1F;
+$black-dark-jungle: #171C1F;
 
 
 /****** Novel ******/
@@ -52,6 +54,15 @@ $format-button-bg-hover: $grey-light;
 $format-button-border: $grey-dark;
 $selected-format-bg: $white-vista;
 $selected-format-border: $orange-amazon;
+
+/****** Buttons ******/
+$edit-button-color: $violet-blue;
+$edit-button-hover-color: $violet-blue-dark;
+
+/****** Pagination ******/
+$pagination-text-col: $white;
+$pagination-button-background: $theme-primary;
+$pagination-button-hover-background: $theme-primary-dark;
 
 /****** Post ******/
 
@@ -70,3 +81,11 @@ $review-title-background: $light-dark-background;
 $review-border-col: $grey-silver;
 $review-submit-button-col: $white;
 $review-submit-button-background-col: $white;
+
+/****** Footer ******/
+
+$footer-text-col: $white;
+$footer-link-hover-color: $theme-primary;
+$footer-background: $black-dark-jungle;
+$footer-social-background: $violet-blue;
+$footer-copyright-background: $black-dark-jungle;

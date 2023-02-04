@@ -1,49 +1,41 @@
 <?php
 /**
- * Volume Meta Class
+ * Volume Metafields Class
  */
 
-namespace lnarchive\inc; //Namespace
-use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc;
+use lnarchive\inc\traits\Singleton;
 
-class volume_meta{ //Volume Meta Class
+class volume_meta{
 
-    use Singleton; //Using Sinlgeton
+    use Singleton;
 
-    protected function __construct(){ //Constructor
-
-        //Load Class
-         $this->set_hooks(); //Loading the hooks
+    protected function __construct(){
+         $this->set_hooks();
     }
 
-    protected function set_hooks() { //Hooks function
-        
-         /**
-          * Actions
-          */
-
-        //Adding functions to the hooks
+    protected function set_hooks() {
         add_action( 'rest_api_init', [$this, 'register_meta']);
     }
 
-    function register_meta(){ //Register Volume meta
+    function register_meta(){
 
-        $formats = get_terms('format', array( //Get all the format terms
-           'hide_empty' => false, //Include the terms with no enteries
+        $formats = get_terms('format', array(
+           'hide_empty' => false,
         ));
 
-        foreach( $formats as $format ){ //Loop through all the formats
+        foreach( $formats as $format ){
 
-           if( $format->name == "None") //Continue the loop if its the default format
+           if( $format->name == "None")
               continue;
 
-           register_meta( 'post', 'isbn_'.$format->name.'_value', array( //Register ISBN values
+           register_meta( 'post', 'isbn_'.$format->name.'_value', array(
               'object_subtype'  => 'volume',
               'type'   => 'string',
               'show_in_rest' => true,
            ));
 
-           register_meta( 'post', 'published_date_value_'.$format->name, array( //Register Publication Date values
+           register_meta( 'post', 'published_date_value_'.$format->name, array(
               'object_subtype'  => 'volume',
               'type'   => 'string',
               'show_in_rest' => true,

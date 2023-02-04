@@ -6,14 +6,14 @@
  */
 ?>
 
-</div> <!-- End of Site Contennt Div-->
+</div>
 
-<footer id="theme-footer" class="site-footer" role="banner"> <!-- Primary Navbar(Header) Div -->
-    <?php get_template_part('/template-parts/footer_nav');//Get the Header?>
+<footer id="theme-footer" class="site-footer" role="banner">
+    <?php get_template_part('/template-parts/footer_nav');?>
 </footer>
 
-</div> <!-- End of Main Body -->
-<?php wp_footer();//Get the Wordpress Footer?>
-</body><!-- End of Body -->
-</html> <!-- End of HTML Bodytype -->
+</div>
+<?php wp_footer();?>
+</body>
+</html>
 

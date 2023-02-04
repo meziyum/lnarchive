@@ -5,13 +5,6 @@
 	display: block;
 }
 
-.custom-logo-link {
-	img {
-		max-width: $logo-width;
-		max-height: $logo-height;
-	}
-}
-
 //Header Navigation
 
 .header-nav {
@@ -48,43 +41,5 @@
 
 	.main-search{
 		width: 100%;
-	}
-}
-
-//Footer Navigation
-.footer-nav {
-    background-color: $light-dark-background;
-	cursor: default;
-
-	a {
-		color: inherit;
-		text-decoration: none;
-	}
-
-	.footer-social {
-		background-color: $purple-social;
-	}
-
-	.main-footer {
-
-		.nav-link{
-			font-weight: 400;
-			color: $white-text;
-
-			&:hover, 
-			&:active {
-				color: $theme-primary;
-			}
-		}
-
-		.footer-separator {
-			width: 60px;
-			background-color: $theme-primary;
-			height: 2px;
-		}
-	}
-
-	.footer-copyright {
-		background-color: $black-background;
 	}
 }

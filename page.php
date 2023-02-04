@@ -4,45 +4,30 @@
  * 
  * @package LNarchive
  */
-get_header(); //Get the Header function
+get_header();
 ?>
 
-<main id="main" class="main-content" role="main"> <!-- Main Content Container -->
+<main id="main" class="main-content" role="main">
     <div id="<?php echo esc_attr(get_the_ID());?>" class="row main-row">
-        <div class="page-wrap content-wrap col-lg-9"> <!-- Page Content Div -->
+        <div class="page-wrap content-wrap col-lg-9">
             <?php
-            if( have_posts(  ) ) { //If there are pages
-                while( have_posts(  )) : the_post(); //Loop through the pages
-                    
-                    //Title
+            if( have_posts(  ) ) {
+                while( have_posts(  )) : the_post();
                     printf(
-                        '<h1 class="page-title">%1$s</h1>', //HTML
-                        wp_kses_post( get_the_title()), //Get the Title
+                        '<h1 class="page-title">%1$s</h1>',
+                        wp_kses_post( get_the_title()),
                     );
-
-                    the_content(); //Display the Content
-                    get_template_part('template-parts/post/page-nav'); //Get the Page Navigation
-
-                    $post_type = get_post_type( get_queried_object_id()); //Get the Post Type
-                    
-                    if( current_user_can('edit_posts')){ //Check if the user has capability to edit the post
-                        ?>
-                            <button onclick="location.href='<?php echo esc_url(get_edit_post_link());?>'" type="button" class="edit-button float-end"> <!-- Edit Button -->
-                                <a class= "entry-footer-link"> <!-- The Edit Button Text -->
-                                    Edit <?php echo esc_html(ucwords($post_type));?>
-                                </a>
-                            </button>
-                        <?php
-                    }
+                    the_content();
+                    get_template_part('template-parts/page-nav');
+                    get_template_part('template-parts/edit-btn');
                 endwhile;
             }
             ?>
         </div>
-        <aside class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Col -->
-            <?php get_sidebar('sidebar-main'); //Get the Sidebar?>
+        <aside class="sidebar-wrap col d-none d-lg-block">
+            <?php get_sidebar('sidebar-main');?>
         </aside>
     </div>
-    
-</main> <!-- End of Main -->
+</main>
 
-<?php get_footer();?> <!-- Get the Footer -->
+<?php get_footer();?>

@@ -41,7 +41,7 @@ $max_posts = get_option('posts_per_page');
                         </div>
                     <?php
                     the_content();
-                    get_template_part('template-parts/post/page-nav');
+                    get_template_part('template-parts/page-nav');
                     ?>
                     <div class="d-flex justify-content-between post-footer">
                         <?php

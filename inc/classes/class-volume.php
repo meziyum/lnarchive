@@ -1,119 +1,101 @@
 <?php
 /**
- * Volume Post Type
+ * Volume Main Class
  * 
  * @package LNarchive
  */
 
-namespace lnarchive\inc; //Namespace Definition
-use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc;
+use lnarchive\inc\traits\Singleton;
 
-class volume{ //Assests Class
+class volume{
 
-    use Singleton; //Using Sinlgeton
+    use Singleton;
 
-    protected function __construct(){ //Constructor function
-
-        //Load Class
-         $this->set_hooks(); //Setting the hook below
+    protected function __construct(){
+         $this->set_hooks();
     }
 
     protected function set_hooks() {
-        
-         /**
-          * Actions
-          */
-
-        //Adding functions to the hooks
         add_action( 'init', [ $this, 'register_volume']);
-        add_action('save_post_volume', [$this, 'auto_volume']);
+        add_action('save_post_volume', [$this, 'auto_update_volume']);
     }
 
     public function register_volume() {
 
-        //Labels for various actions
         $labels = array(
-            'name'                => 'Volumes', //General Name of the post type
-            'singular_name'       => 'Volume',  //Singular Name of the post type
-            'menu_name'           => 'Volumes', //Name of the post type in the menu
-            'all_items'           => 'All Volumes',  //All listing
-            'view_item'           => 'View Volume', //View button
-            'view_items'           => 'View Volumes', //View button
-            'add_new_item'        => 'Add New Volume', //Adding a new post type
-            'add_new'             => 'Add New', //Add a new post type
-            'edit_item'           => 'Edit Volume', //Edit the post type
-            'update_item'         => 'Update Volume', //Update the post type
-            'search_items'        => 'Search Volume', //Seardh Post type list
-            'not_found'           => 'The Volume was not found', //When the post type is not found
-            'not_found_in_trash'  => 'The Volume was not found in the trash', //When the volume is not found in the trash
-            'archives' => 'Volumes Archive', //Archive
-            'attributes' => 'Volume Attributes', //attributes meta
-            'insert_into_item' => 'Insert into Volume', //Label for the media frame button
-            'uploaded_to_this_item' => 'Uploaded to this Volume', //Label for the media frame filter
-            'featured_image' => 'Cover', //Volume Cover
-            'set_featured_image' => 'Set Cover', //Set Volume Cover
-            'remove_featured_image' => 'Remove Cover', //Remove Cover
-            'use_featured_image' => 'Use Cover', //Use Cover
-            'filter_items_list' => 'Filter Volumes', //Fitler the volumes
-            'filter_by_date' => 'Filter by release date', 
-            'items_list_navigation' => 'Volume Navigation', //Label for the table pagination
-            'items_list' => 'Volumes Library', //Volimes list
-            'item_published' => 'Volume published', //published
-            'item_published_privately' => 'Volume published privately', //published privately
-            'item_reverted_to_draft' => 'Volume reverted to Draft', //reverted to draft
-            'item_scheduled' => 'Volume release scheduled', //release scheduled
-            'item_updated' => 'Volume Updated', //updated
-            'item_link' => 'Volume Link', //Title for Nav Link
-            'item_link_description' => 'A link to a Volume', //Title for the Block Variation
+            'name'                => 'Volumes',
+            'singular_name'       => 'Volume',
+            'menu_name'           => 'Volumes',
+            'all_items'           => 'All Volumes',
+            'view_item'           => 'View Volume',
+            'view_items'           => 'View Volumes',
+            'add_new_item'        => 'Add New Volume',
+            'add_new'             => 'Add New',
+            'edit_item'           => 'Edit Volume',
+            'update_item'         => 'Update Volume',
+            'search_items'        => 'Search Volume',
+            'not_found'           => 'The Volume was not found',
+            'not_found_in_trash'  => 'The Volume was not found in the trash',
+            'archives' => 'Volumes Archive',
+            'attributes' => 'Volume Attributes',
+            'insert_into_item' => 'Insert into Volume',
+            'uploaded_to_this_item' => 'Uploaded to this Volume',
+            'featured_image' => 'Cover',
+            'set_featured_image' => 'Set Cover',
+            'remove_featured_image' => 'Remove Cover',
+            'use_featured_image' => 'Use Cover',
+            'filter_items_list' => 'Filter Volumes',
+            'filter_by_date' => 'Filter by release date',
+            'items_list_navigation' => 'Volume Navigation',
+            'items_list' => 'Volumes Library',
+            'item_published' => 'Volume published',
+            'item_published_privately' => 'Volume published privately',
+            'item_reverted_to_draft' => 'Volume reverted to Draft',
+            'item_scheduled' => 'Volume release scheduled',
+            'item_updated' => 'Volume Updated',
+            'item_link' => 'Volume Link',
+            'item_link_description' => 'A link to a Volume',
         );
 
-        //Options for the Volume Custom Post Type  
         $args = array(
-            'label'               => 'Volume', //the name shown in the menu
-            'description'         => 'All volumes data', //The desctription of the post type 
-            'labels'              => $labels, //All the labels inserted using an array
-            'public'              => true, //Visibility
-            'hierarchical'        => false, //If sub volumess possible
-            'exclude_from_search' => true, //If to exclude from search
-            'publicly_queryable'  => true, //For public
-            'show_ui'             => true, //Show in User Interface
-            'show_in_menu'        => true, //Show in Menu
-            'show_in_nav_menus'   => true, //Show in Nav Menu
-            'show_in_admin_bar'   => true, //Show in Admin Bar
-            'show_in_rest'        => true, //If to include the post type in Rest API
-            'rest_base'           => "volumes", //REST API base URL
-            'menu_position'       => null, //Menu index position
-            'menu_icon'           => 'dashicons-book', //Menu Icon
-            'capability_type'     => 'post', //Capability required for the volume post type
-            'map_meta_cap'        => true, //Whether to use the internal default meta map capability handling
-            
-            // Features this CPT supports in Post Editor
+            'label'               => 'Volume',
+            'description'         => 'All volumes data',
+            'labels'              => $labels,
+            'public'              => true,
+            'hierarchical'        => false,
+            'exclude_from_search' => true,
+            'publicly_queryable'  => true,
+            'show_ui'             => true,
+            'show_in_menu'        => true,
+            'show_in_nav_menus'   => true,
+            'show_in_admin_bar'   => true,
+            'show_in_rest'        => true,
+            'rest_base'           => "volumes",
+            'menu_position'       => null,
+            'menu_icon'           => 'dashicons-book',
+            'capability_type'     => 'post',
+            'map_meta_cap'        => true,
             'supports'            => array( 'title','excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
-
-            'register_meta_box_cb' => null, //Callback function to setup the metabox in edit form
-
-            // You can associate this CPT with a taxonomy or custom taxonomy.
+            'register_meta_box_cb' => null,
             'taxonomies'          => array( 'genre', 'translator', 'format'),
-
-            'has_archive' => true, //Whether the post type has archive
-
-            'rewrite'   => [ //Post Types rewrite
-                            'slug'  => 'volume', //slug
+            'has_archive' => true,
+            'rewrite'   => [
+                            'slug'  => 'volume',
                             'with_front'    => true,
-                            'feeds' => false, //if to generate feeds
-                            'pages' => false, //IF permastruct should provide for pagination
+                            'feeds' => false,
+                            'pages' => false,
             ],
 
             'query_var' => 'volume',
-            'can_export'          => true, //Export Functionality
-            'delete_with_user'  => false, //Whether to delete the post type with the user
+            'can_export'          => true,
+            'delete_with_user'  => false,
         );
 
-        //Register the Volume post type
         register_post_type( 'volume', $args );
     }
 
-    function auto_volume( $post_id ){ //Auto update Volume post type
+    function auto_update_volume( $post_id ){
         
         $formats = get_terms('format', array(
             'hide_empty' => false,
@@ -123,9 +105,9 @@ class volume{ //Assests Class
             $isbn = get_post_meta( $post_id, 'isbn_'.$format->name.'_value');
             $date = get_post_meta( $post_id, 'published_date_value_'.$format->name);
 
-            if( !empty($isbn) || !empty($date)) //If the volume has either a date or isbn assigned then add the current loop format to it
+            if( !empty($isbn) || !empty($date))
                 wp_set_post_terms( $post_id, [ $format->term_id], 'format', true);
         }
     }
-}//End of Class
+}
 ?>

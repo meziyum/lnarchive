@@ -1,0 +1,76 @@
+
+/*
+* Notes: This file is imported in main.scss
+*/
+
+.custom-logo-link {
+	img {
+		max-width: $logo-width;
+		max-height: $logo-height;
+	}
+}
+
+footer {
+    .footer-nav {
+      background-color: $light-dark-background;
+      color: $footer-text-col;
+      cursor: default;
+      text-align: center;
+  
+      .footer-social {
+        background-color: $footer-social-background;
+        padding: 16px;
+  
+        div {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+  
+      .main-footer {
+        margin-top: 16px;
+  
+        .footer-separator {
+          height: 2px;
+          margin: auto;
+          width: 60px;
+        }
+  
+        .menu-nav {
+          margin-top: 16px;
+  
+          .email {
+            display: inline;
+          }
+  
+          ul {
+            list-style-type: none;
+            padding: 0;
+  
+            li {
+              .nav-link {
+                font-weight: 400;
+                padding: 8px 0;
+  
+                &:active,
+                &:hover {
+                  color: $footer-link-hover-color;
+                }
+              }
+            }
+          }
+        }
+      }
+  
+      .footer-copyright {
+        background-color: $footer-copyright-background;
+        padding: 8px;
+      }
+  
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  }
+  

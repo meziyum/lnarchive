@@ -4,7 +4,7 @@
  * 
  * @package LNarchive
  */
-get_header(); //Get the Header
+get_header();
 ?>
 
-<?php get_footer();//Get the Footer?>
+<?php get_footer();?>

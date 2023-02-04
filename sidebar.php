@@ -6,8 +6,8 @@
  */
 ?>
 
-<aside id="secondary" role="complementary"> <!-- Aside Div for the Sidebar -->
+<aside id="secondary" role="complementary">
     <?php 
-        dynamic_sidebar('sidebar-main'); //Get the Main Sidebar
+        dynamic_sidebar('sidebar-main');
     ?>
 </aside>

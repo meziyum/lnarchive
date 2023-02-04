@@ -791,5 +791,5 @@ class taxonomies{ //Novel Taxonomy Class
             </div>
         <?php
     }
-}//End of Class
+}
 ?>

@@ -1,7 +1,5 @@
 
-//Import Libraries
-
-//Import Styles
+//Imports
 import '../sass/admin/admin.scss';
 
 const tx = document.getElementsByTagName("textarea"); //Select all the Textareas

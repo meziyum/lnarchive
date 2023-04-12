@@ -26,7 +26,7 @@ $max_posts = get_option('posts_per_page');
                             <?php
                             taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category');
                             
-                            if( $series != null) {
+                            if( $series !== null) {
                                 ?>
                                     <button onclick="location.href='<?php echo esc_url(get_post_permalink($series));?>'" type="button" class="series-button float-end">
                                         <a class= "series-link">
@@ -66,7 +66,7 @@ $max_posts = get_option('posts_per_page');
                     $related_posts_query = new WP_Query($related_post_args);
 
                     if( $related_posts_query->have_posts()){
-                        ?>
+                        ?> @
                             <h2 class="page-title">You might also like: </h2>
                         <?php
                         post_list($related_posts_query, 'related');

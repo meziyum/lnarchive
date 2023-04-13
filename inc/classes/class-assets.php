@@ -41,8 +41,8 @@ class assets{ //Assests Class
       wp_enqueue_style('fontawesome');
 
       //Default Values for unexpected cases
-      $path= LNARCHIVE_BUILD_CSS_URI . '/main.css';
-      $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/main.css');
+      $path= '';
+      $version_info = '';
 
       if( is_single(get_queried_object()) || is_page()){ //Post types
         $path= LNARCHIVE_BUILD_CSS_URI . '/'.get_post_type().'.css';
@@ -67,8 +67,8 @@ class assets{ //Assests Class
 
     public function register_scripts() { //Scripts
 
-        $path= LNARCHIVE_BUILD_JS_URI . '/main.js'; // Default path for the main javascript file
-        $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/main.js'); //Version for the main javascript file
+        $path= '';
+        $version_info = '';
         
         //Override the path and version of the javascript file for the specific pages
         if( is_single(get_queried_object()) || is_page()){ //Post types

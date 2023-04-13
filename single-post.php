@@ -8,18 +8,17 @@ get_header();
 
 $the_post_id = get_the_ID();
 $series = get_post_meta( $the_post_id, 'series_value', true );
-$max_posts = get_option('posts_per_page');
+$posts_per_page = get_option('posts_per_page');
 ?>
 
 <main id="main" class="main-content" role="main">
-    <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row">
+    <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row" <?php post_class();?>>
         <div class="post-wrap content-wrap col-lg-9">
             <?php
             if( have_posts() ) {
                 while( have_posts(  )) : the_post();
                     printf(
-                        '<h1 class="page-title">%1$s</h1>',
-                        wp_kses_post(get_the_title()),
+                        '<h1 class="page-title">%1$s</h1>', get_the_title()
                     );
                     ?>
                         <div>
@@ -30,7 +29,7 @@ $max_posts = get_option('posts_per_page');
                                 ?>
                                     <button onclick="location.href='<?php echo esc_url(get_post_permalink($series));?>'" type="button" class="series-button float-end">
                                         <a class= "series-link">
-                                            <?php echo esc_html(get_the_title($series));?>
+                                            <?php echo get_the_title($series);?>
                                         </a>
                                     </button>
                                 <?php
@@ -52,7 +51,7 @@ $max_posts = get_option('posts_per_page');
                     <?php
                     $related_post_args = array(
                         'post_type' => 'post',
-                        'posts_per_page' => $max_posts,
+                        'posts_per_page' => $posts_per_page,
                         'orderby' => 'rand',
                         'post__not_in' => array($the_post_id),
                         'meta_key' => 'series_value',
@@ -72,7 +71,7 @@ $max_posts = get_option('posts_per_page');
                         post_list($related_posts_query, 'related');
                     }
 
-                    wp_reset_postdata();
+                    wp_reset_query();
                     ?>
                         <section id="reviews-section" class="py-0 px-2"/>
                     <?php

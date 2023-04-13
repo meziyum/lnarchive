@@ -1,7 +1,7 @@
 
 //Imports
 import React from 'react';
-import Ratings from './Ratings';
+import Ratings from './Ratings.js';
 
 //Constant Variables from server side
 const post_id = LNarchive_variables.object_id;

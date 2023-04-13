@@ -1,8 +1,7 @@
 {
   "name": "lnarchive",
   "version": "0.3.6.1",
-  "description": "LNarchive Theme packages",
-  "main": "main.js",
+  "type": "module",
   "scripts": {
     "prod": "cross-env NODE_ENV=production webpack --mode production --progress",
     "dev": "cross-env NODE_ENV=development webpack --watch --mode development --progress",
@@ -14,7 +13,7 @@
   ],
   "author": "",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "browserslist": [
     "defaults"
   ],

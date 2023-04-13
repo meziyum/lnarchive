@@ -1,9 +1,9 @@
 
 //Imports
-import * as Utilities from '../utilities';
+import * as Utilities from '../utilities.js';
 import React from 'react';
 import Review from './Review.js';
-import Pagination from './Pagination';
+import Pagination from './Pagination.js';
 
 //Localised Constants from Server
 const post_id = LNarchive_variables.object_id;

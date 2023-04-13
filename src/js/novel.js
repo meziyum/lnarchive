@@ -1,10 +1,9 @@
 
 //Imports
-import * as Main from './main.js';
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/novel/novel.scss';
-import Review_Section from './Components/Review_Section';
+import Review_Section from './Components/Review_Section.js';
 import Novel_Actions from './Components/Novel_Actions.js';
 
 //Localised Constants from Server

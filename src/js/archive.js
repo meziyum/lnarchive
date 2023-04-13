@@ -1,6 +1,5 @@
 
 //Libraries
-import './main.js';
 import React, { useEffect } from 'react';
 import Select from 'react-select';
 import Pagination from './Components/Pagination.js';

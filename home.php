@@ -15,7 +15,7 @@ get_header(); //Get the Header
             //Title
             printf(
                 '<h1 class="page-title">%1$s</h1>', //Page Title Div
-                wp_kses_post( get_the_title(get_option('page_for_posts', true))), //Get the Title
+                wp_kses_post( get_the_title(get_option('page_for_posts', true))) //Get the Title
             );
             
             if(have_posts()) { //If there is post

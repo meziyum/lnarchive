@@ -1,10 +1,9 @@
 
 //Imports
-import * as Main from './main.js';
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../sass/post/post.scss';
-import Review_Section from './Components/Review_Section';
+import Review_Section from './Components/Review_Section.js';
 
 //Localised Constants from Server
 const custom_api_request_url = LNarchive_variables.custom_api_url;

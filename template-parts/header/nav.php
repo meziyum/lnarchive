@@ -6,19 +6,19 @@
  */
 
 use lnarchive\inc\menus;
-$menu_class = menus::get_instance(); //Intiate the Class
+$menu_class = menus::get_instance();
 
-$header_menu_id = $menu_class->get_menu_id('fusfan_primary'); //Get the menu id of the primary menu
-$header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_items of the primary menu
+$header_menu_id = $menu_class->get_menu_id('fusfan_primary');
+$header_menus = wp_get_nav_menu_items( $header_menu_id );
 ?>
 
 <nav class="header-nav navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container">
  
     <div class="navbar-brand">
-    <?php //The Custom Logo
-      if( function_exists( 'the_custom_logo')) { //If there is a custom logo
-          the_custom_logo(); //Display custom logo
+    <?php
+      if( function_exists( 'the_custom_logo')) {
+          the_custom_logo();
       }
     ?>
     </div>
@@ -78,7 +78,7 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
                   if( ! $menu_item->menu_item_parent) {
 
                     $child_menu_items = $menu_class->get_child_menu_items( $header_menus, $menu_item->ID);
-                    $has_children = !empty( $child_menu_items) && is_array( $child_menu_items); //Boolean Value if menu has submenus
+                    $has_children = !empty( $child_menu_items) && is_array( $child_menu_items);
 
                     if( !$has_children) {
                       ?>
@@ -115,8 +115,8 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id ); //Get all the menu_ite
       ?>
       </div>
       
-      <div class="d-flex col-lg-3 col-md-12 order-lg-2"> <!--Search Form -->
-        <?php get_search_form();//Get the Search Form?> 
+      <div class="d-flex col-lg-3 col-md-12 order-lg-2">
+        <?php get_search_form();?>
       </div>
 
     </div>

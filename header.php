@@ -6,51 +6,51 @@
  */
 ?>
 
-<!doctype html> <!-- Doc Type HTML -->
-<html lang="en"> <!-- Lang -->
+<!doctype html>
+<html lang="en">
 
-<head> <!-- Header -->
-    <meta charset="utf-8"> <!-- Character Encoding of the HTML Doc -->
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Viewport Bootstrap -->
-    <?php wp_head();?> <!-- Calling the wp_head function -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php wp_head();?>
     <?php
 
-        $post_type = get_post_type( get_queried_object_id()); //Get the Post Type
-        $object_id = get_the_ID(get_queried_object_id()); //Get the ID of the Object
+        $post_type = get_post_type( get_queried_object_id());
+        $object_id = get_the_ID(get_queried_object_id());
 
-        if(is_home() && !is_front_page()) { //SEO for Blog Page
+        if(is_home() && !is_front_page()) {
             ?>
-                <title><?php esc_html(single_post_title());?></title> <!-- Meta Title -->
-                <meta name="description" content="The blog page of the LNarchive with all the articles"> <!-- Meta Desc -->
+                <title><?php esc_html(single_post_title());?></title>
+                <meta name="description" content="The blog page of the LNarchive with all the articles">
             <?php
         }
         else if(is_archive()){ //SEO for Archive
             ?>
-            <title><?php echo sanitize_text_field(get_the_archive_title());?></title> <!-- Meta Title -->
-            <meta name="description" content="<?php echo sanitize_text_field(get_the_archive_description());?>"> <!-- Meta Desc -->
+            <title><?php echo sanitize_text_field(get_the_archive_title());?></title>
+            <meta name="description" content="<?php echo sanitize_text_field(get_the_archive_description());?>">
             <?php
         }
-        else if(is_search()) { //SEO for Search
+        else if(is_search()) {
             ?>
-            <title>Search</title> <!-- Meta Title -->
-            <meta name="description" content="The search page for searching the light novels and related content"> <!-- Meta Desc -->
+            <title>Search</title>
+            <meta name="description" content="The search page for searching the light novels and related content">
             <?php
         }
-        else { //SEO for everythinge else
+        else {
             ?>
-            <title><?php echo esc_html(get_post_meta( $object_id, 'seo_meta_title_val', true ));?></title> <!-- Meta Title -->
-            <meta name="description" content="<?php echo esc_html(get_post_meta( $object_id, 'seo_meta_desc_val', true ));?>"> <!-- Meta Desc -->
+            <title><?php echo esc_html(get_post_meta( $object_id, 'seo_meta_title_val', true ));?></title>
+            <meta name="description" content="<?php echo esc_html(get_post_meta( $object_id, 'seo_meta_desc_val', true ));?>">
             <?php
         }
     ?>
 </head>
 
-<body <?php body_class()?>> <!-- Calling Body Class -->
-<?php wp_body_open();?> <!-- Body Open -->
+<body <?php body_class()?>>
+<?php wp_body_open();?>
 
-<div id="main_body" class="site"> <!-- Main Body Div -->
-    <header id="masthead" class="site-header" role="banner"> <!-- Primary Navbar(Header) Div -->
-        <?php get_template_part('/template-parts/header/nav');//Get the Header?>
+<div id="main_body" class="site">
+    <header id="masthead" class="site-header" role="banner">
+        <?php get_template_part('/template-parts/header/nav');?>
     </header>
 
-    <div id="content" class="site-content container"> <!-- Main Content Div -->
+    <div id="content" class="site-content container">

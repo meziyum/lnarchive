@@ -4,26 +4,26 @@
  * 
  * @package LNarchive
  */
-get_header(); //Get the Header
+get_header();
 ?>
 
-<main id="main" class="main-content" role="main"> <!-- Main Container -->
-    <div class="row main-row"> <!-- Main Row -->
-        <div class="archive-wrap col-lg-9"> <!-- Archive Div -->
+<main id="main" class="main-content" role="main">
+    <div class="row main-row">
+        <div class="archive-wrap col-lg-9">
         <?php
-        printf( //Get the Title
-            '<h1 class="page-title">%1$s</h1>', //Page Title Div
-            wp_kses_post( get_the_archive_title()), //Get the Title
+        printf(
+            '<h1 class="page-title">%1$s</h1>',
+            wp_kses_post( get_the_archive_title()),
         );
-        if(have_posts()) { //If there is post
-            post_list( $wp_query, 'category-post-list'); //Post List
+        if(have_posts()) {
+            post_list( $wp_query, 'category-post-list');
         }
         ?>
         </div>
-        <div class="sidebar-wrap col d-none d-lg-block"> <!-- Sidebar Col -->
-            <?php get_sidebar('sidebar-main'); //Get the Sidebar?>
+        <div class="sidebar-wrap col d-none d-lg-block">
+            <?php get_sidebar('sidebar-main');?>
         </div>
     </div>
 </main>
 
-<?php get_footer(); //Get the Footer ?>
+<?php get_footer();?>

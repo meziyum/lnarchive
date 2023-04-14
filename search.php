@@ -29,7 +29,7 @@ $result_found = false;
                     novel_list($nquery, array( 'name' => 'novel-search' ));    
                 }
 
-                wp_reset_postdata();
+                wp_reset_query();
 
                 $pargs = array(
                     's' =>$s,
@@ -43,7 +43,7 @@ $result_found = false;
                     post_list( $pquery, 'post-search-result');
                 }
 
-                wp_reset_postdata();
+                wp_reset_query();
 
                 if( $result_found == false) {
                     echo "No Results Found";

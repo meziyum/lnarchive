@@ -36,13 +36,13 @@ function the_post_custom_thumbnail( $post_id, $size, $additional_attributes) { /
     echo get_the_post_custom_thumbnail($post_id, $size, $additional_attributes); //Echo the Thumbnail
 }
 
-function taxonomy_button_list( $tax_terms, $tax_name ) { //Function to List Taxonomy in Button forms
+function taxonomy_button_list( $tax_terms, $tax_name ) {
     if(!empty($tax_terms)) {
-        foreach( $tax_terms as $tax) { //Loops through all article terms
+        foreach( $tax_terms as $tax) {
             ?>
-                <button onclick="location.href='<?php echo esc_attr(get_term_link( $tax))?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button"> <!-- Taxonomy Button -->
-                    <a class="<?php echo esc_attr($tax_name);?>-button-link" href="<?php echo esc_attr(get_term_link($tax, $tax_name))?>"> <!-- The Taxonomy text -->
-                        <?php echo esc_html($tax->name) //Print name of taxonomy?>
+                <button onclick="location.href='<?php echo esc_attr(get_term_link( $tax))?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button">
+                    <a class="<?php echo esc_attr($tax_name);?>-button-link" href="<?php echo esc_attr(get_term_link($tax, $tax_name))?>">
+                        <?php echo esc_html($tax->name)?>
                     </a>
                 </button>
             <?php

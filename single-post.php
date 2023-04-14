@@ -7,12 +7,10 @@
 get_header();
 
 $the_post_id = get_the_ID();
-$series = get_post_meta( $the_post_id, 'series_value', true );
-$posts_per_page = get_option('posts_per_page');
 ?>
 
 <main id="main" class="main-content" role="main">
-    <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row" <?php post_class();?>>
+    <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row">
         <div class="post-wrap content-wrap col-lg-9">
             <?php
             if( have_posts() ) {
@@ -23,8 +21,9 @@ $posts_per_page = get_option('posts_per_page');
                     ?>
                         <div>
                             <?php
+                            $series = get_post_meta( $the_post_id, 'series_value', true );
                             taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category');
-                            
+                    
                             if( $series !== null) {
                                 ?>
                                     <button onclick="location.href='<?php echo esc_url(get_post_permalink($series));?>'" type="button" class="series-button float-end">
@@ -34,7 +33,6 @@ $posts_per_page = get_option('posts_per_page');
                                     </button>
                                 <?php
                             }
-
                             get_template_part('template-parts/edit-btn');
                             ?>
                         </div>
@@ -51,7 +49,7 @@ $posts_per_page = get_option('posts_per_page');
                     <?php
                     $related_post_args = array(
                         'post_type' => 'post',
-                        'posts_per_page' => $posts_per_page,
+                        'posts_per_page' => get_option('posts_per_page'),
                         'orderby' => 'rand',
                         'post__not_in' => array($the_post_id),
                         'meta_key' => 'series_value',
@@ -73,7 +71,7 @@ $posts_per_page = get_option('posts_per_page');
 
                     wp_reset_query();
                     ?>
-                        <section id="reviews-section" class="py-0 px-2"/>
+                        <section id="reviews-section"/>
                     <?php
                 endwhile;
             }

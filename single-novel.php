@@ -197,7 +197,7 @@ if( $has_volume1) {
                         <?php
                     }
 
-                    wp_reset_postdata();
+                    wp_reset_query();
 
                     $universe_novels = array_merge( get_post_siblings( $the_post_id ), get_post_ancestors( $the_post_id ), get_post_children( $the_post_id ) );
 
@@ -221,7 +221,7 @@ if( $has_volume1) {
                             <?php
                         }
 
-                        wp_reset_postdata();
+                        wp_reset_query();
                     }
 
                     $rtags = array();
@@ -249,7 +249,7 @@ if( $has_volume1) {
                         <?php
                     }
 
-                    wp_reset_postdata();
+                    wp_reset_query();
 
                     $args = array(
                         'post_type' => 'post',
@@ -270,10 +270,9 @@ if( $has_volume1) {
                             </section>
                         <?php
                     }
-        
-                    wp_reset_postdata();
+                    wp_reset_query();
                     ?>
-                        <section id="reviews-section" class="py-0 px-2"/>
+                        <section id="reviews-section"/>
                     <?php
             endwhile;
             }

@@ -4,7 +4,7 @@
  * 
  * @package LNarchive
  */
-get_header(); //Get the Header
+get_header();
 ?>
 
 <main id="main" class="main-content" role="main">

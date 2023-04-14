@@ -24,7 +24,7 @@
                 <meta name="description" content="The blog page of the LNarchive with all the articles">
             <?php
         }
-        else if(is_archive()){ //SEO for Archive
+        else if(is_archive()){
             ?>
             <title><?php echo sanitize_text_field(get_the_archive_title());?></title>
             <meta name="description" content="<?php echo sanitize_text_field(get_the_archive_description());?>">

@@ -19,30 +19,30 @@ $the_post_id = get_the_ID();
                         '<h1 class="page-title">%1$s</h1>', get_the_title()
                     );
                     ?>
-                        <div>
+                        <div id="post-header">
                             <?php
                             $series = get_post_meta( $the_post_id, 'series_value', true );
                             taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category');
                     
                             if( $series !== null) {
                                 ?>
-                                    <button onclick="location.href='<?php echo esc_url(get_post_permalink($series));?>'" type="button" class="series-button float-end">
+                                    <button onclick="location.href='<?php echo esc_url(get_post_permalink($series));?>'" type="button" class="series-button">
                                         <a class= "series-link">
                                             <?php echo get_the_title($series);?>
                                         </a>
                                     </button>
                                 <?php
                             }
-                            get_template_part('template-parts/edit-btn');
                             ?>
                         </div>
                     <?php
                     the_content();
                     get_template_part('template-parts/page-nav');
                     ?>
-                    <div class="d-flex justify-content-between post-footer">
+                    <div id="post-footer">
                         <?php
-                            echo '<h6 class="posted-by">Posted by '.ucfirst(esc_html(get_the_author_meta('nickname')));
+                            echo '<h6 class="posted-by">Posted by '.ucfirst(esc_html(get_the_author_meta('nickname'))).'</h6>';
+                            get_template_part('template-parts/edit-btn');
                             get_template_part('template-parts/post/date');
                         ?>
                     </div>

@@ -3,7 +3,6 @@
 * Notes: This file is imported in post.scss, novel.scss and archive-post.scss
 */
 
-//Category Button
 .category-button {
     background-color: $category-button-col;
     font-size: 12px;
@@ -15,7 +14,6 @@
     }
 }
 
-//Date and Author Meta
 .posted-on, .posted-by {
     color: $post-meta-col;
 }

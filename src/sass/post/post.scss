@@ -6,18 +6,28 @@
 
 .post-wrap {
 
-    .series-button {
-        padding: 4px 8px;
-        font-size: 12px;
-        background-color: $theme-primary;
+    #post-header {
+        display: flex;
+        justify-content: space-between;
 
-        &:hover, 
-        &:active {
-            background-color: $theme-primary-dark;
+        .series-button {
+            padding: 4px 8px;
+            font-size: 12px;
+            background-color: $theme-primary;
+    
+            &:hover, 
+            &:active {
+                background-color: $theme-primary-dark;
+            }
         }
     }
 
-    .page-numbers{
+    .page-numbers {
         text-decoration: none;
+    }
+
+    #post-footer {
+        display: flex;
+        justify-content: space-between;
     }
 }

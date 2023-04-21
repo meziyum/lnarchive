@@ -1,32 +1,30 @@
 
-//Imports
 import React from 'react';
 import Ratings from './Ratings.js';
 
-//Constant Variables from server side
 const post_id = LNarchive_variables.object_id;
 const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
 const user_nonce = LNarchive_variables.nonce;
 
 export default function Novel_Actions( props ){
 
-    const [action_states, update_action_states] = React.useState({ //Novel Actions States
+    const [action_states, update_action_states] = React.useState({
         rating: props.rating,
     });
 
-    function submit_ratings( value){ //Function to submit ratings
+    function submit_ratings( value){
         fetch( `${custom_api_request_url}submit_rating/${post_id}`, {
-            method: "POST", //Method
-            credentials: 'same-origin', //Send Credentials
-            headers: { //Actions on the HTTP Request
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
                 'Content-Type': 'application/json',
                 'X-WP-Nonce' : user_nonce,
             },
-            body: JSON.stringify({ //Data to attach to the HTTP Request
+            body: JSON.stringify({
                 rating: value,
             })
-        }) //Submit Rating API REquest
-        update_action_states( prev_states => ({ //Update the value of new rating submission
+        })
+        update_action_states( prev_states => ({
             ...prev_states,
             rating: value,
         }));

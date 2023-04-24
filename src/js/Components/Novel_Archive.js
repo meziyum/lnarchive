@@ -5,7 +5,6 @@ import Pagination from './Pagination.js';
 import Novel_Item from './Novel_Item.js';
 
 const params = new URLSearchParams(window.location.search);
-
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 
 export default function Archive( props ){
@@ -17,9 +16,9 @@ export default function Archive( props ){
                 value: term.term_id,
                 label: term.term_name
             }));
-            const query = params.get(`${tax.tax_name}_filter`);
+            const query = params.get(`${tax.tax_query_name}_filter`);
             const defaultValue = options.find(option => option.label === query);
-            defaults[tax.tax_name] = query !== null ? [defaultValue] : [];
+            defaults[tax.tax_query_name] = query !== null ? [defaultValue] : [];
         });
         return defaults;
     });
@@ -31,12 +30,11 @@ export default function Archive( props ){
                 value: term.term_id,
                 label: term.term_name
             }));
-            const query = params.get(`${tax.tax_name}_filter`);
+            const query = params.get(`${tax.tax_query_name}_filter`);
             const defaultValue = options.find(option => option.label === query);
-            history.replaceState(null, null, window.location.pathname);
             
             return(
-                <div key={`${tax.tax_name}_filter`}>
+                <div key={`${tax.tax_query_name}_filter`}>
                 <h4>{tax.tax_label}</h4>
                 <Select
                         placeholder={`Select ${tax.tax_label}`} 
@@ -44,7 +42,7 @@ export default function Archive( props ){
                         defaultValue={defaultValue}
                         isMulti
                         value={appliedFilters[tax.tax_label]}
-                        onChange={ (data) => handleFilter(data, tax.tax_name)}
+                        onChange={ (data) => handleFilter(data, tax.tax_query_name)}
                         isClearable={true}
                 />
                 </div>
@@ -59,13 +57,11 @@ export default function Archive( props ){
     },[ archive_info.current_page, appliedFilters]);
 
     async function get_novels(){
-        console.log('getNovels')
-        console.log(appliedFilters)
         let filters=``;
         Object.entries(appliedFilters).forEach(value => {
             const [tax_name, list] = value;
             if( list.length>0){
-                let current_filter=`&${tax_name}=`;
+                let current_filter= tax_name !== 'post_tag' ? `&${tax_name}=` : `&post`;
                 list.forEach(term => {
                     current_filter+=`${term.value},`;
                 });
@@ -87,6 +83,7 @@ export default function Archive( props ){
             pagination: <Pagination current_page={archive_info.current_page} length={100} handleclick={handle_page_select}></Pagination>,
             novel_list: novels,
         }));
+        history.replaceState(null, null, window.location.pathname);
     }
 
     function handleFilter( data, name ){

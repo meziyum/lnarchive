@@ -38,11 +38,12 @@ function the_post_custom_thumbnail( $post_id, $size, $additional_attributes) {
 
 function taxonomy_button_list( $tax_terms, $tax_name ) {
     if(!empty($tax_terms)) {
-        foreach( $tax_terms as $tax) {
+        foreach( $tax_terms as $term) {
+            $term_name = $term->name;
             ?>
-                <button onclick="location.href='<?php echo esc_attr(get_term_link($tax))?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button">
-                    <a class="<?php echo esc_attr($tax_name);?>-button-link" href="<?php echo esc_attr(get_term_link($tax, $tax_name))?>">
-                        <?php echo esc_html($tax->name)?>
+                <button onclick="location.href='<?php echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax_name.'_filter'.'='.$term_name?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button">
+                    <a class="<?php echo esc_attr($tax_name);?>-button-link">
+                        <?php echo esc_html($term_name)?>
                     </a>
                 </button>
             <?php

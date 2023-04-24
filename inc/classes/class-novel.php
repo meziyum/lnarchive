@@ -5,26 +5,18 @@
  * @package LNarchive
  */
 
-namespace lnarchive\inc; //Namespace Definition
-use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc;
+use lnarchive\inc\traits\Singleton;
 
-class novel{ //Assests Class
+class novel{
 
-    use Singleton; //Using Sinlgeton
+    use Singleton;
 
-    protected function __construct(){ //Constructor function
-
-        //Load Class
-         $this->set_hooks(); //Setting the hook below
+    protected function __construct(){
+         $this->set_hooks();
     }
 
     protected function set_hooks() {
-        
-         /**
-          * Actions
-          */
-
-        //Adding functions to the hooks
         add_action( 'init', [ $this, 'register_novel']);
         add_action('save_post_novel', [$this, 'auto_novel']);
         add_action( 'rest_api_init', [$this, 'register_routes']);
@@ -32,103 +24,94 @@ class novel{ //Assests Class
 
     public function register_novel() {
 
-        //Labels for various actions
         $labels = array(
-            'name'                => 'Novels', //General Name of the post type
-            'singular_name'       => 'Novel',  //Singular Name of the post type
-            'menu_name'           => 'Novels', //Name of the post type in the menu
-            'all_items'           => 'All Novels',  //All listing
-            'view_item'           => 'View Novel', //View button
-            'view_items'           => 'View Novels', //View button
-            'add_new_item'        => 'Add New Novel', //Adding a new post type
-            'add_new'             => 'Add New', //Add a new post type
-            'edit_item'           => 'Edit Novel', //Edit the post type
-            'update_item'         => 'Update Novel', //Update the post type
-            'search_items'        => 'Search Novel', //Seardh Post type list
-            'not_found'           => 'The Novel was not found', //When the post type is not found
-            'not_found_in_trash'  => 'The Novel was not found in the trash', //When the novel is not found in the trash
-            'archives' => 'Novels Library', //Archive
-            'attributes' => 'Novel Attributes', //Novel attributes meta
-            'insert_into_item' => 'Insert into Novel', //Label for the media frame button
-            'uploaded_to_this_item' => 'Uploaded to this Novel', //Label for the media frame filter
-            'featured_image' => 'Cover', //Novel Cover
-            'set_featured_image' => 'Set Cover', //Set Novel Cover
-            'remove_featured_image' => 'Remove Cover', //Remove Cover
-            'use_featured_image' => 'Use Cover', //Use Cover
-            'filter_items_list' => 'Filter Novels Library', //Fitler the novels
+            'name'                => 'Novels',
+            'singular_name'       => 'Novel',
+            'menu_name'           => 'Novels',
+            'all_items'           => 'All Novels',
+            'view_item'           => 'View Novel',
+            'view_items'           => 'View Novels',
+            'add_new_item'        => 'Add New Novel',
+            'add_new'             => 'Add New',
+            'edit_item'           => 'Edit Novel',
+            'update_item'         => 'Update Novel',
+            'search_items'        => 'Search Novel',
+            'not_found'           => 'The Novel was not found',
+            'not_found_in_trash'  => 'The Novel was not found in the trash',
+            'archives' => 'Novels Library',
+            'attributes' => 'Novel Attributes',
+            'insert_into_item' => 'Insert into Novel',
+            'uploaded_to_this_item' => 'Uploaded to this Novel',
+            'featured_image' => 'Cover',
+            'set_featured_image' => 'Set Cover',
+            'remove_featured_image' => 'Remove Cover',
+            'use_featured_image' => 'Use Cover',
+            'filter_items_list' => 'Filter Novels Library',
             'filter_by_date' => 'Filter by release date', 
-            'items_list_navigation' => 'Novels Library navigation', //Label for the table pagination
-            'items_list' => 'Novels Library', //Novels list
-            'item_published' => 'Novel published', //Novel published
-            'item_published_privately' => 'Novel published privately', //Novel published privately
-            'item_reverted_to_draft' => 'Novel reverted to Draft', //Novel reverted to draft
-            'item_scheduled' => 'Novel release scheduled', //Novel release scheduled
-            'item_updated' => 'Novel Updated', //Novel updated
-            'item_link' => 'Novel Link', //Title for Nav Link
-            'item_link_description' => 'A link to a Novel', //Title for the Block Variation
+            'items_list_navigation' => 'Novels Library navigation',
+            'items_list' => 'Novels Library',
+            'item_published' => 'Novel published',
+            'item_published_privately' => 'Novel published privately',
+            'item_reverted_to_draft' => 'Novel reverted to Draft',
+            'item_scheduled' => 'Novel release scheduled',
+            'item_updated' => 'Novel Updated',
+            'item_link' => 'Novel Link',
+            'item_link_description' => 'A link to a Novel',
         );
 
-        //Options for the Novel Custom Post Type  
         $args = array(
-            'label'               => 'Novel', //the name shown in the menu
-            'description'         => 'All novels data', //The desctription of the post type 
-            'labels'              => $labels, //All the labels inserted using an array
-            'public'              => true, //Visibility
-            'hierarchical'        => true, //If sub novels possible
-            'exclude_from_search' => false, //If to exclude from search
-            'publicly_queryable'  => true, //For public
-            'show_ui'             => true, //Show in User Interface
-            'show_in_menu'        => true, //Show in Menu
-            'show_in_nav_menus'   => true, //Show in Nav Menu
-            'show_in_admin_bar'   => true, //Show in Admin Bar
-            'show_in_rest'        => true, //If to include the post type in Rest API
-            'rest_base'           => "novels", //REST API base URL
-            'menu_position'       => null, //Menu index position
-            'menu_icon'           => 'dashicons-book', //Menu Icon
-            'capability_type'     => 'post', //Capability required for the novel post type
-            'map_meta_cap'        => true, //Whether to use the internal default meta map capability handling
+            'label'               => 'Novel',
+            'description'         => 'All novels data',
+            'labels'              => $labels,
+            'public'              => true,
+            'hierarchical'        => true,
+            'exclude_from_search' => false,
+            'publicly_queryable'  => true,
+            'show_ui'             => true,
+            'show_in_menu'        => true,
+            'show_in_nav_menus'   => true,
+            'show_in_admin_bar'   => true,
+            'show_in_rest'        => true,
+            'rest_base'           => "novels",
+            'menu_position'       => null,
+            'menu_icon'           => 'dashicons-book',
+            'capability_type'     => 'post',
+            'map_meta_cap'        => true,
             
-            // Features this CPT supports in Post Editor
             'supports'            => array( 'title', 'author', 'comments', 'thumbnail', 'revisions', 'custom-fields','page-attributes'),
 
-            'register_meta_box_cb' => null, //Callback function to setup the metabox in edit form
+            'register_meta_box_cb' => null,
 
-            // You can associate this CPT with a taxonomy or custom taxonomy.
             'taxonomies'          => array( 'genre', 'publisher', 'writer', 'translator', 'post_tag', 'illustrator','novel_status','language'),
 
-            'has_archive' => true, //Whether the post type has archive
+            'has_archive' => true,
 
-            'rewrite'   => [ //Post Types rewrite
-                            'slug'  => 'novel', //slug
+            'rewrite'   => [
+                            'slug'  => 'novel',
                             'with_front'    => true,
-                            'feeds' => false, //if to generate feeds
-                            'pages' => false, //IF permastruct should provide for pagination
+                            'feeds' => false,
+                            'pages' => false,
             ],
 
             'query_var' => 'novel',
-            'can_export'          => true, //Export Functionality
-            'delete_with_user'  => false, //Whether to delete the post type with the user
-
-            /*
-                Post Type Template and Template Lock
-            */
+            'can_export'          => true,
+            'delete_with_user'  => false,
         );
 
-        //Register the Novel post type
         register_post_type( 'novel', $args );
     }
 
     public function register_routes(){
-        register_rest_route( 'lnarchive/v1', 'novel_filters', array( //Register Comment Submit Route
-            'methods' => 'GET', //Method
-            'callback' => [ $this, 'get_novel_filters'], //Callback after receving request
-            'permission_callback' => function(){ //Permission Callback
+        register_rest_route( 'lnarchive/v1', 'novel_filters', array(
+            'methods' => 'GET',
+            'callback' => [ $this, 'get_novel_filters'],
+            'permission_callback' => function(){
                 return is_user_logged_in();
             },
         ));
     }
 
-    public function get_novel_filters( $request ){ //Function to return novels filter taxonomy data
+    public function get_novel_filters( $request ){
 
         $filter_taxonomies = array( 'genre', 'post_tag', 'novel_status', 'language', 'publisher', 'writer', 'illustrator',);
         $response = array();
@@ -137,7 +120,7 @@ class novel{ //Assests Class
 
             $terms = get_terms( $tax, array(
                 'hide_empty' => true,
-            )); //Get all the term objects
+            ));
             
             $terms_list=array();
             foreach( $terms as $term){
@@ -147,9 +130,11 @@ class novel{ //Assests Class
                 ));
             }
 
+            $taxObj = get_taxonomy($tax);
+
             array_push($response, array(
-                'tax_name' => $tax,
-                'tax_label' => get_taxonomy($tax)->label,
+                'tax_query_name' => $taxObj->rest_base,
+                'tax_label' => $taxObj->label,
                 'list' => $terms_list,
             ));
         }
@@ -157,7 +142,7 @@ class novel{ //Assests Class
         return $response;
     }
 
-    public function auto_novel( $post_id ){ //Auto update Novel Post Type
+    public function auto_novel( $post_id ){
 
         $status = wp_get_post_terms( $post_id, 'novel_status');
         
@@ -173,10 +158,10 @@ class novel{ //Assests Class
             $posts = get_posts( $args);
 
             if( has_tag($oneshot) && (count($posts) != 1 || $status[0]->name !='Completed'))
-                wp_remove_object_terms($post_id, $oneshot, 'post_tag'); //Remove the term */
+                wp_remove_object_terms($post_id, $oneshot, 'post_tag');
             else if( count($posts) == 1 && $status[0]->name =='Completed')
                 wp_set_post_terms( $post_id, [$oneshot], 'post_tag', true);
         }
     }
-}//End of Class
+}
 ?>

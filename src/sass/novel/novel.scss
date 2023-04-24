@@ -5,7 +5,6 @@
 @import "../layouts/post-list";
 @import "../layouts/review";
 
-//Novels Listing Sections Common CSS
 .novels-list-section{
     background: $novel-section-bg;
     border-radius: 8px;
@@ -30,7 +29,6 @@
     }
 }
 
-//Novel Information Section
 #info-section {
     margin-bottom: 16px;
 
@@ -95,7 +93,7 @@
 
             .genre-button,
             .format-button,
-            .post-tag-button {
+            .tags-button {
                 padding: 4px 8px;
                 font-size: 12px;
                 background-color: $theme-primary;

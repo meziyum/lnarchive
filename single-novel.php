@@ -168,7 +168,7 @@ if( $has_volume1) {
 
                                 if( !empty( $tag_terms ) && $tag_terms[0]->name != 'None'){
                                     ?><h3>Tag</h3><?php
-                                    taxonomy_button_list( $tag_terms, 'post-tag');
+                                    taxonomy_button_list( $tag_terms, 'tags');
                                 }
 
                                 get_template_part('template-parts/edit-btn');

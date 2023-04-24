@@ -163,12 +163,12 @@ if( $has_volume1) {
 
                                 if( !empty( $genre_terms )) {
                                     ?><h3>Genre</h3><?php
-                                    taxonomy_button_list( $genre_terms , 'genre');
+                                    taxonomy_button_list( 'novel', $genre_terms , 'genre');
                                 }
 
                                 if( !empty( $tag_terms ) && $tag_terms[0]->name != 'None'){
                                     ?><h3>Tag</h3><?php
-                                    taxonomy_button_list( $tag_terms, 'tags');
+                                    taxonomy_button_list( 'novel', $tag_terms, 'tags');
                                 }
 
                                 get_template_part('template-parts/edit-btn');

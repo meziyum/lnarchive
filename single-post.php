@@ -22,7 +22,7 @@ $the_post_id = get_the_ID();
                         <div id="post-header">
                             <?php
                             $series = get_post_meta( $the_post_id, 'series_value', true );
-                            taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category');
+                            taxonomy_button_list('post', wp_get_post_terms( $the_post_id, ['category']),'category');
                     
                             if( $series !== null) {
                                 ?>

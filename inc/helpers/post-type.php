@@ -36,12 +36,18 @@ function the_post_custom_thumbnail( $post_id, $size, $additional_attributes) {
     echo get_the_post_custom_thumbnail($post_id, $size, $additional_attributes);
 }
 
-function taxonomy_button_list( $tax_terms, $tax_name ) {
+function taxonomy_button_list( $post_type, $tax_terms, $tax_name ) {
     if(!empty($tax_terms)) {
         foreach( $tax_terms as $term) {
             $term_name = $term->name;
             ?>
-                <button onclick="location.href='<?php echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax_name.'_filter'.'='.$term_name?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button">
+                <button onclick="location.href='<?php 
+                    if($post_type =="novel") {
+                        echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax_name.'_filter'.'='.$term_name;
+                    } else {
+                        echo esc_attr(get_term_link($term));
+                    } 
+                    ?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button">
                     <a class="<?php echo esc_attr($tax_name);?>-button-link">
                         <?php echo esc_html($term_name)?>
                     </a>
@@ -145,7 +151,7 @@ function post_list( $loop , $label) {
                                     get_template_part('template-parts/post/date');
                                     ?>
                                         <?php             
-                                        taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category');
+                                        taxonomy_button_list('post', wp_get_post_terms( $the_post_id, ['category']),'category');
                                         get_template_part('template-parts/edit-btn');
                                     ?>
                                 </div>

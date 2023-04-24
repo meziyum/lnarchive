@@ -1,51 +1,21 @@
 
 import React from 'react';
-import Select from 'react-select';
 import Pagination from './Pagination.js';
 import Novel_Item from './Novel_Item.js';
+import Filter_Select from './Filter_Select.js';
 
 const params = new URLSearchParams(window.location.search);
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 
 export default function Archive( props ){
 
-    const [appliedFilters, setAppliedFilters] = React.useState(() => {
-        const defaults = {};
-        props.filter_data.forEach(tax => {
-            const options = tax.list.map(term => ({
-                value: term.term_id,
-                label: term.term_name
-            }));
-            const query = params.get(`${tax.tax_query_name}_filter`);
-            const defaultValue = options.find(option => option.label === query);
-            defaults[tax.tax_query_name] = query !== null ? [defaultValue] : [];
-        });
-        return defaults;
-    });
+    const [appliedFilters, setAppliedFilters] = React.useState(defaultApplitedFilters);
 
     const [ archive_info, update_archive_info] = React.useState({
         novel_list: '',
         novel_filters: props.filter_data.map( tax =>{
-            const options = tax.list.map(term => ({
-                value: term.term_id,
-                label: term.term_name
-            }));
-            const query = params.get(`${tax.tax_query_name}_filter`);
-            const defaultValue = options.find(option => option.label === query);
-            
             return(
-                <div key={`${tax.tax_query_name}_filter`}>
-                <h4>{tax.tax_label}</h4>
-                <Select
-                        placeholder={`Select ${tax.tax_label}`} 
-                        options={options}
-                        defaultValue={defaultValue}
-                        isMulti
-                        value={appliedFilters[tax.tax_label]}
-                        onChange={ (data) => handleFilter(data, tax.tax_query_name)}
-                        isClearable={true}
-                />
-                </div>
+                <Filter_Select key={`${tax.tax_query_name}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[props.tax_label]}/>
             )
         }),
         pagination: '',
@@ -98,6 +68,20 @@ export default function Archive( props ){
             ...prev_info,
             current_page: parseInt(event.target.value),
         }));
+    }
+
+    function defaultApplitedFilters(){
+        const defaults = {};
+        props.filter_data.forEach(tax => {
+            const options = tax.list.map(term => ({
+                value: term.term_id,
+                label: term.term_name
+            }));
+            const query = params.get(`${tax.tax_query_name}_filter`);
+            const defaultValue = options.find(option => option.label === query);
+            defaults[tax.tax_query_name] = query !== null ? [defaultValue] : [];
+        });
+        return defaults;
     }
 
     return(

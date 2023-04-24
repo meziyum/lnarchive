@@ -6,41 +6,41 @@
 * @package LNarchive
 */
 
-function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes ) { //Function to get the post thumbnail for listing
+function get_the_post_custom_thumbnail( $post_id, $size, $additional_attributes ) {
 
-    if( ! has_post_thumbnail( $post_id) ) //If the post has thumbnail then lazy load
+    if( ! has_post_thumbnail( $post_id) )
         return null;
 
-    $custom_thumbnail =''; //decalre a null local variable to store the image
+    $custom_thumbnail ='';
     $default_attributes = [
         'loading' => 'lazy'
     ];
 
-    if( null === $post_id) { //If the post id is null then get the post id
+    if( null === $post_id) {
        $post_id=get_the_ID();
     }
 
-    $attributes = array_merge($additional_attributes, $default_attributes); //Merge the additional attributes with the lazy load attributes
+    $attributes = array_merge($additional_attributes, $default_attributes);
 
-    $custom_thumbnail = wp_get_attachment_image( //Get the Custom Thumbnail and store it
-       get_post_thumbnail_id($post_id), //Get the Post Thumbnail ID
-       $size, //Get the Size
-       false,  //Whether to treat the image as a icon
-       $attributes //The attributes for the image
+    $custom_thumbnail = wp_get_attachment_image(
+       get_post_thumbnail_id($post_id),
+       $size,
+       false,
+       $attributes
     );
 
-    return $custom_thumbnail; //Return the Thumbnail
+    return $custom_thumbnail;
 }
 
-function the_post_custom_thumbnail( $post_id, $size, $additional_attributes) { //Function to display the Post Thumbnail
-    echo get_the_post_custom_thumbnail($post_id, $size, $additional_attributes); //Echo the Thumbnail
+function the_post_custom_thumbnail( $post_id, $size, $additional_attributes) {
+    echo get_the_post_custom_thumbnail($post_id, $size, $additional_attributes);
 }
 
 function taxonomy_button_list( $tax_terms, $tax_name ) {
     if(!empty($tax_terms)) {
         foreach( $tax_terms as $tax) {
             ?>
-                <button onclick="location.href='<?php echo esc_attr(get_term_link( $tax))?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button">
+                <button onclick="location.href='<?php echo esc_attr(get_term_link($tax))?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button">
                     <a class="<?php echo esc_attr($tax_name);?>-button-link" href="<?php echo esc_attr(get_term_link($tax, $tax_name))?>">
                         <?php echo esc_html($tax->name)?>
                     </a>
@@ -50,49 +50,47 @@ function taxonomy_button_list( $tax_terms, $tax_name ) {
     }
 }
 
-function novel_list( $loop, array $args ) { //Function to display Novels List
+function novel_list( $loop, array $args ) {
 
-    $name = $args['name']; //Get the name from the args
+    $name = $args['name'];
 
-    if( array_key_exists("novel_no",$args) ) //If the key exists in the args
-        $novel_no = $args['novel_no']; //Set the display novel no
+    if( array_key_exists("novel_no",$args) )
+        $novel_no = $args['novel_no'];
     else
-        $novel_no=$loop->post_count; //If key not defined then display all that is the length of the loop
+        $novel_no=$loop->post_count;
 
     ?>
-        <div class="row novel-list" id="<?php echo $name;?>-list"> <!-- Novel List Row -->
+        <div class="row novel-list" id="<?php echo $name;?>-list">
             <?php
-                while( $loop->have_posts() && $novel_no>0 ) : $loop->the_post(); //While there are novels-volumes and we are supposed to display more according to $novel_no
+                while( $loop->have_posts() && $novel_no>0 ) : $loop->the_post();
                     
-                    $post_id = get_the_ID(); //Get the post ID
-                    $tid = $post_id; //Default thumbnail id
+                    $post_id = get_the_ID();
+                    $tid = $post_id;
 
-                    if ( !has_post_thumbnail( $post_id )) { //If the post doesnt have thumbnail then its novel post type
+                    if ( !has_post_thumbnail( $post_id )) {
 
-                        $volume1_args = array(  //Arguments for the Loop
-                            'post_type' => 'volume', //Post Type
-                            'posts_per_page' => 1, //Posts on one page
-                            'orderby' => 'date', //Order by date
-                            'order' => 'ASC', //ASC or DEC
-                            'meta_key' => 'series_value', //Meta Key
-                            'meta_value' => $post_id, //Meta value
+                        $volume1_args = array(
+                            'post_type' => 'volume',
+                            'posts_per_page' => 1,
+                            'orderby' => 'date',
+                            'order' => 'ASC',
+                            'meta_key' => 'series_value',
+                            'meta_value' => $post_id
                         );                       
-                        $volume1 = get_posts($volume1_args); //Get the first volume
-                        $tid = $volume1[0]->ID; //Get the thumbnail of the first volume
+                        $volume1 = get_posts($volume1_args);
+                        $tid = $volume1[0]->ID;
                     }
                         ?>
-                            <div class="<?php echo esc_attr($name);?>-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4"> <!-- Archive Entry Col -->
-                                <div class="<?php echo esc_attr($name);?>-entry archive-entry"> <!-- Add Entry -->
-                                    <a id="<?php echo esc_attr($post_id)?>" class="<?php echo $name;?>-link" <?php if( get_post_type($post_id) != 'volume') echo 'href="'.esc_url(get_permalink()).'"';?>> <!-- The Permalink -->
+                            <div class="<?php echo esc_attr($name);?>-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
+                                <div class="<?php echo esc_attr($name);?>-entry archive-entry">
+                                    <a id="<?php echo esc_attr($post_id)?>" class="<?php echo $name;?>-link" <?php if( get_post_type($post_id) != 'volume') echo 'href="'.esc_url(get_permalink()).'"';?>>
                                         <?php
-                                
-                                            //Display the Featured Image
                                             the_post_custom_thumbnail(
-                                            $tid, //The thumbnail post id
-                                            'novel-cover', //Name of the size
+                                            $tid,
+                                            'novel-cover',
                                             [
-                                                'class' => 'novel-cover', //Class attachment for css
-                                                'alt'  => esc_html(get_the_title()), //Attach the title as the default alt for the img
+                                                'class' => 'novel-cover',
+                                                'alt'  => esc_html(get_the_title()),
                                             ]
                                             );
                                         ?>
@@ -100,58 +98,54 @@ function novel_list( $loop, array $args ) { //Function to display Novels List
                                 </div>
                             </div>
                         <?php
-                    
-
-                    --$novel_no;//Decrement the Novel no count
-
+                    --$novel_no;
                 endwhile;
             ?>
         </div>
     <?php
 }
 
-function post_list( $loop , $label) { //Function to display Posts List
+function post_list( $loop , $label) {
     ?>
-        <div class="row <?php echo $label;?>"> <!-- Post Row -->
+        <div class="row <?php echo $label;?>">
             <?php
-                while( $loop->have_posts()) : $loop->the_post(); //While there are posts                    
-                    $the_post_id = get_the_ID(); //Get the Post ID
-                    if( has_post_thumbnail($the_post_id)) { //If the entry has a thumbnail
+                while( $loop->have_posts()) : $loop->the_post();               
+                    $the_post_id = get_the_ID();
+                    if( has_post_thumbnail($the_post_id)) {
                     ?>
-                        <div class="col-lg-4 col-md-6 col-sm-12 col-12"> <!-- Blog Entry -->
-                        <article id="post-<?php echo esc_attr($the_post_id);?>" class="blog-entry"> <!--Entry Card -->
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                        <article id="post-<?php echo esc_attr($the_post_id);?>" class="blog-entry">
                             <?php
                             
-                                $post_link = get_permalink( $the_post_id ); //Get Post Permalink
-                                $post_title = get_the_title( $the_post_id ); //Get Post Title
+                                $post_link = get_permalink( $the_post_id );
+                                $post_title = get_the_title( $the_post_id );
                                 
                                 ?>
-                                <a href="<?php echo esc_url($post_link)?>"> <!-- The Permalink -->
+                                <a href="<?php echo esc_url($post_link)?>">
                                     <?php
-                                    //Display the Featured Image
                                     the_post_custom_thumbnail(
-                                    $the_post_id, //The post ID
-                                    'featured-thumbnail', //Name of the size
+                                    $the_post_id,
+                                    'featured-thumbnail',
                                     [
-                                        'class' => 'attachment-featured-img', //Class attachment for css
-                                        'alt'  => esc_attr($post_title), //Attach the title as the default alt for the img
+                                        'class' => 'attachment-featured-img',
+                                        'alt'  => esc_attr($post_title),
                                     ]
                                     );
                                 ?>
                                 </a>
                         
-                                <div class="blog-entry-info"> <!-- Blog Entry Card -->
+                                <div class="blog-entry-info">
                                     <?php
                                     printf(
-                                        '<h5 class="entry-title mb-0"><a class="blog-entry-title" href="%1$s">%2$s</a></h5>', //The Title
-                                        get_the_permalink(), //Argument 1
-                                        wp_kses_post( $post_title) //Argument 2
+                                        '<h5 class="entry-title mb-0"><a class="blog-entry-title" href="%1$s">%2$s</a></h5>',
+                                        get_the_permalink(),
+                                        wp_kses_post( $post_title)
                                     );
-                                    get_template_part('template-parts/post/date'); //Get the Date Template
+                                    get_template_part('template-parts/post/date');
                                     ?>
                                         <?php             
-                                        taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category'); //List the Category
-                                        get_template_part('template-parts/edit-btn'); //Get the Edit Button
+                                        taxonomy_button_list(wp_get_post_terms( $the_post_id, ['category']),'category');
+                                        get_template_part('template-parts/edit-btn');
                                     ?>
                                 </div>
                                 <?php

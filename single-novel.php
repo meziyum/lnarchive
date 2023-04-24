@@ -66,17 +66,18 @@ if( $has_volume1) {
                                             }
 
                                             if( is_array($terms)){
+                                                $tax_label_name = esc_html(get_taxonomy_labels(get_taxonomy($tax))->name);
                                                 ?>
-                                                    <tr id="<?php echo esc_attr(get_taxonomy_labels(get_taxonomy($tax))->name).'_row' ?>">
+                                                    <tr id="<?php echo $tax_label_name.'_row'?>">
                                                         <th><?php
-                                                                echo esc_html(get_taxonomy_labels(get_taxonomy($tax))->name);
+                                                                echo $tax_label_name;
                                                             ?>
                                                         </th>
                                                         <td id="<?php echo esc_attr($tax).'_info_value';?>">
                                                             <?php
                                                                 foreach( $terms as $key => $article_term) {
                                                                     ?>
-                                                                        <a href="<?php echo esc_attr(get_term_link($article_term, $tax))?>"><?php echo esc_html($article_term->name)?></a>
+                                                                        <a href="<?php echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax.'_filter'.'='.$article_term->name?>"><?php echo esc_html($article_term->name)?></a>
                                                                         <br>
                                                                     <?php
                                                                 }       
@@ -176,101 +177,10 @@ if( $has_volume1) {
                         </div>
                     </section>                       
                 <?php
-
-                    $vol_args = array(
-                        'post_type' => 'volume',
-                        'posts_per_page' => $max_posts,
-                        'orderby' => 'date',
-                        'order' => 'ASC',
-                        'meta_key' => 'series_value',
-                        'meta_value' => $the_post_id,
-                    );                       
-
-                    $vquery = new WP_Query($vol_args);
-
-                    if($vquery->post_count > 1 ) {
-                        ?>
-                            <section id="volumes-section" class="novels-list-section">
-                                <h2 id="volumes-no">Volumes</h2>
-                                <?php novel_list( $vquery, array( 'name' => 'volume'));?>
-                            </section>
-                        <?php
-                    }
-
-                    wp_reset_query();
-
-                    $universe_novels = array_merge( get_post_siblings( $the_post_id ), get_post_ancestors( $the_post_id ), get_post_children( $the_post_id ) );
-
-                    if( !empty($universe_novels) ) {
-                        $uquery_args = array(
-                            'post_type' => $the_post_type,
-                            'posts_per_page' => -1,
-                            'orderby' => 'rand',
-                            'post__not_in'   => array( $the_post_id ),
-                            'post__in' => $universe_novels,
-                        );
-
-                        $uquery = new WP_Query( $uquery_args );
-
-                        if($uquery->have_posts()) {
-                            ?>
-                                <section id="child-section" class="novels-list-section">
-                                    <h2>Novels from same Universe</h2>
-                                    <?php novel_list( $uquery, array( 'name' => 'child') );?>
-                                </section>
-                            <?php
-                        }
-
-                        wp_reset_query();
-                    }
-
-                    $rtags = array();
-
-                    foreach( $tag_terms as $tag ){
-                        array_push( $rtags, $tag->term_id );
-                    }
-
-                    $related_args = array(
-                        'post_type' => $the_post_type,
-                        'posts_per_page' => $max_posts,
-                        'orderby' => 'rand',
-                        'tag__in' => $rtags,
-                        'post__not_in'   => array_merge( $universe_novels ,array($the_post_id) ),
-                    );
-
-                    $rquery = new WP_Query($related_args);
-
-                    if($rquery->have_posts()) {
-                        ?>
-                            <section id="related-section" class="novels-list-section">
-                                <h2>Recommendations</h2>
-                                <?php novel_list( $rquery, array( 'name' => 'related', 'novel_no' => 6) );?>
-                            </section>
-                        <?php
-                    }
-
-                    wp_reset_query();
-
-                    $args = array(
-                        'post_type' => 'post',
-                        'posts_per_page' => 3,
-                        'meta_key' => 'series_value',
-                        'meta_value' => $the_post_id,
-                    );
-
-                    $loop = new WP_Query( $args );
-
-                    if($loop->have_posts()) {
-                        ?>
-                            <section id="posts-section">
-                                <div class="row">
-                                    <h2>Related Articles</h2>
-                                    <?php post_list( $loop, 'novel-articles' );?>
-                                </div>
-                            </section>
-                        <?php
-                    }
-                    wp_reset_query();
+                    get_template_part('template-parts/novel/volumeList');
+                    get_template_part('template-parts/novel/universeNovels');
+                    get_template_part('template-parts/novel/similarNovels');
+                    get_template_part('template-parts/novel/relatedPosts');
                     ?>
                         <section id="reviews-section"/>
                     <?php

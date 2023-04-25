@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Select from 'react-select';
+import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 
 const params = new URLSearchParams(window.location.search);
 
@@ -15,7 +16,7 @@ export default function Fillter_Select({tax_query_name, tax_label, list, handleF
 
     return(
         <div>
-            <h4>{tax_label}</h4>
+            <h6>{tax_label}</h6>
             <Select
                     placeholder={`Select ${tax_label}`} 
                     options={options}
@@ -24,6 +25,7 @@ export default function Fillter_Select({tax_query_name, tax_label, list, handleF
                     value={selectValue}
                     onChange={ (data) => handleFilter(data, tax_query_name)}
                     isClearable={true}
+                    styles={reactSelectStyle}
             />
         </div>
     );

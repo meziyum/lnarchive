@@ -1,29 +1,23 @@
 
-//Imports
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
-import '../sass/novel/novel.scss';
-import Review_Section from './Components/Review_Section.js';
+import '../../../sass/novel/novel.scss';
+import Review_Section from '../../Components/Review_Section.js';
 import Novel_Actions from './Components/Novel_Actions.js';
 
-//Localised Constants from Server
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.custom_api_url;
 const user_nonce = LNarchive_variables.nonce;
 const comments_total_count = LNarchive_variables.comments_count;
 const login_url = LNarchive_variables.login_url;
 const novel_id = LNarchive_variables.object_id;
-
-//Class Constants
 const selected_format_class = 'selected-format';
 const format_button_class = 'format-button';
 const audiobook_format_class = 'Audiobook-format';
-const reviews_root = ReactDOMClient.createRoot(document.getElementById('reviews-section')); //Create the Reviews Root
+const reviews_root = ReactDOMClient.createRoot(document.getElementById('reviews-section'));
 const novel_actions_root = ReactDOMClient.createRoot(document.getElementById('novel-actions'));
-
-//Global Page Variables
-var selected_format = document.getElementsByClassName(selected_format_class)[0]; //Get the Selected format element
-var is_loggedin = true; //Variable to store user logged in status
+var selected_format = document.getElementsByClassName(selected_format_class)[0];
+var is_loggedin = true;
 var max_progress = 0;
 
 //Intial Function Calls

@@ -1,8 +1,10 @@
 
 import React from 'react';
-import Pagination from './Pagination.js';
-import Novel_Item from './Novel_Item.js';
+import Pagination from '../../../Components/Pagination.js';
+import Novel_Item from '../../../Components/Novel_Item.js';
 import Filter_Select from './Filter_Select.js';
+import Select from 'react-select';
+import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 
 const params = new URLSearchParams(window.location.search);
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
@@ -22,11 +24,13 @@ export default function Archive( props ){
         }),
         pagination: '',
         current_page: 1,
+        order: {value: 'asc', label: 'Ascending'},
+        order_by: {value: 'date', label: 'Release Date'},
     });
 
     React.useEffect( () => {
         get_novels();
-    },[ archive_info.current_page, appliedFilters]);
+    },[ archive_info.current_page, archive_info.order_by, archive_info.order, appliedFilters]);
 
     async function get_novels(){
         let filters=``;
@@ -43,7 +47,7 @@ export default function Archive( props ){
 
         let fields = 'id,link,publisher,language,illustrator,genre,tag,novel_status,_links';
 
-        const response = await fetch( `${wp_request_url}novels?_embed=wp:featuredmedia&fields=${fields}&per_page=${novelPerPage}&page=${archive_info.current_page}${filters}`, {
+        const response = await fetch( `${wp_request_url}novels?_embed=wp:featuredmedia&fields=${fields}&per_page=${novelPerPage}&page=${archive_info.current_page}${filters}&order=${archive_info.order.value}&orderby=${archive_info.order_by.value}`, {
             method: "GET",
             credentials: 'same-origin',
             headers: {
@@ -66,6 +70,13 @@ export default function Archive( props ){
 
     function handleFilter( data, name ){
         setAppliedFilters( prev_info => ({
+            ...prev_info,
+            [name]: data,
+        }));
+    }
+
+    function handleSelect(data, name){
+        update_archive_info( prev_info => ({
             ...prev_info,
             [name]: data,
         }));
@@ -95,6 +106,31 @@ export default function Archive( props ){
     return(
         <>
             <div className="archive-filter">
+                <div id="order_by">
+                    <h6>Order by</h6>
+                    <Select
+                        options={[
+                            {value: 'date', label: 'Release Date'},
+                            {value: 'title', label: 'Alphabetically'},
+                        ]}
+                        defaultValue={archive_info.order_by}
+                        value={archive_info.order_by}
+                        onChange={ (data) => handleSelect(data, 'order_by')}
+                        isClearable={false}
+                        styles={reactSelectStyle}
+                    />
+                    <Select
+                        options={[
+                            {value: 'asc', label: 'Ascending'},
+                            {value: 'desc', label: 'Descending '},
+                        ]}
+                        defaultValue='asc'
+                        value={archive_info.order}
+                        onChange={ (data) => handleSelect(data, 'order')}
+                        isClearable={false}
+                        styles={reactSelectStyle}
+                    />
+                </div>
                 {archive_info.novel_filters}
             </div>
             <div className="archive-list row">

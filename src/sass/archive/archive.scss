@@ -1,3 +1,8 @@
 
 @import "../main.scss";
 @import "../layouts/pagination.scss";
+
+#order_by{
+    display: flex;
+    justify-content: start;
+}

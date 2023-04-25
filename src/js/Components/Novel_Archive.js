@@ -6,6 +6,8 @@ import Filter_Select from './Filter_Select.js';
 
 const params = new URLSearchParams(window.location.search);
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
+const custom_api_request_url = LNarchive_variables.custom_api_url;
+const novelPerPage = LNarchive_variables.per_page;
 
 export default function Archive( props ){
 
@@ -41,16 +43,31 @@ export default function Archive( props ){
 
         let fields = 'id,link,publisher,language,illustrator,genre,tag,novel_status,_links';
 
-        const response = await fetch( `${wp_request_url}novels?_embed=wp:featuredmedia&fields=${fields}&per_page=36&page=${archive_info.current_page}${filters}`);
+        const response = await fetch( `${wp_request_url}novels?_embed=wp:featuredmedia&fields=${fields}&per_page=${novelPerPage}&page=${archive_info.current_page}${filters}`, {
+            method: "GET",
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            }}
+        );
         const data= await response.json();
         const novels = data.map( novel => {
             return (
                 <Novel_Item key={novel.id} id={novel.id} link={novel.link} novel_cover={novel._embedded['wp:featuredmedia'][0].source_url}/>
         )});
 
+        const novelCountResponse = await fetch( `${custom_api_request_url}novel_count`, {
+            method: "GET",
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            }}
+        );
+        const novelCount = await novelCountResponse.json();
+
         update_archive_info( prev_info => ({
             ...prev_info,
-            pagination: <Pagination current_page={archive_info.current_page} length={100} handleclick={handle_page_select}></Pagination>,
+            pagination: <Pagination current_page={archive_info.current_page} length={Math.ceil(novelCount/novelPerPage)} handleclick={handle_page_select}></Pagination>,
             novel_list: novels,
         }));
         history.replaceState(null, null, window.location.pathname);

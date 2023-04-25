@@ -106,12 +106,23 @@ class novel{
             'methods' => 'GET',
             'callback' => [ $this, 'get_novel_filters'],
             'permission_callback' => function(){
-                return is_user_logged_in();
+                return true;
+            },
+        ));
+        register_rest_route( 'lnarchive/v1', 'novel_count', array(
+            'methods' => 'GET',
+            'callback' => [ $this, 'get_novel_count'],
+            'permission_callback' => function(){
+                return true;
             },
         ));
     }
 
-    public function get_novel_filters( $request ){
+    public function get_novel_count(){
+        return wp_count_posts('novel')->publish;
+    }
+
+    public function get_novel_filters(){
 
         $filter_taxonomies = array( 'genre', 'post_tag', 'novel_status', 'language', 'publisher', 'writer', 'illustrator',);
         $response = array();

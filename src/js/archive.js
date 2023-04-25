@@ -5,7 +5,6 @@ import '../sass/archive/archive.scss';
 import Novel_Archive from './Components/Novel_Archive.js';
 
 const custom_api_request_url = LNarchive_variables.custom_api_url;
-const user_nonce = LNarchive_variables.nonce;
 const archive_root = ReactDOMClient.createRoot(document.getElementById('archive-wrap'));
 
 fetch(`${custom_api_request_url}novel_filters`, {
@@ -13,7 +12,6 @@ fetch(`${custom_api_request_url}novel_filters`, {
     credentials: 'same-origin',
     headers: {
         'Content-Type': 'application/json',
-        'X-WP-Nonce' : user_nonce,
     }})
 .then( res => res.json())
 .then( data => {

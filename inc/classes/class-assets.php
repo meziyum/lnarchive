@@ -88,16 +88,17 @@ class assets{ //Assests Class
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/search.js');
         }
 
-        wp_register_script('main', $path, array('wp-api'), $version_info , true ); //Register the Javascript
-        wp_enqueue_script('main');//Enqueue the Javascript
-        wp_localize_script( 'main', 'LNarchive_variables', array( //Localize the script with variables
-          'nonce' => wp_create_nonce( 'wp_rest' ), //User Nonce for API Authentication
-          'object_id' => get_the_ID(), //Object ID
-          'object_type' =>  get_post_type(), //Object Type
-          'comments_count' => get_comments_number(get_the_ID()), //Comments Count
-          'wp_rest_url' => get_rest_url(), //Main REST API url
+        wp_register_script('main', $path, array('wp-api'), $version_info , true );
+        wp_enqueue_script('main');
+        wp_localize_script( 'main', 'LNarchive_variables', array(
+          'nonce' => wp_create_nonce( 'wp_rest' ),
+          'object_id' => get_the_ID(),
+          'object_type' =>  get_post_type(),
+          'comments_count' => get_comments_number(get_the_ID()),
+          'wp_rest_url' => get_rest_url(),
           'custom_api_url' => get_rest_url().'lnarchive/v1/',
-          'login_url' => wp_login_url(), //Login URL
+          'login_url' => wp_login_url(),
+          'per_page' => get_option( 'posts_per_page' ),
       ) );
     }
 }

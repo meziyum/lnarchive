@@ -1,6 +1,6 @@
 
 //Imports
-import * as Utilities from '../utilities.js';
+import * as Utilities from '../helpers/utilities.js';
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Ratings from './Ratings.js';

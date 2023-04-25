@@ -1,5 +1,5 @@
 
-import * as Utilities from '../utilities.js';
+import * as Utilities from '../helpers/utilities.js';
 import React from 'react';
 import Review from './Review.js';
 import Pagination from './Pagination.js';

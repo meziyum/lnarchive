@@ -1,19 +1,17 @@
 
-//Imports
 import * as Utilities from '../utilities.js';
 import React from 'react';
 import Review from './Review.js';
 import Pagination from './Pagination.js';
 
-//Localised Constants from Server
 const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.custom_api_url;
 const user_nonce = LNarchive_variables.nonce;
 
-export default function Review_Section( props ){ //Review Section React Component
+export default function Review_Section( props ){
 
-    const [ section_info, update_section_info ] = React.useState({ //Section INformation States
+    const [ section_info, update_section_info ] = React.useState({
         comment_list: [],
         comments_count: props.comments_count,
         pagination: null,
@@ -24,38 +22,38 @@ export default function Review_Section( props ){ //Review Section React Componen
         progress: 0,
     });
 
-    let is_loggedin = props.is_loggedin; //Logged in status
-    let user_id = props.user_id; //User ID
-    let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1); //Comment type
-    let comments_per_page = 10; //Number of comments to display per page
+    let is_loggedin = props.is_loggedin;
+    let user_id = props.user_id;
+    let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1);
+    let comments_per_page = 10;
 
-    React.useMemo( function(){ //useMemo Hook
+    React.useMemo( function(){
         fetch_comments( section_info.current_sort, section_info.current_page);
     }, [ section_info.current_page, section_info.current_sort, section_info.comments_count]);
 
-    async function submit_review( event ){ //Submit Review Button onclick function
+    async function submit_review( event ){
 
-        event.preventDefault(); //Prevent reload of the page on submit
+        event.preventDefault();
 
-        if( section_info.review_content == '') //Prevent Submission when no content has been entered
+        if( section_info.review_content == '')
             return;
 
-        const res = await fetch( `${custom_api_request_url}submit_comment`, { //Fetch the comments
-            method: "POST", //Method
-            credentials: 'same-origin', //Send Credentials
-            headers: { //Actions on the HTTP Request
+        const res = await fetch( `${custom_api_request_url}submit_comment`, {
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
                 'Content-Type': 'application/json',
                 'X-WP-Nonce' : user_nonce,
             },
-            body: JSON.stringify({ //Data to attach to the HTTP Request
-                content: Utilities.esc_html(section_info.review_content), //Review Content
-                post_id: post_id, //Post Id
-                progress: section_info.progress, //Progress
+            body: JSON.stringify({
+                content: Utilities.esc_html(section_info.review_content),
+                post_id: post_id,
+                progress: section_info.progress,
             })
-        }) //Submit a comment
+        })
 
-        if( res.status === 201 ){ //If successfully created comment
-            update_section_info( prev_info => ({ //Update the section states
+        if( res.status === 201 ){
+            update_section_info( prev_info => ({
                 ...prev_info,
                 comments_count: ++prev_info.comments_count,
                 current_sort: 'date',
@@ -64,31 +62,31 @@ export default function Review_Section( props ){ //Review Section React Componen
         }
     }
 
-    async function fetch_comments(){ //Function to fetch the comments
+    async function fetch_comments(){
 
-        let fields = "&_fields=id,author_name,author,author_avatar_urls,content,date,post,user_id,meta,is_logged_in,user_comment_response,rating"; //Comment fields to get
+        let fields = "&_fields=id,author_name,author,author_avatar_urls,content,date,post,user_id,meta,is_logged_in,user_comment_response,rating";
 
         const res = await fetch( `${wp_request_url}comments?post=${post_id}&orderby=${section_info.current_sort}&per_page=${comments_per_page}&page=${section_info.current_page}${fields}`, {
-            headers: { //Actions on the HTTP Request
+            headers: {
                 'X-WP-Nonce' : user_nonce,
             },
-        }) //Fetch the comments
-        const data= await res.json(); //convert the data into json
+        })
+        const data= await res.json();
 
-        if( res.status === 200 ){ //If successful response
-            const comments_map = data.map( comment => { //Map the fetched data into a comments list
+        if( res.status === 200 ){
+            const comments_map = data.map( comment => {
                 return (
                     <Review
-                        key={comment.id} //Map Key
+                        key={comment.id}
                         is_loggedin={is_loggedin}
                         user_id={user_id}
                         delete_review={delete_review}
                         max_progress={props.max_progress}
-                        {...comment} //Comment Data
+                        {...comment}
                     />
             )});
 
-            update_section_info( prev_info => ({ //Update the form data
+            update_section_info( prev_info => ({
                 ...prev_info,
                 comment_list: comments_map,
                 pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
@@ -96,37 +94,37 @@ export default function Review_Section( props ){ //Review Section React Componen
         }
     }
 
-    function handle_change( event ){ //Function to handle all changes in the form
+    function handle_change( event ){
 
-        const {name, value, type} = event.target; //Destructure the values from the target element
+        const {name, value, type} = event.target;
 
-        update_section_info( prev_info => ({ //Update the form states
+        update_section_info( prev_info => ({
             ...prev_info,
             [name]: value,
         }));
     }
 
-    function handle_page_select( event ){ //Function to handle page select
+    function handle_page_select( event ){
         update_section_info( prev_info => ({
             ...prev_info,
             current_page: parseInt(event.target.value),
         }));
-        document.getElementById("reviews-form").scrollIntoView(true); //Scroll to top of the comments list
+        document.getElementById("reviews-form").scrollIntoView(true);
     }
 
-    async function delete_review( id) { //Delete Review function
+    async function delete_review( id) {
 
-        if( !window.confirm("Are you sure you want to delete your Review?") ) //If the user doesnt click OK
+        if( !window.confirm("Are you sure you want to delete your Review?") )
             return;
 
         await fetch( `${wp_request_url}comments/${id}`, {
-            method: "DELETE", //Method
-            headers: { //Actions on the HTTP Request
+            method: "DELETE",
+            headers: {
                 'X-WP-Nonce' : user_nonce,
             },
-        }) //Delete a comment
+        })
 
-        update_section_info( prev_info => ({ //Update Comment Count
+        update_section_info( prev_info => ({
             ...prev_info,
             comments_count: prev_info.comments_count-1,
         }));
@@ -170,8 +168,6 @@ export default function Review_Section( props ){ //Review Section React Componen
             }
             <div id="reviews-list" className="ps-0">
                 {section_info.comment_list}
-            </div>
-            <div id="review-pagination" className="d-flex justify-content-center">
                 {section_info.pagination}
             </div>
         </>
@@ -179,8 +175,8 @@ export default function Review_Section( props ){ //Review Section React Componen
 }
 
 Review_Section.defaultProps ={
-    is_loggedin: false, //Use logged in status
-    comment_type: 'comment', //default comment type
-    comments_count: 0, //Total no of comments
-    max_progress: 0, //Max value for progress input( if 0 then disable progress input)
+    is_loggedin: false,
+    comment_type: 'comment',
+    comments_count: 0,
+    max_progress: 0,
 }

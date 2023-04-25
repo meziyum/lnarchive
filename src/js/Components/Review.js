@@ -97,12 +97,12 @@ export default function Review( props ){ //Review Entry React Component
                         <img className="user_avatar float-start rounded-circle" srcSet={props.author_avatar_urls['96']}></img>
                     </div>     
                     <div className='col'>
-                        <h4>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1) /* Capitalize the name of the Author */}
+                        <h4>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1)}
                         <div className="float-end">
                             <Ratings rating={parseInt(props.rating)} mode={'display'} size={'1x'}/>
                         </div>
                         </h4>
-                        <time>{Utilities.format_date(props.date.slice(0, props.date.indexOf('T')) /* Convert the format of the date using the function in external library*/)}</time>
+                        <time>{Utilities.format_date(props.date.slice(0, props.date.indexOf('T')))}</time>
                         <div className="float-end">
                             <h5>Progress: {props.meta.progress}/{props.max_progress}</h5>
                         </div>

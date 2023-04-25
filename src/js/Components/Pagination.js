@@ -44,12 +44,12 @@ export default function Pagination(props) {
         ];
     
     return(
-        <>{   
+        <div id="pagination-div">{   
             length>1 &&
             <div className="page-list">
                 {pagination}
             </div>
-        }</>
+        }</div>
     );
 }
 

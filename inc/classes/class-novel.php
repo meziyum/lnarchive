@@ -109,17 +109,6 @@ class novel{
                 return true;
             },
         ));
-        register_rest_route( 'lnarchive/v1', 'novel_count', array(
-            'methods' => 'GET',
-            'callback' => [ $this, 'get_novel_count'],
-            'permission_callback' => function(){
-                return true;
-            },
-        ));
-    }
-
-    public function get_novel_count(){
-        return wp_count_posts('novel')->publish;
     }
 
     public function get_novel_filters(){

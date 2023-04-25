@@ -8,6 +8,7 @@ const post_id = LNarchive_variables.object_id;
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = LNarchive_variables.custom_api_url;
 const user_nonce = LNarchive_variables.nonce;
+const commentsPerPage = LNarchive_variables.per_page;
 
 export default function Review_Section( props ){
 
@@ -25,7 +26,6 @@ export default function Review_Section( props ){
     let is_loggedin = props.is_loggedin;
     let user_id = props.user_id;
     let comment_type = props.comment_type.charAt(0).toUpperCase() + props.comment_type.slice(1);
-    let comments_per_page = 10;
 
     React.useMemo( function(){
         fetch_comments( section_info.current_sort, section_info.current_page);
@@ -89,7 +89,7 @@ export default function Review_Section( props ){
             update_section_info( prev_info => ({
                 ...prev_info,
                 comment_list: comments_map,
-                pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/comments_per_page)} handleclick={handle_page_select}></Pagination>,
+                pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/commentsPerPage)} handleclick={handle_page_select}></Pagination>,
             }));
         }
     }

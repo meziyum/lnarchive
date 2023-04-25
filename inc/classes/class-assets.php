@@ -95,6 +95,7 @@ class assets{ //Assests Class
           'object_id' => get_the_ID(),
           'object_type' =>  get_post_type(),
           'comments_count' => get_comments_number(get_the_ID()),
+          'novel_count' => wp_count_posts('novel')->publish,
           'wp_rest_url' => get_rest_url(),
           'custom_api_url' => get_rest_url().'lnarchive/v1/',
           'login_url' => wp_login_url(),

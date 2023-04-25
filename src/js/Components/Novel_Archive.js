@@ -6,8 +6,8 @@ import Filter_Select from './Filter_Select.js';
 
 const params = new URLSearchParams(window.location.search);
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
-const custom_api_request_url = LNarchive_variables.custom_api_url;
 const novelPerPage = LNarchive_variables.per_page;
+const novelCount = LNarchive_variables.novel_count;
 
 export default function Archive( props ){
 
@@ -55,15 +55,6 @@ export default function Archive( props ){
             return (
                 <Novel_Item key={novel.id} id={novel.id} link={novel.link} novel_cover={novel._embedded['wp:featuredmedia'][0].source_url}/>
         )});
-
-        const novelCountResponse = await fetch( `${custom_api_request_url}novel_count`, {
-            method: "GET",
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            }}
-        );
-        const novelCount = await novelCountResponse.json();
 
         update_archive_info( prev_info => ({
             ...prev_info,

@@ -66,7 +66,7 @@ export default function Review_Section( props ){
 
         let fields = "&_fields=id,author_name,author,author_avatar_urls,content,date,post,user_id,meta,is_logged_in,user_comment_response,rating";
 
-        const res = await fetch( `${wp_request_url}comments?post=${post_id}&orderby=${section_info.current_sort}&per_page=${comments_per_page}&page=${section_info.current_page}${fields}`, {
+        const res = await fetch( `${wp_request_url}comments?post=${post_id}&orderby=${section_info.current_sort}&per_page=${commentsPerPage}&page=${section_info.current_page}${fields}`, {
             headers: {
                 'X-WP-Nonce' : user_nonce,
             },

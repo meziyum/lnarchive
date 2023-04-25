@@ -17,6 +17,7 @@ const entry = {
   archive: `${JS_DIR}/archive.js`,
   archive_post: `${JS_DIR}/archive-post.js`,
   search: `${JS_DIR}/search.js`,
+  default: `${JS_DIR}/default.js`,
 };
 
 const output = {

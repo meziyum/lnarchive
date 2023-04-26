@@ -89,7 +89,7 @@ export default function ReviewSection(props){
             update_section_info( prev_info => ({
                 ...prev_info,
                 comment_list: comments_map,
-                pagination: <Pagination current_page={section_info.current_page} length={Math.ceil(section_info.comments_count/commentsPerPage)} handleclick={handle_page_select}></Pagination>,
+                pagination: <Pagination currentPage={section_info.current_page} length={Math.ceil(section_info.comments_count/commentsPerPage)} handleclick={handle_page_select}></Pagination>,
             }));
         }
     }

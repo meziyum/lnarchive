@@ -2,18 +2,21 @@
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/archive/archive.scss';
-import Novel_Archive from './Components/Novel_Archive.js';
+import NovelArchive from './Components/NovelArchive.js';
 
-const custom_api_request_url = LNarchive_variables.custom_api_url;
-const archive_root = ReactDOMClient.createRoot(document.getElementById('archive-wrap'));
+/* eslint-disable no-undef, camelcase */
+const customAPIRequestURL = LNarchive_variables.custom_api_url;
+/* eslint-enable no-undef, camelcase*/
+const archiveRoot = ReactDOMClient.createRoot(document.getElementById('archive-wrap'));
 
-fetch(`${custom_api_request_url}novel_filters`, {
-    method: "GET",
+fetch(`${customAPIRequestURL}novel_filters`, {
+    method: 'GET',
     credentials: 'same-origin',
     headers: {
         'Content-Type': 'application/json',
     }})
-.then( res => res.json())
-.then( data => {
-    archive_root.render(<Novel_Archive filter_data={data}/>);
-})
+    .then( (res) => res.json())
+    .then( (data) => {
+        archiveRoot.render(<NovelArchive filter_data={data}/>);
+    });
+

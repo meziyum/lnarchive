@@ -18,7 +18,9 @@
     ],
     "rules": {
         "linebreak-style": ["error", "windows"],
+        "indent": ["error", 4],
         "max-len": ["error", { "code": 200 }],
-        "react/jsx-pascal-case": "error"
+        "react/jsx-pascal-case": "error",
+        "react/prop-types": "error"
     }
 }

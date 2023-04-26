@@ -1,28 +1,28 @@
 
 import * as Utilities from '../helpers/utilities.js';
 import React from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Ratings from './Ratings.js';
 
 import {
-    faThumbsDown , 
+    faThumbsDown,
     faThumbsUp,
-    } 
-from '@fortawesome/free-regular-svg-icons';
+}
+    from '@fortawesome/free-regular-svg-icons';
 
-import {    
+import {
     faThumbsDown as faThumbsDownSolid,
     faThumbsUp as faThumbsUpSolid,
     faEllipsis,
     faChevronDown,
-    faChevronUp
-    }
-from '@fortawesome/free-solid-svg-icons';
+    faChevronUp,
+}
+    from '@fortawesome/free-solid-svg-icons';
 
 const custom_api_request_url = LNarchive_variables.custom_api_url;
 const user_nonce = LNarchive_variables.nonce;
 
-export default function Review(props){
+export default function Review(props) {
 
     let user_id =props.user_id;
     let is_loggedin=props.is_loggedin;

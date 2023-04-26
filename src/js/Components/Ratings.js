@@ -1,9 +1,9 @@
 
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
-import { faStar as faStarSolid, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons';
+import {faStar as faStarRegular} from '@fortawesome/free-regular-svg-icons';
+import {faStar as faStarSolid, faStarHalfStroke} from '@fortawesome/free-solid-svg-icons';
 
 /**
  * A component for displaying and submitting ratings in a star-based format.
@@ -16,24 +16,23 @@ import { faStar as faStarSolid, faStarHalfStroke } from '@fortawesome/free-solid
  * @param {function} [props.ratings_submit=''] - A callback function to be called when a rating is submitted
  * @param {string} [props.size='lg'] - The size of the stars
  *
- * @returns {JSX.Element} - A JSX element representing the ratings component
+ * @return {JSX.Element} - A JSX element representing the ratings component
  */
 export default function Ratings(props) {
     const [hoverRating, setHoverRating] = React.useState(-1);
 
-    const ratingStars = Array.from({ length: props.count }, (_, index) => {
+    const ratingStars = Array.from({length: props.count}, (_, index) => {
         return (
             <FontAwesomeIcon
                 key={index}
                 icon={
-                    props.rating >= index + 1 && hoverRating === -1 || hoverRating >= index
-                        ? faStarSolid
-                        : props.rating >= index + 0.5 && (hoverRating >= props || hoverRating === -1)
-                            ? faStarHalfStroke
-                            : faStarRegular
+                    props.rating >= index + 1 && hoverRating === -1 || hoverRating >= index ? faStarSolid :
+                        props.rating >= index + 0.5 && (hoverRating >= props || hoverRating === -1) ?
+                            faStarHalfStroke :
+                            faStarRegular
                 }
                 size={props.size}
-                style={{ color: props.color }}
+                style={{color: props.color}}
                 onClick={() => props.ratings_submit(index + 1)}
                 onMouseOver={() => mouseOver(index)}
                 onMouseLeave={mouseLeave}
@@ -41,13 +40,13 @@ export default function Ratings(props) {
         );
     });
 
-    function mouseOver(index) {
+    const mouseOver = (index) => {
         if (props.mode === 'form') setHoverRating(index);
-    }
+    };
 
-    function mouseLeave() {
+    const mouseLeave = () => {
         if (props.mode === 'form') setHoverRating(-1);
-    }
+    };
 
     return (
         <>
@@ -72,4 +71,4 @@ Ratings.defaultProps ={
     mode: 'form',
     ratings_submit: () => {},
     size: 'lg',
-}
+};

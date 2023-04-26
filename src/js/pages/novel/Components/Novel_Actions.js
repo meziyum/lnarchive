@@ -2,9 +2,9 @@
 import React from 'react';
 import Ratings from '../../../Components/Ratings.js';
 
-const post_id = LNarchive_variables.object_id;
-const custom_api_request_url = LNarchive_variables.wp_rest_url+'lnarchive/v1/';
-const user_nonce = LNarchive_variables.nonce;
+const post_id = lnarchiveVariables.object_id;
+const custom_api_request_url = lnarchiveVariables.wp_rest_url+'lnarchive/v1/';
+const user_nonce = lnarchiveVariables.nonce;
 
 export default function Novel_Actions( props ){
 

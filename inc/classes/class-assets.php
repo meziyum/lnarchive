@@ -97,7 +97,7 @@ class assets{
 
         wp_register_script('main', $path, array('wp-api'), $version_info , true );
         wp_enqueue_script('main');
-        wp_localize_script( 'main', 'LNarchive_variables', $localize_vars);
+        wp_localize_script( 'main', 'lnarchiveVariables', $localize_vars);
     }
 }
 ?>

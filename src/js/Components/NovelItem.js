@@ -24,7 +24,7 @@ export default function NovelItem(props) {
 }
 
 NovelItem.propTypes = {
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     link: PropTypes.string.isRequired,
     novelCover: PropTypes.string.isRequired,
 };

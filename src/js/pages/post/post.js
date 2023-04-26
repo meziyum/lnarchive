@@ -4,11 +4,11 @@ import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/post/post.scss';
 import ReviewSection from '../../Components/ReviewSection.js';
 
-const customAPIRequestUrl = LNarchive_variables.custom_api_url;
-const userNonce = LNarchive_variables.nonce;
-const commmentsTotalCount = LNarchive_variables.comments_count;
-const loginURL = LNarchive_variables.login_url;
-const postID = LNarchive_variables.object_id;
+const customAPIRequestUrl = lnarchiveVariables.custom_api_url;
+const userNonce = lnarchiveVariables.nonce;
+const commmentsTotalCount = lnarchiveVariables.comments_count;
+const loginURL = lnarchiveVariables.login_url;
+const postID = lnarchiveVariables.object_id;
 const reviewsRoot = ReactDOMClient.createRoot(document.getElementById('reviews-section'));
 let isLoggedIn = true;
 

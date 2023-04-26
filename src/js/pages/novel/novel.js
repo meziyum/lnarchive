@@ -5,12 +5,12 @@ import '../../../sass/novel/novel.scss';
 import ReviewSection from '../../Components/ReviewSection.js';
 import Novel_Actions from './Components/Novel_Actions.js';
 
-const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
-const custom_api_request_url = LNarchive_variables.custom_api_url;
-const user_nonce = LNarchive_variables.nonce;
-const comments_total_count = LNarchive_variables.comments_count;
-const login_url = LNarchive_variables.login_url;
-const novel_id = LNarchive_variables.object_id;
+const wp_request_url = lnarchiveVariables.wp_rest_url+'wp/v2/';
+const custom_api_request_url = lnarchiveVariables.custom_api_url;
+const user_nonce = lnarchiveVariables.nonce;
+const comments_total_count = lnarchiveVariables.comments_count;
+const login_url = lnarchiveVariables.login_url;
+const novel_id = lnarchiveVariables.object_id;
 const selected_format_class = 'selected-format';
 const format_button_class = 'format-button';
 const audiobook_format_class = 'Audiobook-format';

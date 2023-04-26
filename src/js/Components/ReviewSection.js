@@ -4,11 +4,11 @@ import React from 'react';
 import Review from './Review.js';
 import Pagination from './Pagination.js';
 
-const post_id = LNarchive_variables.object_id;
-const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
-const custom_api_request_url = LNarchive_variables.custom_api_url;
-const user_nonce = LNarchive_variables.nonce;
-const commentsPerPage = LNarchive_variables.per_page;
+const post_id = lnarchiveVariables.object_id;
+const wp_request_url = lnarchiveVariables.wp_rest_url+'wp/v2/';
+const custom_api_request_url = lnarchiveVariables.custom_api_url;
+const user_nonce = lnarchiveVariables.nonce;
+const commentsPerPage = lnarchiveVariables.per_page;
 
 export default function ReviewSection(props){
 

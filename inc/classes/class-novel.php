@@ -133,8 +133,8 @@ class novel{
             $taxObj = get_taxonomy($tax);
 
             array_push($response, array(
-                'tax_query_name' => $taxObj->rest_base,
-                'tax_label' => $taxObj->label,
+                'taxQueryName' => $taxObj->rest_base,
+                'taxLabel' => $taxObj->label,
                 'list' => $terms_list,
             ));
         }

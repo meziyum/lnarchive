@@ -19,8 +19,8 @@ import {
 }
     from '@fortawesome/free-solid-svg-icons';
 
-const custom_api_request_url = LNarchive_variables.custom_api_url;
-const user_nonce = LNarchive_variables.nonce;
+const custom_api_request_url = lnarchiveVariables.custom_api_url;
+const user_nonce = lnarchiveVariables.nonce;
 
 export default function Review(props) {
 

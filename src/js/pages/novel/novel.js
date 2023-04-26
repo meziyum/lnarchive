@@ -2,7 +2,7 @@
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/novel/novel.scss';
-import Review_Section from '../../Components/Review_Section.js';
+import ReviewSection from '../../Components/ReviewSection.js';
 import Novel_Actions from './Components/Novel_Actions.js';
 
 const wp_request_url = LNarchive_variables.wp_rest_url+'wp/v2/';
@@ -38,7 +38,7 @@ fetch( `${custom_api_request_url}current_user/${novel_id}`, { //Fetch current us
     if( data.data != undefined && data.data.status == 401) //If the status code is 401
         is_loggedin = false;
     novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin} rating={parseInt(data.user_rating)}/>); //Render the novel actions
-    reviews_root.render(<Review_Section is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={max_progress}/>); //Render the Review Section
+    reviews_root.render(<ReviewSection is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={max_progress}/>); //Render the Review Section
 });
 
 

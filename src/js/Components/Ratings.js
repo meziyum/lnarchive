@@ -19,9 +19,8 @@ import { faStar as faStarSolid, faStarHalfStroke } from '@fortawesome/free-solid
  * @returns {JSX.Element} - A JSX element representing the ratings component
  */
 export default function Ratings(props) {
-    const [hoverRating, setHoverRating] = React.useState(-1); // hover state of the mouse
+    const [hoverRating, setHoverRating] = React.useState(-1);
 
-    // Construct the ratings
     const ratingStars = Array.from({ length: props.count }, (_, index) => {
         return (
             <FontAwesomeIcon
@@ -42,18 +41,10 @@ export default function Ratings(props) {
         );
     });
 
-    /**
-     * A function to update the rating visuals on mouse hover
-     *
-     * @param {number} index - The index of the star being hovered over
-     */
     function mouseOver(index) {
         if (props.mode === 'form') setHoverRating(index);
     }
 
-    /**
-     * A function to update the rating visuals on mouse leave
-     */
     function mouseLeave() {
         if (props.mode === 'form') setHoverRating(-1);
     }

@@ -1,18 +1,15 @@
 
-//Imports
 import * as Utilities from '../helpers/utilities.js';
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Ratings from './Ratings.js';
 
-//Import regular Fontawesome icons
 import {
     faThumbsDown , 
     faThumbsUp,
     } 
 from '@fortawesome/free-regular-svg-icons';
 
-//Import solid Fontawesome icons
 import {    
     faThumbsDown as faThumbsDownSolid,
     faThumbsUp as faThumbsUpSolid,
@@ -22,30 +19,29 @@ import {
     }
 from '@fortawesome/free-solid-svg-icons';
 
-//Constant Variables from server side
 const custom_api_request_url = LNarchive_variables.custom_api_url;
 const user_nonce = LNarchive_variables.nonce;
 
-export default function Review( props ){ //Review Entry React Component
+export default function Review(props){
 
-    let user_id =props.user_id; //user id
-    let is_loggedin=props.is_loggedin; //isloggedin status
-    let read_more_length = 750; //Minimum characters to show read more button
-    let content_long = props.content.rendered; //Full comment content rendered
-    let content_short = props.content.rendered.substring(0, props.content.rendered.substring(0,read_more_length).lastIndexOf(" "))+"..."; //Commment content of read_more_length
+    let user_id =props.user_id;
+    let is_loggedin=props.is_loggedin;
+    let read_more_length = 750;
+    let content_long = props.content.rendered;
+    let content_short = props.content.rendered.substring(0, props.content.rendered.substring(0,read_more_length).lastIndexOf(" "))+"...";
 
-    const [ review_info, update_review_info] = React.useState({ //All Review States
-        content: content_long.length <= read_more_length ? content_long : content_short, //State for current loaded comment content
-        like: props.meta.likes, //State for current number of likes
-        dislike: props.meta.dislikes, //State for current number of dislikes
-        user_response: props.user_comment_response.length != 0 ? props.user_comment_response[0].response_type : 'none', //State for current user response to the commment
-        expanded: false, //State for the expanded status of read more that is all content is visible or not
-        editable: false, //State for if the comment is editable
+    const [ review_info, update_review_info] = React.useState({
+        content: content_long.length <= read_more_length ? content_long : content_short,
+        like: props.meta.likes,
+        dislike: props.meta.dislikes,
+        user_response: props.user_comment_response.length != 0 ? props.user_comment_response[0].response_type : 'none',
+        expanded: false,
+        editable: false,
     });
 
-    let read_more_button = null; //Read more button JSX
+    let read_more_button = null;
 
-    if( props.content.rendered.length > read_more_length ){ //Render the Read more button if the current comment content state has length more than read_more_length
+    if( props.content.rendered.length > read_more_length ){
         read_more_button =  <a onClick={read_more_click}>
                                 <FontAwesomeIcon 
                                     icon={ review_info.expanded ? faChevronUp : faChevronDown}
@@ -55,36 +51,36 @@ export default function Review( props ){ //Review Entry React Component
                             </a>
     }
 
-    function update_response_in_database( action ){ //Function to update the user response
+    function update_response_in_database( action ){
         fetch( `${custom_api_request_url}comment_${action}/${props.id}`, {
-            method: "POST", //Method
-            credentials: 'same-origin', //Send Credentials
-            headers: { //Actions on the HTTP Request
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
                 'Content-Type': 'application/json',
                 'X-WP-Nonce' : user_nonce,
             },
-        }) //Comment Action API Request
+        })
 
-        var current_response = review_info.user_response; //The current response of the user to the comment
+        var current_response = review_info.user_response;
 
-        update_review_info( prev_info => ({ //Update the likes and dislikes state
+        update_review_info( prev_info => ({
             ...prev_info,
             [current_response]: prev_info[current_response]-1,
-            [action != 'none' ? action : '']: prev_info[action]+1, //No values will increase when action is none
+            [action != 'none' ? action : '']: prev_info[action]+1,
             user_response: action,
         }));
     }
 
-    function read_more_click(){ //Read more button click function
-        update_review_info( prev_info => ({ //Update the rendered content and expanded status of the review
+    function read_more_click(){
+        update_review_info( prev_info => ({
             ...prev_info,
             content: review_info.expanded ? content_short : content_long,
             expanded: !review_info.expanded,
         }))
     }
 
-    function review_edit(){ //Enable review edit function
-        update_review_info( prev_info => ({ //Allow edit of review
+    function review_edit(){
+        update_review_info( prev_info => ({
             ...prev_info,
             editable: true,
         }));

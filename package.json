@@ -5,7 +5,8 @@
   "scripts": {
     "prod": "cross-env NODE_ENV=production webpack --mode production --progress",
     "dev": "cross-env NODE_ENV=development webpack --watch --mode development --progress",
-    "clean": "rm -rf build/*"
+    "clean": "rm -rf build/*",
+    "lint": "eslint src/**/*.js"
   },
   "keywords": [
     "wordpress",
@@ -27,7 +28,9 @@
     "css-loader": "^6.7.3",
     "css-minimizer-webpack-plugin": "^4.2.2",
     "cssnano": "^5.1.12",
-    "eslint": "^8.38.0",
+    "eslint": "^8.39.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.32.2",
     "mini-css-extract-plugin": "^2.6.1",
     "sass": "^1.55.0",
     "sass-loader": "^13.2.0",

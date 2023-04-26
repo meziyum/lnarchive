@@ -10,7 +10,7 @@ const custom_api_request_url = LNarchive_variables.custom_api_url;
 const user_nonce = LNarchive_variables.nonce;
 const commentsPerPage = LNarchive_variables.per_page;
 
-export default function Review_Section( props ){
+export default function ReviewSection(props){
 
     const [ section_info, update_section_info ] = React.useState({
         comment_list: [],

@@ -2,7 +2,32 @@
 @import "../main.scss";
 @import "../layouts/pagination.scss";
 
-#order_by{
-    display: flex;
-    justify-content: start;
+#archive-wrap {
+
+    #archive-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #archive-filter{
+        background-color: $filters-background-color;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;    
+        padding: 16px;
+
+        #sort_by{
+            display: flex;
+            justify-content: start;
+        
+            > * {
+                margin-right: 16px;
+            }
+        }
+    }
+
+    .archive-list{
+        margin-top: 16px;
+    }
 }

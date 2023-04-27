@@ -4,8 +4,15 @@ import PropTypes from 'prop-types';
 import Pagination from '../../../Components/Pagination.js';
 import NovelItem from '../../../Components/NovelItem.js';
 import FilterSelect from './FilterSelect.js';
+import NovelSearch from './NovelSearch.js';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+
+import {
+    faSliders,
+}
+    from '@fortawesome/free-solid-svg-icons';
 
 const params = new URLSearchParams(window.location.search);
 /* eslint-disable no-undef */
@@ -31,6 +38,9 @@ export default function NovelArchive( props ) {
             const query = params.get(`${tax.taxQueryName}_filter`);
             const defaultValue = options.find((option) => option.label === query);
             defaults[tax.taxQueryName] = query !== null ? [defaultValue] : [];
+            if (query != undefined) {
+                setFilterToggle(true);
+            }
         });
         return defaults;
     };
@@ -41,6 +51,8 @@ export default function NovelArchive( props ) {
             [name]: data,
         }));
     };
+
+    const [filterToggleState, setFilterToggle] = React.useState(false);
 
     const [appliedFilters, setAppliedFilters] = React.useState(defaultApplitedFilters);
 
@@ -53,13 +65,14 @@ export default function NovelArchive( props ) {
         }),
         pagination: '',
         current_page: 1,
+        search: '',
         order: {value: 'asc', label: 'Ascending'},
         order_by: {value: 'date', label: 'Release Date'},
     });
 
     React.useEffect( () => {
         getNovels();
-    }, [archiveInfo.current_page, archiveInfo.order_by, archiveInfo.order, appliedFilters]);
+    }, [archiveInfo.current_page, archiveInfo.order_by, archiveInfo.order, archiveInfo.search, appliedFilters]);
 
     const getNovels = async () => {
         let filters=``;
@@ -76,7 +89,7 @@ export default function NovelArchive( props ) {
 
         const fields = 'id,link,publisher,language,illustrator,genre,tag,novel_status,_links';
 
-        const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.current_page}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}`, {
+        const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.current_page}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -112,36 +125,59 @@ export default function NovelArchive( props ) {
         }));
     };
 
+    const filterToggle = () => {
+        setFilterToggle(!filterToggleState);
+    };
+
+    const updateSearch = (value) => {
+        event.preventDefault();
+        updateArchiveInfo( (prevInfo) => ({
+            ...prevInfo,
+            search: value,
+        }));
+    };
+
     return (
         <>
-            <div className="archive-filter">
-                <div id="order_by">
-                    <h6>Order by</h6>
-                    <Select
-                        options={[
-                            {value: 'date', label: 'Release Date'},
-                            {value: 'title', label: 'Alphabetically'},
-                        ]}
-                        defaultValue={archiveInfo.order_by}
-                        value={archiveInfo.order_by}
-                        onChange={ (data) => handleSelect(data, 'order_by')}
-                        isClearable={false}
-                        styles={reactSelectStyle}
-                    />
-                    <Select
-                        options={[
-                            {value: 'asc', label: 'Ascending'},
-                            {value: 'desc', label: 'Descending '},
-                        ]}
-                        defaultValue='asc'
-                        value={archiveInfo.order}
-                        onChange={ (data) => handleSelect(data, 'order')}
-                        isClearable={false}
-                        styles={reactSelectStyle}
-                    />
-                </div>
-                {archiveInfo.novel_filters}
+            <div id="archive-header">
+                <NovelSearch updateSearch={updateSearch}/>
+                <FontAwesomeIcon
+                    icon={faSliders}
+                    size="xl"
+                    style={{color: filterToggleState ? '#387ef2' : 'grey'}}
+                    onClick={filterToggle}
+                />
             </div>
+            {filterToggleState &&
+                <div id="archive-filter">
+                    {archiveInfo.novel_filters}
+                    <h6>Sort by</h6>
+                    <div id="sort_by">
+                        <Select
+                            options={[
+                                {value: 'date', label: 'Release Date'},
+                                {value: 'title', label: 'Alphabetically'},
+                            ]}
+                            defaultValue={archiveInfo.order_by}
+                            value={archiveInfo.order_by}
+                            onChange={ (data) => handleSelect(data, 'order_by')}
+                            isClearable={false}
+                            styles={reactSelectStyle}
+                        />
+                        <Select
+                            options={[
+                                {value: 'asc', label: 'Ascending'},
+                                {value: 'desc', label: 'Descending '},
+                            ]}
+                            defaultValue='asc'
+                            value={archiveInfo.order}
+                            onChange={ (data) => handleSelect(data, 'order')}
+                            isClearable={false}
+                            styles={reactSelectStyle}
+                        />
+                    </div>
+                </div>
+            }
             <div className="archive-list row">
                 {archiveInfo.novel_list}
                 {archiveInfo.pagination}

@@ -102,17 +102,6 @@ class novel{
     }
 
     public function register_routes(){
-        register_meta('novel', '', [
-            'type' => 'number',
-            'single' => true,
-            'default ' => 0,
-            'show_in_rest' => array(
-                'schema' => array(
-                    'type'  => 'number',
-                    'default' => 0,
-                ),
-            ),
-        ]);
         register_rest_route( 'lnarchive/v1', 'novel_filters', array(
             'methods' => 'GET',
             'callback' => [ $this, 'get_novel_filters'],

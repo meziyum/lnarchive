@@ -3,38 +3,29 @@
  * Comment Class
  */
 
-namespace lnarchive\inc; //Namespace
-use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc;
+use lnarchive\inc\traits\Singleton;
+class comment {
 
-class comment{ //Comment Class
+    use Singleton;
 
-    use Singleton; //Using Sinlgeton
-
-    protected function __construct(){ //Constructor
-
-        //Load Class
-         $this->set_hooks(); //Loading the hooks
+    protected function __construct() {
+         $this->set_hooks();
     }
 
-    protected function set_hooks() { //Hooks function
-        
-         /**
-          * Actions
-          */
-
-        //Adding functions to the hooks
+    protected function set_hooks() {
         add_action( 'rest_api_init', [$this, 'register_comment_system']);
         add_action( 'rest_api_init', [$this, 'addOrderbySupportRest']);
         add_action('after_switch_theme', [$this, 'create_datbases']);
     }
 
-    function register_comment_system(){ //Function to register comment metas
+    function register_comment_system(){
         
-        register_meta('comment', 'likes', [ //Register Like Meta for Comments
-            'type' => 'number', //Datatype
-            'single' => true, //Only one value
-            'default ' => 0, //Default likes
-            'show_in_rest' => array( //Rest API Schema
+        register_meta('comment', 'likes', [
+            'type' => 'number',
+            'single' => true,
+            'default ' => 0,
+            'show_in_rest' => array(
                 'schema' => array(
                     'type'  => 'number',
                     'default' => 0,
@@ -42,11 +33,11 @@ class comment{ //Comment Class
             ),
          ]);
 
-         register_meta('comment', 'dislikes', [ //Register Dislike Meta for Comments
-            'type' => 'number', //Datatype
-            'single' => true, //Only one value
-            'default ' => 0, //default dislikes
-            'show_in_rest' => array( //Rest API Schema
+         register_meta('comment', 'dislikes', [
+            'type' => 'number',
+            'single' => true,
+            'default ' => 0,
+            'show_in_rest' => array(
                 'schema' => array(
                     'type'  => 'number',
                     'default' => 0,
@@ -54,11 +45,11 @@ class comment{ //Comment Class
             ),
          ]);
 
-         register_meta('comment', 'progress', [ //Register Progress meta for reviews
-            'type' => 'number', //Datatype
-            'single' => true, //Only one value
-            'default ' => 0, //Default Progress Value
-            'show_in_rest' => array( //Rest API Schema
+         register_meta('comment', 'progress', [
+            'type' => 'number',
+            'single' => true,
+            'default ' => 0,
+            'show_in_rest' => array(
                 'schema' => array(
                     'type'  => 'number',
                     'default' => 0,
@@ -67,33 +58,33 @@ class comment{ //Comment Class
             ),
          ]);
 
-         register_rest_field( "comment", 'user_comment_response', array( //Register Comment Response field in comment info request
-            'get_callback' => [$this, 'get_user_comment_response'], //Get value callback
+         register_rest_field( "comment", 'user_comment_response', array(
+            'get_callback' => [$this, 'get_user_comment_response'],
         ));
 
-        register_rest_route( 'lnarchive/v1', 'submit_comment', array( //Register Comment Submit Route
-            'methods' => 'POST', //Method
-            'callback' => [ $this, 'submit_comment_route'], //Callback after receving request
-            'permission_callback' => function(){ //Permission Callback
+        register_rest_route( 'lnarchive/v1', 'submit_comment', array(
+            'methods' => 'POST',
+            'callback' => [ $this, 'submit_comment_route'],
+            'permission_callback' => function(){
                 return is_user_logged_in();
             },
         ));
 
-        register_rest_route( 'lnarchive/v1', 'comment_(?P<action>[a-zA-Z0-9-]+)/(?P<comment_id>\d+)', array( //Register Comment Actions
-            'methods' => 'POST', //Method
-            'callback' => [ $this, 'comment_actions'], //Callback after receving request
-            'permission_callback' => function(){ //Permission Callback
+        register_rest_route( 'lnarchive/v1', 'comment_(?P<action>[a-zA-Z0-9-]+)/(?P<comment_id>\d+)', array(
+            'methods' => 'POST',
+            'callback' => [ $this, 'comment_actions'],
+            'permission_callback' => function(){
                 return is_user_logged_in();
             },
         ));
     }
 
-    function submit_comment_route( $request ){ //Function to handle submit comment route
+    function submit_comment_route( $request ) {
 
-        $current_user = wp_get_current_user(); //Get the current user
-        $body = $request->get_json_params(); //Get the body
+        $current_user = wp_get_current_user();
+        $body = $request->get_json_params();
             
-        $comment_data = array( //Comment Data
+        $comment_data = array(
             'comment_post_ID'      => $body['postID'],
             'comment_content'      => $body['content'],
             'user_id'              => $current_user->ID,
@@ -106,53 +97,52 @@ class comment{ //Comment Class
                 'progress' => $body['progress'],
             ),
         );
-        wp_insert_comment($comment_data); //Insert the comment
+        wp_insert_comment($comment_data);
 
-        return new \WP_REST_Response( array( 'message' => 'Comment successfully created!' ), 201 ); //Return Response
+        return new \WP_REST_Response( array( 'message' => 'Comment successfully created!' ), 201 );
     }
 
-    function comment_actions($request) { //Function to handle the comment actions route
+    function comment_actions($request) {
 
-        global $wpdb; //WPDB class
-        $table_name = $wpdb->prefix . 'comment_response'; //Response Table name
-        $user_id = get_current_user_id(); //Get current user id (nonce must be used for authentication)
-        $comment_id = $request['comment_id']; //Store the comment id
-        $user_response_value = $wpdb->get_var("SELECT response_type FROM $table_name WHERE comment_id=".$comment_id." AND user_id=".$user_id.""); //return the current user response to the comment
-        $user_action = $request['action']; //User current action
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'comment_response';
+        $user_id = get_current_user_id();
+        $comment_id = $request['comment_id'];
+        $user_response_value = $wpdb->get_var("SELECT response_type FROM $table_name WHERE comment_id=".$comment_id." AND user_id=".$user_id."");
+        $user_action = $request['action'];
 
-        if( $user_action == $user_response_value ){ //If the requests are too sent to fast before the database is updated. Avoids multiple enteries with same action
+        if( $user_action == $user_response_value ) {
             return false;
         }
         else if( $user_action == 'none' ){
             $wpdb->delete( $table_name, array( 'user_id' => $user_id, 'comment_id' => $comment_id) );
-            $count_action = get_comment_meta($comment_id, $user_response_value.'s', true); //Get the count of curent response comment meta
-            $meta_update_output_new = update_comment_meta( $comment_id, $user_response_value.'s', --$count_action); //Update the count of current response comment meta
-            return $meta_update_output_new; //Return response
+            $count_action = get_comment_meta($comment_id, $user_response_value.'s', true);
+            $meta_update_output_new = update_comment_meta( $comment_id, $user_response_value.'s', --$count_action);
+            return $meta_update_output_new;
         }
-        else if( $user_response_value != $user_action && $user_response_value != null) { //If the user is performing a different action than already stored for example like after dislike
-            $wpdb->update( $table_name, array( 'response_type' => $user_action), array( 'user_id' => $user_id, 'comment_id' => $comment_id)); //Update the user_comment response entry
-            $count_prev_response = get_comment_meta($comment_id, $user_response_value.'s', true); //Get the count of previous response comment meta
-            update_comment_meta( $comment_id, $user_response_value.'s', --$count_prev_response); //Decrease the count of previous response comment meta
+        else if( $user_response_value != $user_action && $user_response_value != null) {
+            $wpdb->update( $table_name, array( 'response_type' => $user_action), array( 'user_id' => $user_id, 'comment_id' => $comment_id));
+            $count_prev_response = get_comment_meta($comment_id, $user_response_value.'s', true);
+            update_comment_meta( $comment_id, $user_response_value.'s', --$count_prev_response);
         }
-        else //If no response exists that is the user_response_value is null in the database (cases like when both user_response and action have same values will never be called as front end designed)
-            $wpdb->insert( $table_name, array( 'user_id' => $user_id, 'comment_id' => $comment_id, 'response_type' => $user_action )); //Insert a new response data to the database
+        else
+            $wpdb->insert( $table_name, array( 'user_id' => $user_id, 'comment_id' => $comment_id, 'response_type' => $user_action ));
 
-        $count_action = get_comment_meta($comment_id, $user_action.'s', true); //Get the count of curent response comment meta
-        $meta_update_output_new= update_comment_meta( $comment_id, $user_action.'s', ++$count_action); //Update the count of current response comment meta
-        return $meta_update_output_new; //Return response
+        $count_action = get_comment_meta($comment_id, $user_action.'s', true);
+        $meta_update_output_new= update_comment_meta( $comment_id, $user_action.'s', ++$count_action);
+        return $meta_update_output_new;
     }
 
-    function get_user_comment_response( $comment ){ //Function to get a user's response to a comment
-        global $wpdb; //Global wpdb class
-        $table_name = $wpdb->prefix . 'comment_response'; //Response Table name
-        $comment_id = $comment["id"]; //Get comment id
-        $user_id = get_current_user_id(); //Get current user id (nonce must be used for authentication)
-        return $wpdb->get_results("SELECT response_type FROM $table_name WHERE comment_id=$comment_id AND user_id=$user_id"); //return the results
+    function get_user_comment_response( $comment ) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'comment_response';
+        $comment_id = $comment["id"];
+        $user_id = get_current_user_id();
+        return $wpdb->get_results("SELECT response_type FROM $table_name WHERE comment_id=$comment_id AND user_id=$user_id");
     }
 
-    function addOrderbySupportRest(){ //Function to add new sorting support for default comment get REST API endpoint
+    function addOrderbySupportRest(){
         
-        // Add meta your meta field to the allowed values of the REST API orderby parameter
         add_filter(
             'rest_comment_collection_params',
             function( $params ) {
@@ -166,19 +156,18 @@ class comment{ //Comment Class
             1
         );
         
-        // Manipulate query
         add_filter(
             'rest_comment_query',
             function ( $args, $request ) {
 
                 $metas = array( 'likes', 'progress');
-                $order_by = $request->get_param( 'orderby' ); //Get the sorting parameter
-                if( isset( $order_by ) ){ //If a orderby isset
-                    if ( in_array( $order_by, $metas) ) { //sort by likes
+                $order_by = $request->get_param( 'orderby' );
+                if( isset( $order_by ) ){
+                    if ( in_array( $order_by, $metas) ) {
                         $args['meta_key'] = $order_by;
                         $args['orderby'] = 'meta_value_num';
                     }
-                    else if( $order_by=='author' ){ //sort by author
+                    else if( $order_by=='author' ) {
                         $args['user_id'] = get_current_user_id();
                     }
                 }
@@ -187,15 +176,15 @@ class comment{ //Comment Class
             10,
             2
         );
-    } // addOrderbySupportRest function ends. 
+    }
 
-    function create_datbases() { //Create comment database
+    function create_datbases() {
 
-        global $wpdb; //Wpdb Class
-        $charset_collate = $wpdb->get_charset_collate(); //Get the Charset Collate
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php'); //Make sure Upgrade.php is imported
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         
-        $comment_response_table_name = $wpdb->prefix . 'comment_response'; //Comment Response Table Name
+        $comment_response_table_name = $wpdb->prefix . 'comment_response';
 
         $comment_response_query = "CREATE TABLE " . $comment_response_table_name . " (
         response_id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -203,9 +192,9 @@ class comment{ //Comment Class
         user_id bigint(20) NOT NULL,
         response_type VARCHAR(100) NOT NULL,
         PRIMARY KEY  (response_id)
-        ) $charset_collate;"; //Create the Table Args
+        ) $charset_collate;";
         
-        dbDelta([$comment_response_query], true);//Execute the Queries
+        dbDelta([$comment_response_query], true);
     }
 }
 ?>

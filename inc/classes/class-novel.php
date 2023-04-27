@@ -111,6 +111,55 @@ class novel{
         ));
     }
 
+    function addOrderbySupportRest(){
+        
+        add_filter(
+            'rest_novel_collection_params',
+            function( $params ) {
+                $fields = array( 'releaseDate', 'volumesCount', 'rating', 'latestRelease');
+                foreach ($fields as $value) {
+                    $params['orderby']['enum'][] = $value;
+                }
+                return $params;
+            },
+            30,
+            1
+        );
+        
+        add_filter(
+            'rest_novel_query',
+            function ( $args, $request ) {
+                $order_by = $request->get_param( 'orderby' );
+                if( isset( $order_by ) ) {
+                    if($order_by=='rating') {
+                        $args['meta_key'] = $order_by;
+                        $args['orderby'] = 'meta_value_num';
+                    }
+                    else if($order_by=='releaseDate') {
+
+                    }
+                    else if($order_by=='volumesCount') {
+                        $args['meta_query'] = array(
+                            array(
+                                'key' => 'series',
+                                'value' => get_the_ID(),
+                                'compare' => '=',
+                            ),
+                        );
+                        $args['meta_key'] = 'volumesCount';
+                        $args['orderby'] = 'meta_value_num';
+                    }
+                    else if($order_by=='latestRelease') {
+
+                    }
+                }
+                return $args;
+            },
+            10,
+            2
+        );
+    }
+
     public function get_novel_filters(){
 
         $filter_taxonomies = array( 'genre', 'post_tag', 'novel_status', 'language', 'publisher', 'writer', 'illustrator',);

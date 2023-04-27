@@ -15,18 +15,18 @@ export default function NovelSearch({updateSearch}) {
     const handleInput = (event) => {
         updateSearchState(event.target.value);
         if (event.target.value === '') {
-            updateSearch(event.target.value);
+            updateSearch(event, event.target.value);
         }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        updateSearch(search);
+        updateSearch(event, search);
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="search" id="nsearch" name="nsearch" value={search} onInput={handleInput}>
+            <input type="search" id="nsearch" name="nsearch" value={search} onInput={handleInput} placeholder='Search Novel'>
             </input>
         </form>
     );

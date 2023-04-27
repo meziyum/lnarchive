@@ -11,6 +11,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {
     faSliders,
+    faTriangleExclamation,
 }
     from '@fortawesome/free-solid-svg-icons';
 
@@ -58,6 +59,7 @@ export default function NovelArchive( props ) {
 
     const [archiveInfo, updateArchiveInfo] = React.useState({
         novel_list: '',
+        novelsFound: true,
         novel_filters: props.filterData.map( (tax) =>{
             return (
                 <FilterSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
@@ -107,6 +109,7 @@ export default function NovelArchive( props ) {
             ...prevInfo,
             pagination: <Pagination currentPage={archiveInfo.current_page} length={Math.ceil(novelCount/novelPerPage)} handleclick={handlePageSelect}></Pagination>,
             novel_list: novels,
+            novelsFound: novels.length>0 ? true : false,
         }));
         history.replaceState(null, null, window.location.pathname);
     };
@@ -125,11 +128,7 @@ export default function NovelArchive( props ) {
         }));
     };
 
-    const filterToggle = () => {
-        setFilterToggle(!filterToggleState);
-    };
-
-    const updateSearch = (value) => {
+    const updateSearch = (event, value) => {
         event.preventDefault();
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
@@ -145,7 +144,9 @@ export default function NovelArchive( props ) {
                     icon={faSliders}
                     size="xl"
                     style={{color: filterToggleState ? '#387ef2' : 'grey'}}
-                    onClick={filterToggle}
+                    onClick={() => {
+                        setFilterToggle(!filterToggleState);
+                    }}
                 />
             </div>
             {filterToggleState &&
@@ -179,8 +180,21 @@ export default function NovelArchive( props ) {
                 </div>
             }
             <div className="archive-list row">
-                {archiveInfo.novel_list}
-                {archiveInfo.pagination}
+                {archiveInfo.novelsFound && archiveInfo.novel_list}
+                {archiveInfo.novelsFound && archiveInfo.pagination}
+                {!archiveInfo.novelsFound &&
+                <div id="results-not-found">
+                    <FontAwesomeIcon
+                        icon={faTriangleExclamation}
+                        size="5x"
+                        style={{color: 'red'}}
+                        onClick={() => {
+                            setFilterToggle(!filterToggleState);
+                        }}
+                    />
+                    <h2>We were unable to find results for the applied filters</h2>
+                </div>
+                }
             </div>
         </>
     );

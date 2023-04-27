@@ -8,9 +8,16 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        margin-bottom: 8px;
+
+        #nsearch{
+            border-radius: 8px;
+            padding: 4px;
+            outline: none;
+        }
     }
 
-    #archive-filter{
+    #archive-filter {
         background-color: $filters-background-color;
         border-radius: 16px;
         display: flex;
@@ -27,7 +34,18 @@
         }
     }
 
-    .archive-list{
+    .archive-list {
         margin-top: 16px;
+
+        #results-not-found {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            > * {
+                margin-bottom: 16px;
+            }
+        }
     }
 }

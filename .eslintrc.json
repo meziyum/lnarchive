@@ -18,6 +18,7 @@
     ],
     "rules": {
         "linebreak-style": ["error", "windows"],
+        "no-console": "error",
         "indent": ["error", 4],
         "max-len": "off",
         "react/jsx-pascal-case": "error",

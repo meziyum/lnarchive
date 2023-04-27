@@ -94,7 +94,7 @@ class comment{ //Comment Class
         $body = $request->get_json_params(); //Get the body
             
         $comment_data = array( //Comment Data
-            'comment_post_ID'      => $body['post_id'],
+            'comment_post_ID'      => $body['postID'],
             'comment_content'      => $body['content'],
             'user_id'              => $current_user->ID,
             'comment_author'       => $current_user->user_login,

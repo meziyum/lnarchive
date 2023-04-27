@@ -1,9 +1,9 @@
 
-import * as Utilities from '../helpers/utilities.js';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Review from './Review.js';
 import Pagination from './Pagination.js';
+import {escHTML} from '../helpers/utilities.js';
 
 /* eslint-disable no-undef */
 const postID = lnarchiveVariables.object_id;
@@ -26,13 +26,13 @@ const commentsPerPage = lnarchiveVariables.per_page;
  */
 export default function ReviewSection(props) {
     const [sectionInfo, updateSectionInfo] = React.useState({
-        comment_list: [],
+        commentList: [],
         commentsCount: props.commentsCount,
         pagination: null,
         pagination_display: false,
-        current_page: 1,
-        current_sort: 'likes',
-        review_content: '',
+        currentPage: 1,
+        currentSort: 'likes',
+        reviewContent: '',
         progress: 0,
     });
 
@@ -43,7 +43,7 @@ export default function ReviewSection(props) {
     const fetchComments = async () => {
         const fields = '&_fields=id,author_name,author,author_avatar_urls,content,date,post,userID,meta,is_logged_in,user_comment_response,rating';
 
-        const res = await fetch( `${wpRequestURL}comments?post=${postID}&orderby=${sectionInfo.current_sort}&per_page=${commentsPerPage}&page=${sectionInfo.current_page}${fields}`, {
+        const res = await fetch( `${wpRequestURL}comments?post=${postID}&orderby=${sectionInfo.currentSort}&per_page=${commentsPerPage}&page=${sectionInfo.currentPage}${fields}`, {
             headers: {
                 'X-WP-Nonce': userNonce,
             },
@@ -66,20 +66,20 @@ export default function ReviewSection(props) {
 
             updateSectionInfo( (prevInfo) => ( {
                 ...prevInfo,
-                comment_list: commentsMap,
-                pagination: <Pagination currentPage={sectionInfo.current_page} length={Math.ceil(sectionInfo.commentsCount/commentsPerPage)} handleclick={handlePageSelect}></Pagination>,
+                commentList: commentsMap,
+                pagination: <Pagination currentPage={sectionInfo.currentPage} length={Math.ceil(sectionInfo.commentsCount/commentsPerPage)} handleclick={handlePageSelect}></Pagination>,
             }));
         }
     };
 
     React.useMemo( function() {
-        fetchComments( sectionInfo.current_sort, sectionInfo.current_page);
-    }, [sectionInfo.current_page, sectionInfo.current_sort, sectionInfo.commentsCount]);
+        fetchComments( sectionInfo.currentSort, sectionInfo.currentPage);
+    }, [sectionInfo.currentPage, sectionInfo.currentSort, sectionInfo.commentsCount]);
 
     const submitReview = async (event) => {
         event.preventDefault();
 
-        if (sectionInfo.review_content == '') {
+        if (sectionInfo.reviewContent == '') {
             return;
         }
 
@@ -91,7 +91,7 @@ export default function ReviewSection(props) {
                 'X-WP-Nonce': userNonce,
             },
             body: JSON.stringify({
-                content: Utilities.esc_html(sectionInfo.review_content),
+                content: escHTML(sectionInfo.reviewContent),
                 postID: postID,
                 progress: sectionInfo.progress,
             }),
@@ -101,8 +101,8 @@ export default function ReviewSection(props) {
             updateSectionInfo( (prevInfo) => ({
                 ...prevInfo,
                 commentsCount: ++prevInfo.commentsCount,
-                current_sort: 'date',
-                review_content: '',
+                currentSort: 'date',
+                reviewContent: '',
             }));
         }
     };
@@ -119,7 +119,7 @@ export default function ReviewSection(props) {
     const handlePageSelect = (event) => {
         updateSectionInfo( (prevInfo) => ({
             ...prevInfo,
-            current_page: parseInt(event.target.value),
+            currentPage: parseInt(event.target.value),
         }));
         document.getElementById('reviews-form').scrollIntoView(true);
     };
@@ -156,7 +156,7 @@ export default function ReviewSection(props) {
                             </div>
                         }
                         <h4 className="float-start">Write your {commentType}</h4>
-                        <textarea name="review_content" id="review_content" onChange={handleChange} value={sectionInfo.review_content}/>
+                        <textarea name="reviewContent" id="reviewContent" onChange={handleChange} value={sectionInfo.reviewContent}/>
                         <div className="d-flex justify-content-end">
                             <button className="px-3 py-2" id="review-submit">Submit</button>
                         </div>
@@ -167,7 +167,7 @@ export default function ReviewSection(props) {
                 sectionInfo.commentsCount>0 &&
                 <div id="reviews-filter-header" className="d-flex justify-content-end">
                     <label htmlFor="review-filter" className="me-1">Sort:</label>
-                    <select name="current_sort" id="review-filter" onChange={handleChange} value={sectionInfo.current_sort}>
+                    <select name="currentSort" id="review-filter" onChange={handleChange} value={sectionInfo.currentSort}>
                         {isLoggedIn && <option value="author">Your {commentType}s</option>}
                         <option value="likes">Popularity</option>
                         <option value="date">Newest</option>
@@ -176,7 +176,7 @@ export default function ReviewSection(props) {
                 </div>
             }
             <div id="reviews-list" className="ps-0">
-                {sectionInfo.comment_list}
+                {sectionInfo.commentList}
                 {sectionInfo.pagination}
             </div>
         </>

@@ -1,8 +1,8 @@
 
-import * as Utilities from '../helpers/utilities.js';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {formatDate} from '../helpers/utilities.js';
 import Ratings from './Ratings.js';
 
 import {
@@ -125,7 +125,7 @@ export default function Review(props) {
                             <Ratings rating={parseInt(props.rating)} mode={'display'} size={'1x'}/>
                         </div>
                     </h4>
-                    <time>{Utilities.format_date(props.date.slice(0, props.date.indexOf('T')))}</time>
+                    <time>{formatDate(props.date.slice(0, props.date.indexOf('T')))}</time>
                     <div className="float-end">
                         <h5>Progress: {props.meta.progress}/{props.maxProgress}</h5>
                     </div>
@@ -211,7 +211,7 @@ Review.propTypes = {
     }).isRequired,
     author_name: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
+    rating: PropTypes.number,
     maxProgress: PropTypes.number,
     deleteReview: PropTypes.func.isRequired,
 };

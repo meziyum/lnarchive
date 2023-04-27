@@ -22,5 +22,5 @@ fetch( `${customAPIRequestUrl}current_user/${postID}`, {
       if (data.data != undefined && data.data.status == 401) {
         isLoggedIn = false;
       }
-      reviewsRoot.render(<ReviewSection is_loggedin={isLoggedIn} login_url={loginURL} comment_type='comment' comments_count={commmentsTotalCount}/>);
+      reviewsRoot.render(<ReviewSection isLoggedIn={isLoggedIn} userID={data.user_id} loginURL={loginURL} commentType='comment' commentsCount={commmentsTotalCount}/>);
     });

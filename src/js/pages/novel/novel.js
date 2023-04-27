@@ -38,7 +38,7 @@ fetch( `${custom_api_request_url}current_user/${novel_id}`, { //Fetch current us
     if( data.data != undefined && data.data.status == 401) //If the status code is 401
         is_loggedin = false;
     novel_actions_root.render(<NovelActions isLoggedIn={is_loggedin} rating={parseInt(data.user_rating)}/>); //Render the novel actions
-    reviews_root.render(<ReviewSection is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={max_progress}/>); //Render the Review Section
+    reviews_root.render(<ReviewSection isLoggedIn={is_loggedin} userID={data.user_id} loginURL={login_url} commentType='review' commentsCount={comments_total_count} maxProgress={max_progress}/>);
 });
 
 

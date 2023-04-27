@@ -212,7 +212,7 @@ Review.propTypes = {
     author_name: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
-    maxProgress: PropTypes.number.isRequired,
+    maxProgress: PropTypes.number,
     deleteReview: PropTypes.func.isRequired,
 };
 

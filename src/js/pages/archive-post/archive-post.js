@@ -1,2 +1,2 @@
 
-import '../../../sass/archive-post/archive-post.scss'
+import '../../../sass/archive-post/archive-post.scss';

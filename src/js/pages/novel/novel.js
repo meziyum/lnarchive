@@ -3,7 +3,7 @@ import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/novel/novel.scss';
 import ReviewSection from '../../Components/ReviewSection.js';
-import Novel_Actions from './Components/Novel_Actions.js';
+import NovelActions from './Components/NovelActions.js';
 
 const wp_request_url = lnarchiveVariables.wp_rest_url+'wp/v2/';
 const custom_api_request_url = lnarchiveVariables.custom_api_url;
@@ -37,7 +37,7 @@ fetch( `${custom_api_request_url}current_user/${novel_id}`, { //Fetch current us
 .then( data => { //The fetch api data
     if( data.data != undefined && data.data.status == 401) //If the status code is 401
         is_loggedin = false;
-    novel_actions_root.render(<Novel_Actions is_loggedin={is_loggedin} rating={parseInt(data.user_rating)}/>); //Render the novel actions
+    novel_actions_root.render(<NovelActions isLoggedIn={is_loggedin} rating={parseInt(data.user_rating)}/>); //Render the novel actions
     reviews_root.render(<ReviewSection is_loggedin={is_loggedin} user_id={data.user_id} login_url={login_url} comment_type='review' comments_count={comments_total_count} max_progress={max_progress}/>); //Render the Review Section
 });
 
@@ -121,10 +121,10 @@ function formats_click_list( format_buttons ) { //Function to apply Event Listen
     }
 }
 
-function narrator_info_display() { //Function to handle visibility of the narrator row
-    
-    if( document.getElementById(audiobook_format_class) == undefined || selected_format != document.getElementById(audiobook_format_class)) //If the volume of the novel does not have a audiobook format or if the Audiobook formated is not selected
-        document.getElementById("Narrator_row").style.display = 'none'; //Hide the Narrator column from view 
-    else //If the volume of the novel has audiobook format
-        document.getElementById("Narrator_row").style.display = 'table-row'; //Display the Narrator column
+function narrator_info_display() {
+    if( document.getElementById(audiobook_format_class) == undefined || selected_format != document.getElementById(audiobook_format_class)) {
+        document.getElementById("Narrator_row").style.display = 'none';
+    } else {
+        document.getElementById("Narrator_row").style.display = 'table-row';
+    }
 }

@@ -19,6 +19,14 @@ import {faStar as faStarSolid, faStarHalfStroke} from '@fortawesome/free-solid-s
  * @return {JSX.Element} - A JSX element representing the ratings component
  */
 export default function Ratings(props) {
+    const mouseOver = (index) => {
+        if (props.mode === 'form') setHoverRating(index);
+    };
+
+    const mouseLeave = () => {
+        if (props.mode === 'form') setHoverRating(-1);
+    };
+
     const [hoverRating, setHoverRating] = React.useState(-1);
 
     const ratingStars = Array.from({length: props.count}, (_, index) => {
@@ -39,14 +47,6 @@ export default function Ratings(props) {
             />
         );
     });
-
-    const mouseOver = (index) => {
-        if (props.mode === 'form') setHoverRating(index);
-    };
-
-    const mouseLeave = () => {
-        if (props.mode === 'form') setHoverRating(-1);
-    };
 
     return (
         <>

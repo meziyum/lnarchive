@@ -78,10 +78,10 @@ export default function ReviewSection(props){
                 return (
                     <Review
                         key={comment.id}
-                        is_loggedin={is_loggedin}
-                        user_id={user_id}
-                        delete_review={delete_review}
-                        max_progress={props.max_progress}
+                        isLoggedIn={is_loggedin}
+                        userID={user_id}
+                        deleteReview={delete_review}
+                        maxProgress={props.max_progress}
                         {...comment}
                     />
             )});
@@ -174,9 +174,9 @@ export default function ReviewSection(props){
     );
 }
 
-Review_Section.defaultProps ={
+ReviewSection.defaultProps ={
     is_loggedin: false,
     comment_type: 'comment',
     comments_count: 0,
     max_progress: 0,
-}
+};

@@ -40,6 +40,38 @@ export default function ReviewSection(props) {
     const userID = props.userID;
     const commentType = props.commentType.charAt(0).toUpperCase() + props.commentType.slice(1);
 
+    const fetchComments = async () => {
+        const fields = '&_fields=id,author_name,author,author_avatar_urls,content,date,post,userID,meta,is_logged_in,user_comment_response,rating';
+
+        const res = await fetch( `${wpRequestURL}comments?post=${postID}&orderby=${sectionInfo.current_sort}&per_page=${commentsPerPage}&page=${sectionInfo.current_page}${fields}`, {
+            headers: {
+                'X-WP-Nonce': userNonce,
+            },
+        });
+        const data= await res.json();
+
+        if ( res.status === 200 ) {
+            const commentsMap = data.map( (comment) => {
+                return (
+                    <Review
+                        key={comment.id}
+                        isLoggedIn={isLoggedIn}
+                        userID={userID}
+                        deleteReview={deleteReview}
+                        maxProgress={props.maxProgress}
+                        {...comment}
+                    />
+                );
+            });
+
+            updateSectionInfo( (prevInfo) => ( {
+                ...prevInfo,
+                comment_list: commentsMap,
+                pagination: <Pagination currentPage={sectionInfo.current_page} length={Math.ceil(sectionInfo.commentsCount/commentsPerPage)} handleclick={handlePageSelect}></Pagination>,
+            }));
+        }
+    };
+
     React.useMemo( function() {
         fetchComments( sectionInfo.current_sort, sectionInfo.current_page);
     }, [sectionInfo.current_page, sectionInfo.current_sort, sectionInfo.commentsCount]);
@@ -71,38 +103,6 @@ export default function ReviewSection(props) {
                 commentsCount: ++prevInfo.commentsCount,
                 current_sort: 'date',
                 review_content: '',
-            }));
-        }
-    };
-
-    const fetchComments = async () => {
-        const fields = '&_fields=id,author_name,author,author_avatar_urls,content,date,post,userID,meta,is_logged_in,user_comment_response,rating';
-
-        const res = await fetch( `${wpRequestURL}comments?post=${postID}&orderby=${sectionInfo.current_sort}&per_page=${commentsPerPage}&page=${sectionInfo.current_page}${fields}`, {
-            headers: {
-                'X-WP-Nonce': userNonce,
-            },
-        });
-        const data= await res.json();
-
-        if ( res.status === 200 ) {
-            const commentsMap = data.map( (comment) => {
-                return (
-                    <Review
-                        key={comment.id}
-                        isLoggedIn={isLoggedIn}
-                        userID={userID}
-                        deleteReview={deleteReview}
-                        maxProgress={props.maxProgress}
-                        {...comment}
-                    />
-                );
-            });
-
-            updateSectionInfo( (prevInfo) => ( {
-                ...prevInfo,
-                comment_list: commentsMap,
-                pagination: <Pagination currentPage={sectionInfo.current_page} length={Math.ceil(sectionInfo.commentsCount/commentsPerPage)} handleclick={handlePageSelect}></Pagination>,
             }));
         }
     };

@@ -20,6 +20,8 @@ get_header();
                 endwhile;
             }
             ?>
+            <div id="releases-wrap">
+            </div>
         </div>
         <aside class="sidebar-wrap col d-none d-lg-block">
             <?php get_sidebar('sidebar-main');?>

@@ -33,23 +33,27 @@ class assets{
       $path= '';
       $version_info = '';
 
-      if( is_single(get_queried_object()) || is_page()){
+      if(is_page_template('page-templates/calender.php')){
+        $path= LNARCHIVE_BUILD_CSS_URI . '/calender.css';
+        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/calender.css');
+      }
+      else if(is_single(get_queried_object()) || is_page()) {
         $path= LNARCHIVE_BUILD_CSS_URI . '/'.get_post_type().'.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/'.get_post_type().'.css');
       }
-      else if( !is_front_page() && is_home() || is_category()){
+      else if(!is_front_page() && is_home() || is_category()) {
         $path= LNARCHIVE_BUILD_CSS_URI . '/archive_post.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/archive_post.css');
       }
-      else if( is_archive() ){
+      else if(is_archive()) {
         $path= LNARCHIVE_BUILD_CSS_URI . '/archive.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/archive.css');
       }
-      else if( is_search() ){
+      else if(is_search()) {
         $path= LNARCHIVE_BUILD_CSS_URI . '/search.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/search.css');
       }
-      else{
+      else {
         $path= LNARCHIVE_BUILD_CSS_URI . '/default.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/default.css');
       }
@@ -69,24 +73,28 @@ class assets{
           'login_url' => wp_login_url(),
           'per_page' => get_option( 'posts_per_page' ),
         );
-        
-        if( is_single(get_queried_object()) || is_page()){
+
+        if(is_page_template('page-templates/calender.php')) {
+          $path= LNARCHIVE_BUILD_JS_URI . '/calender.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/calender.js');
+        }
+        else if(is_single(get_queried_object()) || is_page()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/'.get_post_type().'.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/'.get_post_type().'.js');
           $localize_vars['object_id'] = get_the_ID();
           $localize_vars['object_type'] = get_post_type();
           $localize_vars['comments_count'] = get_comments_number(get_the_ID());
         }
-        else if( is_category() ){
+        else if(is_category()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/archive-post.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive_post.js');
         }
-        else if( is_archive() ){
+        else if(is_archive()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/archive.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive.js');
           $localize_vars['novel_count'] = wp_count_posts('novel')->publish;
         }
-        else if( is_search() ){
+        else if(is_search()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/search.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/search.js');
         }

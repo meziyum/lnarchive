@@ -3,21 +3,22 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
 
 const JS_DIR = path.resolve('./src/js/pages');
 const IMG_DIR = path.resolve('./src/img');
 const BUILD_DIR = path.resolve('./assets');
 
 const entry = {
-  admin: `${JS_DIR}/admin/admin.js`,
-  novel: `${JS_DIR}/novel/novel.js`,
-  post: `${JS_DIR}/post/post.js`,
-  page: `${JS_DIR}/page/page.js`,
-  archive: `${JS_DIR}/archive/archive.js`,
-  archive_post: `${JS_DIR}/archive-post/archive-post.js`,
-  search: `${JS_DIR}/search.js`,
-  default: `${JS_DIR}/default.js`,
+	admin: `${JS_DIR}/admin/admin.js`,
+	novel: `${JS_DIR}/novel/novel.js`,
+	post: `${JS_DIR}/post/post.js`,
+	page: `${JS_DIR}/page/page.js`,
+	archive: `${JS_DIR}/archive/archive.js`,
+	archive_post: `${JS_DIR}/archive-post/archive-post.js`,
+	search: `${JS_DIR}/search.js`,
+	default: `${JS_DIR}/default.js`,
+	calender: `${JS_DIR}/calender/calender.js`,
 };
 
 const output = {
@@ -30,10 +31,10 @@ const rules = [
 		test: /\.(js|jsx)$/,
 		exclude: /node_modules/,
 		use: {
-		  loader: 'babel-loader',
-		  options: {
+		loader: 'babel-loader',
+		options: {
 			presets: ['@babel/preset-env', '@babel/preset-react']
-		  }
+		}
 		}
 	},
 	{
@@ -61,38 +62,38 @@ const rules = [
 		filename: 'font/[hash][ext][query]',
 		},
 	},
-  ];
+];
+
+const plugins = (argv) => [  
+new CleanWebpackPlugin({
+cleanStaleWebpackAssets: 'production' === argv.mode,
+}),
+
+new MiniCssExtractPlugin({
+filename: 'css/[name].css',
+}),
+];
   
-  const plugins = (argv) => [  
-	new CleanWebpackPlugin({
-	  cleanStaleWebpackAssets: 'production' === argv.mode,
-	}),
-  
-	new MiniCssExtractPlugin({
-	  filename: 'css/[name].css',
-	}),
-  ];
-  
-  export default (env, argv) => ({
+export default (env, argv) => ({
 	entry,
 	output,
 	devtool: 'inline-source-map',
 	module: {
-	  rules,
+		rules,
 	},
 	optimization: {
-	  minimize: argv.mode === 'production',
-	  minimizer: [
+		minimize: argv.mode === 'production',
+		minimizer: [
 		new CssMinimizerPlugin({
-		  parallel: true,
+			parallel: true,
 		}),
 		new TerserPlugin(),
-	  ],
-	},
-  
+		],
+},
+
 	plugins: plugins(argv),
-  
+
 	externals: {
-	  jquery: 'jQuery',
+		jquery: 'jQuery',
 	},
 });

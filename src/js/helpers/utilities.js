@@ -1,9 +1,9 @@
 
 export const formatDate = (oldDate) => {
     const year= oldDate.substring(0, 4);
-    const month= Intl.DateTimeFormat('en', {month: 'long'}).format(new Date(parseInt(oldDate.substring(5, 7))));
-    const day=oldDate.substring(8);
-    return `${day} ${month}, ${year}`;
+    const monthName = new Intl.DateTimeFormat('en', {month: 'long'}).format(new Date(oldDate.substring(5, 7)));
+    const day=oldDate.substring(8, 10);
+    return `${day} ${monthName}, ${year}`;
 };
 
 export const escHTML = (unsafeText) => {

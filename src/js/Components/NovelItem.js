@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
  * @param {string} props.id - The unique ID for the novel.
  * @param {string} props.link - The URL for the novel's page.
  * @param {string} props.novelCover - The URL for the novel's cover image.
+ * @param {string} props.releaseDate - The release date of the novel
  * @return {JSX.Element} - The rendered component.
  */
 export default function NovelItem(props) {
@@ -18,6 +19,7 @@ export default function NovelItem(props) {
                     <img className="novel-cover" width="900" height="1280" srcSet={props.novelCover}>
                     </img>
                 </a>
+                {props.releaseDate && <p>{props.releaseDate}</p>}
             </div>
         </div>
     );
@@ -27,4 +29,5 @@ NovelItem.propTypes = {
     id: PropTypes.number.isRequired,
     link: PropTypes.string.isRequired,
     novelCover: PropTypes.string.isRequired,
+    releaseDate: PropTypes.string,
 };

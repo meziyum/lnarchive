@@ -19,6 +19,8 @@ class volume{
     protected function set_hooks() {
         add_action( 'init', [ $this, 'register_volume']);
         add_action('save_post_volume', [$this, 'auto_update_volume']);
+        add_action( 'rest_api_init', [$this, 'addOrderbySupportRest']);
+        add_action( 'rest_api_init', [$this, 'register_routes']);
     }
 
     public function register_volume() {
@@ -62,7 +64,7 @@ class volume{
             'label'               => 'Volume',
             'description'         => 'All volumes data',
             'labels'              => $labels,
-            'public'              => true,
+            'public'              => false,
             'hierarchical'        => false,
             'exclude_from_search' => true,
             'publicly_queryable'  => true,
@@ -95,7 +97,91 @@ class volume{
         register_post_type( 'volume', $args );
     }
 
-    function auto_update_volume( $post_id ){
+    public function register_routes() {
+        register_rest_route( 'lnarchive/v1', 'formats_list', array(
+            'methods' => 'GET',
+            'callback' => [ $this, 'get_volume_formats'],
+            'permission_callback' => function(){
+                return true;
+            },
+        ));
+    }
+
+    public function get_volume_formats() {
+
+        $formats = get_terms( array(
+            'taxonomy'   => 'format',
+            'hide_empty' => false,
+        ));
+        $response = array();
+
+        foreach( $formats as $format){
+            if( $format->name == "None")
+                continue;
+            array_push($response, $format->name);
+        }
+        return $response;
+    }
+
+    function addOrderbySupportRest(){
+        
+        add_filter(
+            'rest_volume_collection_params',
+            function( $params ) {
+                $formats = get_terms( array(
+                    'taxonomy'   => 'format',
+                    'hide_empty' => false,
+                ));
+
+                foreach ($formats as $format) {
+                    $params['orderby']['enum'][] = 'published_date_value_'.$format->name;
+                }
+                return $params;
+            },
+            30,
+            1
+        );
+        
+        add_filter(
+            'rest_volume_query',
+            function ( $args, $request ) {
+                $formats = get_terms( array(
+                    'taxonomy'   => 'format',
+                    'hide_empty' => true,
+                ));
+                $publication_date_order_by=array();
+                foreach ($formats as $format) {
+                    array_push($publication_date_order_by, 'published_date_value_'.$format->name);
+                }
+                $order_by = $request->get_param('orderby');
+                if( isset( $order_by ) ) {
+                    if(in_array($order_by, $publication_date_order_by)) {
+                        $args['meta_query'] = array(
+                            'relation' => 'AND',
+                            array(
+                                'key' => $order_by,
+                                'value' => '',
+                                'compare' => '!='
+                            ),
+                            array(
+                                'key' => $order_by,
+                                'value' => date('Y-m-d'),
+                                'compare' => '>=',
+                                'type' => 'DATE'
+                            )
+                        );
+                        $args['meta_key'] = $order_by;
+                        $args['orderby'] = 'meta_value_num';
+                    }
+                }
+                return $args;
+            },
+            10,
+            2
+        );
+    }
+
+    function auto_update_volume($post_id){
         
         $formats = get_terms('format', array(
             'hide_empty' => false,

@@ -5,13 +5,13 @@ import Pagination from '../../../Components/Pagination.js';
 import NovelItem from '../../../Components/NovelItem.js';
 import FilterSelect from './FilterSelect.js';
 import NovelSearch from '../../../Components/NovelSearch.js';
+import ResultsNotFound from '../../../Components/ResultsNotFound.js';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {
     faSliders,
-    faTriangleExclamation,
 }
     from '@fortawesome/free-solid-svg-icons';
 
@@ -182,18 +182,7 @@ export default function NovelArchive( props ) {
             <div className="archive-list row">
                 {archiveInfo.novelsFound && archiveInfo.novel_list}
                 {archiveInfo.novelsFound && archiveInfo.pagination}
-                {!archiveInfo.novelsFound &&
-                <div id="results-not-found">
-                    <FontAwesomeIcon
-                        icon={faTriangleExclamation}
-                        size="5x"
-                        style={{color: 'red'}}
-                        onClick={() => {
-                            setFilterToggle(!filterToggleState);
-                        }}
-                    />
-                    <h2>We were unable to find results for the applied filters</h2>
-                </div>
+                {!archiveInfo.novelsFound && <ResultsNotFound/>
                 }
             </div>
         </>

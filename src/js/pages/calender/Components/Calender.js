@@ -6,6 +6,7 @@ import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import PropTypes from 'prop-types';
 import NovelSearch from '../../../Components/NovelSearch.js';
+import ResultsNotFound from '../../../Components/ResultsNotFound.js';
 
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
@@ -24,6 +25,7 @@ export default function Calender(props) {
         list: '',
         selectedFormat: {value: 'published_date_value_Kindle', label: 'Kindle'},
         search: '',
+        volumesFound: true,
     });
 
     const options = props.formatsList.map( (format) => ({
@@ -56,6 +58,7 @@ export default function Calender(props) {
         updateCalenderStates( (prevInfo) => ({
             ...prevInfo,
             list: volumes,
+            volumesFound: volumes.length>0 ? true : false,
         }));
     };
 
@@ -76,16 +79,19 @@ export default function Calender(props) {
 
     return (
         <>
-            <NovelSearch updateSearch={updateSearch}/>
-            <Select
-                options={options}
-                value={calenderStates.selectedFormat}
-                isClearable={false}
-                onChange={ (data) => handleSelect(data)}
-                styles={reactSelectStyle}
-            />
+            <div id="upcoming-releases-header">
+                <NovelSearch updateSearch={updateSearch}/>
+                <Select
+                    options={options}
+                    value={calenderStates.selectedFormat}
+                    isClearable={false}
+                    onChange={(data) => handleSelect(data)}
+                    styles={reactSelectStyle}
+                />
+            </div>
             <div className='calender-list row'>
                 {calenderStates.list}
+                {!calenderStates.volumesFound && <ResultsNotFound/>}
             </div>
         </>
     );

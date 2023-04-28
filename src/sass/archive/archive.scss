@@ -1,6 +1,8 @@
 
 @import "../main.scss";
 @import "../layouts/pagination.scss";
+@import "../layouts/novelSearch.scss";
+@import "../layouts/resultsNotFound.scss";
 
 #archive-wrap {
 
@@ -9,12 +11,6 @@
         flex-direction: row;
         justify-content: space-between;
         margin-bottom: 8px;
-
-        #nsearch{
-            border-radius: 8px;
-            padding: 4px;
-            outline: none;
-        }
     }
 
     #archive-filter {
@@ -36,16 +32,5 @@
 
     .archive-list {
         margin-top: 16px;
-
-        #results-not-found {
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-
-            > * {
-                margin-bottom: 16px;
-            }
-        }
     }
 }

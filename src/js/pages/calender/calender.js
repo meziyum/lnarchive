@@ -7,7 +7,7 @@ import Calender from './Components/Calender.js';
 /* eslint-disable no-undef */
 const customAPIRequestURL = lnarchiveVariables.custom_api_url;
 /* eslint-enable no-undef */
-const archiveRoot = ReactDOMClient.createRoot(document.getElementById('releases-wrap'));
+const archiveRoot = ReactDOMClient.createRoot(document.getElementById('upcoming-releases-wrap'));
 
 fetch(`${customAPIRequestURL}formats_list`, {
     method: 'GET',

@@ -1,14 +1,16 @@
 
 @import "../main.scss";
+@import "../layouts/pagination.scss";
+@import "../layouts/novelSearch.scss";
+@import "../layouts/resultsNotFound.scss";
 
 .calender-wrap{
 
-    #releases-wrap{
-        
-        #nsearch{
-            border-radius: 8px;
-            padding: 4px;
-            outline: none;
+    #upcoming-releases-wrap{
+
+        #upcoming-releases-header{
+            display: flex;
+            justify-content: space-between;
         }
     }
 }

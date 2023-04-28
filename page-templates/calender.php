@@ -15,12 +15,12 @@ get_header();
                 while( have_posts(  )) : the_post();
                     printf(
                         '<h1 class="page-title">%1$s</h1>',
-                        'Calender',
+                        'Upcoming Releases',
                     );
                 endwhile;
             }
             ?>
-            <div id="releases-wrap">
+            <div id="upcoming-releases-wrap">
             </div>
         </div>
         <aside class="sidebar-wrap col d-none d-lg-block">

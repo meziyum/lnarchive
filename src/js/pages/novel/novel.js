@@ -67,7 +67,7 @@ fetch( `${customAPIrequestURL}current_user/${novelID}`, {
 
 for ( let i=0; i<volumesList.length; i++) {
     volumesList[i].addEventListener('click', function(event) {
-        fetch( `${wpRequestURL}volumes/${event.target.parentNode.id}?_embed&_fields=title,excerpt,featured_media,_links,meta`)
+        fetch( `${wpRequestURL}volumes/${event.target.parentNode.id}?_embed=wp:featuredmedia,wp:term&_fields=title.rendered,excerpt.rendered,_links,meta`)
             .then( (res) => res.json())
             .then( (data) => {
                 document.querySelector('.novel-cover').srcset=data._embedded['wp:featuredmedia']['0'].source_url;

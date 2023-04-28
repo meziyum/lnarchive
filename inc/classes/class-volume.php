@@ -21,6 +21,7 @@ class volume{
         add_action('save_post_volume', [$this, 'auto_update_volume']);
         add_action( 'rest_api_init', [$this, 'addOrderbySupportRest']);
         add_action( 'rest_api_init', [$this, 'register_routes']);
+        add_action( 'rest_api_init', [$this, 'register_rest']);
     }
 
     public function register_volume() {
@@ -97,6 +98,12 @@ class volume{
         register_post_type( 'volume', $args );
     }
 
+    public function register_rest(){
+        register_rest_field( "volume", 'novel_link', array(
+            'get_callback' => [$this, 'get_novel_link'],
+        ));
+    }
+
     public function register_routes() {
         register_rest_route( 'lnarchive/v1', 'formats_list', array(
             'methods' => 'GET',
@@ -105,6 +112,12 @@ class volume{
                 return true;
             },
         ));
+    }
+
+    public function get_novel_link($volume) {
+        $volume_id = $volume['id'];
+        $novel_id = get_post_meta($volume_id, 'series_value', true);
+        return get_permalink($novel_id);
     }
 
     public function get_volume_formats() {

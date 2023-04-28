@@ -34,9 +34,9 @@ export default function Calender(props) {
     }, [calenderStates.currentPage, calenderStates.selectedFormat]);
 
     const getVolumes = async () => {
-        const fields ='id, title';
+        const fields =`id,title.rendered,novel_link,meta.${calenderStates.selectedFormat.value},_links.wp:featuredmedia`;
 
-        const response = await fetch( `${wpRequestURL}volumes?_embed&page=${calenderStates.currentPage}&per_page=${volumePerPage}&orderby=${calenderStates.selectedFormat.value}`, {
+        const response = await fetch( `${wpRequestURL}volumes?_embed=wp:featuredmedia&_fields=${fields}&page=${calenderStates.currentPage}&per_page=${volumePerPage}&orderby=${calenderStates.selectedFormat.value}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -48,7 +48,7 @@ export default function Calender(props) {
 
         const volumes = data.map( (volume) => {
             return (
-                <NovelItem key={volume.id} id={volume.id} link={volume.link} novelCover={volume._embedded['wp:featuredmedia'][0].source_url} releaseDate={formatDate(volume.meta[calenderStates.selectedFormat.value][0])}/>
+                <NovelItem key={volume.id} id={volume.id} link={volume.novel_link} novelCover={volume._embedded['wp:featuredmedia'][0].source_url} releaseDate={formatDate(volume.meta[calenderStates.selectedFormat.value][0])}/>
             );
         });
 

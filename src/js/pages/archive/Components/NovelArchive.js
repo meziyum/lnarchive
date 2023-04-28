@@ -89,9 +89,9 @@ export default function NovelArchive( props ) {
             }
         });
 
-        const fields = 'id,link,publisher,language,illustrator,genre,tag,novel_status,_links';
+        const fields = 'id,link,_links.wp:featuredmedia';
 
-        const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.current_page}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
+        const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&_fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.current_page}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {

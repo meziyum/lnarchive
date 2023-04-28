@@ -33,7 +33,7 @@ class comment {
             ),
          ]);
 
-         register_meta('comment', 'dislikes', [
+        register_meta('comment', 'dislikes', [
             'type' => 'number',
             'single' => true,
             'default ' => 0,
@@ -45,7 +45,7 @@ class comment {
             ),
          ]);
 
-         register_meta('comment', 'progress', [
+        register_meta('comment', 'progress', [
             'type' => 'number',
             'single' => true,
             'default ' => 0,
@@ -58,7 +58,7 @@ class comment {
             ),
          ]);
 
-         register_rest_field( "comment", 'user_comment_response', array(
+        register_rest_field( "comment", 'user_comment_response', array(
             'get_callback' => [$this, 'get_user_comment_response'],
         ));
 

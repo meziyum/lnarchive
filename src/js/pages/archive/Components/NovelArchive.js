@@ -49,6 +49,10 @@ export default function NovelArchive( props ) {
             ...prevInfo,
             [name]: data,
         }));
+        updateArchiveInfo( (prevInfo) => ({
+            ...prevInfo,
+            current_page: 1,
+        }));
     };
 
     const [filterToggleState, setFilterToggle] = React.useState(false);
@@ -103,20 +107,19 @@ export default function NovelArchive( props ) {
             );
         });
 
-        if (novels.length > 0) {
-            updateArchiveInfo( (prevInfo) => ({
-                ...prevInfo,
-                novel_list: [...prevInfo.novel_list, novels],
-                novelsFound: novels.length>0 ? true : false,
-                current_page: prevInfo.current_page+1,
-            }));
-            history.replaceState(null, null, window.location.pathname);
-        }
+        updateArchiveInfo( (prevInfo) => ({
+            ...prevInfo,
+            novel_list: prevInfo.current_page === 1 ? novels : [...prevInfo.novel_list, novels],
+            novelsFound: novels.length>0 ? true : false,
+            current_page: prevInfo.current_page+1,
+        }));
+        history.replaceState(null, null, window.location.pathname);
     };
 
     const handleSelect = (data, name) => {
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
+            current_page: 1,
             [name]: data,
         }));
     };
@@ -125,6 +128,7 @@ export default function NovelArchive( props ) {
         event.preventDefault();
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
+            current_page: 1,
             search: value,
         }));
     };

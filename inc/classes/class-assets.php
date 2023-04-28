@@ -92,7 +92,6 @@ class assets{
         else if(is_archive()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/archive.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive.js');
-          $localize_vars['novel_count'] = wp_count_posts('novel')->publish;
         }
         else if(is_search()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/search.js'; 

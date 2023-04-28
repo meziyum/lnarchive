@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
  * @param {string} props.releaseDate - The release date of the novel
  * @return {JSX.Element} - The rendered component.
  */
-export default function NovelItem(props) {
+function NovelItem(props) {
     return (
         <div className="novel-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
             <div className="novel-entry archive-entry">
@@ -24,6 +24,8 @@ export default function NovelItem(props) {
         </div>
     );
 }
+
+export default React.memo(NovelItem);
 
 NovelItem.propTypes = {
     id: PropTypes.number.isRequired,

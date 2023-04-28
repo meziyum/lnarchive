@@ -1,7 +1,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Pagination from '../../../Components/Pagination.js';
 import NovelItem from '../../../Components/NovelItem.js';
 import FilterSelect from './FilterSelect.js';
 import NovelSearch from '../../../Components/NovelSearch.js';
@@ -19,11 +18,10 @@ const params = new URLSearchParams(window.location.search);
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
 const novelPerPage = lnarchiveVariables.per_page;
-const novelCount = lnarchiveVariables.novel_count;
 /* eslint-enable no-undef */
 
 /**
-Renders a page displaying a list of novels with filtering and pagination functionality
+Renders a page displaying a list of novels with filtering and sorting functionality
 @param {Object} props - Component props
 @param {Array} props.filterData - An array of objects representing the available filters for the novel archive
 @return {JSX.Element} - Rendered NovelArchive component
@@ -65,7 +63,6 @@ export default function NovelArchive( props ) {
                 <FilterSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
             );
         }),
-        pagination: '',
         current_page: 1,
         search: '',
         order: {value: 'asc', label: 'Ascending'},
@@ -98,6 +95,7 @@ export default function NovelArchive( props ) {
                 'Content-Type': 'application/json',
             }},
         );
+
         const data= await response.json();
         const novels = data.map( (novel) => {
             return (
@@ -105,26 +103,21 @@ export default function NovelArchive( props ) {
             );
         });
 
-        updateArchiveInfo( (prevInfo) => ({
-            ...prevInfo,
-            pagination: <Pagination currentPage={archiveInfo.current_page} length={Math.ceil(novelCount/novelPerPage)} handleclick={handlePageSelect}></Pagination>,
-            novel_list: novels,
-            novelsFound: novels.length>0 ? true : false,
-        }));
-        history.replaceState(null, null, window.location.pathname);
+        if (novels.length > 0) {
+            updateArchiveInfo( (prevInfo) => ({
+                ...prevInfo,
+                novel_list: [...prevInfo.novel_list, novels],
+                novelsFound: novels.length>0 ? true : false,
+                current_page: prevInfo.current_page+1,
+            }));
+            history.replaceState(null, null, window.location.pathname);
+        }
     };
 
     const handleSelect = (data, name) => {
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
             [name]: data,
-        }));
-    };
-
-    const handlePageSelect = ( event ) => {
-        updateArchiveInfo( (prevInfo) => ({
-            ...prevInfo,
-            current_page: parseInt(event.target.value),
         }));
     };
 
@@ -181,7 +174,6 @@ export default function NovelArchive( props ) {
             }
             <div className="archive-list row">
                 {archiveInfo.novelsFound && archiveInfo.novel_list}
-                {archiveInfo.novelsFound && archiveInfo.pagination}
                 {!archiveInfo.novelsFound && <ResultsNotFound/>
                 }
             </div>

@@ -5,6 +5,7 @@ import {formatDate} from '../../../helpers/utilities.js';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import PropTypes from 'prop-types';
+import NovelSearch from '../../../Components/NovelSearch.js';
 
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
@@ -22,6 +23,7 @@ export default function Calender(props) {
         currentPage: 1,
         list: '',
         selectedFormat: {value: 'published_date_value_Kindle', label: 'Kindle'},
+        search: '',
     });
 
     const options = props.formatsList.map( (format) => ({
@@ -31,12 +33,12 @@ export default function Calender(props) {
 
     React.useEffect( () => {
         getVolumes();
-    }, [calenderStates.currentPage, calenderStates.selectedFormat]);
+    }, [calenderStates.currentPage, calenderStates.selectedFormat, calenderStates.search]);
 
     const getVolumes = async () => {
         const fields =`id,title.rendered,novel_link,meta.${calenderStates.selectedFormat.value},_links.wp:featuredmedia`;
 
-        const response = await fetch( `${wpRequestURL}volumes?_embed=wp:featuredmedia&_fields=${fields}&page=${calenderStates.currentPage}&per_page=${volumePerPage}&orderby=${calenderStates.selectedFormat.value}`, {
+        const response = await fetch( `${wpRequestURL}volumes?_embed=wp:featuredmedia&_fields=${fields}&page=${calenderStates.currentPage}&per_page=${volumePerPage}&orderby=${calenderStates.selectedFormat.value}&search=${calenderStates.search}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -44,7 +46,6 @@ export default function Calender(props) {
             },
         });
         const data= await response.json();
-        console.log(data);
 
         const volumes = data.map( (volume) => {
             return (
@@ -65,8 +66,17 @@ export default function Calender(props) {
         }));
     };
 
+    const updateSearch = (event, value) => {
+        event.preventDefault();
+        updateCalenderStates( (prevInfo) => ({
+            ...prevInfo,
+            search: value,
+        }));
+    };
+
     return (
         <>
+            <NovelSearch updateSearch={updateSearch}/>
             <Select
                 options={options}
                 value={calenderStates.selectedFormat}

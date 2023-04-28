@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Pagination from '../../../Components/Pagination.js';
 import NovelItem from '../../../Components/NovelItem.js';
 import FilterSelect from './FilterSelect.js';
-import NovelSearch from './NovelSearch.js';
+import NovelSearch from '../../../Components/NovelSearch.js';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

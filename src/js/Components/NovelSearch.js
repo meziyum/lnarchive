@@ -37,7 +37,7 @@ export default function NovelSearch({updateSearch}) {
             <button id="search-button">
                 <FontAwesomeIcon
                     icon={faMagnifyingGlass}
-                    size="l"
+                    size="lg"
                     style={{color: 'white'}}
                 />
             </button>

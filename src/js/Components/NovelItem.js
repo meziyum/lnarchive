@@ -19,7 +19,7 @@ function NovelItem(props) {
                     <img className="novel-cover" width="900" height="1280" srcSet={props.novelCover}>
                     </img>
                 </a>
-                {props.releaseDate && <p>{props.releaseDate}</p>}
+                {props.releaseDate && <h5 className='release-date'>{props.releaseDate}</h5>}
             </div>
         </div>
     );

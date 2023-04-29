@@ -1,6 +1,12 @@
 
 import React from 'react';
 import propTypes from 'prop-types';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+
+import {
+    faMagnifyingGlass,
+}
+    from '@fortawesome/free-solid-svg-icons';
 
 /**
 A component for searching novels.
@@ -25,9 +31,16 @@ export default function NovelSearch({updateSearch}) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form id="novel-search-form" onSubmit={handleSubmit}>
             <input type="search" id="nsearch" name="nsearch" value={search} onInput={handleInput} placeholder='Search Novel'>
             </input>
+            <button id="search-button">
+                <FontAwesomeIcon
+                    icon={faMagnifyingGlass}
+                    size="l"
+                    style={{color: 'white'}}
+                />
+            </button>
         </form>
     );
 }

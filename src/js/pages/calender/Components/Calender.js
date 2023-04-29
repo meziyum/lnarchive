@@ -59,6 +59,7 @@ export default function Calender(props) {
         updateCalenderStates( (prevInfo) => ({
             ...prevInfo,
             list: prevInfo.currentPage === 1 ? volumes : [...prevInfo.list, ...volumes],
+            volumesFound: volumes.length>0 ? true : false,
         }));
     };
 

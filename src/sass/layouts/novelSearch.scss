@@ -1,6 +1,20 @@
 
-#nsearch{
-    border-radius: 8px;
-    padding: 4px;
-    outline: none;
+#novel-search-form {
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+
+    #nsearch {
+        border-radius: 0;
+        padding: 4px;
+        outline: none;
+    }
+
+    #search-button {
+        background-color: $novel-search-background;
+        border-radius: 0;
+        margin: 0;
+    }
 }
+

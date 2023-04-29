@@ -21,7 +21,6 @@ export default function NovelSearch({updateSearch}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        updateSearchState('');
         updateSearch(event, search);
     };
 

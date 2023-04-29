@@ -7,6 +7,7 @@ import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import PropTypes from 'prop-types';
 import NovelSearch from '../../../Components/NovelSearch.js';
 import ResultsNotFound from '../../../Components/ResultsNotFound.js';
+import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
@@ -40,7 +41,7 @@ export default function Calender(props) {
     const getVolumes = async () => {
         const fields =`id,title.rendered,novel_link,meta.${calenderStates.selectedFormat.value},_links.wp:featuredmedia`;
 
-        const response = await fetch( `${wpRequestURL}volumes?_embed=wp:featuredmedia&_fields=${fields}&page=${calenderStates.currentPage}&per_page=${volumePerPage}&orderby=${calenderStates.selectedFormat.value}&search=${calenderStates.search}`, {
+        const response = await fetch( `${wpRequestURL}volumes?_embed=wp:featuredmedia&_fields=${fields}&per_page=${volumePerPage}&page=${calenderStates.currentPage}&page=${calenderStates.currentPage}&per_page=${volumePerPage}&orderby=${calenderStates.selectedFormat.value}&search=${calenderStates.search}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -57,8 +58,7 @@ export default function Calender(props) {
 
         updateCalenderStates( (prevInfo) => ({
             ...prevInfo,
-            list: volumes,
-            volumesFound: volumes.length>0 ? true : false,
+            list: prevInfo.currentPage === 1 ? volumes : [...prevInfo.list, ...volumes],
         }));
     };
 
@@ -66,6 +66,7 @@ export default function Calender(props) {
         updateCalenderStates( (prevInfo) => ({
             ...prevInfo,
             selectedFormat: data,
+            currentPage: 1,
         }));
     };
 
@@ -74,7 +75,17 @@ export default function Calender(props) {
         updateCalenderStates( (prevInfo) => ({
             ...prevInfo,
             search: value,
+            currentPage: 1,
         }));
+    };
+
+    const handleInView = () => {
+        if (calenderStates.list.length%volumePerPage===0) {
+            updateCalenderStates( (prevInfo) => ({
+                ...prevInfo,
+                currentPage: ++prevInfo.currentPage,
+            }));
+        }
     };
 
     return (
@@ -93,6 +104,7 @@ export default function Calender(props) {
                 {calenderStates.list}
                 {!calenderStates.volumesFound && <ResultsNotFound/>}
             </div>
+            <InfiniteScroll handleInView={handleInView}/>
         </>
     );
 }

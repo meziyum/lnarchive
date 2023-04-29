@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import NovelItem from '../../../Components/NovelItem.js';
 import FilterSelect from './FilterSelect.js';
 import NovelSearch from '../../../Components/NovelSearch.js';
+import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 import ResultsNotFound from '../../../Components/ResultsNotFound.js';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
@@ -26,7 +27,7 @@ Renders a page displaying a list of novels with filtering and sorting functional
 @param {Array} props.filterData - An array of objects representing the available filters for the novel archive
 @return {JSX.Element} - Rendered NovelArchive component
 */
-export default function NovelArchive( props ) {
+function NovelArchive(props) {
     const defaultApplitedFilters = () => {
         const defaults = {};
         props.filterData.forEach((tax) => {
@@ -51,7 +52,7 @@ export default function NovelArchive( props ) {
         }));
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
-            current_page: 1,
+            currentPage: 1,
         }));
     };
 
@@ -67,7 +68,7 @@ export default function NovelArchive( props ) {
                 <FilterSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
             );
         }),
-        current_page: 1,
+        currentPage: 1,
         search: '',
         order: {value: 'asc', label: 'Ascending'},
         order_by: {value: 'date', label: 'Release Date'},
@@ -75,7 +76,7 @@ export default function NovelArchive( props ) {
 
     React.useEffect( () => {
         getNovels();
-    }, [archiveInfo.current_page, archiveInfo.order_by, archiveInfo.order, archiveInfo.search, appliedFilters]);
+    }, [archiveInfo.currentPage, archiveInfo.order_by, archiveInfo.order, archiveInfo.search, appliedFilters]);
 
     const getNovels = async () => {
         let filters=``;
@@ -92,7 +93,7 @@ export default function NovelArchive( props ) {
 
         const fields = 'id,link,_links.wp:featuredmedia';
 
-        const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&_fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.current_page}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
+        const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&_fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.currentPage}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -109,9 +110,8 @@ export default function NovelArchive( props ) {
 
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
-            novel_list: prevInfo.current_page === 1 ? novels : [...prevInfo.novel_list, novels],
+            novel_list: prevInfo.currentPage === 1 ? novels : [...prevInfo.novel_list, novels],
             novelsFound: novels.length>0 ? true : false,
-            current_page: prevInfo.current_page+1,
         }));
         history.replaceState(null, null, window.location.pathname);
     };
@@ -119,7 +119,7 @@ export default function NovelArchive( props ) {
     const handleSelect = (data, name) => {
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
-            current_page: 1,
+            currentPage: 1,
             [name]: data,
         }));
     };
@@ -128,9 +128,18 @@ export default function NovelArchive( props ) {
         event.preventDefault();
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
-            current_page: 1,
+            currentPage: 1,
             search: value,
         }));
+    };
+
+    const handleInView = () => {
+        if (archiveInfo.novel_list.length%novelPerPage===0) {
+            updateArchiveInfo( (prevInfo) => ({
+                ...prevInfo,
+                currentPage: ++prevInfo.currentPage,
+            }));
+        }
     };
 
     return (
@@ -178,12 +187,14 @@ export default function NovelArchive( props ) {
             }
             <div className="archive-list row">
                 {archiveInfo.novelsFound && archiveInfo.novel_list}
-                {!archiveInfo.novelsFound && <ResultsNotFound/>
-                }
+                {!archiveInfo.novelsFound && <ResultsNotFound/>}
             </div>
+            <InfiniteScroll handleInView={handleInView}/>
         </>
     );
 }
+
+export default NovelArchive;
 
 NovelArchive.propTypes = {
     filterData: PropTypes.array.isRequired,

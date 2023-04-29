@@ -45,6 +45,8 @@ function NovelArchive(props) {
         return defaults;
     };
 
+    const lastResponseLength = React.useRef(0);
+
     const handleFilter = ( data, name ) => {
         setAppliedFilters( (prevInfo) => ({
             ...prevInfo,
@@ -107,6 +109,7 @@ function NovelArchive(props) {
                 <NovelItem key={novel.id} id={novel.id} link={novel.link} novelCover={novel._embedded['wp:featuredmedia'][0].source_url}/>
             );
         });
+        lastResponseLength.current=novels.length;
 
         updateArchiveInfo( (prevInfo) => ({
             ...prevInfo,
@@ -134,7 +137,7 @@ function NovelArchive(props) {
     };
 
     const handleInView = () => {
-        if (archiveInfo.novel_list.length%novelPerPage===0) {
+        if (lastResponseLength.current==novelPerPage) {
             updateArchiveInfo( (prevInfo) => ({
                 ...prevInfo,
                 currentPage: ++prevInfo.currentPage,

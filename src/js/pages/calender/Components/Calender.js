@@ -21,6 +21,7 @@ A React component that renders a calender with future novel releases information
 @return {JSX.Element} - A Select component with the specified options and callbacks.
 */
 export default function Calender(props) {
+    const lastResponseLength = React.useRef(0);
     const [calenderStates, updateCalenderStates] = React.useState({
         currentPage: 1,
         list: '',
@@ -55,6 +56,7 @@ export default function Calender(props) {
                 <NovelItem key={volume.id} id={volume.id} link={volume.novel_link} novelCover={volume._embedded['wp:featuredmedia'][0].source_url} releaseDate={formatDate(volume.meta[calenderStates.selectedFormat.value][0])}/>
             );
         });
+        lastResponseLength.current=volumes.length;
 
         updateCalenderStates( (prevInfo) => ({
             ...prevInfo,
@@ -81,7 +83,7 @@ export default function Calender(props) {
     };
 
     const handleInView = () => {
-        if (calenderStates.list.length%volumePerPage===0) {
+        if (lastResponseLength.current==volumePerPage) {
             updateCalenderStates( (prevInfo) => ({
                 ...prevInfo,
                 currentPage: ++prevInfo.currentPage,

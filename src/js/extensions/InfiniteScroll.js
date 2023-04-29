@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  */
 function Dummy(props) {
     return (
-        <div ref={props.componentRef} />
+        <div ref={props.componentRef}/>
     );
 }
 
@@ -51,9 +51,9 @@ function triggerOnView(WrappedComponent) {
                     observer.unobserve(componentRef.current);
                 }
             };
-        }, [props.handleInView, timerRunning]);
+        }, []);
 
-        return <WrappedComponent {...props} componentRef={componentRef} />;
+        return <WrappedComponent componentRef={componentRef} />;
     };
 }
 

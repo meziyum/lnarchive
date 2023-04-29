@@ -9,7 +9,7 @@ get_header();
 
 <main id="main" class="main-content" role="main">
     <div id="<?php echo esc_attr(get_the_ID());?>" class="row main-row">
-        <div class="calender-wrap content-wrap col-lg-9">
+        <div class="calender-wrap content-wrap">
             <?php
             if( have_posts(  ) ) {
                 while( have_posts(  )) : the_post();
@@ -23,9 +23,6 @@ get_header();
             <div id="upcoming-releases-wrap">
             </div>
         </div>
-        <aside class="sidebar-wrap col d-none d-lg-block">
-            <?php get_sidebar('sidebar-main');?>
-        </aside>
     </div>
 </main>
 

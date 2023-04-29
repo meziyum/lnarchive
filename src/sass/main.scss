@@ -1,11 +1,39 @@
 
-//Imports
 @import "essentials";
 @import "layouts/nav.scss";
 @import "layouts/error.scss";
 
-//Bootstrap Modifications
+.site-content {
+    margin-top: $margin-top;
+}
+
+.page-title {
+    color: $white-text;
+    background-color: $light-dark-background;
+    text-align: center;
+}
+
+.content-wrap {
+    padding: 16px;
+    margin-left: 12px;
+    margin-right: 12px;
+    border-radius: 8px;
+    flex-shrink: 1;
+    background-color: $white-text;
+}
+
+.sidebar-wrap {
+    padding: 16px;
+    border-radius: 8px;
+    background-color: $white-text;
+    min-height: 60vh;
+    margin-right: 12px;
+}
 
 .row{
     margin: 0px;
+}
+
+.nav-item:hover .dropdown-menu:not(.show) {
+	display: block;
 }

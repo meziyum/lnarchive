@@ -171,7 +171,7 @@ export default function ReviewSection(props) {
                     <select name="currentSort" id="review-filter" onChange={handleChange} value={sectionInfo.currentSort}>
                         {isLoggedIn && <option value="author">Your {commentType}s</option>}
                         <option value="likes">Popularity</option>
-                        <option value="date">Newest</option>
+                        <option value="date">Latest</option>
                         {props.maxProgress >0 && <option value="progress">Progress</option>}
                     </select>
                 </div>

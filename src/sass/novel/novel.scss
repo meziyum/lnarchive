@@ -67,6 +67,10 @@
             background: $novel-section-bg;
             border-radius: 8px;
 
+            #novel-actions {
+                padding: 8px 0;
+            }
+
             #format_info_value{
                 list-style: none;
                 padding-left: 0;

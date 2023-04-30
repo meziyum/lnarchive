@@ -125,7 +125,7 @@ export default function Review(props) {
                         <h6>{formatDate(props.date.slice(0, props.date.indexOf('T')))}</h6>
                     </div>
                     <div>
-                        {props.rating && <Ratings rating={props.rating} mode={'display'} size={'1x'}/>}
+                        {props.rating && <Ratings rating={parseInt(props.rating)} mode={'display'} size={'1x'}/>}
                         {props.meta.progress !==0 && <h5>Progress: {props.meta.progress}/{props.maxProgress}</h5>}
                     </div>
                 </div>
@@ -210,7 +210,7 @@ Review.propTypes = {
     }).isRequired,
     author_name: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
-    rating: PropTypes.number,
+    rating: PropTypes.string,
     maxProgress: PropTypes.number,
     deleteReview: PropTypes.func.isRequired,
 };

@@ -3,6 +3,7 @@ import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/calender/calender.scss';
 import Calender from './Components/Calender.js';
+import 'bootstrap/dist/js/bootstrap.js';
 
 /* eslint-disable no-undef */
 const customAPIRequestURL = lnarchiveVariables.custom_api_url;

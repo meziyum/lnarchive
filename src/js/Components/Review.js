@@ -114,20 +114,19 @@ export default function Review(props) {
     };
 
     return (
-        <div className="row review-entry mb-3">
-            <div className="review-header row p-2">
-                <div className='col-3 col-sm-2 col-md-2 col-lg-1 p-0'>
+        <div className="row review-entry">
+            <div className="review-header row">
+                <div className='review-header-left col-3 col-sm-2 col-md-2 col-lg-1 p-0'>
                     <img className="user_avatar float-start rounded-circle" srcSet={props.author_avatar_urls['96']}></img>
                 </div>
-                <div className='col'>
-                    <h4>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1)}
-                        <div className="float-end">
-                            <Ratings rating={parseInt(props.rating)} mode={'display'} size={'1x'}/>
-                        </div>
-                    </h4>
-                    <time>{formatDate(props.date.slice(0, props.date.indexOf('T')))}</time>
-                    <div className="float-end">
-                        <h5>Progress: {props.meta.progress}/{props.maxProgress}</h5>
+                <div className='review-header-right col'>
+                    <div>
+                        <h5>{props.author_name.charAt(0).toUpperCase() + props.author_name.slice(1)}</h5>
+                        <h6>{formatDate(props.date.slice(0, props.date.indexOf('T')))}</h6>
+                    </div>
+                    <div>
+                        {props.rating && <Ratings rating={props.rating} mode={'display'} size={'1x'}/>}
+                        {props.meta.progress !==0 && <h5>Progress: {props.meta.progress}/{props.maxProgress}</h5>}
                     </div>
                 </div>
             </div>

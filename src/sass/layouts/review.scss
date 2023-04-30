@@ -11,9 +11,9 @@
         text-align: center;
     }
 
-    #reviews-form{
+    #reviews-form {
 
-        #review-submit{
+        #review-submit {
                 background-color: #3EB2FD;
                 background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
                 background-size: calc(100% + 20px) calc(100% + 20px);
@@ -23,25 +23,37 @@
         }
     }
 
-    #review-filter{
+    #review-filter {
         border: 1px solid #e2eded;
         outline: none;
     }
 
-    #reviews-filter-header{
+    #reviews-filter-header {
         border-bottom: 2px dotted $review-border-col;
     }
 
-    #reviews-list{
+    #reviews-list {
 
-        .review-entry{
+        .review-entry {
             border-bottom: 2px dotted $review-border-col;
+            margin-bottom: 12px;
 
-            .review-header{
+            .review-header {
+                padding: 8px;
 
-                .user_avatar {
-                    max-width: 75px;
-                    max-height: 75px;
+                .review-header-left {
+
+                    .user_avatar {
+                        max-width: 75px;
+                        max-height: 75px;
+                    }
+
+                }
+
+                .review-header-right {
+                    display: flex;
+                    justify-content: space-between;
+
                 }
             }
         }

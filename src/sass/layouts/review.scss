@@ -5,21 +5,33 @@
     background: $review-section-background;
     padding: 0 8px;
 
-    .review-title {
+    #review-title {
         color: $review-title-col;
         background-color: $review-title-background;
         text-align: center;
     }
 
     #reviews-form {
+        margin-bottom: 12px;
 
-        #review-submit {
+        #reviews-form-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #reviews-form-footer {
+            display: flex;
+            justify-content: end;
+
+            #review-submit {
                 background-color: #3EB2FD;
                 background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
                 background-size: calc(100% + 20px) calc(100% + 20px);
                 border: none;
                 border-radius: 100px;
                 color: $review-submit-button-col;
+                padding: 8px 12px;
+            }
         }
     }
 
@@ -33,6 +45,7 @@
     }
 
     #reviews-list {
+        padding-left: 0;
 
         .review-entry {
             border-bottom: 2px dotted $review-border-col;
@@ -54,6 +67,15 @@
                     display: flex;
                     justify-content: space-between;
 
+                }
+            }
+
+            .review-footer {
+                display: flex;
+                justify-content: space-between;
+
+                .reactions {
+                    display: flex;
                 }
             }
         }

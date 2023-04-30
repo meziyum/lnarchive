@@ -1,21 +1,21 @@
 body {
-	margin: 0; //Remove Margin
+	margin: 0;
 	@include body-text( body );
 
-	background: $main-background; //Primary Background Color
-	word-wrap: break-word; //Break word when overflow
+	background: $main-background;
+	word-wrap: break-word;
 }
 
-main { //Main Element
+main {
     background-color: $main-background;
     padding: 8px 12px 8px 12px;
 	min-height: 60vh;
 }
 
-img { //Image Element
-	height: auto; //Auto Resize Image height
+img {
+	height: auto;
 	display: block;
-	width: 100%; //Full Div Width
+	width: 100%;
 }
 
 button { //Button Element
@@ -87,4 +87,25 @@ h5,
 h6 {
 	margin: 0px 0px 12px 0px;
 	text-rendering: optimizelegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+em,
+strong,
+small,
+abbr,
+del,
+ins,
+sup,
+sub,
+time {
+  cursor: default;
 }

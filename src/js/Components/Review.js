@@ -135,7 +135,7 @@ export default function Review(props) {
                 {readMoreButton}
             </div>
             <div className="review-footer">
-                <div className='float-start d-flex'>
+                <div className="reactions">
                     {
                         reviewInfo.user_response == 'like' ?
                             <FontAwesomeIcon
@@ -171,7 +171,7 @@ export default function Review(props) {
                 </div>
                 {
                     isLoggedIn &&
-                    <div className="float-end dropstart">
+                    <div className="dropstart">
                         <a id="comment_user_actions" data-bs-toggle="dropdown" aria-expanded="false">
                             <FontAwesomeIcon
                                 icon={faEllipsis}

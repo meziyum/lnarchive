@@ -144,21 +144,22 @@ export default function ReviewSection(props) {
 
     return (
         <>
-            <h2 className="d-flex justify-content-center review-title">{commentType+'s'}</h2>
+            <h2 id="review-title">{commentType+'s'}</h2>
             {
                 isLoggedIn ?
-                    <form id="reviews-form" className="mb-3" onSubmit={submitReview}>
-                        {
-                            commentType == 'Review' && props.maxProgress>0 &&
-                            <div className="float-end">
-                                <label htmlFor="progress"><h5>No of Volumes(Read): </h5></label>
+                    <form id="reviews-form" onSubmit={submitReview}>
+                        <div id="reviews-form-header">
+                            <h4>Write your {commentType}</h4>
+                            {commentType == 'Review' && props.maxProgress>0 &&
+                            <div>
+                                <label htmlFor="progress"><h5>No of Volumes(Read)</h5></label>
                                 <input type="number" id="progress" name="progress" value={sectionInfo.progress} onChange={handleChange} min="0" max={props.maxProgress}/>
                             </div>
-                        }
-                        <h4 className="float-start">Write your {commentType}</h4>
+                            }
+                        </div>
                         <textarea name="reviewContent" id="reviewContent" onChange={handleChange} value={sectionInfo.reviewContent}/>
-                        <div className="d-flex justify-content-end">
-                            <button className="px-3 py-2" id="review-submit">Submit</button>
+                        <div id="reviews-form-footer">
+                            <button id="review-submit">Submit</button>
                         </div>
                     </form> :
                     <h3>You need to be <a href={props.loginURL}>logged in</a> to submit a {commentType}</h3>
@@ -175,7 +176,7 @@ export default function ReviewSection(props) {
                     </select>
                 </div>
             }
-            <div id="reviews-list" className="ps-0">
+            <div id="reviews-list">
                 {sectionInfo.commentList}
                 {sectionInfo.pagination}
             </div>

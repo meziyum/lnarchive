@@ -16,31 +16,45 @@ header{
     width: 100%;
     position: fixed;
     z-index: 1;
-  
-    .profile-pic{
-      border-radius: 50%;
-  
-      @include respond-to( x-small ) {
-        max-width: 100px;
-        max-height: 100px;
+    background-color: $header-background-col;
+    color: $header-text-col;
+
+    #profile-menu{
+      display: flex;
+      justify-content: center;
+      
+      @include respond-to( medium ) {
+        margin-bottom: 16px;
       }
   
       @include respond-to( large ) {
-        max-width: 50px;
-        max-height: 50px;
+        margin: 0px;
       }
       
+      .profile-pic{
+        border-radius: 50%;
+    
+        @include respond-to( x-small ) {
+          max-width: 100px;
+          max-height: 100px;
+        }
+    
+        @include respond-to( large ) {
+          max-width: 50px;
+          max-height: 50px;
+        }
+        
+      }
     }
 
     .navbar-nav{
       .nav-item {
         .nav-link {
           font-weight: 500;
-          color: $header-text-col !important;
       
           &:hover, 
           &:active {
-            color: $header-text-hover-color !important;
+            color: $header-text-hover-color;
           }
         }
       }
@@ -48,7 +62,7 @@ header{
 
     #main-search-form {
       display: flex;
-      flex-shrink: 1
+      justify-content: center;
     }
   }
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/post/post.scss';
 import ReviewSection from '../../Components/ReviewSection.js';
-import 'bootstrap/dist/js/bootstrap.js';
+import '../common.js';
 
 /* eslint-disable no-undef */
 const customAPIRequestUrl = lnarchiveVariables.custom_api_url;

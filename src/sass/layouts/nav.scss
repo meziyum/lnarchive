@@ -46,8 +46,9 @@ header{
       }
     }
 
-    .main-search{
-      width: 100%;
+    #main-search-form {
+      display: flex;
+      flex-shrink: 1
     }
   }
 }

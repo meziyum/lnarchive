@@ -52,7 +52,6 @@ const userNonce = lnarchiveVariables.nonce;
  */
 export default function Review(props) {
     const userID =props.userID;
-    const isLoggedIn=props.isLoggedIn;
     const readMoreLength = 750;
     const contentLong = props.content.rendered;
     const contentShort = props.content.rendered.substring(0, props.content.rendered.substring(0, readMoreLength).lastIndexOf(' '))+'...';
@@ -142,13 +141,13 @@ export default function Review(props) {
                                 icon={faThumbsUpSolid}
                                 size="xl"
                                 style={{color: 'limegreen'}}
-                                onClick={ () => isLoggedIn && updateResponseDatabase('none')}
+                                onClick={ () => props.isLoggedIn && updateResponseDatabase('none')}
                             /> :
                             <FontAwesomeIcon
                                 icon={faThumbsUp}
                                 size="xl"
                                 style={{color: 'limegreen'}}
-                                onClick={ () => isLoggedIn && updateResponseDatabase('like')}
+                                onClick={ () => props.isLoggedIn && updateResponseDatabase('like')}
                             />
                     }
                     <p>{reviewInfo.like}</p>
@@ -158,19 +157,19 @@ export default function Review(props) {
                                 icon={faThumbsDownSolid}
                                 size="xl"
                                 style={{color: 'crimson'}}
-                                onClick={ () => isLoggedIn && updateResponseDatabase('none')}
+                                onClick={ () => props.isLoggedIn && updateResponseDatabase('none')}
                             /> :
                             <FontAwesomeIcon
                                 icon={faThumbsDown}
                                 size="xl"
                                 style={{color: 'crimson'}}
-                                onClick={ () => isLoggedIn && updateResponseDatabase('dislike')}
+                                onClick={ () => props.isLoggedIn && updateResponseDatabase('dislike')}
                             />
                     }
                     <p>{reviewInfo.dislike}</p>
                 </div>
                 {
-                    isLoggedIn &&
+                    props.isLoggedIn &&
                     <div className="dropstart">
                         <a id="comment_user_actions" data-bs-toggle="dropdown" aria-expanded="false">
                             <FontAwesomeIcon

@@ -36,7 +36,6 @@ export default function ReviewSection(props) {
         progress: 0,
     });
 
-    const isLoggedIn = props.isLoggedIn;
     const userID = props.userID;
     const commentType = props.commentType.charAt(0).toUpperCase() + props.commentType.slice(1);
 
@@ -55,7 +54,7 @@ export default function ReviewSection(props) {
                 return (
                     <Review
                         key={comment.id}
-                        isLoggedIn={isLoggedIn}
+                        isLoggedIn={props.isLoggedIn}
                         userID={userID}
                         deleteReview={deleteReview}
                         maxProgress={props.maxProgress}
@@ -146,7 +145,7 @@ export default function ReviewSection(props) {
         <>
             <h2 id="review-title">{commentType+'s'}</h2>
             {
-                isLoggedIn ?
+                props.isLoggedIn ?
                     <form id="reviews-form" onSubmit={submitReview}>
                         <div id="reviews-form-header">
                             <h4>Write your {commentType}</h4>
@@ -169,7 +168,7 @@ export default function ReviewSection(props) {
                 <div id="reviews-filter-header" className="d-flex justify-content-end">
                     <label htmlFor="review-filter" className="me-1">Sort:</label>
                     <select name="currentSort" id="review-filter" onChange={handleChange} value={sectionInfo.currentSort}>
-                        {isLoggedIn && <option value="author">Your {commentType}s</option>}
+                        {props.isLoggedIn && <option value="author">Your {commentType}s</option>}
                         <option value="likes">Popularity</option>
                         <option value="date">Latest</option>
                         {props.maxProgress >0 && <option value="progress">Progress</option>}

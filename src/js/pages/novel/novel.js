@@ -4,7 +4,7 @@ import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/novel/novel.scss';
 import ReviewSection from '../../Components/ReviewSection.js';
 import NovelActions from './Components/NovelActions.js';
-import 'bootstrap/dist/js/bootstrap.js';
+import '../common.js';
 
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';

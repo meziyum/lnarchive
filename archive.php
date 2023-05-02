@@ -15,8 +15,21 @@ get_header();
             wp_kses_post( get_the_archive_title()),
         );
         ?>
-        <div id="archive-wrap">
-        </div>
+
+        <?php 
+            if(is_post_type_archive('novel')) {
+                ?>
+                <div id="archive-wrap">
+                </div>
+                <?php
+            } else {
+                ?>
+                <div id="blog-wrap">
+                    <p>Yes</p>
+                </div>
+                <?php
+            }
+            ?>
     </div>
 </main>
 

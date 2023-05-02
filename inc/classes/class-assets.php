@@ -42,12 +42,12 @@ class assets{
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/'.get_post_type().'.css');
       }
       else if(!is_front_page() && is_home() || is_category()) {
-        $path= LNARCHIVE_BUILD_CSS_URI . '/archive_post.css';
-        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/archive_post.css');
+        $path= LNARCHIVE_BUILD_CSS_URI . '/blog.css';
+        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/blog.css');
       }
-      else if(is_archive()) {
-        $path= LNARCHIVE_BUILD_CSS_URI . '/archive.css';
-        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/archive.css');
+      else if(is_post_type_archive('novel')) {
+        $path= LNARCHIVE_BUILD_CSS_URI . '/library.css';
+        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/library.css');
       }
       else if(is_search()) {
         $path= LNARCHIVE_BUILD_CSS_URI . '/search.css';
@@ -87,13 +87,13 @@ class assets{
           $localize_vars['object_type'] = get_post_type();
           $localize_vars['comments_count'] = get_comments_number(get_the_ID());
         }
-        else if(is_category()) {
-          $path= LNARCHIVE_BUILD_JS_URI . '/archive-post.js'; 
-          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive_post.js');
+        else if(!is_front_page() && is_home() || is_category()) {
+          $path= LNARCHIVE_BUILD_JS_URI . '/blog.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/blog.js');
         }
-        else if(is_archive()) {
-          $path= LNARCHIVE_BUILD_JS_URI . '/archive.js'; 
-          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/archive.js');
+        else if(is_post_type_archive('novel')) {
+          $path= LNARCHIVE_BUILD_JS_URI . '/library.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/library.js');
         }
         else if(is_search()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/search.js'; 

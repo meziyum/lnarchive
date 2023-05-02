@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Renders a single novel item in an archive.
+ * Renders a single novel item.
  * @param {Object} props - The props object for the component.
  * @param {string} props.id - The unique ID for the novel.
  * @param {string} props.link - The URL for the novel's page.

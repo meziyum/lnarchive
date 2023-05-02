@@ -68,6 +68,8 @@ class assets{
         $version_info = '';
         $localize_vars = array(
           'nonce' => wp_create_nonce( 'wp_rest' ),
+          'websiteURL' => get_site_url(),
+          'blogURL' => get_bloginfo('url'),
           'wp_rest_url' => get_rest_url(),
           'custom_api_url' => get_rest_url().'lnarchive/v1/',
           'login_url' => wp_login_url(),

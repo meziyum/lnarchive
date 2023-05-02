@@ -68,6 +68,11 @@ $novel-item-color: $white;
 //Novel Search Layout
 $novel-search-background: $theme-primary;
 
+//Main Search Layout
+$main-search-border: $theme-primary;
+$main-search-type-background: $theme-primary;
+$main-search-type-color: $white;
+
 /****** Buttons ******/
 $edit-button-color: $violet-blue;
 $edit-button-hover-color: $violet-blue-dark;
@@ -115,3 +120,8 @@ $footer-link-hover-color: $theme-primary;
 $footer-background: $black-dark-jungle;
 $footer-social-background: $violet-blue;
 $footer-copyright-background: $black-dark-jungle;
+
+/****** Elements ******/
+
+$default-select-option-background: $theme-primary;
+$default-select-option-color: $white;

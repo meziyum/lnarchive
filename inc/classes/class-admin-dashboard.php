@@ -3,26 +3,18 @@
  * Admin Dashboard
  */
 
-namespace lnarchive\inc; //Namespace Definition
-use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc;
+use lnarchive\inc\traits\Singleton;
 
-class admin_dashboard{ //Admin Dashboard Template
+class admin_dashboard{
 
-    use Singleton; //Using Sinlgeton
+    use Singleton;
 
-    protected function __construct(){ //Constructor
-
-        //Load Class
-         $this->set_hooks(); //Loading the hooks
+    protected function __construct(){
+         $this->set_hooks();
     }
 
-    protected function set_hooks() { //Hooks function
-        
-         /**
-          * Actions and Filters
-          */
-
-        //Adding functions to the hooks
+    protected function set_hooks() {
         add_action('admin_init', [$this,'remove_dashboard_meta']);
         add_filter( 'get_user_option_admin_color', [$this,'update_user_option_admin_color']);
         add_filter( 'admin_head-profile.php', [$this,'remove_color_scheme']);
@@ -31,56 +23,55 @@ class admin_dashboard{ //Admin Dashboard Template
         add_filter( 'gettext', [$this, 'wpse22764_gettext']);
     }
 
-    function load_admin_assets() { //Load Admin Assets
+    function load_admin_assets() {
 
-        wp_register_style( 'admin_css', LNARCHIVE_BUILD_CSS_URI . '/admin.css', [], filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/admin.css'), 'all'); //Register Admin stylesheet
-        wp_enqueue_style( 'admin_css' ); //Enque Admin Stylesheet
+        wp_register_style( 'admin_css', LNARCHIVE_BUILD_CSS_URI . '/admin.css', [], filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/admin.css'), 'all');
+        wp_enqueue_style( 'admin_css' );
 
-        wp_register_script( 'admin_js', LNARCHIVE_BUILD_JS_URI . '/admin.js', ['jquery'], filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/admin.js'), true ); //Admin Javascript File
-        wp_enqueue_script( 'admin_js' ); //Enqueue the Script
+        wp_register_script( 'admin_js', LNARCHIVE_BUILD_JS_URI . '/admin.js', ['jquery'], filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/admin.js'), true );
+        wp_enqueue_script( 'admin_js' );
     }
 
-    function remove_dashboard_meta() { //Function to remove dashboard functionalities on admin-init
+    function remove_dashboard_meta() {
 
-        //Hide Dashboard Widgets
-        remove_meta_box('dashboard_primary', 'dashboard', 'normal'); //Wordpress News
-        remove_meta_box('dashboard_right_now', 'dashboard', 'normal'); //At a glance
-        remove_meta_box('dashboard_activity', 'dashboard', 'normal'); //Recent Activity
-        remove_meta_box('dashboard_quick_press', 'dashboard', 'normal'); //Quick Draft
+        remove_meta_box('dashboard_primary', 'dashboard', 'normal');
+        remove_meta_box('dashboard_right_now', 'dashboard', 'normal');
+        remove_meta_box('dashboard_activity', 'dashboard', 'normal');
+        remove_meta_box('dashboard_quick_press', 'dashboard', 'normal');
 
-        remove_action( 'welcome_panel', 'wp_welcome_panel' ); //Welcome Message
+        remove_action( 'welcome_panel', 'wp_welcome_panel' );
     }
 
-    function update_user_option_admin_color( $color_scheme ) { //Function to have default admin color scheme
-        $color_scheme = 'dashboard-theme'; //default color scheme
-        return $color_scheme; //Return the default color scheme
+    function update_user_option_admin_color( $color_scheme ) {
+        $color_scheme = 'dashboard-theme';
+        return $color_scheme;
     }
 
-    function remove_color_scheme() { //Function to remove the color scheme picker feature
-        remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' ); //Remvoe Color Scheme picker
+    function remove_color_scheme() {
+        remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
     }
 
-    function hide_admin_bar(){ //Hide the admin bar from the front end
-        return false; //Return false
+    function hide_admin_bar(){
+        return false;
     }
 
-    function wpse22764_gettext( $original ){ //Function to enhance excerpt labels
+    function wpse22764_gettext( $original ) {
 
-        if(get_post_type() == 'post') //If the post type is post
-            return $original; //Return default label
+        if(get_post_type() == 'post')
+            return $original;
 
-        if ( 'Excerpt' == $original ) { //Escerpt Title Label
-            return 'Description';//Return the text
-        }else{ //Excerpt Desc Label
+        if ( 'Excerpt' == $original ) {
+            return 'Description';
+        } else {
 
-            $pos = strpos($original, 'Excerpts are optional hand-crafted summaries of your'); //Check that the text is the excerpt desc since we do not want to mess with all other text labels.
+            $pos = strpos($original, 'Excerpts are optional hand-crafted summaries of your');
 
-            if ($pos !== false) { //If the text is excerpt label
-                return  '';//Remove the excerpt description 
+            if ($pos !== false) {
+                return  ''; 
             }
         }
 
-        return $original; //Return the orignal label
+        return $original;
     }
 }
 ?>

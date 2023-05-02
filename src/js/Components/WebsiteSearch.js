@@ -1,7 +1,10 @@
 
 import React from 'react';
-import Select from 'react-select';
-import {reactSelectStyle} from '../helpers/reactSelectStyles.js';
+
+/* eslint-disable no-undef */
+const websiteURL = lnarchiveVariables.websiteURL;
+const blogURL = lnarchiveVariables.blogURL;
+/* eslint-enable no-undef */
 
 /**
 A search component that allows users to select a search type and input a search query.
@@ -9,26 +12,34 @@ A search component that allows users to select a search type and input a search 
 @return {JSX.Element} - A JSX Element representing the search component.
 */
 export default function WebsiteSearch(props) {
-    const [searchValue, updateSearchValue] =React.useState('');
+    const [searchInfo, updateSearchInfo] =React.useState({
+        searchType: 'novel',
+        searchContent: '',
+    });
 
-    const handleSelect = (data) => {
-        updateSearchValue(data);
-        console.log(data)
+    const handleChange = (event) => {
+        updateSearchInfo( (prevInfo) => ({
+            ...prevInfo,
+            [event.target.name]: event.target.value,
+        }));
+    };
+
+    const search = (event) => {
+        event.preventDefault();
+        if (searchInfo.searchType == 'post') {
+            window.location.href = blogURL;
+        } else {
+            window.location.href = `${websiteURL}/${searchInfo.searchType}}`;
+        }
     };
 
     return (
-        <form id="main-search-form">
-            <input id="main-search-input"/>
-            <Select
-                options={[
-                    {value: 'novel', label: 'Novel'},
-                    {value: 'post', label: 'Post'},
-                ]}
-                defaultValue={{value: 'post', label: 'Post'}}
-                value={searchValue}
-                onChange={(data) => handleSelect(data)}
-                styles={reactSelectStyle}
-            />
+        <form id="main-search-form" onSubmit={search}>
+            <input id="main-search-input" name="searchContent" placeholder='Search' onChange={(handleChange)}/>
+            <select id="type-select" name="searchType" onChange={handleChange} defaultValue={'novel'}>
+                <option value="novel">Novel</option>
+                <option value="post">Post</option>
+            </select>
         </form>
     );
 }

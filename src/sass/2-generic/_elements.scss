@@ -35,12 +35,23 @@ button { //Button Element
 	}
 }
 
+input:focus,
+select:focus,
+textarea:focus {
+	outline: none;
+}
+
 textarea{
     overflow-y: hidden;
     resize: none;
 	width: 100%;
 	border-radius: 12px;
     padding: 8px;
+}
+
+select option:hover {
+	background-color: $default-select-option-background;
+	color: $default-select-option-color;
 }
 
 //Table

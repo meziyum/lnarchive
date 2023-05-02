@@ -1,12 +1,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import NovelItem from '../../../Components/NovelItem.js';
-import FilterSelect from './FilterSelect.js';
-import NovelSearch from '../../../Components/NovelSearch.js';
+import NovelItem from '../../../Components/NovelItem.jsx';
+import FilterSelect from './FilterSelect.jsx';
+import NovelSearch from '../../../Components/NovelSearch.jsx';
 import useToggle from '../../../hooks/useToggle.js';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
-import ResultsNotFound from '../../../Components/ResultsNotFound.js';
+import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

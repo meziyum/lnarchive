@@ -1,12 +1,12 @@
 
 import React from 'react';
-import NovelItem from '../../../Components/NovelItem.js';
+import NovelItem from '../../../Components/NovelItem.jsx';
 import {formatDate} from '../../../helpers/utilities.js';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import PropTypes from 'prop-types';
-import NovelSearch from '../../../Components/NovelSearch.js';
-import ResultsNotFound from '../../../Components/ResultsNotFound.js';
+import NovelSearch from '../../../Components/NovelSearch.jsx';
+import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 
 /* eslint-disable no-undef */

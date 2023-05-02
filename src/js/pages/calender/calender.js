@@ -2,7 +2,7 @@
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/calender/calender.scss';
-import Calender from './Components/Calender.js';
+import Calender from './Components/Calender.jsx';
 import '../common.js';
 
 /* eslint-disable no-undef */

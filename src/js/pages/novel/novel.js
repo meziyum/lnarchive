@@ -2,8 +2,8 @@
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/novel/novel.scss';
-import ReviewSection from '../../Components/ReviewSection.js';
-import NovelActions from './Components/NovelActions.js';
+import ReviewSection from '../../Components/ReviewSection.jsx';
+import NovelActions from './Components/NovelActions.jsx';
 import '../common.js';
 
 /* eslint-disable no-undef */

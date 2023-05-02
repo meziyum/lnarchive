@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {formatDate} from '../helpers/utilities.js';
-import Ratings from './Ratings.js';
+import Ratings from './Ratings.jsx';
 
 import {
     faThumbsDown,

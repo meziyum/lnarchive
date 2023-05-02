@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Ratings from '../../../Components/Ratings.js';
+import Ratings from '../../../Components/Ratings.jsx';
 /* eslint-disable no-undef */
 const postID = lnarchiveVariables.object_id;
 const customAPIRequestURL = lnarchiveVariables.wp_rest_url+'lnarchive/v1/';

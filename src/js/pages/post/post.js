@@ -2,7 +2,7 @@
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/post/post.scss';
-import ReviewSection from '../../Components/ReviewSection.js';
+import ReviewSection from '../../Components/ReviewSection.jsx';
 import '../common.js';
 
 /* eslint-disable no-undef */

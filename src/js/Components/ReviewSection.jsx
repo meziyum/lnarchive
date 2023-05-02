@@ -1,8 +1,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Review from './Review.js';
-import Pagination from './Pagination.js';
+import Review from './Review.jsx';
+import Pagination from './Pagination.jsx';
 import {escHTML} from '../helpers/utilities.js';
 
 /* eslint-disable no-undef */

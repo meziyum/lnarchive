@@ -27,7 +27,7 @@ export default function WebsiteSearch(props) {
     const search = (event) => {
         event.preventDefault();
         if (searchInfo.searchType == 'post') {
-            window.location.href = blogURL;
+            window.location.href = `${blogURL}/?searchFilter=${searchInfo.searchContent}`;
         } else {
             window.location.href = `${websiteURL}/${searchInfo.searchType}/?searchFilter=${searchInfo.searchContent}`;
         }

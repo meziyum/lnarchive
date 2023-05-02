@@ -2,7 +2,7 @@
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import '../../../sass/archive/archive.scss';
-import NovelArchive from './Components/NovelArchive.js';
+import NovelArchive from './Components/NovelArchive.jsx';
 import '../common.js';
 
 /* eslint-disable no-undef */

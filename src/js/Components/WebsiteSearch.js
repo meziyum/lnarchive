@@ -29,7 +29,7 @@ export default function WebsiteSearch(props) {
         if (searchInfo.searchType == 'post') {
             window.location.href = blogURL;
         } else {
-            window.location.href = `${websiteURL}/${searchInfo.searchType}}`;
+            window.location.href = `${websiteURL}/${searchInfo.searchType}/?searchFilter=${searchInfo.searchContent}`;
         }
     };
 

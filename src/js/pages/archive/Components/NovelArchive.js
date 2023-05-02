@@ -16,7 +16,7 @@ import {
 }
     from '@fortawesome/free-solid-svg-icons';
 
-const params = new URLSearchParams(window.location.search);
+const urlParams = new URLSearchParams(window.location.search);
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
 const novelPerPage = lnarchiveVariables.per_page;
@@ -30,23 +30,32 @@ Renders a page displaying a list of novels with filtering and sorting functional
 */
 function NovelArchive(props) {
     const defaultApplitedFilters = () => {
-        const defaults = {};
-        props.filterData.forEach((tax) => {
-            const options = tax.list.map((term) => ({
-                value: term.term_id,
-                label: term.term_name,
-            }));
-            const query = params.get(`${tax.taxQueryName}_filter`);
-            const defaultValue = options.find((option) => option.label === query);
-            defaults[tax.taxQueryName] = query !== null ? [defaultValue] : [];
-            if (query != undefined) {
+        if (urlParams.entries().next().value !== undefined) {
+            const filterName = urlParams.entries().next().value[0];
+            const filterValue = urlParams.entries().next().value[1];
+            const taxName = filterName.slice(0, -7);
+            const tax = props.filterData.find( (tax) => tax.taxQueryName === taxName);
+
+            if (tax) {
+                const defaultValue = tax.list.find((option) => option.term_name === filterValue);
                 toggleFilters();
+                return {
+                    [taxName]: [{value: defaultValue.term_id, label: defaultValue.label}],
+                };
             }
-        });
-        return defaults;
+        }
+        return {};
     };
 
-    const lastResponseLength = React.useRef(0);
+    const defaultSearchValue = () => {
+        const searchValue = urlParams.get('searchFilter');
+
+        if (searchValue) {
+            return searchValue;
+        } else {
+            return '';
+        }
+    };
 
     const handleFilter = ( data, name ) => {
         setAppliedFilters( (prevInfo) => ({
@@ -60,9 +69,8 @@ function NovelArchive(props) {
     };
 
     const [showFilters, toggleFilters] = useToggle();
-
+    const lastResponseLength = React.useRef(0);
     const [appliedFilters, setAppliedFilters] = React.useState(defaultApplitedFilters);
-
     const [archiveInfo, updateArchiveInfo] = React.useState({
         novel_list: '',
         novelsFound: true,
@@ -72,7 +80,7 @@ function NovelArchive(props) {
             );
         }),
         currentPage: 1,
-        search: '',
+        search: defaultSearchValue(),
         order: {value: 'asc', label: 'Ascending'},
         order_by: {value: 'date', label: 'Release Date'},
     });
@@ -86,7 +94,7 @@ function NovelArchive(props) {
         Object.entries(appliedFilters).forEach((value) => {
             const [taxName, list] = value;
             if (list.length>0) {
-                let currentFilter= taxName !== 'post_tag' ? `&${taxName}=` : `&post`;
+                let currentFilter= `&${taxName}=`;
                 list.forEach((term) => {
                     currentFilter+=`${term.value},`;
                 });
@@ -149,7 +157,7 @@ function NovelArchive(props) {
     return (
         <>
             <div id="archive-header">
-                <NovelSearch updateSearch={updateSearch}/>
+                <NovelSearch value={archiveInfo.search} updateSearch={updateSearch}/>
                 <FontAwesomeIcon
                     icon={faSliders}
                     size="xl"

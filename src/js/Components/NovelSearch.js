@@ -12,11 +12,12 @@ import {
 A component for searching novels.
 @component
 @param {object} props - The props object.
+@param {string} props.value - A default value for the search
 @param {function} props.updateSearch - A function that takes a search string and fetches the novels
 @return {JSX.Element} A form element containing an input for searching novels.
 */
-export default function NovelSearch({updateSearch}) {
-    const [search, updateSearchState] =React.useState('');
+export default function NovelSearch({updateSearch, value}) {
+    const [search, updateSearchState] =React.useState(value);
 
     const handleInput = (event) => {
         updateSearchState(event.target.value);
@@ -46,5 +47,10 @@ export default function NovelSearch({updateSearch}) {
 }
 
 NovelSearch.propTypes = {
+    value: propTypes.string,
     updateSearch: propTypes.func.isRequired,
+};
+
+NovelSearch.defaultProps ={
+    value: '',
 };

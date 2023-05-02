@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import NovelItem from '../../../Components/NovelItem.js';
 import FilterSelect from './FilterSelect.js';
 import NovelSearch from '../../../Components/NovelSearch.js';
+import useToggle from '../../../hooks/useToggle.js';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 import ResultsNotFound from '../../../Components/ResultsNotFound.js';
 import Select from 'react-select';
@@ -39,7 +40,7 @@ function NovelArchive(props) {
             const defaultValue = options.find((option) => option.label === query);
             defaults[tax.taxQueryName] = query !== null ? [defaultValue] : [];
             if (query != undefined) {
-                setFilterToggle(true);
+                toggleFilters();
             }
         });
         return defaults;
@@ -58,7 +59,7 @@ function NovelArchive(props) {
         }));
     };
 
-    const [filterToggleState, setFilterToggle] = React.useState(false);
+    const [showFilters, toggleFilters] = useToggle();
 
     const [appliedFilters, setAppliedFilters] = React.useState(defaultApplitedFilters);
 
@@ -152,13 +153,11 @@ function NovelArchive(props) {
                 <FontAwesomeIcon
                     icon={faSliders}
                     size="xl"
-                    style={{color: filterToggleState ? '#387ef2' : 'grey'}}
-                    onClick={() => {
-                        setFilterToggle(!filterToggleState);
-                    }}
+                    style={{color: showFilters ? '#387ef2' : 'grey'}}
+                    onClick={toggleFilters}
                 />
             </div>
-            {filterToggleState &&
+            {showFilters &&
                 <div id="archive-filter">
                     {archiveInfo.novel_filters}
                     <h6>Sort by</h6>

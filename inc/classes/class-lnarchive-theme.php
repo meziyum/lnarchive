@@ -35,7 +35,6 @@ class lnarchive_theme{
      protected function set_hooks() { 
 
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
-          add_action( 'template_redirect', [$this, 'rewrite_search_url']);
           add_filter('upload_mimes',[$this, 'restrict_mime']); 
           add_filter( 'login_display_language_dropdown', '__return_false' );
 
@@ -75,13 +74,6 @@ class lnarchive_theme{
          global $content_width;
          if( ! isset( $content_width) ) {
             $content_width=1240;
-         }
-      }
-
-      function rewrite_search_url() {
-         if ( is_search() && ! empty( $_GET['s'] ) ) {
-             wp_redirect( home_url( "/search/" ) . urlencode( get_query_var( 's' ) ) );
-             exit(); //Exit
          }
       }
 

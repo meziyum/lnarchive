@@ -5,32 +5,23 @@
  * @package LNarchive
  * 
  */
-namespace lnarchive\inc; //Namespace Definition
-use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc;
+use lnarchive\inc\traits\Singleton;
 
 class menus{ //Assests Class
 
-    use Singleton; //Using Sinlgeton
+    use Singleton;
 
-    protected function __construct(){ //Constructor function
-
-        //Load Class
-         $this->set_hooks(); //Setting the hook below
+    protected function __construct() {
+         $this->set_hooks();
     }
 
     protected function set_hooks() {
-        
-         /**
-          * Actions
-          */
-
-        //Adding functions to the hooks
         add_action('init', [ $this, 'register_menus']);
     }
 
-    //Register Menus
     public function register_menus() {
-        register_nav_menus( //Locations List
+        register_nav_menus(
             array(
                 'fusfan_primary'    => ( 'Primary Menu'),
                 'footer_primary'    => ( 'Footer Primary Menu'),
@@ -40,24 +31,20 @@ class menus{ //Assests Class
         );
     }
 
-    public function get_menu_id( $location ) { //Function to get menu_id from location 
-        //Get all the locations
+    public function get_menu_id( $location ) {
         $locations = get_nav_menu_locations();
-        //Get object id by location
         $menu_id = $locations[$location];
-        //Return the menu id if not empty
         return ! empty( $menu_id) ? $menu_id : '';
     }
 
-    //Get Sub Menu Items
-    public function get_child_menu_items( $menu_array, $parent_id) { // $menu_array = array with all menu items $parent_id = id of the menu_item for which to find the submenus
+    public function get_child_menu_items( $menu_array, $parent_id) {
 
-        $child_menus =[]; //Define empty array
+        $child_menus =[];
 
-        if( ! empty( $menu_array) && is_array( $menu_array)) { //Check if the given item is array and is not empty
-                foreach( $menu_array as $menu) { //Run loop for each item of the array
-                    if( intval( $menu->menu_item_parent) === $parent_id) { //if the parent of the child is $parent_id
-                        array_push( $child_menus, $menu); //Add the submenu menu item to the array
+        if( ! empty( $menu_array) && is_array( $menu_array)) {
+                foreach( $menu_array as $menu) {
+                    if( intval( $menu->menu_item_parent) === $parent_id) {
+                        array_push( $child_menus, $menu);
                     }
                 }
         }

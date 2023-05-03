@@ -168,7 +168,7 @@ class comment {
                         $args['orderby'] = 'meta_value_num';
                     }
                     else if( $order_by=='author' ) {
-                        $args['user_id'] = get_current_user_id();
+                        $args['author__in'] = get_current_user_id();
                     }
                 }
                 return $args;

@@ -14,9 +14,10 @@ A component for searching.
 @param {object} props - The props object.
 @param {string} props.value - A default value for the search
 @param {function} props.updateSearch - A function that takes a search string and fetches the novels
+@param {string} props.label - Label for the search
 @return {JSX.Element} A form element containing an input for searching novels.
 */
-export default function Search({updateSearch, value}) {
+export default function Search({updateSearch, value, label}) {
     const [search, updateSearchState] =React.useState(value);
 
     const handleInput = (event) => {
@@ -33,7 +34,7 @@ export default function Search({updateSearch, value}) {
 
     return (
         <form id="search-form" onSubmit={handleSubmit}>
-            <input type="search" id="search" name="search" value={search} onInput={handleInput} placeholder='Search Novel'>
+            <input type="search" id="search" name="search" value={search} onInput={handleInput} placeholder={`Search ${label}`}>
             </input>
             <button id="search-button">
                 <FontAwesomeIcon
@@ -49,8 +50,10 @@ export default function Search({updateSearch, value}) {
 Search.propTypes = {
     value: propTypes.string,
     updateSearch: propTypes.func.isRequired,
+    label: propTypes.func.isRequired,
 };
 
 Search.defaultProps ={
     value: '',
+    label: 'Novel',
 };

@@ -92,7 +92,7 @@ function PostArchive(props) {
     return (
         <>
             <div id="post-wrap-header">
-                <Search updateSearch={updateSearch} value={archiveInfo.search}/>
+                <Search updateSearch={updateSearch} value={archiveInfo.search} label='Post'/>
             </div>
             <div className="post-list row">
                 {archiveInfo.postsFound && archiveInfo.post_list}

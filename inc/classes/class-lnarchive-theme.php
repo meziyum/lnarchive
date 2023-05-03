@@ -5,17 +5,14 @@
  * @package LNarchive
  */
 
-namespace lnarchive\inc; //Namespace Definition
+namespace lnarchive\inc;
+use lnarchive\inc\traits\Singleton;
 
-use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+class lnarchive_theme{
 
-class lnarchive_theme{ //LNarchive Theme Class
+     use Singleton;
 
-     use Singleton; //Use Singleton
-
-     protected function __construct(){ //Default Constructor
-
-         //Load all Classes
+     protected function __construct() {
          assets::get_instance();
          menus::get_instance();
          sidebars::get_instance();
@@ -32,75 +29,68 @@ class lnarchive_theme{ //LNarchive Theme Class
          taxonomies_metafields::get_instance();
          post_metafields::get_instance();
          post_filter::get_instance();
-
-         $this->set_hooks(); //Setting the hook below
+         $this->set_hooks();
      }
 
      protected function set_hooks() { 
-         /**
-          * Actions
-          */
+
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
           add_action( 'template_redirect', [$this, 'rewrite_search_url']);
           add_filter('upload_mimes',[$this, 'restrict_mime']); 
-          add_filter( 'login_display_language_dropdown', '__return_false' ); //Disable login page language switcher
+          add_filter( 'login_display_language_dropdown', '__return_false' );
 
-          //Disable Global RSS Feeds
           add_action('do_feed', [$this, 'wp_disable_feeds']);
           add_action('do_feed_rdf', [$this, 'wp_disable_feeds']);
           add_action('do_feed_rss', [$this, 'wp_disable_feeds']);
           add_action('do_feed_rss2', [$this, 'wp_disable_feeds']);
           add_action('do_feed_atom', [$this, 'wp_disable_feeds']);
 
-          //Disable Comment Feeds
           add_action('do_feed_rss2_comments', [$this, 'wp_disable_feeds']);
           add_action('do_feed_atom_comments', [$this, 'wp_disable_feeds']);
 
-          //Remove the RSS Links from HTML
           add_action( 'feed_links_show_posts_feed', '__return_false', - 1 );
           add_action( 'feed_links_show_comments_feed', '__return_false', - 1 );
           remove_action( 'wp_head', 'feed_links', 2 );
           remove_action( 'wp_head', 'feed_links_extra', 3 );
      }
 
-     public function setup_theme() { //Main Setup Theme
+     public function setup_theme() {
 
-         add_theme_support( 'align-wide' ); //Wide Alignment for Blocks
-         add_theme_support( 'custom-background', array( //Custom Background
+         add_theme_support( 'align-wide' );
+         add_theme_support( 'custom-background', array(
             'default-color' => '3a7de8',
             )
          );
          add_theme_support( 'custom-logo', [
-            'header-text'          => array( 'site-title', 'site-description' ), //Replace Title/Desc by Logo
-         ]); //Custom Logo
-         add_theme_support( 'customize_selective_refresh_widgets' ); //Selective Refresh Support for Widgets
-         add_theme_support('widgets-block-editor'); //Widgets Blocks Editor
-         add_theme_support( 'post-thumbnails'); //Post Thumbnails
-         add_theme_support('widgets'); //Add Widgets support
+            'header-text'          => array( 'site-title', 'site-description' ),
+         ]);
+         add_theme_support( 'customize_selective_refresh_widgets' );
+         add_theme_support('widgets-block-editor');
+         add_theme_support( 'post-thumbnails');
+         add_theme_support('widgets');
 
-         //Register Image Sizes
-         add_image_size('featured-thumbnail', 350, 300, true); //Thumbnail Size
-         add_image_size('novel-cover', 1240, 1748, true); //Novel Cover Size
+         add_image_size('featured-thumbnail', 350, 300, true);
+         add_image_size('novel-cover', 1240, 1748, true);
      
-         global $content_width; //Global Content Width Variable
-         if( ! isset( $content_width) ) { //If $content_width is not set
-            $content_width=1240; //Set Default Content Width
+         global $content_width;
+         if( ! isset( $content_width) ) {
+            $content_width=1240;
          }
       }
 
-      function rewrite_search_url() { //Rewrite the search result url for better SEO
-         if ( is_search() && ! empty( $_GET['s'] ) ) { //If search and the search query not empty
-             wp_redirect( home_url( "/search/" ) . urlencode( get_query_var( 's' ) ) ); //Restructure the URL
+      function rewrite_search_url() {
+         if ( is_search() && ! empty( $_GET['s'] ) ) {
+             wp_redirect( home_url( "/search/" ) . urlencode( get_query_var( 's' ) ) );
              exit(); //Exit
          }
       }
 
-      function wp_disable_feeds() { //Disable all Feeds
-         wp_redirect( home_url() ); //Redirect to Homepage if trying to access Feeds
-         wp_die( __('Error: Feeds are disabled') ); //Error Message
+      function wp_disable_feeds() {
+         wp_redirect( home_url() );
+         wp_die( __('Error: Feeds are disabled') );
       }
 
-      function restrict_mime($mimes) {  //Function to restrict image upload types
+      function restrict_mime($mimes) {
          $mimes = array( 
                         'webp' => 'image/webp',
          );

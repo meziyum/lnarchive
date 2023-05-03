@@ -41,17 +41,15 @@ function taxonomy_button_list( $post_type, $tax_terms, $tax_name ) {
         foreach( $tax_terms as $term) {
             $term_name = $term->name;
             ?>
-                <button onclick="location.href='<?php 
+                <a class="<?php echo esc_attr($tax_name);?>-button anchor-button" href='<?php 
                     if($post_type =="novel") {
                         echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax_name.'_filter'.'='.$term_name;
                     } else {
                         echo esc_attr(get_term_link($term));
                     } 
-                    ?>'" type="button" class="<?php echo esc_attr($tax_name);?>-button">
-                    <a class="<?php echo esc_attr($tax_name);?>-button-link">
-                        <?php echo esc_html($term_name)?>
-                    </a>
-                </button>
+                    ?>'>
+                    <?php echo esc_html($term_name)?>
+                </a>
             <?php
         }
     }
@@ -152,7 +150,6 @@ function post_list( $loop , $label) {
                                     ?>
                                         <?php             
                                         taxonomy_button_list('post', wp_get_post_terms( $the_post_id, ['category']),'category');
-                                        get_template_part('template-parts/edit-btn');
                                     ?>
                                 </div>
                                 <?php

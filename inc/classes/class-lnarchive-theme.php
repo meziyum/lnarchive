@@ -19,6 +19,7 @@ class lnarchive_theme{
          admin_dashboard::get_instance();
          custom_settings::get_instance();
          security::get_instance();
+         post::get_instance();
          novel::get_instance();
          volume::get_instance();
          comment::get_instance();

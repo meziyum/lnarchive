@@ -4,13 +4,14 @@
 */
 
 .category-button {
-    background-color: $category-button-col;
+    color: $taxonomy-button-color;
+    background-color: $category-button-background;
     font-size: 12px;
     padding: 4px 8px;
 
     &:active, 
     &:hover {
-        background-color: $category-button-hover-col;
+        background-color: $category-button-background-hover;
     }
 }
 

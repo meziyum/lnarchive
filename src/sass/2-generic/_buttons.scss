@@ -51,10 +51,21 @@
 .edit-button {
     padding: 4px 8px;
     font-size: 12px;
-    background-color: $edit-button-color;
+    color: $edit-button-color;
+    background-color: $edit-button-background;
 
     &:active,
     &:hover {
-        background-color: $edit-button-hover-color;
+        background-color: $edit-button-background-hover;
     }
+}
+
+.anchor-button {
+    margin: 4px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: default;
+    display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }

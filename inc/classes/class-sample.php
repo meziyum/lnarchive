@@ -6,7 +6,7 @@
 namespace lnarchive\inc;
 use lnarchive\inc\traits\Singleton;
 
-class sample{
+class sample {
 
     use Singleton;
 

@@ -61,7 +61,7 @@ $filters-background-color: $violet-blue;
 
 /****** Layouts ******/
 
-//Novel-Item Layour
+//Novel-Item Layout
 $novel-item-background-color: $theme-primary;
 $novel-item-color: $white;
 
@@ -74,8 +74,12 @@ $main-search-type-background: $theme-primary;
 $main-search-type-color: $white;
 
 /****** Buttons ******/
-$edit-button-color: $violet-blue;
-$edit-button-hover-color: $violet-blue-dark;
+$taxonomy-button-color: $white;
+$default-button-background: $theme-primary;
+$default-button-background-hover: $theme-primary-dark;
+$edit-button-color: $white;
+$edit-button-background: $violet-blue;
+$edit-button-background-hover: $violet-blue-dark;
 
 /****** Pagination ******/
 $pagination-text-col: $white;
@@ -90,10 +94,13 @@ $error-back-button-background: $theme-primary;
 $error-back-button-hover-background: $theme-primary-dark;
 
 /****** Post ******/
-
-$category-button-col: $green-emerald;
-$category-button-hover-col: $green-shamrock;
+$category-button-background: $green-emerald;
+$category-button-background-hover: $green-shamrock;
 $post-meta-col: $grey-silver;
+
+$series-button-color: $white;
+$series-button-background: $theme-primary;
+$series-button-background-hover: $theme-primary-dark;
 
 $post-list-title-col: $black;
 $post-list-background-col: $white;

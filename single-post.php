@@ -26,11 +26,9 @@ $the_post_id = get_the_ID();
                     
                             if( $series !== null) {
                                 ?>
-                                    <button onclick="location.href='<?php echo esc_url(get_post_permalink($series));?>'" type="button" class="series-button">
-                                        <a class= "series-link">
-                                            <?php echo get_the_title($series);?>
-                                        </a>
-                                    </button>
+                                    <a class= "series-button anchor-button" href='<?php echo esc_url(get_post_permalink($series));?>'>
+                                        <?php echo get_the_title($series);?>
+                                    </a>
                                 <?php
                             }
                             ?>

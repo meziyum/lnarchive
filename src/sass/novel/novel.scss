@@ -100,12 +100,17 @@
             .tags-button {
                 padding: 4px 8px;
                 font-size: 12px;
-                background-color: $theme-primary;
+                background-color: $default-button-background;
 
                 &:hover, 
                 &:active {
-                    background-color: $theme-primary-dark;
+                    background-color: $default-button-background-hover;
                 }
+            }
+
+            .genre-button,
+            .tags-button {
+                color: $taxonomy-button-color;
             }
         }
     }

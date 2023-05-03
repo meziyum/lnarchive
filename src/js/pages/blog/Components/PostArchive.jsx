@@ -43,7 +43,7 @@ function PostArchive(props) {
     }, [archiveInfo.currentPage, archiveInfo.order_by, archiveInfo.order, archiveInfo.search]);
 
     const getPosts = async () => {
-        const fields = 'id,title.rendered,modified,link,categories,_links.wp:featuredmedia,_links.wp:term';
+        const fields = 'id,title.rendered,modified,categoryList,link,categories,_links.wp:featuredmedia,_links.wp:term';
 
         const response = await fetch( `${wpRequestURL}posts?_embed&_fields=${fields}&per_page=${postPerPage}&page=${archiveInfo.currentPage}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
             method: 'GET',
@@ -56,7 +56,7 @@ function PostArchive(props) {
         const data= await response.json();
         const posts = data.map( (post) => {
             return (
-                <PostItem key={post.id} id={post.id} title={post.title.rendered} date={formatDate(post.modified)} link={post.link} postImage={post._embedded['wp:featuredmedia'][0].source_url}/>
+                <PostItem key={post.id} id={post.id} title={post.title.rendered} date={formatDate(post.modified)} link={post.link} postImage={post._embedded['wp:featuredmedia'][0].source_url} categoryList={post.categoryList}/>
             );
         });
         console.log(data)

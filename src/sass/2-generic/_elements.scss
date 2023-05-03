@@ -18,21 +18,13 @@ img {
 	width: 100%;
 }
 
-button { //Button Element
-	margin: 4px 4px 4px 4px;
+button {
+	margin: 4px;
     border-radius: 8px;
 	border: none;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-
-	a{
-		color: white;
-		text-decoration: none !important;
-		&:hover,&:active {
-			color: white;
-		}
-	}
 }
 
 input:focus,

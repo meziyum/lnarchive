@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
  */
 export default function PostItem(props) {
     console.log(props)
+    
     return (
         <div className='post-entry-col archive-entry-col col-lg-4 col-md-6 col-sm-12 col-12'>
             <article className='post-entry archive-entry'>
@@ -18,6 +19,11 @@ export default function PostItem(props) {
                 <div className='post-entry-info'>
                     <a href={props.link}><h5 className='entry-title'>{props.title}</h5></a>
                     <h6 className='posted-on'>{props.date}</h6>
+                    {
+                        props.categoryList.map(category => (
+                            <a key={category} className='category-button anchor-button'>{category}</a>
+                        ))
+                    }
                 </div>
             </article>
         </div>

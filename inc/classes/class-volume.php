@@ -21,7 +21,7 @@ class volume{
         add_action('save_post_volume', [$this, 'auto_update_volume']);
         add_action( 'rest_api_init', [$this, 'addOrderbySupportRest']);
         add_action( 'rest_api_init', [$this, 'register_routes']);
-        add_action( 'rest_api_init', [$this, 'register_rest']);
+        add_action( 'rest_api_init', [$this, 'register_rest_fields']);
         add_action( 'rest_api_init', [$this, 'register_meta']);
     }
 
@@ -124,7 +124,7 @@ class volume{
         }
     }
 
-    public function register_rest(){
+    public function register_rest_fields(){
         register_rest_field( "volume", 'novel_link', array(
             'get_callback' => [$this, 'get_novel_link'],
         ));

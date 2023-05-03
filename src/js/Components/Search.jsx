@@ -50,7 +50,7 @@ export default function Search({updateSearch, value, label}) {
 Search.propTypes = {
     value: propTypes.string,
     updateSearch: propTypes.func.isRequired,
-    label: propTypes.func.isRequired,
+    label: propTypes.string.isRequired,
 };
 
 Search.defaultProps ={

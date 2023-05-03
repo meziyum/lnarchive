@@ -1,9 +1,8 @@
 
-/*
-* Notes: This file is imported in post.scss, novel.scss, search.scss and archive-post.scss
-*/
+.post-entry-col {
+  padding: 0px;
 
-.blog-entry {
+  .post-entry {
     background-color: $post-list-background-col;
     border-radius: 12px;
     box-shadow: 0 2px 5px $post-list-shadow-col;
@@ -12,69 +11,35 @@
     position: relative;
     top: 0;
     transition: all .1s ease-in;
-  
-    &:hover, 
+
+    &:hover,
     &:active {
       box-shadow: 0 4px 5px $post-list-shadow-hover-col;
       top: -2px;
     }
-  
-    .attachment-featured-img {
-      object-fit: cover;
-      padding: 0;
+
+    .post-link {
+      display: block;
+      overflow: hidden;
+      height: 250px;
+
+      .post-img {
+        padding: 0;
+      }
     }
-  
-    .blog-entry-info {
+
+    .post-entry-info {
       padding: 8px;
-  
-      .blog-entry-title {
-        color: $post-list-title-col;
+
+      a {
+        text-decoration: none;
         
+        .entry-title {
+          margin-bottom: 0;
+          color: $post-list-title-col;
+        }
       }
-  
-      .posted-on {
-        cursor: default;
-      }
-    }
-}
-
-.post-entry {
-  background-color: $post-list-background-col;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px $post-list-shadow-col;
-  margin-bottom: 16px;
-  overflow: hidden;
-  position: relative;
-  top: 0;
-  transition: all .1s ease-in;
-
-  &:hover,
-  &:active {
-    box-shadow: 0 4px 5px $post-list-shadow-hover-col;
-    top: -2px;
+    } 
   }
-
-  .post-link {
-    display: block;
-    overflow: hidden;
-    height: 250px;
-
-    .post-img {
-      padding: 0;
-    }
-  }
-
-  .post-entry-info {
-    padding: 8px;
-
-    a {
-      text-decoration: none;
-      
-      .entry-title {
-        margin-bottom: 0;
-        color: $post-list-title-col;
-      }
-    }
-  } 
 }
-  
+ 

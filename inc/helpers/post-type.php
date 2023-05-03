@@ -86,8 +86,8 @@ function novel_list( $loop, array $args ) {
                         $tid = $volume1[0]->ID;
                     }
                         ?>
-                            <div class="<?php echo esc_attr($name);?>-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
-                                <div class="<?php echo esc_attr($name);?>-entry archive-entry">
+                            <div class="<?php echo esc_attr($name);?>-entry-col novel-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
+                                <div class="<?php echo esc_attr($name);?>-entry archive-entry novel-entry">
                                     <a id="<?php echo esc_attr($post_id)?>" class="<?php echo $name;?>-link" <?php if( get_post_type($post_id) != 'volume') echo 'href="'.esc_url(get_permalink()).'"';?>>
                                         <?php
                                             the_post_custom_thumbnail(
@@ -118,21 +118,21 @@ function post_list( $loop , $label) {
                     $the_post_id = get_the_ID();
                     if( has_post_thumbnail($the_post_id)) {
                     ?>
-                        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                        <article id="post-<?php echo esc_attr($the_post_id);?>" class="blog-entry">
+                        <div class="post-entry-col archive-entry-col col-lg-4 col-md-6 col-sm-12 col-12">
+                        <article class="archive-entry post-entry">
                             <?php
                             
                                 $post_link = get_permalink( $the_post_id );
                                 $post_title = get_the_title( $the_post_id );
                                 
                                 ?>
-                                <a href="<?php echo esc_url($post_link)?>">
+                                <a id="post-<?php echo esc_attr($the_post_id);?>" class='post=link' href="<?php echo esc_url($post_link)?>">
                                     <?php
                                     the_post_custom_thumbnail(
                                     $the_post_id,
                                     'featured-thumbnail',
                                     [
-                                        'class' => 'attachment-featured-img',
+                                        'class' => 'post-img',
                                         'alt'  => esc_attr($post_title),
                                     ]
                                     );
@@ -142,7 +142,7 @@ function post_list( $loop , $label) {
                                 <div class="blog-entry-info">
                                     <?php
                                     printf(
-                                        '<h5 class="entry-title mb-0"><a class="blog-entry-title" href="%1$s">%2$s</a></h5>',
+                                        '<a><h5 class="entry-title" href="%1$s">%2$s</h5></a>',
                                         get_the_permalink(),
                                         wp_kses_post( $post_title)
                                     );

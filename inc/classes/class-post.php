@@ -67,16 +67,17 @@ class post {
     }
 
     public function get_category_list() {
-
         $categories = get_the_category();
-        $response = array();
-
-        foreach( $categories as $category){
-            if( $category->name == "None")
-                continue;
-            array_push($response, $category->name);
-        }
-        return $response;
+        
+        $response = array_map(function($category) {
+            return $category->name;
+        }, $categories);
+        
+        $response = array_filter($response, function($category) {
+            return $category !== "None";
+        });
+        
+        return array_values($response);
     }
 }
 ?>

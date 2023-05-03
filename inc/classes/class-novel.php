@@ -187,7 +187,6 @@ class novel{
                 'list' => $terms_list,
             ));
         }
-
         return $response;
     }
 

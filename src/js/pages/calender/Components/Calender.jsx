@@ -5,7 +5,7 @@ import {formatDate} from '../../../helpers/utilities.js';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import PropTypes from 'prop-types';
-import NovelSearch from '../../../Components/NovelSearch.jsx';
+import Search from '../../../Components/Search.jsx';
 import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 
@@ -94,7 +94,7 @@ export default function Calender(props) {
     return (
         <>
             <div id="upcoming-releases-header">
-                <NovelSearch updateSearch={updateSearch}/>
+                <Search updateSearch={updateSearch}/>
                 <Select
                     options={options}
                     value={calenderStates.selectedFormat}

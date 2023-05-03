@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NovelItem from '../../../Components/NovelItem.jsx';
 import FilterSelect from './FilterSelect.jsx';
-import NovelSearch from '../../../Components/NovelSearch.jsx';
+import Search from '../../../Components/Search.jsx';
 import useToggle from '../../../hooks/useToggle.js';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
@@ -157,7 +157,7 @@ function NovelArchive(props) {
     return (
         <>
             <div id="archive-header">
-                <NovelSearch value={archiveInfo.search} updateSearch={updateSearch}/>
+                <Search value={archiveInfo.search} updateSearch={updateSearch}/>
                 <FontAwesomeIcon
                     icon={faSliders}
                     size="xl"

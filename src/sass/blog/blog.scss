@@ -1,5 +1,16 @@
 
 //Imports
 @import "../main.scss";
-@import "../layouts/post-components";
-@import "../layouts/post-list";
+@import "../layouts/post-components.scss";
+@import "../layouts/post-list.scss";
+@import "../layouts/Search.scss";
+@import "../layouts/resultsNotFound.scss";
+
+#blog-wrap {
+    
+    #post-wrap-header {
+        display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+    }
+}

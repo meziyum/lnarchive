@@ -1,17 +1,17 @@
 
-#novel-search-form {
+#search-form {
     border-radius: 4px;
     display: flex;
     flex-direction: row;
     overflow: hidden;
 
-    #nsearch {
+    #search {
         border-radius: 0;
         padding: 4px;
     }
 
     #search-button {
-        background-color: $novel-search-background;
+        background-color: $search-background;
         border-radius: 0;
         margin: 0;
     }

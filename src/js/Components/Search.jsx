@@ -9,14 +9,14 @@ import {
     from '@fortawesome/free-solid-svg-icons';
 
 /**
-A component for searching novels.
+A component for searching.
 @component
 @param {object} props - The props object.
 @param {string} props.value - A default value for the search
 @param {function} props.updateSearch - A function that takes a search string and fetches the novels
 @return {JSX.Element} A form element containing an input for searching novels.
 */
-export default function NovelSearch({updateSearch, value}) {
+export default function Search({updateSearch, value}) {
     const [search, updateSearchState] =React.useState(value);
 
     const handleInput = (event) => {
@@ -32,8 +32,8 @@ export default function NovelSearch({updateSearch, value}) {
     };
 
     return (
-        <form id="novel-search-form" onSubmit={handleSubmit}>
-            <input type="search" id="nsearch" name="nsearch" value={search} onInput={handleInput} placeholder='Search Novel'>
+        <form id="search-form" onSubmit={handleSubmit}>
+            <input type="search" id="search" name="search" value={search} onInput={handleInput} placeholder='Search Novel'>
             </input>
             <button id="search-button">
                 <FontAwesomeIcon
@@ -46,11 +46,11 @@ export default function NovelSearch({updateSearch, value}) {
     );
 }
 
-NovelSearch.propTypes = {
+Search.propTypes = {
     value: propTypes.string,
     updateSearch: propTypes.func.isRequired,
 };
 
-NovelSearch.defaultProps ={
+Search.defaultProps ={
     value: '',
 };

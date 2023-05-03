@@ -21,7 +21,6 @@ class lnarchive_theme{
          security::get_instance();
          novel::get_instance();
          volume::get_instance();
-         volume_meta::get_instance();
          comment::get_instance();
          ratings::get_instance();
          users::get_instance();

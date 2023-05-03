@@ -6,32 +6,24 @@
  * 
  */
 
-namespace lnarchive\inc; //Namespace Definition
-use lnarchive\inc\traits\Singleton; //Singleton Directory using namespace
+namespace lnarchive\inc;
+use lnarchive\inc\traits\Singleton;
 
-class sidebars{ //Assests Class
+class sidebars{
 
-    use Singleton; //Using Sinlgeton
+    use Singleton;
 
-    protected function __construct(){ //Constructor function
-
-        //Load Class
-         $this->set_hooks(); //Setting the hook below
+    protected function __construct() {
+         $this->set_hooks();
     }
 
     protected function set_hooks() {
-        
-         /**
-          * Actions
-          */
-
-        //Adding functions to the hooks
         add_action( 'widgets_init', [ $this, 'ln_register_sidebars']);
     }
 
-    public function ln_register_sidebars() { //Function to register all sidebars
+    public function ln_register_sidebars() {
         
-        register_sidebar( [ //Register Main Sidebar
+        register_sidebar( [
                 'name' => 'Main Sidebar',
                 'id' => 'sidebar-main',
                 'description' => 'Main Sidebar',
@@ -42,7 +34,7 @@ class sidebars{ //Assests Class
             ]
         );
 
-        register_sidebar( [ //Register Post Sidebar
+        register_sidebar( [
                 'name' => 'Post Sidebar',
                 'id' => 'sidebar-post',
                 'description' => 'Post Sidebar',
@@ -53,7 +45,7 @@ class sidebars{ //Assests Class
             ]
         );
 
-        register_sidebar( [ //Register Novel Sidebar
+        register_sidebar( [
                 'name' => 'Novel Sidebar',
                 'id' => 'sidebar-novel',
                 'description' => 'Novel Sidebar',

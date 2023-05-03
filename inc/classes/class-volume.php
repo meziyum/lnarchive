@@ -22,6 +22,7 @@ class volume{
         add_action( 'rest_api_init', [$this, 'addOrderbySupportRest']);
         add_action( 'rest_api_init', [$this, 'register_routes']);
         add_action( 'rest_api_init', [$this, 'register_rest']);
+        add_action( 'rest_api_init', [$this, 'register_meta']);
     }
 
     public function register_volume() {
@@ -96,6 +97,31 @@ class volume{
         );
 
         register_post_type( 'volume', $args );
+    }
+
+    function register_meta(){
+
+        $formats = get_terms('format', array(
+           'hide_empty' => false,
+        ));
+
+        foreach( $formats as $format ){
+
+           if( $format->name == "None")
+              continue;
+
+           register_meta( 'post', 'isbn_'.$format->name.'_value', array(
+              'object_subtype'  => 'volume',
+              'type'   => 'string',
+              'show_in_rest' => true,
+           ));
+
+           register_meta( 'post', 'published_date_value_'.$format->name, array(
+              'object_subtype'  => 'volume',
+              'type'   => 'string',
+              'show_in_rest' => true,
+           ));
+        }
     }
 
     public function register_rest(){

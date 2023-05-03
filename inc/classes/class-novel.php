@@ -101,7 +101,7 @@ class novel{
         register_post_type( 'novel', $args );
     }
 
-    public function register_routes(){
+    public function register_routes() {
         register_rest_route( 'lnarchive/v1', 'novel_filters', array(
             'methods' => 'GET',
             'callback' => [ $this, 'get_novel_filters'],
@@ -111,7 +111,7 @@ class novel{
         ));
     }
 
-    function addOrderbySupportRest(){
+    function addOrderbySupportRest() {
         
         add_filter(
             'rest_novel_collection_params',
@@ -160,7 +160,7 @@ class novel{
         );
     }
 
-    public function get_novel_filters(){
+    public function get_novel_filters() {
 
         $filter_taxonomies = array( 'genre', 'post_tag', 'novel_status', 'language', 'publisher', 'writer', 'illustrator',);
         $response = array();
@@ -191,7 +191,7 @@ class novel{
         return $response;
     }
 
-    public function auto_novel( $post_id ){
+    public function auto_novel( $post_id ) {
 
         $status = wp_get_post_terms( $post_id, 'novel_status');
         

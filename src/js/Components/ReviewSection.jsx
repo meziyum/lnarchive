@@ -7,7 +7,7 @@ import {escHTML} from '../helpers/utilities.js';
 
 /* eslint-disable no-undef */
 const postID = lnarchiveVariables.object_id;
-const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
+const wpRequestURL = lnarchiveVariables.wp_rest_url;
 const customAPIRequestURL = lnarchiveVariables.custom_api_url;
 const userNonce = lnarchiveVariables.nonce;
 const commentsPerPage = lnarchiveVariables.per_page;

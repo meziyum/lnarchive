@@ -7,7 +7,7 @@ import NovelActions from './Components/NovelActions.jsx';
 import '../common.js';
 
 /* eslint-disable no-undef */
-const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
+const wpRequestURL = lnarchiveVariables.wp_rest_url;
 const customAPIrequestURL = lnarchiveVariables.custom_api_url;
 const userNonce = lnarchiveVariables.nonce;
 const commentsTotalCount = lnarchiveVariables.comments_count;

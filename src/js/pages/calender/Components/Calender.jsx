@@ -10,7 +10,7 @@ import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 
 /* eslint-disable no-undef */
-const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
+const wpRequestURL = lnarchiveVariables.wp_rest_url;
 const volumePerPage = lnarchiveVariables.per_page;
 /* eslint-enable no-undef */
 

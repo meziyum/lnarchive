@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NovelItem from '../../../Components/NovelItem.jsx';
-import FilterSelect from './FilterSelect.jsx';
+import FilterSelect from '../../../Components/FilterSelect.jsx';
 import Search from '../../../Components/Search.jsx';
 import useToggle from '../../../hooks/useToggle.js';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
@@ -18,7 +18,7 @@ import {
 
 const urlParams = new URLSearchParams(window.location.search);
 /* eslint-disable no-undef */
-const wpRequestURL = lnarchiveVariables.wp_rest_url+'wp/v2/';
+const wpRequestURL = lnarchiveVariables.wp_rest_url;
 const novelPerPage = lnarchiveVariables.per_page;
 /* eslint-enable no-undef */
 
@@ -57,28 +57,12 @@ function NovelArchive(props) {
         }
     };
 
-    const handleFilter = ( data, name ) => {
-        setAppliedFilters( (prevInfo) => ({
-            ...prevInfo,
-            [name]: data,
-        }));
-        updateArchiveInfo( (prevInfo) => ({
-            ...prevInfo,
-            currentPage: 1,
-        }));
-    };
-
     const [showFilters, toggleFilters] = useToggle();
     const lastResponseLength = React.useRef(0);
     const [appliedFilters, setAppliedFilters] = React.useState(defaultApplitedFilters);
     const [archiveInfo, updateArchiveInfo] = React.useState({
         novel_list: '',
         novelsFound: true,
-        novel_filters: props.filterData.map( (tax) =>{
-            return (
-                <FilterSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
-            );
-        }),
         currentPage: 1,
         search: defaultSearchValue(),
         order: {value: 'asc', label: 'Ascending'},
@@ -145,6 +129,17 @@ function NovelArchive(props) {
         }));
     };
 
+    const handleFilter = ( data, name ) => {
+        setAppliedFilters( (prevInfo) => ({
+            ...prevInfo,
+            [name]: data,
+        }));
+        updateArchiveInfo( (prevInfo) => ({
+            ...prevInfo,
+            currentPage: 1,
+        }));
+    };
+
     const handleInView = () => {
         if (lastResponseLength.current==novelPerPage) {
             updateArchiveInfo( (prevInfo) => ({
@@ -167,7 +162,11 @@ function NovelArchive(props) {
             </div>
             {showFilters &&
                 <div id="archive-filter">
-                    {archiveInfo.novel_filters}
+                    {props.filterData.map( (tax) =>{
+                        return (
+                            <FilterSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
+                        );
+                    })}
                     <h6>Sort by</h6>
                     <div id="sort_by">
                         <Select

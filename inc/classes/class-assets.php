@@ -66,11 +66,12 @@ class assets{
 
         $path= '';
         $version_info = '';
+        $blog_page_id = get_option('page_for_posts');
         $localize_vars = array(
           'nonce' => wp_create_nonce( 'wp_rest' ),
           'websiteURL' => get_site_url(),
-          'blogURL' => get_bloginfo('url'),
-          'wp_rest_url' => get_rest_url(),
+          'blogURL' => get_permalink($blog_page_id),
+          'wp_rest_url' => get_rest_url().'wp/v2/',
           'custom_api_url' => get_rest_url().'lnarchive/v1/',
           'login_url' => wp_login_url(),
           'per_page' => get_option( 'posts_per_page' ),

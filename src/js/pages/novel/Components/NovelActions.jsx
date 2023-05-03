@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Ratings from '../../../Components/Ratings.jsx';
 /* eslint-disable no-undef */
 const postID = lnarchiveVariables.object_id;
-const customAPIRequestURL = lnarchiveVariables.wp_rest_url+'lnarchive/v1/';
+const customAPIRequestURL = lnarchiveVariables.custom_api_url;
 const userNonce = lnarchiveVariables.nonce;
 /* eslint-enable no-undef */
 

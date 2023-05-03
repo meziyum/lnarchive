@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
+import {reactSelectStyle} from '../helpers/reactSelectStyles.js';
 
 const params = new URLSearchParams(window.location.search);
 

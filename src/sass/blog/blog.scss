@@ -5,6 +5,7 @@
 @import "../layouts/post-list.scss";
 @import "../layouts/Search.scss";
 @import "../layouts/resultsNotFound.scss";
+@import "../layouts/archiveFilter.scss";
 
 #blog-wrap {
     
@@ -12,5 +13,9 @@
         display: flex;
             justify-content: space-between;
             margin-bottom: 16px;
+    }
+
+    .post-list {
+        margin-top: 16px;
     }
 }

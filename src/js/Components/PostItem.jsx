@@ -29,7 +29,7 @@ export default function PostItem(props) {
                     <h6 className='posted-on'>{props.date}</h6>
                     {
                         props.categoryList.map((category) => (
-                            <a key={category} className='category-button anchor-button' href={`${blogURL}/?categoriesFilter=${category}`}>{category}</a>
+                            <a key={category} className='category-button anchor-button' href={`${blogURL}/?categories_filter=${category}`}>{category}</a>
                         ))
                     }
                 </div>

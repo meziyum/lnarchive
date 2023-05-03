@@ -10,8 +10,6 @@ const customAPIURL = lnarchiveVariables.custom_api_url;
 /* eslint-enable no-undef */
 const blogRoot = ReactDOMClient.createRoot(document.getElementById('blog-wrap'));
 
-blogRoot.render(<PostArchive/>);
-
 fetch(`${customAPIURL}post_filters`, {
     method: 'GET',
     credentials: 'same-origin',

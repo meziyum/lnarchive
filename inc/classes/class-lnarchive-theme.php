@@ -38,14 +38,14 @@ class lnarchive_theme{
           add_filter('upload_mimes',[$this, 'restrict_mime']); 
           add_filter( 'login_display_language_dropdown', '__return_false' );
 
-          add_action('do_feed', [$this, 'wp_disable_feeds']);
-          add_action('do_feed_rdf', [$this, 'wp_disable_feeds']);
-          add_action('do_feed_rss', [$this, 'wp_disable_feeds']);
-          add_action('do_feed_rss2', [$this, 'wp_disable_feeds']);
-          add_action('do_feed_atom', [$this, 'wp_disable_feeds']);
+          add_action('do_feed', [$this, 'wp_disable_feeds'] );
+          add_action('do_feed_rdf', [$this, 'wp_disable_feeds'] );
+          add_action('do_feed_rss', [$this, 'wp_disable_feeds'] );
+          add_action('do_feed_rss2', [$this, 'wp_disable_feeds'] );
+          add_action('do_feed_atom', [$this, 'wp_disable_feeds'] );
 
-          add_action('do_feed_rss2_comments', [$this, 'wp_disable_feeds']);
-          add_action('do_feed_atom_comments', [$this, 'wp_disable_feeds']);
+          add_action('do_feed_rss2_comments', [$this, 'wp_disable_feeds'] );
+          add_action('do_feed_atom_comments', [$this, 'wp_disable_feeds'] );
 
           add_action( 'feed_links_show_posts_feed', '__return_false', - 1 );
           add_action( 'feed_links_show_comments_feed', '__return_false', - 1 );

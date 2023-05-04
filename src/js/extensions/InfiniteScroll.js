@@ -26,6 +26,7 @@ function Loader(props) {
                     style={{
                         color: '#387ef2',
                         animation: 'fa-spin 2s linear infinite',
+                        padding: '50px',
                     }}
                     size="3x"
                 />

@@ -24,6 +24,7 @@ class volume{
         add_action( 'rest_api_init', [$this, 'register_rest_fields']);
         add_action( 'rest_api_init', [$this, 'register_meta']);
         add_action('template_redirect', [$this, 'redirect_volume_to_404']);
+        add_filter( 'post_row_actions', [$this, 'remove_view_action_from_list'], 10, 2 );
     }
 
     public function register_volume() {
@@ -242,6 +243,13 @@ class volume{
             $wp_query->set_404();
             status_header( 404 );
         }
+    }
+
+    function remove_view_action_from_list( $actions, $post ) {
+        if ( $post->post_type === 'volume' ) {
+            unset( $actions['view'] );
+        }
+        return $actions;
     }
 }
 ?>

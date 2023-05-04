@@ -68,7 +68,21 @@
             border-radius: 8px;
 
             #novel-actions {
+                display: flex;
+                justify-content: start;
+                align-items: center;
                 padding: 8px 0;
+
+                #ratings-div {
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+
+                    h6 {
+                        color: $rating-submit-msg;
+                        margin: 0 0 0 8px;
+                    }
+                }
             }
 
             #format_info_value{

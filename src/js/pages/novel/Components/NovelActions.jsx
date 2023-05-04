@@ -19,6 +19,7 @@ A React component that renders actions for a novel, including rating the novel.
 export default function NovelActions(props) {
     const [actionStates, updateActionStates] = React.useState({
         rating: props.rating,
+        ratingSubmitted: false,
     });
 
     const submitRatings = (value) => {
@@ -33,14 +34,23 @@ export default function NovelActions(props) {
                 rating: value,
             }),
         });
+
         updateActionStates( (prevStates) => ({
             ...prevStates,
             rating: value,
+            ratingSubmitted: true,
         }));
+
+        setTimeout(() => {
+            updateActionStates( (prevStates) => ({
+                ...prevStates,
+                ratingSubmitted: false,
+            }));
+        }, 3000);
     };
 
     return (
-        <>{props.isLoggedIn && <Ratings ratings_submit={submitRatings} size={'xl'} rating={actionStates.rating} mode={'form'}/>}</>
+        <div id="ratings-div">{props.isLoggedIn && <Ratings ratings_submit={submitRatings} size={'xl'} rating={actionStates.rating} mode={'form'}/>}{actionStates.ratingSubmitted && <h6>Your rating has been submitted!</h6>}</div>
     );
 }
 

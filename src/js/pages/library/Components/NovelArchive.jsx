@@ -73,43 +73,49 @@ function NovelArchive(props) {
         getNovels();
     }, [archiveInfo.currentPage, archiveInfo.order_by, archiveInfo.order, archiveInfo.search, appliedFilters]);
 
-    const getNovels = async () => {
-        let filters=``;
-        Object.entries(appliedFilters).forEach((value) => {
-            const [taxName, list] = value;
-            if (list.length>0) {
-                let currentFilter= `&${taxName}=`;
-                list.forEach((term) => {
-                    currentFilter+=`${term.value},`;
-                });
-                filters+=currentFilter.slice(0, -1);
-            }
-        });
-
-        const fields = 'id,link,_links.wp:featuredmedia';
-
-        const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&_fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.currentPage}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
-            method: 'GET',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            }},
-        );
-
-        const data= await response.json();
-        const novels = data.map( (novel) => {
-            return (
-                <NovelItem key={novel.id} id={novel.id} link={novel.link} novelCover={novel._embedded['wp:featuredmedia'][0].source_url}/>
-            );
-        });
-        lastResponseLength.current=novels.length;
-
-        updateArchiveInfo( (prevInfo) => ({
-            ...prevInfo,
-            novel_list: prevInfo.currentPage === 1 ? novels : [...prevInfo.novel_list, novels],
-            novelsFound: novels.length>0 ? true : false,
-        }));
+    React.useEffect( () => {
         history.replaceState(null, null, window.location.pathname);
+    }, []);
+
+    const getNovels = async () => {
+        try {
+            let filters=``;
+            Object.entries(appliedFilters).forEach((value) => {
+                const [taxName, list] = value;
+                if (list.length>0) {
+                    let currentFilter= `&${taxName}=`;
+                    list.forEach((term) => {
+                        currentFilter+=`${term.value},`;
+                    });
+                    filters+=currentFilter.slice(0, -1);
+                }
+            });
+            const fields = 'id,link,_links.wp:featuredmedia';
+
+            const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&_fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.currentPage}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                }},
+            );
+
+            const data= await response.json();
+            const filteredData = data.filter((novel) => novel._embedded);
+            const novels = filteredData.map( (novel) => {
+                return (
+                    <NovelItem key={novel.id} id={novel.id} link={novel.link} novelCover={novel._embedded['wp:featuredmedia'][0].source_url}/>
+                );
+            });
+            lastResponseLength.current=novels.length;
+            updateArchiveInfo( (prevInfo) => ({
+                ...prevInfo,
+                novel_list: prevInfo.currentPage === 1 ? novels : [...prevInfo.novel_list, novels],
+                novelsFound: novels.length>0 ? true : false,
+            }));
+        } catch (error) {
+            lastResponseLength.current=0;
+        }
     };
 
     const handleSelect = (data, name) => {

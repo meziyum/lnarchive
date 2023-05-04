@@ -29,6 +29,6 @@ export default React.memo(NovelItem);
 NovelItem.propTypes = {
     id: PropTypes.number.isRequired,
     link: PropTypes.string.isRequired,
-    novelCover: PropTypes.string.isRequired,
+    novelCover: PropTypes.string,
     releaseDate: PropTypes.string,
 };

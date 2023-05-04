@@ -2,15 +2,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Review from './Review.jsx';
-import Pagination from './Pagination.jsx';
 import {escHTML} from '../helpers/utilities.js';
+import InfiniteScroll from '../extensions/InfiniteScroll.js';
 
 /* eslint-disable no-undef */
 const postID = lnarchiveVariables.object_id;
 const wpRequestURL = lnarchiveVariables.wp_rest_url;
 const customAPIRequestURL = lnarchiveVariables.custom_api_url;
 const userNonce = lnarchiveVariables.nonce;
-const commentsPerPage = lnarchiveVariables.per_page;
+const commentsPerPage = 3;
 /* eslint-enable no-undef */
 
 /**
@@ -25,11 +25,10 @@ const commentsPerPage = lnarchiveVariables.per_page;
  * @return {JSX.Element} - The ReviewSection component
  */
 export default function ReviewSection(props) {
+    const lastResponseLength = React.useRef(0);
     const [sectionInfo, updateSectionInfo] = React.useState({
         commentList: [],
         commentsCount: props.commentsCount,
-        pagination: null,
-        pagination_display: false,
         currentPage: 1,
         currentSort: 'likes',
         reviewContent: '',
@@ -40,34 +39,38 @@ export default function ReviewSection(props) {
     const commentType = props.commentType.charAt(0).toUpperCase() + props.commentType.slice(1);
 
     const fetchComments = async () => {
-        const fields = '&_fields=id,author_name,author,author_avatar_urls,content,date,post,userID,meta,is_logged_in,user_comment_response,rating';
+        try {
+            const fields = '&_fields=id,author_name,author,author_avatar_urls,content,date,post,userID,meta,is_logged_in,user_comment_response,rating';
 
-        const res = await fetch( `${wpRequestURL}comments?post=${postID}&orderby=${sectionInfo.currentSort}&per_page=${commentsPerPage}&page=${sectionInfo.currentPage}${fields}`, {
-            headers: {
-                'X-WP-Nonce': userNonce,
-            },
-        });
-        const data= await res.json();
-
-        if ( res.status === 200 ) {
-            const commentsMap = data.map( (comment) => {
-                return (
-                    <Review
-                        key={comment.id}
-                        isLoggedIn={props.isLoggedIn}
-                        userID={userID}
-                        deleteReview={deleteReview}
-                        maxProgress={props.maxProgress}
-                        {...comment}
-                    />
-                );
+            const res = await fetch( `${wpRequestURL}comments?post=${postID}&orderby=${sectionInfo.currentSort}&per_page=${commentsPerPage}&page=${sectionInfo.currentPage}${fields}`, {
+                headers: {
+                    'X-WP-Nonce': userNonce,
+                },
             });
+            const data= await res.json();
 
-            updateSectionInfo( (prevInfo) => ( {
-                ...prevInfo,
-                commentList: commentsMap,
-                pagination: <Pagination currentPage={sectionInfo.currentPage} length={Math.ceil(sectionInfo.commentsCount/commentsPerPage)} handleclick={handlePageSelect}></Pagination>,
-            }));
+            if ( res.status === 200 ) {
+                const commentsMap = data.map( (comment) => {
+                    return (
+                        <Review
+                            key={comment.id}
+                            isLoggedIn={props.isLoggedIn}
+                            userID={userID}
+                            deleteReview={deleteReview}
+                            maxProgress={props.maxProgress}
+                            {...comment}
+                        />
+                    );
+                });
+                lastResponseLength.current=commentsMap.length;
+
+                updateSectionInfo( (prevInfo) => ( {
+                    ...prevInfo,
+                    commentList: prevInfo.currentPage === 1 ? commentsMap : [...prevInfo.commentList, ...commentsMap],
+                }));
+            }
+        } catch (error) {
+            lastResponseLength.current=0;
         }
     };
 
@@ -112,15 +115,8 @@ export default function ReviewSection(props) {
         updateSectionInfo( (prevInfo) => ({
             ...prevInfo,
             [name]: value,
+            currentPage: 1,
         }));
-    };
-
-    const handlePageSelect = (event) => {
-        updateSectionInfo( (prevInfo) => ({
-            ...prevInfo,
-            currentPage: parseInt(event.target.value),
-        }));
-        document.getElementById('reviews-form').scrollIntoView(true);
     };
 
     const deleteReview = async (id) => {
@@ -139,6 +135,15 @@ export default function ReviewSection(props) {
             ...prevInfo,
             commentsCount: prevInfo.commentsCount-1,
         }));
+    };
+
+    const handleInView = () => {
+        if (lastResponseLength.current==commentsPerPage) {
+            updateSectionInfo( (prevInfo) => ({
+                ...prevInfo,
+                currentPage: ++prevInfo.currentPage,
+            }));
+        }
     };
 
     return (
@@ -177,8 +182,8 @@ export default function ReviewSection(props) {
             }
             <div id="reviews-list">
                 {sectionInfo.commentList}
-                {sectionInfo.pagination}
             </div>
+            <InfiniteScroll handleInView={handleInView}/>
         </>
     );
 }

@@ -139,7 +139,7 @@ function post_list( $loop , $label) {
                                 ?>
                                 </a>
                         
-                                <div class="blog-entry-info">
+                                <div class="post-entry-info">
                                     <?php
                                     printf(
                                         '<a><h5 class="entry-title" href="%1$s">%2$s</h5></a>',

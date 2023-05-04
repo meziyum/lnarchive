@@ -134,8 +134,23 @@ class novel {
                     if($order_by=='rating') {
                         $args['meta_key'] = $order_by;
                         $args['orderby'] = 'meta_value_num';
-                    } else {
-                        
+                    }
+                    else if($order_by=='releaseDate') {
+
+                    }
+                    else if($order_by=='volumesCount') {
+                        $args['meta_query'] = array(
+                            array(
+                                'key' => 'series',
+                                'value' => get_the_ID(),
+                                'compare' => '=',
+                            ),
+                        );
+                        $args['meta_key'] = 'volumesCount';
+                        $args['orderby'] = 'meta_value_num';
+                    }
+                    else if($order_by=='latestRelease') {
+
                     }
                 }
                 return $args;

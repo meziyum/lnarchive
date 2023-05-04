@@ -25,6 +25,7 @@ class volume{
         add_action( 'rest_api_init', [$this, 'register_meta']);
         add_action('template_redirect', [$this, 'redirect_volume_to_404']);
         add_filter( 'post_row_actions', [$this, 'remove_view_action_from_list'], 10, 2 );
+        add_filter( 'post_updated_messages', [$this, 'custom_post_updated_messages'] );
     }
 
     public function register_volume() {
@@ -250,6 +251,26 @@ class volume{
             unset( $actions['view'] );
         }
         return $actions;
+    }
+
+    function custom_post_updated_messages( $messages ) {
+        global $post, $post_ID;
+    
+        $messages['volume'] = array(
+            0 => '',
+            1 => sprintf( __('Volume updated. <a href="%s">Back to volume list</a>', 'your-text-domain'), esc_url( admin_url( 'edit.php?post_type=volume' ) ) ),
+            2 => __('Custom field updated.'),
+            3 => __('Custom field deleted.'),
+            4 => __('Volume updated.'),
+            5 => isset($_GET['revision']) ? sprintf( __('Volume restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+            6 => sprintf( __('Volume published. <a href="%s">View volume</a>'), esc_url( get_permalink($post_ID) ) ),
+            7 => __('Volume saved.'),
+            8 => sprintf( __('Volume submitted. <a target="_blank" href="%s">Preview volume</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
+            9 => sprintf( __('Volume scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview volume</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
+            10 => sprintf( __('Volume draft updated. <a target="_blank" href="%s">Preview volume</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
+        );
+    
+        return $messages;
     }
 }
 ?>

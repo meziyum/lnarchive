@@ -220,7 +220,7 @@ class volume{
         );
     }
 
-    function auto_update_volume($post_id){
+    function auto_update_volume($post_id) {
         
         $formats = get_terms('format', array(
             'hide_empty' => false,

@@ -134,23 +134,8 @@ class novel {
                     if($order_by=='rating') {
                         $args['meta_key'] = $order_by;
                         $args['orderby'] = 'meta_value_num';
-                    }
-                    else if($order_by=='releaseDate') {
-
-                    }
-                    else if($order_by=='volumesCount') {
-                        $args['meta_query'] = array(
-                            array(
-                                'key' => 'series',
-                                'value' => get_the_ID(),
-                                'compare' => '=',
-                            ),
-                        );
-                        $args['meta_key'] = 'volumesCount';
-                        $args['orderby'] = 'meta_value_num';
-                    }
-                    else if($order_by=='latestRelease') {
-
+                    } else {
+                        
                     }
                 }
                 return $args;
@@ -190,7 +175,16 @@ class novel {
         return $response;
     }
 
-    public function auto_novel( $post_id ) {
+    public function intialize_novel($post_ID, $post, $update) {
+        if ($update) {
+            return;
+        }
+        if ($post->post_type === 'novel') {
+            add_post_meta($post_ID, 'totalVolumes', 0, true);
+        }
+    }
+
+    public function auto_novel($post_id) {
 
         $status = wp_get_post_terms( $post_id, 'novel_status');
         

@@ -23,6 +23,7 @@ class volume{
         add_action( 'rest_api_init', [$this, 'register_routes']);
         add_action( 'rest_api_init', [$this, 'register_rest_fields']);
         add_action( 'rest_api_init', [$this, 'register_meta']);
+        add_action('template_redirect', [$this, 'redirect_volume_to_404']);
     }
 
     public function register_volume() {
@@ -232,6 +233,14 @@ class volume{
 
             if( !empty($isbn) || !empty($date))
                 wp_set_post_terms( $post_id, [ $format->term_id], 'format', true);
+        }
+    }
+
+    function redirect_volume_to_404() {
+        if ( is_singular('volume') ) {
+            global $wp_query;
+            $wp_query->set_404();
+            status_header( 404 );
         }
     }
 }

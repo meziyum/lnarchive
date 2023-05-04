@@ -25,6 +25,12 @@ class comment {
             'type' => 'number',
             'single' => true,
             'default ' => 0,
+            'sanitize_callback' => function( $value ) {
+                if ( $value < 0 ) {
+                    $value = 0;
+                }
+                return $value;
+            },
             'show_in_rest' => array(
                 'schema' => array(
                     'type'  => 'number',
@@ -37,6 +43,12 @@ class comment {
             'type' => 'number',
             'single' => true,
             'default ' => 0,
+            'sanitize_callback' => function( $value ) {
+                if ( $value < 0 ) {
+                    $value = 0;
+                }
+                return $value;
+            },
             'show_in_rest' => array(
                 'schema' => array(
                     'type'  => 'number',
@@ -49,6 +61,12 @@ class comment {
             'type' => 'number',
             'single' => true,
             'default ' => 0,
+            'sanitize_callback' => function( $value ) {
+                if ( $value < 0 ) {
+                    $value = 0;
+                }
+                return $value;
+            },
             'show_in_rest' => array(
                 'schema' => array(
                     'type'  => 'number',

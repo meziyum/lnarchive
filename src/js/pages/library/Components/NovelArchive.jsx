@@ -64,6 +64,7 @@ function NovelArchive(props) {
         novel_list: '',
         novelsFound: true,
         currentPage: 1,
+        displayInfiniteLoader: true,
         search: defaultSearchValue(),
         order: {value: 'asc', label: 'Ascending'},
         order_by: {value: 'date', label: 'Release Date'},
@@ -152,6 +153,11 @@ function NovelArchive(props) {
                 ...prevInfo,
                 currentPage: ++prevInfo.currentPage,
             }));
+        } else {
+            updateArchiveInfo( (prevInfo) => ({
+                ...prevInfo,
+                displayInfiniteLoader: false,
+            }));
         }
     };
 
@@ -204,7 +210,7 @@ function NovelArchive(props) {
                 {archiveInfo.novelsFound && archiveInfo.novel_list}
                 {!archiveInfo.novelsFound && <ResultsNotFound/>}
             </div>
-            <InfiniteScroll handleInView={handleInView}/>
+            <InfiniteScroll handleInView={handleInView} displayLoader={archiveInfo.displayInfiniteLoader && archiveInfo.novelsFound}/>
         </>
     );
 }

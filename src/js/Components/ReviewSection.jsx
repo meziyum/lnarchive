@@ -10,7 +10,7 @@ const postID = lnarchiveVariables.object_id;
 const wpRequestURL = lnarchiveVariables.wp_rest_url;
 const customAPIRequestURL = lnarchiveVariables.custom_api_url;
 const userNonce = lnarchiveVariables.nonce;
-const commentsPerPage = 3;
+const commentsPerPage = lnarchiveVariables.per_page;
 /* eslint-enable no-undef */
 
 /**
@@ -30,6 +30,7 @@ export default function ReviewSection(props) {
         commentList: [],
         commentsCount: props.commentsCount,
         currentPage: 1,
+        displayInfiniteLoader: true,
         currentSort: 'likes',
         reviewContent: '',
         progress: 0,
@@ -143,6 +144,11 @@ export default function ReviewSection(props) {
                 ...prevInfo,
                 currentPage: ++prevInfo.currentPage,
             }));
+        } else {
+            updateSectionInfo( (prevInfo) => ({
+                ...prevInfo,
+                displayInfiniteLoader: false,
+            }));
         }
     };
 
@@ -183,7 +189,7 @@ export default function ReviewSection(props) {
             <div id="reviews-list">
                 {sectionInfo.commentList}
             </div>
-            <InfiniteScroll handleInView={handleInView}/>
+            <InfiniteScroll handleInView={handleInView} displayLoader={sectionInfo.displayInfiniteLoader && sectionInfo.commentsCount>0}/>
         </>
     );
 }

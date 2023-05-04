@@ -1,21 +1,42 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+
+import {
+    faSpinner,
+}
+    from '@fortawesome/free-solid-svg-icons';
 
 /**
- * A dummy component which is used to trigger the infinite scroll like behavior when in view using the triggerOnView higher ordered component
+ * A Loader component which is used to trigger the infinite scroll like behavior when in view using the triggerOnView higher ordered component
  * @param {Object} props - The props passed to the component.
  * @param {React.RefObject} props.componentRef - A ref object used to get a reference to the rendered div element.
+ * @param {React.boolean} props.displayLoader - A boolean value whether to display the Loader or not.
  * @return {React.ReactElement} A React element representing a div with the given `componentRef` as its ref attribute.
  */
-function Dummy(props) {
+function Loader(props) {
     return (
-        <div ref={props.componentRef}/>
+        <div id="infinite-loading-div">
+            {
+                props.displayLoader &&
+                <FontAwesomeIcon
+                    ref={props.componentRef}
+                    icon={faSpinner}
+                    style={{
+                        color: '#387ef2',
+                        animation: 'fa-spin 2s linear infinite',
+                    }}
+                    size="3x"
+                />
+            }
+        </div>
     );
 }
 
-Dummy.propTypes = {
+Loader.propTypes = {
     componentRef: PropTypes.object.isRequired,
+    displayLoader: PropTypes.bool.isRequired,
 };
 
 /**
@@ -53,9 +74,9 @@ function triggerOnView(WrappedComponent) {
             };
         }, []);
 
-        return <WrappedComponent componentRef={componentRef} />;
+        return <WrappedComponent componentRef={componentRef} displayLoader={props.displayLoader}/>;
     };
 }
 
-const InfiniteScroll = triggerOnView(Dummy);
+const InfiniteScroll = triggerOnView(Loader);
 export default InfiniteScroll;

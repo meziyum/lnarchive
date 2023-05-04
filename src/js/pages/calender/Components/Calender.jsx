@@ -25,6 +25,7 @@ export default function Calender(props) {
     const [calenderStates, updateCalenderStates] = React.useState({
         currentPage: 1,
         list: '',
+        displayInfiniteLoader: true,
         selectedFormat: {value: 'published_date_value_Kindle', label: 'Kindle'},
         search: '',
         volumesFound: true,
@@ -88,6 +89,11 @@ export default function Calender(props) {
                 ...prevInfo,
                 currentPage: ++prevInfo.currentPage,
             }));
+        } else {
+            updateCalenderStates( (prevInfo) => ({
+                ...prevInfo,
+                displayInfiniteLoader: false,
+            }));
         }
     };
 
@@ -107,7 +113,7 @@ export default function Calender(props) {
                 {calenderStates.list}
                 {!calenderStates.volumesFound && <ResultsNotFound/>}
             </div>
-            <InfiniteScroll handleInView={handleInView}/>
+            <InfiniteScroll handleInView={handleInView} displayLoader={calenderStates.displayInfiniteLoader && calenderStates.volumesFound}/>
         </>
     );
 }

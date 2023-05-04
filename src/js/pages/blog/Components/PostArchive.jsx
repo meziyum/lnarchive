@@ -62,6 +62,7 @@ function PostArchive(props) {
     const [archiveInfo, updateArchiveInfo] = React.useState({
         post_list: '',
         postsFound: true,
+        displayInfiniteLoader: true,
         currentPage: 1,
         search: defaultSearchValue(),
         order: {value: 'asc', label: 'Ascending'},
@@ -124,6 +125,11 @@ function PostArchive(props) {
                 ...prevInfo,
                 currentPage: ++prevInfo.currentPage,
             }));
+        } else {
+            updateArchiveInfo( (prevInfo) => ({
+                ...prevInfo,
+                displayInfiniteLoader: false,
+            }));
         }
     };
 
@@ -171,7 +177,7 @@ function PostArchive(props) {
                 {archiveInfo.postsFound && archiveInfo.post_list}
                 {!archiveInfo.postsFound && <ResultsNotFound/>}
             </div>
-            <InfiniteScroll handleInView={handleInView}/>
+            <InfiniteScroll handleInView={handleInView} displayLoader={archiveInfo.displayInfiniteLoader && archiveInfo.postsFound}/>
         </>
     );
 }

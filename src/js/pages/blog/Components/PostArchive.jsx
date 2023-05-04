@@ -72,43 +72,50 @@ function PostArchive(props) {
         getPosts();
     }, [archiveInfo.currentPage, archiveInfo.order_by, archiveInfo.order, archiveInfo.search, appliedFilters]);
 
-    const getPosts = async () => {
-        let filters=``;
-        Object.entries(appliedFilters).forEach((value) => {
-            const [taxName, list] = value;
-            if (list.length>0) {
-                let currentFilter= `&${taxName}=`;
-                list.forEach((term) => {
-                    currentFilter+=`${term.value},`;
-                });
-                filters+=currentFilter.slice(0, -1);
-            }
-        });
-
-        const fields = 'id,title.rendered,modified,categoryList,link,categories,_links.wp:featuredmedia,_links.wp:term';
-
-        const response = await fetch( `${wpRequestURL}posts?_embed&_fields=${fields}${filters}&per_page=${postPerPage}&page=${archiveInfo.currentPage}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
-            method: 'GET',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            }},
-        );
-
-        const data= await response.json();
-        const posts = data.map( (post) => {
-            return (
-                <PostItem key={post.id} id={post.id} title={post.title.rendered} date={formatDate(post.modified)} link={post.link} postImage={post._embedded['wp:featuredmedia'][0].source_url} categoryList={post.categoryList}/>
-            );
-        });
-        lastResponseLength.current=posts.length;
-
-        updateArchiveInfo( (prevInfo) => ({
-            ...prevInfo,
-            post_list: prevInfo.currentPage === 1 ? posts : [...prevInfo.post_list, posts],
-            postsFound: posts.length>0 ? true : false,
-        }));
+    React.useEffect( () => {
         history.replaceState(null, null, window.location.pathname);
+    }, []);
+
+    const getPosts = async () => {
+        try {
+            let filters=``;
+            Object.entries(appliedFilters).forEach((value) => {
+                const [taxName, list] = value;
+                if (list.length>0) {
+                    let currentFilter= `&${taxName}=`;
+                    list.forEach((term) => {
+                        currentFilter+=`${term.value},`;
+                    });
+                    filters+=currentFilter.slice(0, -1);
+                }
+            });
+
+            const fields = 'id,title.rendered,modified,categoryList,link,categories,_links.wp:featuredmedia,_links.wp:term';
+
+            const response = await fetch( `${wpRequestURL}posts?_embed&_fields=${fields}${filters}&per_page=${postPerPage}&page=${archiveInfo.currentPage}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                }},
+            );
+
+            const data= await response.json();
+            const posts = data.map( (post) => {
+                return (
+                    <PostItem key={post.id} id={post.id} title={post.title.rendered} date={formatDate(post.modified)} link={post.link} postImage={post._embedded['wp:featuredmedia'][0].source_url} categoryList={post.categoryList}/>
+                );
+            });
+            lastResponseLength.current=posts.length;
+
+            updateArchiveInfo( (prevInfo) => ({
+                ...prevInfo,
+                post_list: prevInfo.currentPage === 1 ? posts : [...prevInfo.post_list, posts],
+                postsFound: posts.length>0 ? true : false,
+            }));
+        } catch (error) {
+            lastResponseLength.current=0;
+        }
     };
 
     const handleInView = () => {

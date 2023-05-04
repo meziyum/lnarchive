@@ -41,7 +41,7 @@ $the_post_id = get_the_ID();
                         <?php
                             echo '<h6 class="posted-by">Posted by '.ucfirst(esc_html(get_the_author_meta('nickname'))).'</h6>';
                             get_template_part('template-parts/edit-btn');
-                            get_template_part('template-parts/post/date');
+                            post_date($the_post_id, true);
                         ?>
                     </div>
                     <?php

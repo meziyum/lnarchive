@@ -146,7 +146,7 @@ function post_list( $loop , $label) {
                                         get_the_permalink(),
                                         wp_kses_post( $post_title)
                                     );
-                                    get_template_part('template-parts/post/date');
+                                    post_date($the_post_id, false);
                                     ?>
                                         <?php             
                                         taxonomy_button_list('post', wp_get_post_terms( $the_post_id, ['category']),'category');
@@ -162,6 +162,40 @@ function post_list( $loop , $label) {
             ?>
         </div>
     <?php
+}
+
+function post_date($the_post_id, $date_visibility) {
+    $article_terms = wp_get_post_terms( $the_post_id, ['category']);
+
+    if( !empty( $article_terms ) && is_array( $article_terms )) {
+        foreach( $article_terms as $article_term) {
+            if( get_term_meta( $article_term->term_id, 'date_visible_value', true) == 'yes' ||  !$date_visibility)  {
+                
+                $time_string = '<time class="entry-date" datetime="%1$s">%2$s</time>';
+
+                if( get_the_time('U') !== get_the_modified_time('U')) {
+                    $time_string = '<time class="entry-date d-none" datetime="%1$s">%2$s</time><time class="entry-date" datetime="%3$s">%4$s</time>';
+                }
+
+                $time_string = sprintf( $time_string,
+                    get_the_date( DATE_W3C ),
+                    get_the_date(),
+                    get_the_modified_date( DATE_W3C ),
+                    get_the_modified_date()
+                );
+
+                $posted_on = sprintf(
+                    '%s',
+                    '<a rel="bookmark">' . $time_string . '</a>'
+                );
+                ?>
+                    <h6 class="posted-on"><?php echo $posted_on;?></h6>
+                <?php
+
+                break;
+            }
+        }
+    }
 }
 
 /**

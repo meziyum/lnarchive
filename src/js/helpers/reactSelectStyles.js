@@ -2,9 +2,12 @@
 export const reactSelectStyle = {
     control: (provided, state) => ({
         ...provided,
+        /* eslint-disable-next-line */
         backgroundColor: 'white',
         '&:hover': {borderColor: 'lightgrey'},
+        /* eslint-disable-next-line */
         border: '1px solid lightgrey',
+        /* eslint-disable-next-line */
         boxShadow: state.isFocused ? '0 0 0 1px #387ef2' : null,
     }),
     option: (provided) => ({
@@ -23,6 +26,7 @@ export const reactSelectStyle = {
     }),
     multiValueRemove: (provided) => ({
         ...provided,
+        /* eslint-disable-next-line */
         color: 'white',
         '&:hover': {color: 'red'},
     }),

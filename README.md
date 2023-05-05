@@ -41,3 +41,11 @@ The following command will display all the linting error.
 ```bash
 npm run lint
 ```
+
+**Linting**
+
+The following command will try fixing all the linting errors and then display all the linting errors which it cant handle.
+
+```bash
+npm run lint-fix
+```

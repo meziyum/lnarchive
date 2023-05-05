@@ -20,6 +20,8 @@ npm run dev
 
 **Production**
 
+The following command will generate the production files.
+
 ```bash
 npm run prod
 ```

@@ -42,7 +42,7 @@ The following command will display all the linting error.
 npm run lint
 ```
 
-**Linting**
+**Linting and Autofixing**
 
 The following command will try fixing all the linting errors and then display all the linting errors which it cant handle.
 

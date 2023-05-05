@@ -8,27 +8,25 @@
  * @package LNarchive 
  */
 
-namespace lnarchive\inc\traits; //Namespace
+namespace lnarchive\inc\traits;
 
-trait Singleton { //Singleton Class
-    public function _construct() { //Default constructor
-
+trait Singleton {
+    public function _construct() {
     }
 
-    public function _clone() { //Clone
-
+    public function _clone() {
     }
 
-    final public static function get_instance() { //get_instance singleton function
-        static $instance =[]; //Define a null instance
-        $called_class = get_called_class(); //Get the Class
+    final public static function get_instance() {
+        static $instance =[];
+        $called_class = get_called_class();
 
-        if( !isset($instance[ $called_class])) { //If instance of that class is not set
-            $instance[ $called_class] = new $called_class; //Create new instance for the class
+        if( !isset($instance[ $called_class])) {
+            $instance[ $called_class] = new $called_class;
 
-            do_action( sprintf( 'lnarchive_theme_singleton_init', $called_class)); //Creating a action hook for singleton for each class
+            do_action( sprintf( 'lnarchive_theme_singleton_init', $called_class));
         }
 
-        return $instance[ $called_class]; //Return the Instance of the class
+        return $instance[ $called_class];
     }
 }

@@ -27,6 +27,6 @@ trait Singleton {
             do_action( sprintf( 'lnarchive_theme_singleton_init', $called_class));
         }
 
-        return $instance[ $called_class];
+        return $instance[$called_class];
     }
 }

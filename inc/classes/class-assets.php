@@ -49,10 +49,6 @@ class assets{
         $path= LNARCHIVE_BUILD_CSS_URI . '/library.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/library.css');
       }
-      else if(is_search()) {
-        $path= LNARCHIVE_BUILD_CSS_URI . '/search.css';
-        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/search.css');
-      }
       else {
         $path= LNARCHIVE_BUILD_CSS_URI . '/default.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/default.css');
@@ -95,10 +91,6 @@ class assets{
         else if(is_post_type_archive('novel')) {
           $path= LNARCHIVE_BUILD_JS_URI . '/library.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/library.js');
-        }
-        else if(is_search()) {
-          $path= LNARCHIVE_BUILD_JS_URI . '/search.js'; 
-          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/search.js');
         }
         else{
           $path= LNARCHIVE_BUILD_JS_URI . '/default.js'; 

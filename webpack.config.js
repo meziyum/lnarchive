@@ -16,7 +16,6 @@ const entry = {
 	page: `${JS_DIR}/page/page.js`,
 	library: `${JS_DIR}/library/library.js`,
 	blog: `${JS_DIR}/blog/blog.js`,
-	search: `${JS_DIR}/search.js`,
 	default: `${JS_DIR}/default.js`,
 	calender: `${JS_DIR}/calender/calender.js`,
 };

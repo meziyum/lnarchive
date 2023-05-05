@@ -7,7 +7,6 @@
 Clone the repo and run
 
 ```bash
-cd aquila/assets
 npm install
 ```
 

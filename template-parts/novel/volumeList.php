@@ -6,11 +6,10 @@
  */
 
 $the_post_id = get_the_ID();
-$max_posts = get_option('posts_per_page');
 
 $vol_args = array(
     'post_type' => 'volume',
-    'posts_per_page' => $max_posts,
+    'posts_per_page' => -1,
     'orderby' => 'date',
     'order' => 'ASC',
     'meta_key' => 'series_value',

@@ -163,23 +163,31 @@ class post_filter{ //Post or Custom Post Type filter
         }        
     }
 
-    function add_metadata_filter_to_posts_query( $query ){ //Metadata Filter WP_QUERY
+    function add_metadata_filter_to_posts_query($query) {
 
-        global $post_type, $pagenow; //Global post_type and current page var
+        global $post_type, $pagenow, $wpdb;
 
-        if( $pagenow == 'edit.php') { //Check if current page is edit.php
-            if($post_type == 'volume'){ //If the post_type is novel
+        if ($pagenow == 'edit.php') {
+            if ($post_type == 'volume') {
 
-                $novel = null;
+                $novel_id = null;
 
-                if( isset($_GET['series_choice']))
-                $novel = get_page_by_title(sanitize_text_field($_GET['series_choice']), OBJECT, 'novel'); //Get the novel
-
-                if( $novel != null ) { //If the series_choice is not valid
-                    $query->query_vars['meta_query'] = array( //Setting the taxonomy query values to the desired one
+                if (isset($_GET['series_choice'])) {
+                    $series_choice = sanitize_text_field($_GET['series_choice']);
+        
+                    $novel_id = $wpdb->get_var(
+                        $wpdb->prepare(
+                            "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'novel'",
+                            $series_choice
+                        )
+                    );
+                }
+        
+                if ($novel_id) {
+                    $query->query_vars['meta_query'] = array(
                         array(
-                            'key' => 'series_value', //Meta key
-                            'value' => $novel->ID, //Meta value
+                            'key' => 'series_value',
+                            'value' => $novel_id,
                         ),
                     );
                 }

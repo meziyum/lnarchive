@@ -66,7 +66,7 @@ function NovelArchive(props) {
         currentPage: 1,
         displayInfiniteLoader: true,
         search: defaultSearchValue(),
-        order: {value: 'asc', label: 'Ascending'},
+        order: {value: 'desc', label: 'Descending '},
         order_by: {value: 'date', label: 'Release Date'},
     });
 

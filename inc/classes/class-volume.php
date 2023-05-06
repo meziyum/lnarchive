@@ -213,7 +213,8 @@ class volume{
                             )
                         );
                         $args['meta_key'] = $order_by;
-                        $args['orderby'] = 'meta_value_num';
+                        $args['order'] = 'asc';
+                        $args['orderby'] = 'meta_value';
                     }
                 }
                 return $args;

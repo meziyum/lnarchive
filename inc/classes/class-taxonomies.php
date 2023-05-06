@@ -489,7 +489,7 @@ class taxonomies {
             'rest_base' => 'narrator',
             'show_tagcloud' => false,
             'show_in_quick_edit' => false,
-            'meta_box_cb' => [$this, 'taxonomies_datalist_display'],
+            'meta_box_cb' => null,
             'description' => '',
             'show_admin_column' => true,
             'description' => 'A person responsible for translating the light novel from its source language',

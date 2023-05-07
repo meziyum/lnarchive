@@ -3,7 +3,7 @@ import React from 'react';
 import PostItem from '../../../Components/PostItem.jsx';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
-import {formatDate} from '../../../helpers/utilities.js';
+import {formatDate} from '../../../helpers/utilities.ts';
 import Search from '../../../Components/Search.jsx';
 import FilterSelect from '../../../Components/FilterSelect.jsx';
 import useToggle from '../../../hooks/useToggle.js';

@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {formatDate} from '../helpers/utilities.js';
+import {formatDate} from '../helpers/utilities.ts';
 import Ratings from './Ratings.jsx';
 
 import {

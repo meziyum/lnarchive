@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Review from './Review.jsx';
-import {escHTML} from '../helpers/utilities.js';
+import {escHTML} from '../helpers/utilities.ts';
 import InfiniteScroll from '../extensions/InfiniteScroll.js';
 
 /* eslint-disable no-undef */

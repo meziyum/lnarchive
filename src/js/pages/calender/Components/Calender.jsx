@@ -1,7 +1,7 @@
 
 import React from 'react';
 import NovelItem from '../../../Components/NovelItem.jsx';
-import {formatDate} from '../../../helpers/utilities.js';
+import {formatDate} from '../../../helpers/utilities.ts';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import PropTypes from 'prop-types';

@@ -18,7 +18,7 @@
 
     .novel-list {
 
-        @include respond-to( x-small ){
+        @include respond-to( x-small ) {
             flex-wrap: nowrap;
             overflow-x: auto;
         }
@@ -72,12 +72,12 @@
                 display: flex;
                 justify-content: start;
                 align-items: center;
-                padding: 8px 0;
 
                 #ratings-div {
                     display: flex;
                     justify-content: start;
                     align-items: center;
+                    margin: 8px 0;
 
                     h6 {
                         color: $rating-submit-msg;
@@ -86,14 +86,20 @@
                 }
             }
 
-            #formats-list{
+            #volume-desc {
+
+                div {
+                    margin-bottom: 18px;
+                }
+            }
+
+            #formats-list {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 padding-left: 0;
-                margin: 18px 0px;
 
-                .format-button{
+                .format-button {
                     font-size: 14px;
                     border-radius: 4px;
                     color: $format-button-color;

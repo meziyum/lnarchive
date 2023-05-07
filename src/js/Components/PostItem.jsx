@@ -22,7 +22,7 @@ export default function PostItem(props) {
         <div className='post-entry-col archive-entry-col col-lg-4 col-md-6 col-sm-12 col-12'>
             <article className='post-entry archive-entry'>
                 <a id={props.id} className='post-link' href={props.link}>
-                    <img className='post-img' src={props.postImage} loading='lazy'></img>
+                    <img className='post-img' src={props.postImage} loading='eager'></img>
                 </a>
                 <div className='post-entry-info'>
                     <a href={props.link}><h5 className='entry-title'>{props.title}</h5></a>

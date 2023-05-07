@@ -12,13 +12,13 @@ get_header();
         <?php
             if(is_post_type_archive('novel')) {
                 ?>
-                <h1 class="page-title">Library</h1>
+                <h1 id="page-title">Library</h1>
                 <div id="archive-wrap">
                 </div>
                 <?php
             } else {
                 ?>
-                <h1 class="page-title">Blog</h1>
+                <h1 id="page-title">Blog</h1>
                 <div id="blog-wrap"></div>
                 <?php
             }

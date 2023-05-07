@@ -16,7 +16,7 @@ $the_post_id = get_the_ID();
             if( have_posts() ) {
                 while( have_posts(  )) : the_post();
                     printf(
-                        '<h1 class="page-title">%1$s</h1>', get_the_title()
+                        '<h1 id="page-title">%1$s</h1>', get_the_title()
                     );
                     ?>
                         <div id="post-header">
@@ -62,7 +62,7 @@ $the_post_id = get_the_ID();
 
                     if( $related_posts_query->have_posts()){
                         ?> @
-                            <h2 class="page-title">You might also like: </h2>
+                            <h2 id="page-title">You might also like: </h2>
                         <?php
                         post_list($related_posts_query, 'related');
                     }

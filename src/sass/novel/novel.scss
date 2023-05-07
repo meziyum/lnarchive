@@ -86,8 +86,10 @@
                 }
             }
 
-            #format_info_value{
-                list-style: none;
+            #formats-list{
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 padding-left: 0;
                 margin: 18px 0px;
 

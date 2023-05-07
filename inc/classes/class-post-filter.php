@@ -187,7 +187,7 @@ class post_filter {
 
     function add_manager_filter_to_posts_admin() {
 
-        global $post_type;//Global post_type variable
+        global $post_type;
 
             $user_args = array(
                 'show_option_all'   => 'All Managers',

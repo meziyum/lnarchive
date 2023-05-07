@@ -224,7 +224,7 @@ class post_filter {
 
     function add_manager_filter_to_posts_query($query) {
 
-        global $post_type, $pagenow;
+        global $pagenow;
 
         if ($pagenow == 'edit.php') {
             if (isset($_GET['manager_admin_filter'])) {

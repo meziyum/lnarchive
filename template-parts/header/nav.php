@@ -65,7 +65,7 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id );
           }
           else {
             ?>
-              <button id="login-button"><a href="<?php echo esc_url(wp_login_url());?>">Log In</a></button>
+              <a id="login-button" href="<?php echo esc_url(wp_login_url());?>">Log In</a>
             <?php
           }
         ?>

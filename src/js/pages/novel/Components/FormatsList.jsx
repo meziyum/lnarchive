@@ -33,10 +33,10 @@ export default function FormatsList({formats, meta, translator, narrator, handle
         <>
             {
                 formats.map((format) => (
-                    <button
-                        key={format.id} className={`format-button ${selectedFormat === format.name ? 'selected-format' : ''}`} onClick={() => handleFormatClick(format.name)}>
+                    <a
+                        key={format.id} className={`anchor-button format-button ${selectedFormat === format.name ? 'selected-format' : ''}`} onClick={() => handleFormatClick(format.name)}>
                         {format.name}
-                    </button>
+                    </a>
                 ))
             }
         </>

@@ -95,11 +95,10 @@
 
                 .format-button{
                     font-size: 14px;
-                    margin: 8px;
-                    padding: 8px;
+                    border-radius: 4px;
+                    color: $format-button-color;
                     background-color: $format-button-bg;
                     border: 1px solid $format-button-border;
-                    border-radius: 4px;
 
                     &:hover, &:active{
                         background-color: $format-button-bg-hover;

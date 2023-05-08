@@ -59,15 +59,12 @@ const getVolume = () => {
     })
         .then( (res) => res.json())
         .then( (volume) => {
-            console.log(volume)
-            const formats = volume._embedded['wp:term'][0]; ///////
+            const formats = volume._embedded['wp:term'].find( (term) => term[0].taxonomy == 'format');
             const defaultFormat = formats[0];
             const defaultFormatName = defaultFormat.name;
             const desc = volume.excerpt.rendered;
-            const narrator = volume._embedded['wp:term'][2]; /////
-            const translator = volume._embedded['wp:term'][1]; //////
-            console.log(defaultFormatName)
-
+            const narrator = volume._embedded['wp:term'].find( (term) => term[0].taxonomy == 'narrator');
+            const translator = volume._embedded['wp:term'].find( (term) => term[0].taxonomy == 'translator');
             const volumeISBN = defaultFormatName != 'None' ? volume.meta[`isbn_${defaultFormatName}_value`][0] : null;
             const volumeDate = defaultFormatName != 'None' ? formatDate(volume.meta[`published_date_value_${defaultFormatName}`][0]): null;
 

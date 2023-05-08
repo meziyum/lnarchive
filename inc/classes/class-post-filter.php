@@ -180,6 +180,8 @@ class post_filter {
                             'value' => $novel_id,
                         ),
                     );
+                } else {
+                    $query->query_vars['meta_query'] = array();
                 }
             }
         }

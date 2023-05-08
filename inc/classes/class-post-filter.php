@@ -180,6 +180,8 @@ class post_filter {
                             'value' => $novel_id,
                         ),
                     );
+                } else {
+                    $query->query_vars['meta_query'] = array();
                 }
             }
         }
@@ -187,39 +189,37 @@ class post_filter {
 
     function add_manager_filter_to_posts_admin() {
 
-        global $post_type;
+        $user_args = array(
+            'show_option_all'   => 'All Managers',
+            'show_option_none'  => '',
+            'option_none_value'       => -1,
+            'hide_if_only_one_author' => '',
+            'orderby'           => 'display_name',
+            'order'             => 'ASC',
+            'include'           => '',
+            'exclude'           => '',
+            'multi'             => 0,
+            'show'              => 'display_name',
+            'echo'              => 1,
+            'name'              => 'manager_admin_filter',
+            'class'             => '',
+            'id'                => '',
+            'blog_id'                 => get_current_blog_id(),
+            'role'                    => array(),
+            'role__in'                => array(),
+            'role__not_in'            => array(),
+            'capability'               => ['publish_posts'],
+            'capability__in'          => array(),
+            'capability__not_in'      => array(),
+            'selected'                => 0,
+            'include_selected'        => false
+        );
 
-            $user_args = array(
-                'show_option_all'   => 'All Managers',
-                'show_option_none'  => '',
-                'option_none_value'       => -1,
-                'hide_if_only_one_author' => '',
-                'orderby'           => 'display_name',
-                'order'             => 'ASC',
-                'include'           => '',
-                'exclude'           => '',
-                'multi'             => 0,
-                'show'              => 'display_name',
-                'echo'              => 1,
-                'name'              => 'manager_admin_filter',
-                'class'             => '',
-                'id'                => '',
-                'blog_id'                 => get_current_blog_id(),
-                'role'                    => array(),
-                'role__in'                => array(),
-                'role__not_in'            => array(),
-                'capability'               => ['publish_posts'],
-                'capability__in'          => array(),
-                'capability__not_in'      => array(),
-                'selected'                => 0,
-                'include_selected'        => false
-            );
+        if (isset($_GET['manager_admin_filter'])) {
+            $user_args['selected'] = (int)sanitize_text_field($_GET['manager_admin_filter']);
+        }
 
-            if (isset($_GET['manager_admin_filter'])) {
-                $user_args['selected'] = (int)sanitize_text_field($_GET['manager_admin_filter']);
-            }
-
-            wp_dropdown_users($user_args);
+        wp_dropdown_users($user_args);
     }
 
     function add_manager_filter_to_posts_query($query) {

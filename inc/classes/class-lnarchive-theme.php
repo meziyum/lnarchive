@@ -67,8 +67,7 @@ class lnarchive_theme{
          add_theme_support('widgets-block-editor');
          add_theme_support( 'post-thumbnails');
          add_theme_support('widgets');
-
-         add_image_size('featured-thumbnail', 350, 300, true);
+         add_image_size('featured-th)umbnail', 350, 300, true);
          add_image_size('novel-cover', 1240, 1748, true);
      
          global $content_width;

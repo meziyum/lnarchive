@@ -49,9 +49,9 @@ export default function VolumeInfo({isbn, publishedDate, translator, narrator, f
 }
 
 VolumeInfo.propTypes = {
-    isbn: PropTypes.string.isRequired,
-    publishedDate: PropTypes.string.isRequired,
-    translator: PropTypes.array.isRequired,
-    narrator: PropTypes.array.isRequired,
+    isbn: PropTypes.string,
+    publishedDate: PropTypes.string,
+    translator: PropTypes.array,
+    narrator: PropTypes.array,
     formatName: PropTypes.string.isRequired,
 };

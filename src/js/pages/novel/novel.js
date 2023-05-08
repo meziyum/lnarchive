@@ -25,7 +25,10 @@ const formatsRoot = ReactDOMClient.createRoot(document.getElementById('formats-l
 const reviewsRoot = ReactDOMClient.createRoot(document.getElementById('reviews-section'));
 const novelActionsRoot = ReactDOMClient.createRoot(document.getElementById('novel-actions'));
 const volumesList = document.getElementsByClassName('volume-link');
-let currentVolumeID = document.getElementsByClassName('volume-link')[0].id;
+const urlParams = new URLSearchParams(window.location.search);
+if (!urlParams.get('volumeFilter')) {
+    urlParams.set('volumeFilter', document.getElementsByClassName('volume-link')[0].id);
+}
 let isLoggedIn = true;
 const maxProgress = volumesList.length;
 const fields = `excerpt.rendered,featuredmedia,meta,title.rendered,_links`;
@@ -49,21 +52,24 @@ const loadVolumeInfo = (isbn, publishedDate, translator, narrator, formatName) =
 };
 
 const getVolume = () => {
-    fetch( `${wpRequestURL}volumes/${currentVolumeID}?_embed=wp:featuredmedia,wp:term&_fields=${fields}`, {
+    fetch( `${wpRequestURL}volumes/${urlParams.get('volumeFilter')}?_embed=wp:featuredmedia,wp:term&_fields=${fields}`, {
         headers: {
             'X-WP-Nonce': userNonce,
         },
     })
         .then( (res) => res.json())
         .then( (volume) => {
+            console.log(volume)
             const formats = volume._embedded['wp:term'][0]; ///////
             const defaultFormat = formats[0];
             const defaultFormatName = defaultFormat.name;
             const desc = volume.excerpt.rendered;
             const narrator = volume._embedded['wp:term'][2]; /////
             const translator = volume._embedded['wp:term'][1]; //////
-            const volumeISBN = volume.meta[`isbn_${defaultFormatName}_value`][0];
-            const volumeDate = formatDate(volume.meta[`published_date_value_${defaultFormatName}`][0]);
+            console.log(defaultFormatName)
+
+            const volumeISBN = defaultFormatName != 'None' ? volume.meta[`isbn_${defaultFormatName}_value`][0] : null;
+            const volumeDate = defaultFormatName != 'None' ? formatDate(volume.meta[`published_date_value_${defaultFormatName}`][0]): null;
 
             const coverURL= volume._embedded['wp:featuredmedia'] ? volume._embedded['wp:featuredmedia'][0].source_url : null;
 
@@ -78,7 +84,9 @@ getVolume();
 
 for (let i=0; i<volumesList.length; i++) {
     volumesList[i].addEventListener('click', function(event) {
-        currentVolumeID = event.target.parentNode.id;
+        urlParams.set('volumeFilter', event.target.parentNode.id);
+        const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+        window.history.pushState(null, '', newUrl);
         getVolume();
         window.scrollTo(0, 0);
     });

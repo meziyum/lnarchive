@@ -8,6 +8,7 @@ import VolumeInfo from './Components/VolumeInfo.jsx';
 import VolumeDesc from './Components/VolumeDesc.jsx';
 import NovelActions from './Components/NovelActions.jsx';
 import '../common.js';
+import {formatDate} from '../../helpers/utilities.ts';
 
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url;
@@ -63,7 +64,7 @@ const getVolume = () => {
             const narrator = volume._embedded['wp:term'][2]; /////
             const translator = volume._embedded['wp:term'][1]; //////
             const volumeISBN = volume.meta[`isbn_${defaultFormatName}_value`][0];
-            const volumeDate = volume.meta[`published_date_value_${defaultFormatName}`][0];
+            const volumeDate = formatDate(volume.meta[`published_date_value_${defaultFormatName}`][0]);
 
             document.getElementById('page-title').innerText=volume.title.rendered;
             coverRoot.render(<img className='novel-cover' srcSet={coverURL}></img>);

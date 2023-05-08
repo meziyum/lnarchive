@@ -16,6 +16,11 @@
     "plugins": [
         "react"
     ],
+    "settings": {
+        "react": {
+            "version": "18.2.0"
+        }
+    },
     "rules": {
         "linebreak-style": ["error", "windows"],
         "no-console": "error",

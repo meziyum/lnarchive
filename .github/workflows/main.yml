@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Lint code
-        run: npm run lint
+        run: npm run lint -- --config .eslintrc.json
 
       - name: Build for production
         run: npm run prod

@@ -10,6 +10,35 @@ $the_post_type = get_post_type($the_post_id);
 $max_posts = get_option('posts_per_page');
 $universe_novels = array_merge( get_post_siblings( $the_post_id ), get_post_ancestors( $the_post_id ), get_post_children( $the_post_id ) );
 $language = get_the_terms($the_post_id, 'language')[0]->slug;
+$authors = wp_get_post_terms($the_post_id, 'post_tag', array('fields' => 'ids'));
+$tags = wp_get_post_terms($the_post_id, 'post_tag', array('fields' => 'ids'));
+$genres = wp_get_post_terms($the_post_id, 'post_tag', array('fields' => 'ids'));
+
+$tax_query = array();
+$current_length
+
+if($current_length<6) {
+    array_push($tax_query, array (
+        'taxonomy' => 'writer',
+        'field' => 'id',
+        'terms' => $authors,
+    ));
+    $current_length+=$authors.length;
+} else if($current_length<6) {
+    array_push($tax_query, array (
+        'taxonomy' => 'post_tag',
+        'field' => 'id',
+        'terms' => $tags,
+    ));
+    $current_length+=$tags.length;
+} else {
+    array_push($tax_query, array (
+        'taxonomy' => 'genre',
+        'field' => 'id',
+        'terms' => $genres,
+    ));
+    $current_length+=$genres.length;
+}
 
 $similar_args = array(
     'post_type' => $the_post_type,
@@ -25,16 +54,7 @@ $similar_args = array(
         ),
         array(
             'relation' => 'OR',
-            array(
-                'taxonomy' => 'writer',
-                'field' => 'slug',
-                'terms' => get_the_terms($the_post_id, 'writer')[0]->slug,
-            ),
-            array(
-                'taxonomy' => 'post_tag',
-                'field' => 'id',
-                'terms' => wp_get_post_terms($the_post_id, 'post_tag', array('fields' => 'ids')),
-            ),
+                $tax_query,
         ),
     )
 );

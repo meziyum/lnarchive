@@ -24,8 +24,15 @@
         }
 
         .novel-link {
+            text-decoration: none;
+            
             .novel-cover {
+                display: flex;
+                align-items: center;
+                text-align: center;
                 aspect-ratio: 10.5/14.8;
+                color: $novel-item-color;
+                margin-bottom: 0;
             }
         }
     }

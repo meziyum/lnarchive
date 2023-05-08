@@ -58,12 +58,13 @@ const getVolume = () => {
             const formats = volume._embedded['wp:term'][0]; ///////
             const defaultFormat = formats[0];
             const defaultFormatName = defaultFormat.name;
-            const coverURL = volume._embedded['wp:featuredmedia'][0].source_url;
             const desc = volume.excerpt.rendered;
             const narrator = volume._embedded['wp:term'][2]; /////
             const translator = volume._embedded['wp:term'][1]; //////
             const volumeISBN = volume.meta[`isbn_${defaultFormatName}_value`][0];
             const volumeDate = volume.meta[`published_date_value_${defaultFormatName}`][0];
+
+            const coverURL= volume._embedded['wp:featuredmedia'] ? volume._embedded['wp:featuredmedia'][0].source_url : null;
 
             document.getElementById('page-title').innerText=volume.title.rendered;
             coverRoot.render(<img className='novel-cover' srcSet={coverURL}></img>);

@@ -102,10 +102,11 @@ function NovelArchive(props) {
             );
 
             const data= await response.json();
-            const filteredData = data.filter((novel) => novel._embedded);
-            const novels = filteredData.map( (novel) => {
+
+            const novels = data.map( (novel) => {
+                const novelCover=novel._embedded['wp:featuredmedia'] ? novel._embedded['wp:featuredmedia'][0].source_url : null;
                 return (
-                    <NovelItem key={novel.id} id={novel.id} link={novel.link} novelCover={novel._embedded['wp:featuredmedia'][0].source_url}/>
+                    <NovelItem key={novel.id} id={novel.id} link={novel.link} novelCover={novelCover}/>
                 );
             });
             lastResponseLength.current=novels.length;

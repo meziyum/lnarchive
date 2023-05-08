@@ -6,8 +6,8 @@
     "prod": "cross-env NODE_ENV=production webpack --mode production --progress",
     "dev": "cross-env NODE_ENV=development webpack --watch --mode development --progress",
     "clean": "rm -rf build/*",
-    "lint": "eslint src/js/**/*.{js,jsx} -- --config .eslintrc.json",
-    "lint-fix": "eslint --fix src/js/**/*.{js,jsx} -- --config .eslintrc.json"
+    "lint": "eslint src/js/**/*.{js,jsx} -c .eslintrc.json",
+    "lint-fix": "eslint --fix src/js/**/*.{js,jsx} -c .eslintrc.json"
   },
   "keywords": [
     "wordpress",

@@ -188,7 +188,6 @@ class custom_settings {
 
         register_setting($option_group, 'seo-title-length');
         register_setting($option_group, 'seo-desc-length');
-        register_setting($option_group, 'seo-taxonomies');
 
         add_settings_field(
             'seo-title-length',
@@ -205,30 +204,6 @@ class custom_settings {
             $page_slug,
             'seo_general',
         );
-
-        add_settings_field(
-            'seo-taxonomies',
-            'Taxonomies',
-            [$this, 'seo_taxonomies'],
-            $page_slug,
-            'seo_general',
-        );
-    }
-
-    function seo_taxonomies(){
-
-        $args = array(
-            '_builtin' => false    
-        );
-
-        $taxonomies = get_taxonomies( $args );
-
-        foreach( $taxonomies as $tax ) {
-            ?>
-                <input type="checkbox" id="seo_taxonomies[<?php echo $tax?>]" name="seo_taxonomies[<?php echo $tax?>]" value="1" <?php echo checked(1, get_option('seo-taxonomies['.$tax.']'), true); ?>>
-                <label for="seo_taxonomies[<?php echo $tax?>]"><?php echo get_taxonomy($tax)->labels->name; ?></label><br>
-            <?php
-        }
     }
 
     function seo_title_settings_callback() {

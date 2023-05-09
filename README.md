@@ -1,5 +1,17 @@
 # LNarchive - The Light Novel Database Theme
 
+## Screenshots
+<table>
+  <tr>
+    <td><img src="static/screenshots/archive.png" alt="Archive Image" width="400"></td>
+    <td><img src="static/screenshots/novel.png" alt="Novel Image" width="400"></td>
+  </tr>
+  <tr>
+    <td><img src="static/screenshots/calender.png" alt="Calender Image" width="400"></td>
+    <td><img src="static/screenshots/blog.png" alt="Blog Image" width="400"></td>
+  </tr>
+</table>
+
 ## Development ( To be added )
 
 **Install**

@@ -90,7 +90,7 @@ class custom_settings {
             register_setting($option_group, 'novel-display-'.$tax);
             add_settings_field(
                 'novel-display-'.$tax,
-                $tax,
+                get_taxonomy_labels(get_taxonomy($tax))->name,
                 [$this, 'checkbox_display'],
                 $page_slug,
                 'taxonomy_display',

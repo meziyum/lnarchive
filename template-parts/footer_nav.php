@@ -11,22 +11,25 @@ $menu_class = menus::get_instance();
 
 <nav class="footer-nav">
   <section class="footer-social">
-    <div class="container">
-      <span>Get connected: </span>
-      <div>
-        <a href="" class="social-icon text-white me-4">
-          <i class="fa-brands fa-discord"></i>
-        </a>
-        <a href="" class="social-icon text-white me-4">
-          <i class="fa-brands fa-reddit"></i>
-        </a>
-        <a href="" class="social-icon text-white me-4">
-          <i class="fa-brands fa-twitter"></i>
-        </a>
-        <a href="" class="social-icon text-white me-4">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-      </div>
+    <div id="social-icons-div">
+      <?php
+        $socials = array(
+          'discord',
+          'reddit',
+          'twitter',
+          'instagram',
+        );
+
+        foreach($socials as $social) {
+          if(get_option($social.'-link') && get_option($social.'-display')) {
+            ?>
+              <a href="<?php echo esc_url(get_option($social.'-link'));?>" class="social-icon text-white">
+                <i class="fa-brands fa-<?php echo $social?>"></i>
+              </a>
+            <?php
+          }
+        }
+      ?>
     </div>
   </section>
   

@@ -117,9 +117,14 @@ footer {
         background-color: $footer-social-background;
         padding: 16px;
   
-        div {
+        #social-icons-div {
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
+          align-items: center;
+
+          .social-icon {
+            margin: 0 16px;
+          }
         }
       }
   

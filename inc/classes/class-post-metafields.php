@@ -146,7 +146,6 @@ class post_metafields {
 
     function alternate_names_metabox_callback ( $post ) {
 
-        // Nonce Register
         wp_nonce_field( 'alternate_names_nonce_action', 'alternate_names_nonce');
 
         $alternate_names = get_post_meta( $post->ID, 'alternate_names_value', true );

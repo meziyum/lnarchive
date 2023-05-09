@@ -8,7 +8,7 @@
 namespace lnarchive\inc;
 use lnarchive\inc\traits\Singleton;
 
-class menus{ //Assests Class
+class menus {
 
     use Singleton;
 

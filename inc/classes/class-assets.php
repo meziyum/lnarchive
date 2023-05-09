@@ -76,6 +76,7 @@ class assets{
           'login_url' => wp_login_url(),
           'per_page' => get_option( 'posts_per_page' ),
         );
+        $novel_taxs = get_object_taxonomies('novel', 'names');
 
         if(is_page_template('page-templates/calender.php')) {
           $path= LNARCHIVE_BUILD_JS_URI . '/calender.js'; 
@@ -96,7 +97,7 @@ class assets{
           $path= LNARCHIVE_BUILD_JS_URI . '/blog.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/blog.js');
         }
-        else if(is_post_type_archive('novel')) {
+        else if(is_post_type_archive('novel') || is_tax($novel_taxs)) {
           $path= LNARCHIVE_BUILD_JS_URI . '/library.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/library.js');
         }

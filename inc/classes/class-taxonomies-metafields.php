@@ -10,13 +10,9 @@ use lnarchive\inc\traits\Singleton;
 
 class taxonomies_metafields {
     use Singleton;
-    private $meta_title_length;
-    private $meta_desc_length;
 
     protected function __construct() {
       $this->set_hooks();
-      $this->meta_title_length=get_option('seo-title-length');
-      $this->meta_desc_length=get_option('seo-desc-length');
     }
 
     protected function set_hooks() {

@@ -39,31 +39,32 @@ $the_post_title = get_the_title();
                                 </div>
                                 <table>
                                     <?php
-                                        $taxs = array('novel_status', 'publisher','writer', 'illustrator');
-
+                                        $taxs = get_object_taxonomies('novel');
                                         foreach( $taxs as $tax) {
-                                            $terms = get_the_terms($the_post_id, $tax);
+                                            if(get_option('novel-display-'.$tax)) {
+                                                $terms = get_the_terms($the_post_id, $tax);
 
-                                            if( is_array($terms)){
-                                                $tax_label_name = esc_html(get_taxonomy_labels(get_taxonomy($tax))->name);
-                                                ?>
-                                                    <tr id="<?php echo $tax_label_name.'_row'?>">
-                                                        <th><?php
-                                                                echo $tax_label_name;
-                                                            ?>
-                                                        </th>
-                                                        <td id="<?php echo esc_attr($tax).'_info_value';?>">
-                                                            <?php
-                                                                foreach( $terms as $key => $article_term) {
-                                                                    ?>
-                                                                        <a href="<?php echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax.'_filter'.'='.$article_term->name?>"><?php echo esc_html($article_term->name)?></a>
-                                                                        <br>
-                                                                    <?php
-                                                                }
-                                                            ?>
-                                                        </td>
-                                                    </tr>
-                                                <?php
+                                                if( is_array($terms)){
+                                                    $tax_label_name = esc_html(get_taxonomy_labels(get_taxonomy($tax))->name);
+                                                    ?>
+                                                        <tr id="<?php echo $tax_label_name.'_row'?>">
+                                                            <th><?php
+                                                                    echo $tax_label_name;
+                                                                ?>
+                                                            </th>
+                                                            <td id="<?php echo esc_attr($tax).'_info_value';?>">
+                                                                <?php
+                                                                    foreach( $terms as $key => $article_term) {
+                                                                        ?>
+                                                                            <a href="<?php echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax.'_filter'.'='.$article_term->name?>"><?php echo esc_html($article_term->name)?></a>
+                                                                            <br>
+                                                                        <?php
+                                                                    }
+                                                                ?>
+                                                            </td>
+                                                        </tr>
+                                                    <?php
+                                                }
                                             }
                                         }
                                     ?>

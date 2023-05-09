@@ -16,11 +16,21 @@ class custom_settings {
 
     protected function set_hooks() {
         add_action( 'admin_menu', [ $this, 'add_setting_pages'] );
+        add_action( 'admin_init', [$this, 'novel_settings_func'] );
         add_action( 'admin_init', [$this, 'seo_settings_func'] );
         add_action( 'admin_init', [$this, 'social_settings_func'] );
     }
 
     function add_setting_pages() {
+
+        add_submenu_page(
+            'options-general.php',
+            'Novel',
+            'Novel',
+            'manage_options',
+            'novel-settings',
+            [$this, 'novel_settings_callback'],
+        );
 
         add_submenu_page(
             'options-general.php',
@@ -39,6 +49,54 @@ class custom_settings {
             'social-settings',
             [$this, 'social_settings_callback'],
         );
+    }
+
+    function novel_settings_callback() {
+        if (!current_user_can( 'manage_options' )) {
+            return;
+        }
+
+        if (isset( $_GET['settings-updated'] )) {
+            add_settings_error( 'wporg_messages', 'wporg_message', __( 'Settings Saved', 'wporg' ), 'updated' );
+        }
+        ?>
+            <div class="wrap">
+                <h1><?php echo get_admin_page_title() ?></h1>
+                <form method="post" action="options.php">
+                    <?php
+                        settings_fields('novel-settings-grp');
+                        do_settings_sections('novel-settings');
+                        submit_button();
+                    ?>
+                </form>
+            </div>
+        <?php
+    }
+
+    function novel_settings_func() {
+        $page_slug = 'novel-settings';
+        $option_group = 'novel-settings-grp';
+
+        add_settings_section(
+            'taxonomy_display',
+            'Novel Info Table Taxonomies',
+            '',
+            $page_slug,
+        );
+
+        $taxs = get_object_taxonomies('novel');
+
+        foreach($taxs as $tax) {
+            register_setting($option_group, 'novel-display-'.$tax);
+            add_settings_field(
+                'novel-display-'.$tax,
+                $tax,
+                [$this, 'checkbox_display'],
+                $page_slug,
+                'taxonomy_display',
+                array('novel-display-'.$tax),
+            );
+        }
     }
 
     function social_settings_callback() {
@@ -86,7 +144,7 @@ class custom_settings {
             add_settings_field(
                 $social.'-display',
                 ucfirst($social).' Link',
-                [$this, 'social_display_callback'],
+                [$this, 'checkbox_display'],
                 $page_slug,
                 'social_display',
                 array($social.'-display'),
@@ -139,17 +197,10 @@ class custom_settings {
         );
     }
 
-    function social_display_callback($args) {
-        $display_type = $args[0];
-        ?>
-            <input type="checkbox" id="<?php echo $display_type;?>" name="<?php echo $display_type;?>" value="1" <?php echo checked(1, get_option($display_type), true); ?>>
-        <?php
-    }
-
     function social_link_callback($args) {
         $link_type = $args[0];
         ?>
-            <input type="url" id="<?php echo $link_type;?>" name="<?php echo $link_type;?>" value="<?php echo get_option($link_type);?>">
+            <input type="url" id="<?php echo $link_type;?>" name="<?php echo $link_type;?>" value="<?php echo esc_html(get_option($link_type));?>">
         <?php
     }
 
@@ -192,30 +243,34 @@ class custom_settings {
         add_settings_field(
             'seo-title-length',
             'SEO Title Length',
-            [$this, 'seo_title_settings_callback'],
+            [$this, 'number_input_display'],
             $page_slug,
-            'seo_general'
+            'seo_general',
+            array('seo-title-length'),
         );
 
         add_settings_field(
             'seo-desc-length',
             'SEO Title Description',
-            [$this, 'seo_desc_settings_callback'],
+            [$this, 'number_input_display'],
             $page_slug,
             'seo_general',
+            array('seo-desc-length'),
         );
     }
 
-    function seo_title_settings_callback() {
+    function number_input_display($args) {
+        $type = $args[0];
         ?>
-            <input type="number" id="seo-title-length" name="seo-title-length" value="<?php echo get_option('seo-title-length');?>">
+            <input type="number" id="<?php echo $type;?>" name="<?php echo $type;?>" value="<?php echo esc_html(get_option($type));?>">
         <?php
     }
 
-    function seo_desc_settings_callback() {
+    function checkbox_display($args) {
+        $display_type = $args[0];
         ?>
-            <input type="number" id="seo-desc-length" name="seo-desc-length" value="<?php echo get_option('seo-desc-length');?>">
-        <?php 
+            <input type="checkbox" id="<?php echo $display_type;?>" name="<?php echo $display_type;?>" value="1" <?php echo checked(1, esc_html(get_option($display_type)), true); ?>>
+        <?php
     }
 }
 ?>

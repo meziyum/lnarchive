@@ -22,14 +22,6 @@ class taxonomies_metafields {
       add_action( 'edited_category', [$this, 'category_save_meta'] );
     }
 
-    function update_taxonomy_weightage( $term ) {
-      update_term_meta(
-        $term->term_id,
-        'weightage',
-        get_term_meta( $term->term_id, 'weightage', true),
-      );
-    }
-
     function category_add_meta() {
 
       wp_nonce_field( 'category_meta_nonce_action', 'category_meta_nonce' );

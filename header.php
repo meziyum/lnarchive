@@ -10,6 +10,7 @@
 <html lang="en">
 
 <head>
+    <meta name="googlebot" content="notranslate">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php wp_head();?>
@@ -23,20 +24,18 @@
                 <title><?php esc_html(single_post_title());?></title>
                 <meta name="description" content="The blog page of the LNarchive with all the articles">
             <?php
+        } else if (is_front_page()) {
+            ?>
+                <title>LNarchive</title>
+                <meta name="description" content="The blog page of the LNarchive with all the articles">
+            <?php
         }
         else if(is_archive()){
             ?>
             <title><?php echo sanitize_text_field(get_the_archive_title());?></title>
             <meta name="description" content="<?php echo sanitize_text_field(get_the_archive_description());?>">
             <?php
-        }
-        else if(is_search()) {
-            ?>
-            <title>Search</title>
-            <meta name="description" content="The search page for searching the light novels and related content">
-            <?php
-        }
-        else {
+        } else {
             ?>
             <title><?php echo esc_html(get_post_meta( $object_id, 'seo_meta_title_val', true ));?></title>
             <meta name="description" content="<?php echo esc_html(get_post_meta( $object_id, 'seo_meta_desc_val', true ));?>">

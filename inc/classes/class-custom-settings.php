@@ -22,7 +22,7 @@ class custom_settings {
         add_action( 'admin_init', [$this, 'tax_settings_func'] );
     }
 
-    function add_setting_pages() {
+    private function add_setting_pages() {
 
         add_submenu_page(
             'options-general.php',
@@ -61,7 +61,7 @@ class custom_settings {
         );
     }
 
-    function tax_settings_callback() {
+    private function tax_settings_callback() {
         if (!current_user_can( 'manage_options' )) {
             return;
         }
@@ -83,7 +83,7 @@ class custom_settings {
         <?php
     }
 
-    function novel_settings_callback() {
+    private function novel_settings_callback() {
         if (!current_user_can( 'manage_options' )) {
             return;
         }
@@ -105,7 +105,7 @@ class custom_settings {
         <?php
     }
 
-    function tax_settings_func() {
+    private function tax_settings_func() {
         $page_slug = 'tax-settings';
         $option_group = 'tax-settings-grp';
 
@@ -132,7 +132,7 @@ class custom_settings {
         }
     }
 
-    function novel_settings_func() {
+    private function novel_settings_func() {
         $page_slug = 'novel-settings';
         $option_group = 'novel-settings-grp';
 
@@ -158,7 +158,7 @@ class custom_settings {
         }
     }
 
-    function social_settings_callback() {
+    private function social_settings_callback() {
         if (!current_user_can( 'manage_options' )) {
             return;
         }
@@ -180,7 +180,7 @@ class custom_settings {
         <?php
     }
 
-    function social_Settings_func() {
+    private function social_Settings_func() {
         $page_slug = 'social-settings';
         $option_group = 'social_settings_grp';
 
@@ -256,14 +256,14 @@ class custom_settings {
         );
     }
 
-    function social_link_callback($args) {
+    private function social_link_callback($args) {
         $link_type = $args[0];
         ?>
             <input type="url" id="<?php echo $link_type;?>" name="<?php echo $link_type;?>" value="<?php echo esc_html(get_option($link_type));?>">
         <?php
     }
 
-    function seo_settings_callback() {
+    private function seo_settings_callback() {
         if (!current_user_can( 'manage_options' )) {
             return;
         }
@@ -285,7 +285,7 @@ class custom_settings {
         <?php
     }
   
-    function seo_settings_func() {
+    private function seo_settings_func() {
         $page_slug = 'seo-settings';
         $option_group = 'seo_settings_grp';
 
@@ -318,14 +318,14 @@ class custom_settings {
         );
     }
 
-    function number_input_display($args) {
+    private function number_input_display($args) {
         $type = $args[0];
         ?>
             <input type="number" id="<?php echo $type;?>" name="<?php echo $type;?>" value="<?php echo esc_html(get_option($type));?>">
         <?php
     }
 
-    function checkbox_display($args) {
+    private function checkbox_display($args) {
         $display_type = $args[0];
         ?>
             <input type="checkbox" id="<?php echo $display_type;?>" name="<?php echo $display_type;?>" value="1" <?php echo checked(1, esc_html(get_option($display_type)), true); ?>>

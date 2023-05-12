@@ -19,8 +19,7 @@ class comment {
         add_action('after_switch_theme', [$this, 'create_datbases']);
     }
 
-    function register_comment_system(){
-        
+    private function register_comment_system(){     
         register_meta('comment', 'likes', [
             'type' => 'number',
             'single' => true,
@@ -97,8 +96,7 @@ class comment {
         ));
     }
 
-    function submit_comment_route( $request ) {
-
+    private function submit_comment_route( $request ) {
         $current_user = wp_get_current_user();
         $body = $request->get_json_params();
             
@@ -120,8 +118,7 @@ class comment {
         return new \WP_REST_Response( array( 'message' => 'Comment successfully created!' ), 201 );
     }
 
-    function comment_actions($request) {
-
+    private function comment_actions($request) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'comment_response';
         $user_id = get_current_user_id();
@@ -151,16 +148,7 @@ class comment {
         return $meta_update_output_new;
     }
 
-    function get_user_comment_response( $comment ) {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'comment_response';
-        $comment_id = $comment["id"];
-        $user_id = get_current_user_id();
-        return $wpdb->get_results("SELECT response_type FROM $table_name WHERE comment_id=$comment_id AND user_id=$user_id");
-    }
-
-    function addOrderbySupportRest(){
-        
+    private function addOrderbySupportRest(){
         add_filter(
             'rest_comment_collection_params',
             function( $params ) {
@@ -196,8 +184,7 @@ class comment {
         );
     }
 
-    function create_datbases() {
-
+    private function create_datbases() {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -213,6 +200,15 @@ class comment {
         ) $charset_collate;";
         
         dbDelta([$comment_response_query], true);
+    }
+
+    public function get_user_comment_response( $comment ) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'comment_response';
+        $comment_id = $comment["id"];
+        $user_id = get_current_user_id();
+
+        return $wpdb->get_results("SELECT response_type FROM $table_name WHERE comment_id=$comment_id AND user_id=$user_id");
     }
 }
 ?>

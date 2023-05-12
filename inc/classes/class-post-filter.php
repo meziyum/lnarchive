@@ -26,7 +26,7 @@ class post_filter {
         add_action('pre_get_posts',[ $this, 'add_manager_filter_to_posts_query' ]);
     }
 
-    function add_taxonomy_filters($post_type) {
+    private function add_taxonomy_filters($post_type) {
         $taxs = array();
 
         if ($post_type == 'novel' ) {
@@ -41,7 +41,7 @@ class post_filter {
         }
     }
 
-    function filter_search_dropdown($taxonomy) {
+    private function filter_search_dropdown($taxonomy) {
 
         $terms = get_terms( $taxonomy, array(
             'hide_empty' => true,
@@ -75,7 +75,7 @@ class post_filter {
         <?php
     }
 
-    function add_taxonomy_filter_to_posts_query($query) {
+    private function add_taxonomy_filter_to_posts_query($query) {
 
         global $post_type, $pagenow;
 
@@ -91,7 +91,7 @@ class post_filter {
         }
     }
 
-    function filter_by_taxonomy(array $taxs, $query) {
+    private function filter_by_taxonomy(array $taxs, $query) {
 
         $filters = array();
 
@@ -116,7 +116,7 @@ class post_filter {
         }
     }
 
-    function add_series_filter_to_posts_admin($post_type) {
+    private function add_series_filter_to_posts_admin($post_type) {
 
         if ($post_type == 'volume') {
 
@@ -153,7 +153,7 @@ class post_filter {
         }        
     }
 
-    function add_metadata_filter_to_posts_query($query) {
+    private function add_metadata_filter_to_posts_query($query) {
 
         global $post_type, $pagenow, $wpdb;
 
@@ -187,7 +187,7 @@ class post_filter {
         }
     }
 
-    function add_manager_filter_to_posts_admin() {
+    private function add_manager_filter_to_posts_admin() {
 
         $user_args = array(
             'show_option_all'   => 'All Managers',
@@ -222,7 +222,7 @@ class post_filter {
         wp_dropdown_users($user_args);
     }
 
-    function add_manager_filter_to_posts_query($query) {
+    private function add_manager_filter_to_posts_query($query) {
 
         global $pagenow;
 

@@ -22,7 +22,7 @@ class assets{
         add_action('wp_enqueue_scripts', [ $this, 'register_scripts']);
     }
 
-    public function register_styles() {
+    private function register_styles() {
 
       wp_register_style( 'fusfan_stylesheet', LNARCHIVE_DIR_URI . '/style.css', ['main_css'], filemtime(LNARCHIVE_DIR_PATH . '/style.css'), 'all');
       wp_register_style( 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', [], '6.4.0' , 'all');
@@ -62,7 +62,7 @@ class assets{
       wp_enqueue_style('main');
     }
 
-    public function register_scripts() {
+    private function register_scripts() {
 
         $path= '';
         $version_info = '';

@@ -34,7 +34,6 @@ class lnarchive_theme{
      }
 
      protected function set_hooks() { 
-
           add_action( 'after_setup_theme',[ $this, 'setup_theme']);
           add_filter('upload_mimes',[$this, 'restrict_mime']); 
           add_filter( 'login_display_language_dropdown', '__return_false' );
@@ -54,7 +53,7 @@ class lnarchive_theme{
           remove_action( 'wp_head', 'feed_links_extra', 3 );
      }
 
-     public function setup_theme() {
+     private function setup_theme() {
 
          add_theme_support( 'align-wide' );
          add_theme_support( 'custom-background', array(
@@ -77,12 +76,12 @@ class lnarchive_theme{
          }
       }
 
-      function wp_disable_feeds() {
+      private function wp_disable_feeds() {
          wp_redirect( home_url() );
          wp_die( __('Error: Feeds are disabled') );
       }
 
-      function restrict_mime($mimes) {
+      private function restrict_mime($mimes) {
          $mimes = array( 
                         'webp' => 'image/webp',
          );

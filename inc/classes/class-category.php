@@ -22,7 +22,7 @@ class category {
     add_action( 'edited_category', [$this, 'category_save_meta'] );
   }
 
-  function category_add_meta() {
+  private function category_add_meta() {
 
     wp_nonce_field( 'category_meta_nonce_action', 'category_meta_nonce' );
 
@@ -35,7 +35,7 @@ class category {
     </div>';
   }
 
-  function category_edit_meta( $term ) {
+  private function category_edit_meta( $term ) {
     $value1 = get_term_meta( $term->term_id, 'date_visible_value', true);
 
     wp_nonce_field( 'category_meta_nonce_action', 'category_meta_nonce');
@@ -55,7 +55,7 @@ class category {
     <?php
   }
 
-  function category_save_meta( $term_id ) {
+  private function category_save_meta( $term_id ) {
     if ( ! isset( $_POST['category_meta_nonce'] ) || ! wp_verify_nonce( $_POST['category_meta_nonce'], 'category_meta_nonce_action')) {
       return;
     }

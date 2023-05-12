@@ -21,7 +21,7 @@ class taxonomies {
         add_action('save_post',[ $this, 'save_post_function']);
     }
 
-    public function register_novel_volume_taxonomies() {
+    private function register_novel_volume_taxonomies() {
 
         register_taxonomy('publisher', ['novel'], array(
             'labels' => array(
@@ -580,7 +580,7 @@ class taxonomies {
         unregister_taxonomy_for_object_type('post_tag', 'volume');
     }
 
-    public function save_post_function($post_id) {
+    private function save_post_function($post_id) {
         $default_tag = "None";
         $tags = get_the_tags();
     
@@ -616,7 +616,7 @@ class taxonomies {
         }
     }
 
-    function taxonomies_datalist_display( $post, $box ) {
+    private function taxonomies_datalist_display( $post, $box ) {
 
         $defaults = array();
 

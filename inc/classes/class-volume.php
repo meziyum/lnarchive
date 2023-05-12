@@ -102,7 +102,7 @@ class volume{
         register_post_type( 'volume', $args );
     }
 
-    function register_meta(){
+    private function register_meta(){
 
         $formats = get_terms('format', array(
            'hide_empty' => false,
@@ -127,13 +127,13 @@ class volume{
         }
     }
 
-    public function register_rest_fields(){
+    private function register_rest_fields(){
         register_rest_field( "volume", 'novel_link', array(
             'get_callback' => [$this, 'get_novel_link'],
         ));
     }
 
-    public function register_routes() {
+    private function register_routes() {
         register_rest_route( 'lnarchive/v1', 'formats_list', array(
             'methods' => 'GET',
             'callback' => [ $this, 'get_volume_formats'],
@@ -149,7 +149,7 @@ class volume{
         return get_permalink($novel_id);
     }
 
-    public function get_volume_formats() {
+    private function get_volume_formats() {
 
         $formats = get_terms( array(
             'taxonomy'   => 'format',
@@ -165,8 +165,7 @@ class volume{
         return $response;
     }
 
-    function addOrderbySupportRest(){
-        
+    private function addOrderbySupportRest(){  
         add_filter(
             'rest_volume_collection_params',
             function( $params ) {
@@ -224,8 +223,7 @@ class volume{
         );
     }
 
-    function auto_update_volume($post_id) {
-        
+    private function auto_update_volume($post_id) {
         $formats = get_terms('format', array(
             'hide_empty' => false,
         ));
@@ -239,7 +237,7 @@ class volume{
         }
     }
 
-    function redirect_volume_to_404() {
+    private function redirect_volume_to_404() {
         if ( is_singular('volume') ) {
             global $wp_query;
             $wp_query->set_404();
@@ -247,14 +245,14 @@ class volume{
         }
     }
 
-    function remove_view_action_from_list( $actions, $post ) {
+    private function remove_view_action_from_list( $actions, $post ) {
         if ( $post->post_type === 'volume' ) {
             unset( $actions['view'] );
         }
         return $actions;
     }
 
-    function custom_post_updated_messages( $messages ) {
+    private function custom_post_updated_messages( $messages ) {
         global $post, $post_ID;
     
         $messages['volume'] = array(
@@ -270,7 +268,6 @@ class volume{
             9 => sprintf( __('Volume scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview volume</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
             10 => sprintf( __('Volume draft updated. <a target="_blank" href="%s">Preview volume</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
         );
-    
         return $messages;
     }
 }

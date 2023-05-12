@@ -23,7 +23,7 @@ class admin_dashboard{
         add_filter( 'gettext', [$this, 'wpse22764_gettext']);
     }
 
-    function load_admin_assets() {
+    private function load_admin_assets() {
 
         wp_register_style( 'admin_css', LNARCHIVE_BUILD_CSS_URI . '/admin.css', [], filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/admin.css'), 'all');
         wp_enqueue_style( 'admin_css' );
@@ -32,7 +32,7 @@ class admin_dashboard{
         wp_enqueue_script( 'admin_js' );
     }
 
-    function remove_dashboard_meta() {
+    private function remove_dashboard_meta() {
 
         remove_meta_box('dashboard_primary', 'dashboard', 'normal');
         remove_meta_box('dashboard_right_now', 'dashboard', 'normal');
@@ -42,20 +42,20 @@ class admin_dashboard{
         remove_action( 'welcome_panel', 'wp_welcome_panel' );
     }
 
-    function update_user_option_admin_color( $color_scheme ) {
+    private function update_user_option_admin_color( $color_scheme ) {
         $color_scheme = 'dashboard-theme';
         return $color_scheme;
     }
 
-    function remove_color_scheme() {
+    private function remove_color_scheme() {
         remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
     }
 
-    function hide_admin_bar(){
+    private function hide_admin_bar(){
         return false;
     }
 
-    function wpse22764_gettext( $original ) {
+    private function wpse22764_gettext( $original ) {
 
         if(get_post_type() == 'post')
             return $original;
@@ -70,7 +70,6 @@ class admin_dashboard{
                 return  ''; 
             }
         }
-
         return $original;
     }
 }

@@ -18,7 +18,7 @@ class users{
         add_action( 'rest_api_init', [$this, 'custom_endpoints']);
     }
 
-    function custom_endpoints(){
+    private function custom_endpoints(){
         register_rest_route( 'lnarchive/v1', 'current_user/(?P<object_id>\d+)', array(
             'methods' => 'GET',
             'callback' => [ $this, 'current_user_data'],
@@ -28,8 +28,7 @@ class users{
         ));
     }
     
-    function current_user_data( $request ){
-
+    private function current_user_data( $request ){
         global $wpdb;
         $table_name = $wpdb->prefix . 'user_ratings';
         $object_id = $request['object_id'];

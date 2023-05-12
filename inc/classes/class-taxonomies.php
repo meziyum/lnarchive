@@ -578,6 +578,7 @@ class taxonomies {
         ));        
 
         unregister_taxonomy_for_object_type('post_tag', 'volume');
+        unregister_taxonomy_for_object_type('post_tag', 'post');
     }
 
     public function save_post_function($post_id) {

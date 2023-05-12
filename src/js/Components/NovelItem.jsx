@@ -15,7 +15,7 @@ function NovelItem(props) {
     return (
         <div className="novel-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
             <div className="novel-entry archive-entry">
-                <a id={props.id} className="novel-link" href={props.releaseDate ? `${props.link}?volumeFilter=${props.id}`: props.link}>
+                <a id={props.id} className="novel-link" href={props.link}>
                     {
                         props.novelCover ?
                             <img className="novel-cover" srcSet={props.novelCover} loading='eager'/> :

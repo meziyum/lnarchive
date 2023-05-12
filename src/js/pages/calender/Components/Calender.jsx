@@ -55,7 +55,7 @@ export default function Calender(props) {
         const volumes = data.map( (volume) => {
             const volumeCover= volume._embedded ? volume._embedded['wp:featuredmedia'][0].source_url: null;
             return (
-                <NovelItem key={volume.id} id={volume.id} link={volume.novel_link} novelCover={volumeCover} releaseDate={formatDate(volume.meta[calenderStates.selectedFormat.value][0])}/>
+                <NovelItem key={volume.id} id={volume.id} link={`${volume.novel_link}?volumeFilter=${volume.id}&formatFilter=${calenderStates.selectedFormat.value.slice(21)}`} novelCover={volumeCover} releaseDate={formatDate(volume.meta[calenderStates.selectedFormat.value][0])}/>
             );
         });
         lastResponseLength.current=volumes.length;

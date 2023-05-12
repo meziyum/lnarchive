@@ -15,14 +15,14 @@ const volumePerPage = lnarchiveVariables.per_page;
 /* eslint-enable no-undef */
 
 /**
-A React component that renders a calender with future novel releases information.
+A React component that renders a calendar with future novel releases information.
 @param {Object} props - The component props.
 @param {Array} props.formatsList - A list of formats available for the novel
 @return {JSX.Element} - A Select component with the specified options and callbacks.
 */
-export default function Calender(props) {
+export default function Calendar(props) {
     const lastResponseLength = React.useRef(0);
-    const [calenderStates, updateCalenderStates] = React.useState({
+    const [calendarStates, updatecalendarStates] = React.useState({
         currentPage: 1,
         list: '',
         displayInfiniteLoader: true,
@@ -38,12 +38,12 @@ export default function Calender(props) {
 
     React.useEffect( () => {
         getVolumes();
-    }, [calenderStates.currentPage, calenderStates.selectedFormat, calenderStates.search]);
+    }, [calendarStates.currentPage, calendarStates.selectedFormat, calendarStates.search]);
 
     const getVolumes = async () => {
-        const fields =`id,title.rendered,novel_link,meta.${calenderStates.selectedFormat.value},_links.wp:featuredmedia`;
+        const fields =`id,title.rendered,novel_link,meta.${calendarStates.selectedFormat.value},_links.wp:featuredmedia`;
 
-        const response = await fetch( `${wpRequestURL}volumes?_embed=wp:featuredmedia&_fields=${fields}&per_page=${volumePerPage}&page=${calenderStates.currentPage}&page=${calenderStates.currentPage}&per_page=${volumePerPage}&orderby=${calenderStates.selectedFormat.value}&search=${calenderStates.search}`, {
+        const response = await fetch( `${wpRequestURL}volumes?_embed=wp:featuredmedia&_fields=${fields}&per_page=${volumePerPage}&page=${calendarStates.currentPage}&page=${calendarStates.currentPage}&per_page=${volumePerPage}&orderby=${calendarStates.selectedFormat.value}&search=${calendarStates.search}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -55,12 +55,12 @@ export default function Calender(props) {
         const volumes = data.map( (volume) => {
             const volumeCover= volume._embedded ? volume._embedded['wp:featuredmedia'][0].source_url: null;
             return (
-                <NovelItem key={volume.id} id={volume.id} link={`${volume.novel_link}?volumeFilter=${volume.id}&formatFilter=${calenderStates.selectedFormat.value.slice(21)}`} novelCover={volumeCover} releaseDate={formatDate(volume.meta[calenderStates.selectedFormat.value][0])}/>
+                <NovelItem key={volume.id} id={volume.id} link={`${volume.novel_link}?volumeFilter=${volume.id}&formatFilter=${calendarStates.selectedFormat.value.slice(21)}`} novelCover={volumeCover} releaseDate={formatDate(volume.meta[calendarStates.selectedFormat.value][0])}/>
             );
         });
         lastResponseLength.current=volumes.length;
 
-        updateCalenderStates( (prevInfo) => ({
+        updatecalendarStates( (prevInfo) => ({
             ...prevInfo,
             list: prevInfo.currentPage === 1 ? volumes : [...prevInfo.list, ...volumes],
             volumesFound: volumes.length>0 ? true : false,
@@ -68,7 +68,7 @@ export default function Calender(props) {
     };
 
     const handleSelect = (data) => {
-        updateCalenderStates( (prevInfo) => ({
+        updatecalendarStates( (prevInfo) => ({
             ...prevInfo,
             selectedFormat: data,
             currentPage: 1,
@@ -77,7 +77,7 @@ export default function Calender(props) {
 
     const updateSearch = (event, value) => {
         event.preventDefault();
-        updateCalenderStates( (prevInfo) => ({
+        updatecalendarStates( (prevInfo) => ({
             ...prevInfo,
             search: value,
             currentPage: 1,
@@ -86,12 +86,12 @@ export default function Calender(props) {
 
     const handleInView = () => {
         if (lastResponseLength.current==volumePerPage) {
-            updateCalenderStates( (prevInfo) => ({
+            updatecalendarStates( (prevInfo) => ({
                 ...prevInfo,
                 currentPage: ++prevInfo.currentPage,
             }));
         } else {
-            updateCalenderStates( (prevInfo) => ({
+            updatecalendarStates( (prevInfo) => ({
                 ...prevInfo,
                 displayInfiniteLoader: false,
             }));
@@ -104,21 +104,21 @@ export default function Calender(props) {
                 <Search updateSearch={updateSearch}/>
                 <Select
                     options={options}
-                    value={calenderStates.selectedFormat}
+                    value={calendarStates.selectedFormat}
                     isClearable={false}
                     onChange={(data) => handleSelect(data)}
                     styles={reactSelectStyle}
                 />
             </div>
-            <div className='calender-list row'>
-                {calenderStates.list}
-                {!calenderStates.volumesFound && <ResultsNotFound/>}
+            <div className='calendar-list row'>
+                {calendarStates.list}
+                {!calendarStates.volumesFound && <ResultsNotFound/>}
             </div>
-            <InfiniteScroll handleInView={handleInView} displayLoader={calenderStates.displayInfiniteLoader && calenderStates.volumesFound}/>
+            <InfiniteScroll handleInView={handleInView} displayLoader={calendarStates.displayInfiniteLoader && calendarStates.volumesFound}/>
         </>
     );
 }
 
-Calender.propTypes = {
+Calendar.propTypes = {
     formatsList: PropTypes.array.isRequired,
 };

@@ -33,9 +33,9 @@ class assets{
       $path= '';
       $version_info = '';
 
-      if(is_page_template('page-templates/calender.php')){
-        $path= LNARCHIVE_BUILD_CSS_URI . '/calender.css';
-        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/calender.css');
+      if(is_page_template('page-templates/calendar.php')){
+        $path= LNARCHIVE_BUILD_CSS_URI . '/calendar.css';
+        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/calendar.css');
       }
       else if(is_page_template('page-templates/profile.php')){
         $path= LNARCHIVE_BUILD_CSS_URI . '/profile.css';
@@ -78,9 +78,9 @@ class assets{
         );
         $novel_taxs = get_object_taxonomies('novel', 'names');
 
-        if(is_page_template('page-templates/calender.php')) {
-          $path= LNARCHIVE_BUILD_JS_URI . '/calender.js'; 
-          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/calender.js');
+        if(is_page_template('page-templates/calendar.php')) {
+          $path= LNARCHIVE_BUILD_JS_URI . '/calendar.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/calendar.js');
         }
         else if(is_page_template('page-templates/profile.php')) {
           $path= LNARCHIVE_BUILD_JS_URI . '/profile.js'; 

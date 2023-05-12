@@ -9,7 +9,7 @@ LNarchive is a sleek and functional WordPress theme designed for light novel ent
     <td><img src="static/screenshots/novel.png" alt="Novel Image" width="400"></td>
   </tr>
   <tr>
-    <td><img src="static/screenshots/calender.png" alt="Calender Image" width="400"></td>
+    <td><img src="static/screenshots/calendar.png" alt="Calendar Image" width="400"></td>
     <td><img src="static/screenshots/blog.png" alt="Blog Image" width="400"></td>
   </tr>
 </table>

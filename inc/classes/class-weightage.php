@@ -42,7 +42,13 @@ class weightage {
     }
 
     public function update_weightage_on_term_assign($object_id, $terms, $tt_ids, $taxonomy) {
-        if(get_option('tax-weightage-'.$taxonomy) =='1') {
+        $post_type = get_post_type($object_id);
+
+        if($post_type == 'page') {
+            return;
+        }
+        
+        if (get_option('tax-weightage-'.$taxonomy) =='1') {
             foreach($terms as $term) {
                 $this->update_weightage($term);
             }

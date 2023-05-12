@@ -20,6 +20,7 @@ class novel {
         add_action( 'init', [ $this, 'register_novel']);
         add_action('save_post_novel', [$this, 'auto_novel']);
         add_action( 'rest_api_init', [$this, 'register_routes']);
+        add_action( 'rest_api_init', [$this, 'addOrderbySupportRest']);
     }
 
     public function register_novel() {
@@ -112,11 +113,10 @@ class novel {
     }
 
     function addOrderbySupportRest() {
-        
         add_filter(
             'rest_novel_collection_params',
             function( $params ) {
-                $fields = array( 'releaseDate', 'volumesCount', 'rating', 'latestRelease');
+                $fields = array( 'releaseDate', 'volumesCount', 'rating', 'popularity',  'latestRelease');
                 foreach ($fields as $value) {
                     $params['orderby']['enum'][] = $value;
                 }
@@ -129,28 +129,12 @@ class novel {
         add_filter(
             'rest_novel_query',
             function ( $args, $request ) {
-                $order_by = $request->get_param( 'orderby' );
-                if( isset( $order_by ) ) {
-                    if($order_by=='rating') {
+                $order_by = $request->get_param('orderby');
+                $metas = array('releaseDate', 'volumesCount', 'rating', 'popularity',  'latestRelease');
+                if(isset($order_by)) {
+                    if (in_array($order_by, $metas)) {
                         $args['meta_key'] = $order_by;
                         $args['orderby'] = 'meta_value_num';
-                    }
-                    else if($order_by=='releaseDate') {
-
-                    }
-                    else if($order_by=='volumesCount') {
-                        $args['meta_query'] = array(
-                            array(
-                                'key' => 'series',
-                                'value' => get_the_ID(),
-                                'compare' => '=',
-                            ),
-                        );
-                        $args['meta_key'] = 'volumesCount';
-                        $args['orderby'] = 'meta_value_num';
-                    }
-                    else if($order_by=='latestRelease') {
-
                     }
                 }
                 return $args;

@@ -177,11 +177,10 @@ class comment {
         add_filter(
             'rest_comment_query',
             function ( $args, $request ) {
-
                 $metas = array( 'likes', 'progress');
                 $order_by = $request->get_param( 'orderby' );
                 if( isset( $order_by ) ){
-                    if ( in_array( $order_by, $metas) ) {
+                    if (in_array($order_by, $metas)) {
                         $args['meta_key'] = $order_by;
                         $args['orderby'] = 'meta_value_num';
                     }

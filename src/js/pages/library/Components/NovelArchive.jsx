@@ -187,6 +187,8 @@ function NovelArchive(props) {
                             options={[
                                 {value: 'date', label: 'Release Date'},
                                 {value: 'title', label: 'Alphabetically'},
+                                {value: 'rating', label: 'Ratings'},
+                                {value: 'popularity', label: 'Popularity'},
                             ]}
                             defaultValue={archiveInfo.order_by}
                             value={archiveInfo.order_by}

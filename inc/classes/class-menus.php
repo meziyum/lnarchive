@@ -20,7 +20,7 @@ class menus {
         add_action('init', [ $this, 'register_menus']);
     }
 
-    private function register_menus() {
+    public function register_menus() {
         register_nav_menus(
             array(
                 'fusfan_primary'    => ( 'Primary Menu'),
@@ -31,13 +31,14 @@ class menus {
         );
     }
 
-    public function get_menu_id($location) {
+    public function get_menu_id( $location ) {
         $locations = get_nav_menu_locations();
         $menu_id = $locations[$location];
         return ! empty( $menu_id) ? $menu_id : '';
     }
 
     public function get_child_menu_items( $menu_array, $parent_id) {
+
         $child_menus =[];
 
         if( ! empty( $menu_array) && is_array( $menu_array)) {
@@ -47,6 +48,7 @@ class menus {
                     }
                 }
         }
+
         return $child_menus;
     }
 }

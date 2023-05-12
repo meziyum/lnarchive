@@ -32,7 +32,7 @@ class post_metafields {
         add_action( 'save_post', [$this,'save_isbn_meta'] );
     }
 
-    private function novel_metaboxes_add() {
+    function novel_metaboxes_add() {
         
         add_meta_box(
             'alternate_names',
@@ -75,7 +75,7 @@ class post_metafields {
         );
     }
 
-    private function isbn_meta_callback( $post ) {
+    function isbn_meta_callback( $post ) {
 
         wp_nonce_field( 'isbn_nonce_action', 'isbn_nonce');
 
@@ -113,7 +113,7 @@ class post_metafields {
         <?php
     }
 
-    private function save_isbn_meta( $post_id) {
+    function save_isbn_meta( $post_id) {
 
         if ( ! isset( $_POST['isbn_nonce'] ) || ! wp_verify_nonce( $_POST['isbn_nonce'], 'isbn_nonce_action'))
             return;
@@ -144,7 +144,7 @@ class post_metafields {
         }
     }
 
-   private function alternate_names_metabox_callback ( $post ) {
+    function alternate_names_metabox_callback ( $post ) {
 
         wp_nonce_field( 'alternate_names_nonce_action', 'alternate_names_nonce');
 
@@ -157,7 +157,7 @@ class post_metafields {
         <?php
     }
 
-    private function save_alternate_names( $post_id ) {
+    function save_alternate_names( $post_id ) {
         
         if ( ! isset( $_POST['alternate_names_nonce'] ) || ! wp_verify_nonce( $_POST['alternate_names_nonce'], 'alternate_names_nonce_action'))
             return;
@@ -178,7 +178,7 @@ class post_metafields {
         );
     }
 
-    private function published_date_metabox_callback( $post ) {
+    function published_date_metabox_callback( $post ) {
 
         wp_nonce_field( 'published_date_nonce_action', 'published_date_nonce' );
 
@@ -213,7 +213,7 @@ class post_metafields {
         <?php
     }
 
-    private function save_published_date( $post_id) {
+    function save_published_date( $post_id) {
         
         if ( ! isset( $_POST['published_date_nonce'] ) || ! wp_verify_nonce( $_POST['published_date_nonce'], 'published_date_nonce_action'))
             return;
@@ -243,7 +243,7 @@ class post_metafields {
         }
     }
 
-    private function series_metabox_callback( $post ) {
+    function series_metabox_callback( $post ) {
 
         wp_nonce_field( 'series_nonce_action', 'series_nonce' );
 
@@ -268,7 +268,7 @@ class post_metafields {
         <?php
     }
 
-    private function save_series( $post_id) {
+    function save_series( $post_id) {
 
         if ( ! isset( $_POST['series_nonce'] ) || ! wp_verify_nonce( $_POST['series_nonce'], 'series_nonce_action'))
             return;
@@ -289,7 +289,7 @@ class post_metafields {
          );
     }
 
-    private function add_seo_meta() {
+    function add_seo_meta() {
         
         $screens = get_post_types();
 
@@ -317,7 +317,7 @@ class post_metafields {
         }
     }
 
-    private function seo_meta_title_callback( $post ) {
+    function seo_meta_title_callback( $post ) {
 
         wp_nonce_field( 'seo_meta_title_nonce_action', 'seo_meta_title_nonce' );
 
@@ -330,7 +330,7 @@ class post_metafields {
         </div>';
     }
 
-    private function seo_meta_desc_callback( $post ) {
+    function seo_meta_desc_callback( $post ) {
 
         wp_nonce_field( 'seo_meta_desc_nonce_action', 'seo_meta_desc_nonce' );
     
@@ -342,7 +342,7 @@ class post_metafields {
         </div>';
     }
 
-    private function save_seo_meta_title( $post_id ) {
+    function save_seo_meta_title( $post_id ) {
 
         $post_type = get_post_type();
 
@@ -379,7 +379,7 @@ class post_metafields {
         }
     }
 
-    private function save_seo_meta_desc( $post_id ) {
+    function save_seo_meta_desc( $post_id ) {
 
         $post_type = get_post_type();
 

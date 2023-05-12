@@ -20,7 +20,7 @@ class ratings{
         add_action('user_rating_submitted', [$this, 'calculate_ratings']);
     }
 
-    private function register_rating() {
+    function register_rating() {
         register_rest_field( "comment", 'rating', array(
             'get_callback' => [$this, 'get_user_rating'],
         ));
@@ -41,13 +41,13 @@ class ratings{
         ));
     }
 
-    public function get_user_rating($comment) {
+    function get_user_rating($comment) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'user_ratings';
         return $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$comment['post']." AND user_id=".$comment['author']);
     }
 
-    private function submit_rating($request) {
+    function submit_rating($request) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'user_ratings';
         $user_id = get_current_user_id();
@@ -64,7 +64,7 @@ class ratings{
         return $response;
     }
 
-    public function calculate_ratings($args) {
+    function calculate_ratings( $args ) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'user_ratings';
         $ratings = $wpdb->get_results("SELECT rating FROM $table_name WHERE object_id=".$args['object_id']);
@@ -78,7 +78,7 @@ class ratings{
         update_post_meta( $args['object_id'], 'rating', $total/count($ratings));
     }
 
-    private function create_datbases() {
+    function create_datbases() {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');

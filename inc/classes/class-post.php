@@ -19,13 +19,13 @@ class post {
         add_action( 'rest_api_init', [$this, 'register_routes']);
     }
 
-    private function register_rest_fields() {
+    public function register_rest_fields() {
         register_rest_field( 'post', 'categoryList', array(
             'get_callback' => [$this, 'get_category_list'],
         ));
     }
 
-    private function register_routes() {
+    public function register_routes() {
         register_rest_route( 'lnarchive/v1', 'post_filters', array(
             'methods' => 'GET',
             'callback' => [ $this, 'get_post_filters'],
@@ -35,7 +35,7 @@ class post {
         ));
     }
 
-    private function get_post_filters() {
+    public function get_post_filters() {
 
         $filter_taxonomies = array('category');
         $response = array();
@@ -66,7 +66,7 @@ class post {
         return $response;
     }
 
-    private function get_category_list() {
+    public function get_category_list() {
         $categories = get_the_category();
         
         $response = array_map(function($category) {

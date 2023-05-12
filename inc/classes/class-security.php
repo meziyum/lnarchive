@@ -20,11 +20,11 @@ class security{
         add_filter('xmlrpc_enabled', [ $this, '__return_false']);
     }
 
-    private function security_remove_version() {
+    function security_remove_version() {
         return '';
     }
 
-    private function no_wordpress_errors() {
+    function no_wordpress_errors() {
         return 'Your username or password is incorrect';
     }
 }

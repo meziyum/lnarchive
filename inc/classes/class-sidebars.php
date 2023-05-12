@@ -21,7 +21,7 @@ class sidebars{
         add_action( 'widgets_init', [ $this, 'ln_register_sidebars']);
     }
 
-    private function ln_register_sidebars() {
+    public function ln_register_sidebars() {
         
         register_sidebar( [
                 'name' => 'Main Sidebar',

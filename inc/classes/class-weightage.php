@@ -27,7 +27,7 @@ class weightage {
         }
     }
 
-    private function register_weightage() {
+    public function register_weightage() {
         $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
         array_push($taxonomies, 'post_tag', 'category');
       
@@ -41,7 +41,7 @@ class weightage {
         }
     }
 
-    private function update_weightage_on_term_assign($object_id, $terms, $tt_ids, $taxonomy) {
+    public function update_weightage_on_term_assign($object_id, $terms, $tt_ids, $taxonomy) {
         if(get_option('tax-weightage-'.$taxonomy) =='1') {
             foreach($terms as $term) {
                 $this->update_weightage($term);

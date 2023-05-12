@@ -69,20 +69,49 @@
             border-radius: 8px;
 
             #novel-actions {
-                display: flex;
-                justify-content: start;
-                align-items: center;
-
-                #ratings-div {
+                #actions-main {
                     display: flex;
                     justify-content: start;
                     align-items: center;
                     margin: 8px 0;
 
-                    h6 {
-                        color: $rating-submit-msg;
-                        margin: 0 0 0 8px;
+                    >*{
+                        margin-right: 8px;
                     }
+
+                    #novel-ratings-div,
+                    #novel-popularity-div {
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                        
+                        h3 {
+                            margin: 0 0 0 4px;
+                        }
+                    }
+
+                    #user-ratings-div {
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                    }
+
+                    #user-ratings-div {
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                        margin: 8px 0;
+
+                        h6 {
+                            color: $rating-submit-msg;
+                            margin: 0 0 0 8px;
+                        }
+                    }
+                }
+
+                h6 {
+                    color: $rating-submit-msg;
+                    margin: 0;
                 }
             }
 

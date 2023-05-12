@@ -25,7 +25,7 @@ class ratings{
             'get_callback' => [$this, 'get_user_rating'],
         ));
 
-        register_meta( 'post', 'rating', array(
+        register_meta('post', 'rating', array(
             'object_subtype'  => 'novel',
             'type'   => 'number',
             'single ' => true,
@@ -39,12 +39,6 @@ class ratings{
                 return is_user_logged_in();
             },
         ));
-    }
-
-    function get_user_rating($comment) {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'user_ratings';
-        return $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$comment['post']." AND user_id=".$comment['author']);
     }
 
     function submit_rating($request) {
@@ -94,6 +88,12 @@ class ratings{
         ) $charset_collate;";
         
         dbDelta([$ratings_query], true);
+    }
+
+    function get_user_rating($comment) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'user_ratings';
+        return $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$comment['post']." AND user_id=".$comment['author']);
     }
 }
 ?>

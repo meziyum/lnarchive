@@ -89,9 +89,15 @@ class assets{
         else if(is_single(get_queried_object()) || is_page()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/'.get_post_type().'.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/'.get_post_type().'.js');
-          $localize_vars['object_id'] = get_the_ID();
-          $localize_vars['object_type'] = get_post_type();
+          $object_id = get_the_ID();
+          $object_type = get_post_type();
+          $localize_vars['object_id'] = $object_id;
+          $localize_vars['object_type'] = $object_type;
           $localize_vars['comments_count'] = get_comments_number(get_the_ID());
+          
+          if($object_type == 'novel') {
+            $localize_vars['rating'] = get_post_meta($object_id, 'rating', true);
+          }
         }
         else if(!is_front_page() && is_home() || is_category()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/blog.js'; 

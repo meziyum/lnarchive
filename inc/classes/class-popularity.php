@@ -21,9 +21,10 @@ class popularity {
     }
 
     public function register_popularity() {
-        register_post_meta( 'post', 'popularity', array(
-            'type' => 'novel',
-            'single' => true,
+        register_meta('post', 'popularity', array(
+            'object_subtype'  => 'novel',
+            'type'   => 'number',
+            'single ' => true,
             'show_in_rest' => true,
         ));
     }

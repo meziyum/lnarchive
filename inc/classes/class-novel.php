@@ -133,8 +133,19 @@ class novel {
                 $metas = array('releaseDate', 'volumesCount', 'rating', 'popularity',  'latestRelease');
                 if(isset($order_by)) {
                     if (in_array($order_by, $metas)) {
-                        $args['meta_key'] = $order_by;
+                        $args['meta_query'] = array(
+                            'relation' => 'OR',
+                            array(
+                                'key' => $order_by,
+                                'compare' => 'EXISTS',
+                            ),
+                            array(
+                                'key' => $order_by,
+                                'compare' => 'NOT EXISTS',
+                            ),
+                        );
                         $args['orderby'] = 'meta_value_num';
+                        $args['order'] = 'asc';
                     }
                 }
                 return $args;

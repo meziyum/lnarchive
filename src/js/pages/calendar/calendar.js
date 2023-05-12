@@ -18,6 +18,5 @@ fetch(`${customAPIRequestURL}formats_list`, {
     }})
     .then( (res) => res.json())
     .then( (data) => {
-        console.log(data)
         archiveRoot.render(<Calendar formatsList={data}/>);
     });

@@ -24,9 +24,10 @@ class lnarchive_theme{
          volume::get_instance();
          comment::get_instance();
          ratings::get_instance();
+         weightage::get_instance();
          users::get_instance();
          taxonomies::get_instance();
-         taxonomies_metafields::get_instance();
+         category::get_instance();
          post_metafields::get_instance();
          post_filter::get_instance();
          $this->set_hooks();

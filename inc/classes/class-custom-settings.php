@@ -19,6 +19,7 @@ class custom_settings {
         add_action( 'admin_init', [$this, 'novel_settings_func'] );
         add_action( 'admin_init', [$this, 'seo_settings_func'] );
         add_action( 'admin_init', [$this, 'social_settings_func'] );
+        add_action( 'admin_init', [$this, 'tax_settings_func'] );
     }
 
     function add_setting_pages() {
@@ -30,6 +31,15 @@ class custom_settings {
             'manage_options',
             'novel-settings',
             [$this, 'novel_settings_callback'],
+        );
+
+        add_submenu_page(
+            'options-general.php',
+            'Taxonomies',
+            'Taxonomies',
+            'manage_options',
+            'tax-settings',
+            [$this, 'tax_settings_callback'],
         );
 
         add_submenu_page(
@@ -49,6 +59,28 @@ class custom_settings {
             'social-settings',
             [$this, 'social_settings_callback'],
         );
+    }
+
+    function tax_settings_callback() {
+        if (!current_user_can( 'manage_options' )) {
+            return;
+        }
+
+        if (isset( $_GET['settings-updated'] )) {
+            add_settings_error( 'wporg_messages', 'wporg_message', __( 'Settings Saved', 'wporg' ), 'updated' );
+        }
+        ?>
+            <div class="wrap">
+                <h1><?php echo get_admin_page_title() ?></h1>
+                <form method="post" action="options.php">
+                    <?php
+                        settings_fields('tax-settings-grp');
+                        do_settings_sections('tax-settings');
+                        submit_button();
+                    ?>
+                </form>
+            </div>
+        <?php
     }
 
     function novel_settings_callback() {
@@ -71,6 +103,33 @@ class custom_settings {
                 </form>
             </div>
         <?php
+    }
+
+    function tax_settings_func() {
+        $page_slug = 'tax-settings';
+        $option_group = 'tax-settings-grp';
+
+        add_settings_section(
+            'taxonomy_weightage',
+            'Taxonomies Weightage',
+            '',
+            $page_slug,
+        );
+
+        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
+        array_push($taxonomies, 'post_tag', 'category');
+
+        foreach($taxonomies as $tax) {
+            register_setting($option_group, 'tax-weightage-'.$tax);
+            add_settings_field(
+                'tax-weightage-'.$tax,
+                get_taxonomy_labels(get_taxonomy($tax))->name,
+                [$this, 'checkbox_display'],
+                $page_slug,
+                'taxonomy_weightage',
+                array('tax-weightage-'.$tax),
+            );
+        }
     }
 
     function novel_settings_func() {

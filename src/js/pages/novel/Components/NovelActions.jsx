@@ -67,7 +67,7 @@ export default function NovelActions(props) {
                         size={'xl'}
                         style={{color: '#007bff'}}
                     />
-                    <h3>{props.novelRating}%</h3>
+                    <h3>{props.novelRating>0 ? `${props.novelRating}%`: '-'}</h3>
                 </div>
                 <div id="novel-popularity-div">
                     <FontAwesomeIcon

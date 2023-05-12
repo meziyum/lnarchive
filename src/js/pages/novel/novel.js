@@ -62,20 +62,25 @@ const getVolume = () => {
         .then( (res) => res.json())
         .then( (volume) => {
             const formats = volume._embedded['wp:term'].find( (term) => term[0].taxonomy == 'format');
-            const defaultFormat = formats[0];
-            const defaultFormatName = defaultFormat.name;
+
+            if (!urlParams.get('formatFilter')) {
+                urlParams.set('formatFilter', formats[0].name);
+                const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+                window.history.pushState(null, '', newUrl);
+            }
+
+            const defaultFormatName = urlParams.get('formatFilter');
             const desc = volume.excerpt.rendered;
             const narrator = volume._embedded['wp:term'].find( (term) => term[0].taxonomy == 'narrator');
             const translator = volume._embedded['wp:term'].find( (term) => term[0].taxonomy == 'translator');
             const volumeISBN = defaultFormatName != 'None' ? volume.meta[`isbn_${defaultFormatName}_value`][0] : null;
             const volumeDate = defaultFormatName != 'None' ? formatDate(volume.meta[`published_date_value_${defaultFormatName}`][0]): null;
-
             const coverURL= volume._embedded['wp:featuredmedia'] ? volume._embedded['wp:featuredmedia'][0].source_url : null;
 
             document.getElementById('page-title').innerText=volume.title.rendered;
             coverRoot.render(<img className='novel-cover' srcSet={coverURL}></img>);
             descRoot.render(<VolumeDesc desc={desc}/>);
-            formatsRoot.render(<FormatsList formats={formats} meta={volume.meta} translator={translator} narrator={narrator} handleClick={loadVolumeInfo}/>);
+            formatsRoot.render(<FormatsList formats={formats} meta={volume.meta} translator={translator} narrator={narrator} handleClick={loadVolumeInfo} formatFilter={defaultFormatName}/>);
             loadVolumeInfo(volumeISBN, volumeDate, translator, narrator, defaultFormatName);
         });
 };

@@ -70,6 +70,7 @@ export default function Review(props) {
     if ( props.content.rendered.length > readMoreLength ) {
         readMoreButton =<a onClick={readMoreClick}>
             <FontAwesomeIcon
+                title='Read more'
                 icon={ reviewInfo.expanded ? faChevronUp : faChevronDown}
                 size="lg"
             />
@@ -138,12 +139,14 @@ export default function Review(props) {
                     {
                         reviewInfo.user_response == 'like' ?
                             <FontAwesomeIcon
+                                title='Liked'
                                 icon={faThumbsUpSolid}
                                 size="xl"
                                 style={{color: 'limegreen'}}
                                 onClick={ () => props.isLoggedIn && updateResponseDatabase('none')}
                             /> :
                             <FontAwesomeIcon
+                                title='Like'
                                 icon={faThumbsUp}
                                 size="xl"
                                 style={{color: 'limegreen'}}
@@ -154,12 +157,14 @@ export default function Review(props) {
                     {
                         reviewInfo.user_response == 'dislike' ?
                             <FontAwesomeIcon
+                                title='Disliked'
                                 icon={faThumbsDownSolid}
                                 size="xl"
                                 style={{color: 'crimson'}}
                                 onClick={ () => props.isLoggedIn && updateResponseDatabase('none')}
                             /> :
                             <FontAwesomeIcon
+                                title='Dislike'
                                 icon={faThumbsDown}
                                 size="xl"
                                 style={{color: 'crimson'}}
@@ -173,6 +178,7 @@ export default function Review(props) {
                     <div className="dropstart">
                         <a id="comment_user_actions" data-bs-toggle="dropdown" aria-expanded="false">
                             <FontAwesomeIcon
+                                title='Comment Actions'
                                 icon={faEllipsis}
                                 size="xl"
                                 style={{color: 'grey'}}

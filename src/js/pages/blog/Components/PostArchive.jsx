@@ -158,6 +158,7 @@ function PostArchive(props) {
             <div id="post-wrap-header">
                 <Search updateSearch={updateSearch} value={archiveInfo.search} label='Post'/>
                 <FontAwesomeIcon
+                    title='Search'
                     icon={faSliders}
                     size="xl"
                     style={{color: showFilters ? '#387ef2' : 'grey'}}

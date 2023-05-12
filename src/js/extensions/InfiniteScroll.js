@@ -21,6 +21,7 @@ function Loader(props) {
             {
                 props.displayLoader &&
                 <FontAwesomeIcon
+                    title='Loading'
                     ref={props.componentRef}
                     icon={faSpinner}
                     style={{

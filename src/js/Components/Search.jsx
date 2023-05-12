@@ -38,6 +38,7 @@ export default function Search({updateSearch, value, label}) {
             </input>
             <button id="search-button">
                 <FontAwesomeIcon
+                    title='Search'
                     icon={faMagnifyingGlass}
                     size="lg"
                     style={{color: 'white'}}

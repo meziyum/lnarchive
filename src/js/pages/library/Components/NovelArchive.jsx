@@ -167,6 +167,7 @@ function NovelArchive(props) {
             <div id="archive-header">
                 <Search value={archiveInfo.search} updateSearch={updateSearch}/>
                 <FontAwesomeIcon
+                    title='Search'
                     icon={faSliders}
                     size="xl"
                     style={{color: showFilters ? '#387ef2' : 'grey'}}

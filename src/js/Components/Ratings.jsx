@@ -33,6 +33,7 @@ export default function Ratings(props) {
         return (
             <FontAwesomeIcon
                 key={index}
+                title='User Rating'
                 icon={
                     props.rating >= index + 1 && hoverRating === -1 || hoverRating >= index ? faStarSolid :
                         props.rating >= index + 0.5 && (hoverRating >= props || hoverRating === -1) ?

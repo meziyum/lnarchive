@@ -16,6 +16,7 @@ export default function ResultsNotFound(props) {
     return (
         <div id="results-not-found">
             <FontAwesomeIcon
+                title='Results not Found'
                 icon={faTriangleExclamation}
                 size="5x"
                 style={{color: 'red'}}

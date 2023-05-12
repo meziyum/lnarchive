@@ -1,8 +1,8 @@
 
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
-import '../../../sass/calender/calender.scss';
-import Calender from './Components/Calender.jsx';
+import '../../../sass/calendar/calendar.scss';
+import Calendar from './Components/Calendar.jsx';
 import '../common.js';
 
 /* eslint-disable no-undef */
@@ -18,5 +18,5 @@ fetch(`${customAPIRequestURL}formats_list`, {
     }})
     .then( (res) => res.json())
     .then( (data) => {
-        archiveRoot.render(<Calender formatsList={data}/>);
+        archiveRoot.render(<Calendar formatsList={data}/>);
     });

@@ -48,7 +48,7 @@ class weightage {
             return;
         }
         
-        if(get_option('tax-weightage-'.$taxonomy) =='1') {
+        if (get_option('tax-weightage-'.$taxonomy) =='1') {
             foreach($terms as $term) {
                 $this->update_weightage($term);
             }

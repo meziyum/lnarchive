@@ -17,7 +17,7 @@ export default function VolumeInfo({isbn, publishedDate, translator, narrator, f
                 <th>Translator</th>
                 <td>
                     {translator.map( (person) => (
-                        <p key={person.id}>{person.name}</p>
+                        person.name
                     ))}
                 </td>
             </tr>

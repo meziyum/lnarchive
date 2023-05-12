@@ -18,6 +18,8 @@ const commentsTotalCount = lnarchiveVariables.comments_count;
 const loginURL = lnarchiveVariables.login_url;
 const novelID = lnarchiveVariables.object_id;
 const novelRating = lnarchiveVariables.rating*10*2;
+const novelPopularity = lnarchiveVariables.popularity;
+console.log(novelPopularity);
 /* eslint-enable no-undef */
 const coverRoot = ReactDOMClient.createRoot(document.getElementById('volume-cover'));
 const volumeInfoRoot = ReactDOMClient.createRoot(document.getElementById('volume-info'));
@@ -44,7 +46,7 @@ fetch( `${customAPIrequestURL}current_user/${novelID}`, {
         if (data.data != undefined && data.data.status == 401) {
             isLoggedIn = false;
         }
-        novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} userRating={parseInt(data.user_rating)}/>);
+        novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} userRating={parseInt(data.user_rating)}/>);
         reviewsRoot.render(<ReviewSection isLoggedIn={isLoggedIn} userID={data.user_id} loginURL={loginURL} commentType='review' commentsCount={parseInt(commentsTotalCount)} maxProgress={maxProgress}/>);
     });
 

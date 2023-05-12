@@ -15,5 +15,5 @@ class sample {
 
     protected function set_hooks() {
     }
-    }
+}
 ?>

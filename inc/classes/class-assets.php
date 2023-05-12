@@ -97,6 +97,7 @@ class assets{
           
           if($object_type == 'novel') {
             $localize_vars['rating'] = get_post_meta($object_id, 'rating', true);
+            $localize_vars['popularity'] = get_post_meta($object_id, 'popularity', true);
           }
         }
         else if(!is_front_page() && is_home() || is_category()) {

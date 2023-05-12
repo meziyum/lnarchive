@@ -24,6 +24,7 @@ class lnarchive_theme{
          volume::get_instance();
          comment::get_instance();
          ratings::get_instance();
+         popularity::get_instance();
          weightage::get_instance();
          users::get_instance();
          taxonomies::get_instance();

@@ -76,7 +76,7 @@ export default function NovelActions(props) {
                         size={'xl'}
                         style={{color: '#FF4500'}}
                     />
-                    <h3>0</h3>
+                    <h3>{props.novelPopularity ? props.novelPopularity : 0}</h3>
                 </div>
                 <div id="user-ratings">
                     {props.isLoggedIn && <Ratings title='Your Ratings' ratings_submit={submitRatings} size={'xl'} rating={actionStates.rating} mode={'form'}/>}

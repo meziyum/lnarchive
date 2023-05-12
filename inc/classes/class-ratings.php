@@ -17,7 +17,7 @@ class ratings{
     protected function set_hooks() {
         add_action('rest_api_init', [$this, 'register_rating']);
         add_action('after_switch_theme', [$this, 'create_datbases']);
-        add_action('user_rating_submitted', [$this, 'calculate_ratings']);
+        add_action('user_rating_submitted', [$this, 'calculate_ratings'], 1);
     }
 
     function register_rating() {
@@ -49,16 +49,17 @@ class ratings{
         $body = $request->get_json_params();
 
         if( $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$object_id." AND user_id=".$user_id) == null) {
+            do_action( 'before_user_rating_created', array( 'object_id'=> $object_id, 'user_id' => $user_id));
             $response = $wpdb->insert( $table_name, array( 'rating' => $body['rating'], 'object_id' => $object_id, 'user_id' => $user_id ));
         }
         else {
             $response = $wpdb->update( $table_name, array( 'rating' => $body['rating']), array('object_id' => $object_id, 'user_id' => $user_id));
         }
-        do_action( 'user_rating_submitted', array( 'object_id'=> $object_id));
+        do_action( 'user_rating_submitted', array( 'object_id'=> $object_id, 'user_id' => $user_id));
         return $response;
     }
 
-    function calculate_ratings( $args ) {
+    function calculate_ratings($args) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'user_ratings';
         $ratings = $wpdb->get_results("SELECT rating FROM $table_name WHERE object_id=".$args['object_id']);

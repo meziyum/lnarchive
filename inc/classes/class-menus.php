@@ -9,7 +9,6 @@ namespace lnarchive\inc;
 use lnarchive\inc\traits\Singleton;
 
 class menus {
-
     use Singleton;
 
     protected function __construct() {

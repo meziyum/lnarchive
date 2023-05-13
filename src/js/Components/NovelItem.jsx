@@ -1,11 +1,19 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {
+    faHeart,
+    faFireFlameCurved,
+} from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Renders a single novel item.
  * @param {Object} props - The props object for the component.
  * @param {string} props.id - The unique ID for the novel.
+ * @param {string} props.title - The title of the novel.
+ * @param {number} props.rating - The title of the novel.
+ * @param {number} props.popularity - The title of the novel.
  * @param {string} props.link - The URL for the novel's page.
  * @param {string} props.novelCover - The URL for the novel's cover image.
  * @param {string} props.releaseDate - The release date of the novel
@@ -22,6 +30,11 @@ function NovelItem(props) {
                             <h4 className='novel-cover' >No Cover Image Found</h4>
                     }
                 </a>
+                {
+                    <div className='novel-meta'>
+                    </div>
+                }
+                {props.title && <h6 className='novel-title'>{props.title}</h6>}
                 {props.releaseDate && <h5 className='release-date'>{props.releaseDate}</h5>}
             </div>
         </div>
@@ -32,7 +45,10 @@ export default React.memo(NovelItem);
 
 NovelItem.propTypes = {
     id: PropTypes.number.isRequired,
+    title: PropTypes.string,
     link: PropTypes.string.isRequired,
     novelCover: PropTypes.string,
     releaseDate: PropTypes.string,
+    rating: PropTypes.number,
+    popularity: PropTypes.number,
 };

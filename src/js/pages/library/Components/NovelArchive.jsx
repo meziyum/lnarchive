@@ -91,7 +91,7 @@ function NovelArchive(props) {
                     filters+=currentFilter.slice(0, -1);
                 }
             });
-            const fields = 'id,link,_links.wp:featuredmedia';
+            const fields = 'id,title.rendered,meta,link,_links.wp:featuredmedia';
 
             const response = await fetch( `${wpRequestURL}novels?_embed=wp:featuredmedia&_fields=${fields}&per_page=${novelPerPage}&page=${archiveInfo.currentPage}${filters}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
                 method: 'GET',
@@ -102,11 +102,12 @@ function NovelArchive(props) {
             );
 
             const data= await response.json();
+            console.log(data)
 
             const novels = data.map( (novel) => {
                 const novelCover=novel._embedded['wp:featuredmedia'] ? novel._embedded['wp:featuredmedia'][0].source_url : null;
                 return (
-                    <NovelItem key={novel.id} id={novel.id} link={novel.link} novelCover={novelCover}/>
+                    <NovelItem key={novel.id} id={novel.id} title={novel.title.rendered.length > 50 ? `${novel.title.rendered.slice(0, 50)} ...` : novel.title.rendered} link={novel.link} novelCover={novelCover} popularity={novel.meta.popularity} rating={novel.meta.rating}/>
                 );
             });
             lastResponseLength.current=novels.length;

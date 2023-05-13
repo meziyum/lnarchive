@@ -1,10 +1,10 @@
 
 .novel-entry-col {
-    padding: 0px;
+    padding: 8px;
 
     .novel-entry {
-        padding: 0px;
-        margin: 4px 8px;
+        padding: 0;
+        margin: 0;
         border-radius: 8px;
         position: relative;
         box-shadow: 0 2px 5px $shadow-color;
@@ -16,6 +16,7 @@
         align-items: center;
         background-color: $novel-item-background-color;
         color: $novel-item-color;
+        height: 100%;
 
         &:hover, 
         &:active {
@@ -34,6 +35,15 @@
                 color: $novel-item-color;
                 margin-bottom: 0;
             }
+        }
+
+        .novel-meta {
+            
+        }
+
+        .novel-title{
+            margin: 0;
+            padding: 4px;
         }
     }
 }

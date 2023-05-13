@@ -102,7 +102,6 @@ function NovelArchive(props) {
             );
 
             const data= await response.json();
-            console.log(data)
 
             const novels = data.map( (novel) => {
                 const novelCover=novel._embedded['wp:featuredmedia'] ? novel._embedded['wp:featuredmedia'][0].source_url : null;

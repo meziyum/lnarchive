@@ -42,9 +42,9 @@ class weightage {
     }
 
     public function update_weightage_on_term_assign($object_id, $terms, $tt_ids, $taxonomy) {
-        $post_type = get_post_type($object_id);
+        $post_type = get_post_type_object(get_post_type($object_id));
 
-        if($post_type == 'page') {
+        if ($post_type->name === 'page' || !$post_type->public) {
             return;
         }
         

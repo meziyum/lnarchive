@@ -103,7 +103,6 @@ function NovelArchive(props) {
             );
 
             const data= await response.json();
-            console.log(data)
 
             const novels = data.map( (novel) => {
                 console.log(novel)

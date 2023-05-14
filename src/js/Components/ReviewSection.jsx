@@ -30,7 +30,7 @@ export default function ReviewSection(props) {
         commentList: [],
         commentsCount: props.commentsCount,
         currentPage: 1,
-        displayInfiniteLoader: true,
+        displayInfiniteLoader: props.commentsCount>0 ? true : false,
         currentSort: 'likes',
         reviewContent: '',
         progress: 0,

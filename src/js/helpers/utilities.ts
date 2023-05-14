@@ -7,10 +7,13 @@ export const formatDate = (oldDate: string): string => {
 };
 
 export const formatTitle = (oldTitle: string): string => {
-    if (oldTitle.length>50) {
-        return `${oldTitle.slice(0,50)} ...`
+    const elem = document.createElement('div');
+    elem.innerHTML = oldTitle;
+    const decodedTitle = elem.innerText;
+    if (decodedTitle.length>50) {
+        return `${decodedTitle.slice(0,50)} ...`
     }
-    return oldTitle;
+    return decodedTitle;
 }
   
 export const escHTML = (unsafeText: string): string => {

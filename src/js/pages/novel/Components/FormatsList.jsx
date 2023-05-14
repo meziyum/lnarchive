@@ -23,6 +23,10 @@ export default function FormatsList({formats, meta, translator, narrator, handle
     }, [formatFilter]);
 
     const handleFormatClick = (formatName) => {
+        if (formatName == selectedFormat) {
+            return;
+        }
+
         setSelectedFormat(formatName);
         handleClick(
             meta[`isbn_${formatName}_value`][0],

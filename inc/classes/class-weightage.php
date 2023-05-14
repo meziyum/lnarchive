@@ -17,7 +17,7 @@ class weightage {
 
     protected function set_hooks() {
         add_action('init', [$this, 'register_weightage']);
-        add_action('set_object_terms', [$this, 'update_weightage_on_term_assign'], 10, 4);
+        add_action('save_post', [$this, 'update_weightage_on_term_assign'], 10, 3);
 
         $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
         array_push($taxonomies, 'post_tag', 'category');
@@ -41,23 +41,28 @@ class weightage {
         }
     }
 
-    public function update_weightage_on_term_assign($object_id, $terms, $tt_ids, $taxonomy) {
-        $post_type = get_post_type_object(get_post_type($object_id));
+    public function update_weightage_on_term_assign($post_id, $post, $update) {
 
-        if ($post_type->name === 'page' || !$post_type->public) {
-            return;
-        }
-        
-        if (get_option('tax-weightage-'.$taxonomy) =='1') {
-            foreach($terms as $term) {
-                $this->update_weightage($term);
+        $taxonomies = get_taxonomies( array(
+            'public'   => true,
+        ), 'objects' );
+        $taxonomy_names = wp_list_pluck($taxonomies, 'name');
+
+        foreach($taxonomy_names as $tax) {
+            if (get_option('tax-weightage-'.$tax) =='1') {
+                $terms = get_terms( array(
+                    'taxonomy' => $tax,
+                    'hide_empty' => true,
+                ));
+                foreach($terms as $term) {
+                    $this->update_weightage($term);
+                }
             }
         }
     }
 
-    public function update_weightage($term_id) {
-        $term = get_term($term_id);
-
+    public function update_weightage($term) {
+        $term_id = $term->term_id;
         $query_args = array(
             'post_type' => 'any',
             'posts_per_page' => -1,
@@ -71,7 +76,7 @@ class weightage {
         );
         $query = new WP_Query($query_args);
         $count = $query->found_posts;
-        $value = 100000/$count;
+        $value = $count>0 ? 100000/$count : 100000;
 
         if(get_term_meta($term_id, 'weightage') != $value) {
             update_term_meta($term_id, 'weightage', $value);

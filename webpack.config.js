@@ -18,7 +18,7 @@ const entry = {
 	blog: `${JS_DIR}/blog/blog.js`,
 	default: `${JS_DIR}/default.js`,
 	calendar: `${JS_DIR}/calendar/calendar.js`,
-	profile: `${JS_DIR}/profile/profile.ts`,
+	profile: `${JS_DIR}/profile/profile.js`,
 };
 
 const output = {

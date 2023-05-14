@@ -58,7 +58,6 @@ class users{
             'displayName' => get_the_author_meta('display_name', $user_id),
             'desc' => get_the_author_meta('description', $user_id),
             'coverURL' => get_avatar_url($user_id),
-            'user_rating' => $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$object_id." AND user_id=".$user_id),
         );
         return $return;
     }

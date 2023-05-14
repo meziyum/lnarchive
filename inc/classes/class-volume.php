@@ -264,11 +264,11 @@ class volume{
             3 => __('Custom field deleted.'),
             4 => __('Volume updated.'),
             5 => isset($_GET['revision']) ? sprintf( __('Volume restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-            6 => sprintf( __('Volume published. <a href="%s">View volume</a>'), esc_url( get_permalink($post_ID) ) ),
+            6 => sprintf( __('Volume published. <a href="%s">Back to volume list</a>', 'your-text-domain'), esc_url( admin_url( 'edit.php?post_type=volume' ) ) ),
             7 => __('Volume saved.'),
-            8 => sprintf( __('Volume submitted. <a target="_blank" href="%s">Preview volume</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
-            9 => sprintf( __('Volume scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview volume</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
-            10 => sprintf( __('Volume draft updated. <a target="_blank" href="%s">Preview volume</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
+            8 => sprintf( __('Volume submitted. <a href="%s">Back to volume list</a>', 'your-text-domain'), esc_url( admin_url( 'edit.php?post_type=volume' ) ) ),
+            9 => sprintf( __('Volume scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Back to volume list</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( admin_url( 'edit.php?post_type=volume' ) ) ),
+            10 => sprintf( __('Volume draft updated. <a target="_blank" href="%s">Back to volume list</a>'), esc_url( admin_url( 'edit.php?post_type=volume' ) ) ),
         );
     
         return $messages;

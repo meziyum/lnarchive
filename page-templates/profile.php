@@ -15,7 +15,7 @@ get_header();
                     while( have_posts(  )) : the_post();
                         printf(
                             '<h1 id="page-title">%1$s</h1>',
-                            'Upcoming Releases',
+                            'User Profile',
                         );
                     endwhile;
                 }

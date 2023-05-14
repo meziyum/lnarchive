@@ -88,6 +88,10 @@ getVolume();
 
 for (let i=0; i<volumesList.length; i++) {
     volumesList[i].addEventListener('click', function(event) {
+        if (event.target.parentNode.id == urlParams.get('volumeFilter')) {
+            return;
+        }
+
         urlParams.set('volumeFilter', event.target.parentNode.id);
         const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
         window.history.pushState(null, '', newUrl);

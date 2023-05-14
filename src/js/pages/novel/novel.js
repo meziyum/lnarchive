@@ -12,11 +12,12 @@ import {formatDate} from '../../helpers/utilities.ts';
 
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url;
-const customAPIrequestURL = lnarchiveVariables.custom_api_url;
 const userNonce = lnarchiveVariables.nonce;
 const commentsTotalCount = lnarchiveVariables.comments_count;
 const loginURL = lnarchiveVariables.login_url;
-const novelID = lnarchiveVariables.object_id;
+const userRating = lnarchiveVariables.user_rating;
+const userID = parseInt(lnarchiveVariables.user_id);
+const isLoggedIn = Boolean(lnarchiveVariables.isLoggedIn);
 const novelRating = lnarchiveVariables.rating;
 const novelPopularity = lnarchiveVariables.popularity;
 /* eslint-enable no-undef */
@@ -31,23 +32,12 @@ const urlParams = new URLSearchParams(window.location.search);
 if (!urlParams.get('volumeFilter')) {
     urlParams.set('volumeFilter', document.getElementsByClassName('volume-link')[0].id);
 }
-let isLoggedIn = true;
+
 const maxProgress = volumesList.length;
 const fields = `excerpt.rendered,featuredmedia,meta,title.rendered,_links`;
 
-fetch( `${customAPIrequestURL}current_user/${novelID}`, {
-    headers: {
-        'X-WP-Nonce': userNonce,
-    },
-})
-    .then( (res) => res.json())
-    .then( (data) => {
-        if (data.data != undefined && data.data.status == 401) {
-            isLoggedIn = false;
-        }
-        novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} userRating={parseInt(data.user_rating)}/>);
-        reviewsRoot.render(<ReviewSection isLoggedIn={isLoggedIn} userID={data.user_id} loginURL={loginURL} commentType='review' commentsCount={parseInt(commentsTotalCount)} maxProgress={maxProgress}/>);
-    });
+novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} userRating={parseInt(userRating)}/>);
+reviewsRoot.render(<ReviewSection isLoggedIn={isLoggedIn} userID={userID} loginURL={loginURL} commentType='review' commentsCount={parseInt(commentsTotalCount)} maxProgress={maxProgress}/>);
 
 const loadVolumeInfo = (isbn, publishedDate, translator, narrator, formatName) => {
     volumeInfoRoot.render(<VolumeInfo isbn={isbn} publishedDate={publishedDate} translator={translator} narrator={narrator} formatName={formatName}/>);

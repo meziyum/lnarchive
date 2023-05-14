@@ -68,6 +68,7 @@ class assets{
         $version_info = '';
         $blog_page_id = get_option('page_for_posts');
         $object_id = get_the_ID();
+        $user_id = get_current_user_id();
         $localize_vars = array(
           'nonce' => wp_create_nonce( 'wp_rest' ),
           'websiteURL' => get_site_url(),
@@ -77,6 +78,8 @@ class assets{
           'login_url' => wp_login_url(),
           'per_page' => get_option( 'posts_per_page' ),
           'object_id' => $object_id,
+          'isLoggedIn' => is_user_logged_in(),
+          'user_id' => $user_id,
         );
         $novel_taxs = get_object_taxonomies('novel', 'names');
 
@@ -94,6 +97,7 @@ class assets{
           $object_type = get_post_type();
           $localize_vars['object_type'] = $object_type;
           $localize_vars['comments_count'] = get_comments_number(get_the_ID());
+          $localize_vars['user_rating'] = ratings::get_instance()->get_user_rating(array('post' => $object_id, 'author' => $user_id));
           
           if($object_type == 'novel') {
             $localize_vars['rating'] = get_post_meta($object_id, 'rating', true);

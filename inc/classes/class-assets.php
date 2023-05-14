@@ -67,6 +67,7 @@ class assets{
         $path= '';
         $version_info = '';
         $blog_page_id = get_option('page_for_posts');
+        $object_id = get_the_ID();
         $localize_vars = array(
           'nonce' => wp_create_nonce( 'wp_rest' ),
           'websiteURL' => get_site_url(),
@@ -75,6 +76,7 @@ class assets{
           'custom_api_url' => get_rest_url().'lnarchive/v1/',
           'login_url' => wp_login_url(),
           'per_page' => get_option( 'posts_per_page' ),
+          'object_id' => $object_id,
         );
         $novel_taxs = get_object_taxonomies('novel', 'names');
 
@@ -89,9 +91,7 @@ class assets{
         else if(is_single(get_queried_object()) || is_page()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/'.get_post_type().'.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/'.get_post_type().'.js');
-          $object_id = get_the_ID();
           $object_type = get_post_type();
-          $localize_vars['object_id'] = $object_id;
           $localize_vars['object_type'] = $object_type;
           $localize_vars['comments_count'] = get_comments_number(get_the_ID());
           

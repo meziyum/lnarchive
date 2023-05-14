@@ -20,7 +20,7 @@ get_header();
                     endwhile;
                 }
             ?>
-            <div if="profile-section"></div>
+            <div id="profile-section"></div>
         </div>
     </div>
 </main>

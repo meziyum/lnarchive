@@ -18,6 +18,21 @@ class users{
         add_action( 'rest_api_init', [$this, 'custom_endpoints']);
     }
 
+    function register_user_meta($user_id){
+        register_meta( 'user', 'gender', array(
+            'type' => 'string',
+            'description' => 'Gender of the user',
+            'single' => true,
+            'show_in_rest' => true,
+        ));
+        register_meta( 'user', 'dob', array(
+            'type' => 'string',
+            'description' => 'Date of birth of the user',
+            'single' => true,
+            'show_in_rest' => true,
+        ));
+    }
+
     function custom_endpoints(){
         register_rest_route( 'lnarchive/v1', 'current_user/(?P<object_id>\d+)', array(
             'methods' => 'GET',
@@ -37,6 +52,7 @@ class users{
         
         $return = array (
             'user_id' => $user_id,
+            'coverURL' => get_avatar_url($user_id),
             'user_rating' => $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$object_id." AND user_id=".$user_id),
         );
         return $return;

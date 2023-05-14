@@ -11,9 +11,6 @@
         top: 0;
         transition: all .1s ease-in;
         overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         background-color: $novel-item-background-color;
         color: $novel-item-color;
         height: 100%;
@@ -26,6 +23,7 @@
 
         .novel-link {
             text-decoration: none;
+            position: relative;
             
             .novel-cover {
                 display: flex;
@@ -35,15 +33,43 @@
                 color: $novel-item-color;
                 margin-bottom: 0;
             }
+
+            .novel-title{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                padding: 4px;
+                color: $novel-title-color;
+                background-color: $novel-title-background;
+                opacity: 0.65;
+            }
         }
 
         .novel-meta {
-            
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 4px;
+
+            & > * {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            h4 {
+                margin: 0;
+            }
+
+            svg {
+                margin-right: 4px;
+            }
         }
 
-        .novel-title{
-            margin: 0;
-            padding: 4px;
+        .release-date {
+            text-align: center;
         }
     }
 }

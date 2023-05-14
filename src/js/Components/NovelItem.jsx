@@ -29,13 +29,31 @@ function NovelItem(props) {
                             <img className="novel-cover" srcSet={props.novelCover} loading='eager'/> :
                             <h4 className='novel-cover' >No Cover Image Found</h4>
                     }
+                    {props.title && <h6 className='novel-title'>{props.title}</h6>}
                 </a>
-                {
+                {!props.releaseDate &&
                     <div className='novel-meta'>
+                        <div className="novel-ratings-div">
+                            <FontAwesomeIcon
+                                title='Ratings'
+                                icon={faHeart}
+                                size={'sm'}
+                                style={{color: '#FF0000'}}
+                            />
+                            <h4>{props.rating>0 ? `${props.rating}%`: '-'}</h4>
+                        </div>
+                        <div className="novel-popularity-div">
+                            <FontAwesomeIcon
+                                title='Popularity'
+                                icon={faFireFlameCurved}
+                                size={'sm'}
+                                style={{color: '#FF4500'}}
+                            />
+                            <h4>{props.popularity ? props.popularity : 0}</h4>
+                        </div>
                     </div>
                 }
-                {props.title && <h6 className='novel-title'>{props.title}</h6>}
-                {props.releaseDate && <h5 className='release-date'>{props.releaseDate}</h5>}
+                {props.releaseDate && <h6 className='release-date'>{props.releaseDate}</h6>}
             </div>
         </div>
     );

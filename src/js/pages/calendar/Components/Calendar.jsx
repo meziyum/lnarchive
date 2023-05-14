@@ -1,7 +1,7 @@
 
 import React from 'react';
 import NovelItem from '../../../Components/NovelItem.jsx';
-import {formatDate} from '../../../helpers/utilities.ts';
+import {formatDate, formatTitle} from '../../../helpers/utilities.ts';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
 import PropTypes from 'prop-types';
@@ -55,7 +55,7 @@ export default function Calendar(props) {
         const volumes = data.map( (volume) => {
             const volumeCover= volume._embedded ? volume._embedded['wp:featuredmedia'][0].source_url: null;
             return (
-                <NovelItem key={volume.id} id={volume.id} link={`${volume.novel_link}?volumeFilter=${volume.id}&formatFilter=${calendarStates.selectedFormat.value.slice(21)}`} novelCover={volumeCover} releaseDate={formatDate(volume.meta[calendarStates.selectedFormat.value][0])}/>
+                <NovelItem key={volume.id} id={volume.id} link={`${volume.novel_link}?volumeFilter=${volume.id}&formatFilter=${calendarStates.selectedFormat.value.slice(21)}`} novelCover={volumeCover} releaseDate={formatDate(volume.meta[calendarStates.selectedFormat.value][0])} title={formatTitle(volume.title.rendered)}/>
             );
         });
         lastResponseLength.current=volumes.length;

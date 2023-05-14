@@ -6,6 +6,7 @@ import FilterSelect from '../../../Components/FilterSelect.jsx';
 import Search from '../../../Components/Search.jsx';
 import useToggle from '../../../hooks/useToggle.js';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
+import {formatTitle} from '../../../helpers/utilities.ts';
 import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
@@ -66,8 +67,8 @@ function NovelArchive(props) {
         currentPage: 1,
         displayInfiniteLoader: true,
         search: defaultSearchValue(),
-        order: {value: 'desc', label: 'Descending '},
-        order_by: {value: 'date', label: 'Release Date'},
+        order: {value: 'desc', label: 'Descending'},
+        order_by: {value: 'popularity', label: 'Popularity'},
     });
 
     React.useEffect( () => {
@@ -106,7 +107,7 @@ function NovelArchive(props) {
             const novels = data.map( (novel) => {
                 const novelCover=novel._embedded['wp:featuredmedia'] ? novel._embedded['wp:featuredmedia'][0].source_url : null;
                 return (
-                    <NovelItem key={novel.id} id={novel.id} title={novel.title.rendered.length > 50 ? `${novel.title.rendered.slice(0, 50)} ...` : novel.title.rendered} link={novel.link} novelCover={novelCover} popularity={novel.meta.popularity} rating={novel.meta.rating}/>
+                    <NovelItem key={novel.id} id={novel.id} title={formatTitle(novel.title.rendered)} link={novel.link} novelCover={novelCover} popularity={novel.meta.popularity[0]} rating={novel.meta.rating[0]}/>
                 );
             });
             lastResponseLength.current=novels.length;

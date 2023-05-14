@@ -17,7 +17,7 @@ const userNonce = lnarchiveVariables.nonce;
 const commentsTotalCount = lnarchiveVariables.comments_count;
 const loginURL = lnarchiveVariables.login_url;
 const novelID = lnarchiveVariables.object_id;
-const novelRating = lnarchiveVariables.rating*10*2;
+const novelRating = lnarchiveVariables.rating;
 const novelPopularity = lnarchiveVariables.popularity;
 /* eslint-enable no-undef */
 const coverRoot = ReactDOMClient.createRoot(document.getElementById('volume-cover'));

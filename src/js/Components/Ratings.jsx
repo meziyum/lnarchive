@@ -42,7 +42,7 @@ export default function Ratings(props) {
                 }
                 size={props.size}
                 style={{color: props.color}}
-                onClick={() => props.ratings_submit(index + 1)}
+                onClick={() => props.ratings_submit((index + 1)*20)}
                 onMouseOver={() => mouseOver(index)}
                 onMouseLeave={mouseLeave}
             />

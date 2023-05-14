@@ -30,6 +30,9 @@ $cancel-reply-color: $cancel;
 
 //Colors List
 $white: #ffffff;
+$white-smoke: #F5F5F5;
+$white-ghost: #F9F9F9;
+$white-snow: #FAFAFA;
 $white-vista: #fef8f2;
 $orange-amazon: #FF9900;
 $green-emerald: #50C878;
@@ -40,11 +43,15 @@ $violet-blue-dark: #6b00b3;
 $grey-silver: #C0C0C0;
 $grey-light: #D3D3D3;
 $grey-dark: #5A5A5A;
+$black: #000000;
 $black-dark-jungle: #171C1F;
 $black-pearl: #1d2327;
 
 
 /****** Novel ******/
+
+$novel-title-color: $white-snow;
+$novel-title-background: $black;
 
 $novel-section-bg: $white;
 $novel-tax-info: $blue-bright;

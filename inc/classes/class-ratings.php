@@ -84,7 +84,7 @@ class ratings{
         rating_id bigint(20) NOT NULL AUTO_INCREMENT,
         object_id bigint(20) NOT NULL,
         user_id bigint(20) NOT NULL,
-        rating bigint(20) NOT NULL check(rating >= 0 AND rating <= 5),
+        rating bigint(20) NOT NULL check(rating >= 0 AND rating <= 100),
         PRIMARY KEY  (rating_id)
         ) $charset_collate;";
         

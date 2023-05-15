@@ -28,19 +28,14 @@ const output = {
 
 const rules = [
 	{
-		test: /\.(js|jsx)$/,
-		exclude: /node_modules/,
-		use: {
-		loader: 'babel-loader',
-		options: {
-			presets: ['@babel/preset-env', '@babel/preset-react']
-		}
-		}
-	},
-	{
-        test: /\.tsx?$/,
-        use: 'ts-loader',
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
+        use: {
+			loader: 'babel-loader',
+			options: {
+				presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript']
+			}
+        }
     },
 	{
 		test: /\.scss$/,
@@ -83,6 +78,9 @@ export default (env, argv) => ({
 	entry,
 	output,
 	devtool: 'inline-source-map',
+	resolve: {
+		extensions: ['.js', '.jsx', '.ts', '.tsx']
+	},
 	module: {
 		rules,
 	},

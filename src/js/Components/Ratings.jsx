@@ -61,7 +61,7 @@ Ratings.propTypes = {
     rating: PropTypes.number,
     color: PropTypes.string,
     mode: PropTypes.string,
-    ratings_submit: PropTypes.func,
+    ratings_submit: PropTypes.func.isRequired,
     size: PropTypes.string,
 };
 
@@ -70,6 +70,5 @@ Ratings.defaultProps ={
     rating: 0,
     color: 'orange',
     mode: 'form',
-    ratings_submit: () => {},
     size: 'lg',
 };

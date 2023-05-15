@@ -34,7 +34,7 @@ class users{
     }
 
     function custom_endpoints(){
-        register_rest_route( 'lnarchive/v1', 'current_user/(?P<object_id>\d+)', array(
+        register_rest_route( 'lnarchive/v1', 'current_user', array(
             'methods' => 'GET',
             'callback' => [ $this, 'current_user_data'],
             'permission_callback' => function(){
@@ -44,10 +44,6 @@ class users{
     }
     
     function current_user_data($request){
-
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'user_ratings';
-        $object_id = $request['object_id'];
         $user_id = get_current_user_id();
         
         $return = array (
@@ -58,6 +54,7 @@ class users{
             'displayName' => get_the_author_meta('display_name', $user_id),
             'desc' => get_the_author_meta('description', $user_id),
             'coverURL' => get_avatar_url($user_id),
+            'bannerURL' => get_user_meta($user_id, 'banner_url', true),
         );
         return $return;
     }

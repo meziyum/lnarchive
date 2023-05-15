@@ -1,2 +1,35 @@
 
 @import "../main.scss";
+
+.profile-wrap {
+
+    #profile-section {
+        
+        #header {
+            position: relative;
+
+            #avatar-div {
+                left: 0;
+                bottom: 0;
+                right: 0;
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+
+                @include respond-to('x-small') {
+                    align-items: center;
+                }
+
+                @include respond-to('medium') {
+                    align-items: start;
+                }
+
+                #avatar {
+                    border-radius: 50%;
+                    height: 6.5em;
+                    width: 6.5em;
+                }
+            }
+        }
+    }
+}

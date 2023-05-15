@@ -31,8 +31,20 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id );
       <div id="profile-menu" class="col-lg-1 order-lg-3">
         <?php
           if( is_user_logged_in() ) {
-
-            $args = array(
+            $page_args = array(
+              'post_type' => 'page',
+              'fields' => 'ids',
+              'meta_query' => array(
+                  array(
+                      'key' => '_wp_page_template',
+                      'value' => 'page-templates/profile.php',
+                  ),
+              ),
+            );
+            $pages = get_posts($page_args);
+            $page_slug = get_post_field('post_name', $pages[0]);
+            
+            $avatar_args = array(
               'height' => 96,
               'width' => 96,
               'force_default' => false,
@@ -43,24 +55,17 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id );
               'extra_attr' => '',
             );
             ?>
-                
-            <div class="dropdown">
-              <a href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              <a href="<?php echo home_url().'/'.$page_slug;?>">
                 <?php
                   echo get_avatar( 
                   get_current_user_id(), 
                   96,
                   '',
                   'Profile Pic',
-                  $args,
+                  $avatar_args,
                   );
                 ?>
               </a>
-              <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-              </ul>
-            </div>
             <?php
           }
           else {

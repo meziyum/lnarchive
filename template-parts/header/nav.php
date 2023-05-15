@@ -42,7 +42,11 @@ $header_menus = wp_get_nav_menu_items( $header_menu_id );
               ),
             );
             $pages = get_posts($page_args);
-            $page_slug = get_post_field('post_name', $pages[0]);
+            $page_slug = '';
+
+            if(!empty($pages)) {
+              $page_slug = get_post_field('post_name', $pages[0]);
+            }
             
             $avatar_args = array(
               'height' => 96,

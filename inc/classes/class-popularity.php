@@ -24,7 +24,8 @@ class popularity {
         register_meta('post', 'popularity', array(
             'object_subtype'  => 'novel',
             'type'   => 'number',
-            'single ' => true,
+            'single' => true,
+            'default' => 0,
             'show_in_rest' => true,
         ));
     }

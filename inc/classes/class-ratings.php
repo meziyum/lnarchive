@@ -29,6 +29,7 @@ class ratings{
             'object_subtype'  => 'novel',
             'type'   => 'number',
             'single ' => true,
+            'default' => 0,
             'show_in_rest' => true,
         ));
 

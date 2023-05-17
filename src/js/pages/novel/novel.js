@@ -81,7 +81,7 @@ for (let i=0; i<volumesList.length; i++) {
         if (event.target.parentNode.id == urlParams.get('volumeFilter')) {
             return;
         }
-
+        urlParams.delete('formatFilter');
         urlParams.set('volumeFilter', event.target.parentNode.id);
         const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
         window.history.pushState(null, '', newUrl);

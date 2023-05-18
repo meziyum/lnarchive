@@ -240,7 +240,7 @@ class volume{
     }
 
     function redirect_volume_to_404() {
-        if ( is_singular('volume') ) {
+        if (is_singular('volume') || is_post_type_archive('volume')) {
             global $wp_query;
             $wp_query->set_404();
             status_header( 404 );

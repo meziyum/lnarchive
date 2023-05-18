@@ -122,6 +122,9 @@ class volume{
            register_meta( 'post', 'published_date_value_'.$format->name, array(
               'object_subtype'  => 'volume',
               'type'   => 'string',
+              'sanitize_callback' => function($value) {
+                return sanitize_date($value);
+            },
               'show_in_rest' => true,
            ));
         }

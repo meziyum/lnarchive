@@ -26,6 +26,9 @@ class popularity {
             'type'   => 'number',
             'single' => true,
             'default' => 0,
+            'sanitize_callback' => function($value) {
+                return sanitize_number_positive($value);
+            },
             'show_in_rest' => true,
         ));
     }

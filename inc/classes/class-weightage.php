@@ -36,6 +36,9 @@ class weightage {
             'object_subtype' => $taxonomy,
             'type' => 'number',
             'single' => true,
+            'sanitize_callback' => function($value) {
+                return sanitize_number_positive($value);
+            },
             'show_in_rest' => true,
           ) );
         }

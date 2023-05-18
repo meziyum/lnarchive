@@ -23,12 +23,18 @@ class users{
             'type' => 'string',
             'description' => 'Gender of the user',
             'single' => true,
+            'sanitize_callback' => function ($value) {
+                return sanitize_gender($value);
+            },
             'show_in_rest' => true,
         ));
         register_meta( 'user', 'dob', array(
             'type' => 'string',
             'description' => 'Date of birth of the user',
             'single' => true,
+            'sanitize_callback' => function ($value) {
+                return sanitize_date($value);
+            },
             'show_in_rest' => true,
         ));
     }

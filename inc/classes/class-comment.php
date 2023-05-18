@@ -25,11 +25,8 @@ class comment {
             'type' => 'number',
             'single' => true,
             'default ' => 0,
-            'sanitize_callback' => function( $value ) {
-                if ( $value < 0 ) {
-                    $value = 0;
-                }
-                return $value;
+            'sanitize_callback' => function($value) {
+                return sanitize_number_positive($value);
             },
             'show_in_rest' => array(
                 'schema' => array(
@@ -43,11 +40,8 @@ class comment {
             'type' => 'number',
             'single' => true,
             'default ' => 0,
-            'sanitize_callback' => function( $value ) {
-                if ( $value < 0 ) {
-                    $value = 0;
-                }
-                return $value;
+            'sanitize_callback' => function($value) {
+                return sanitize_number_positive($value);
             },
             'show_in_rest' => array(
                 'schema' => array(
@@ -61,11 +55,8 @@ class comment {
             'type' => 'number',
             'single' => true,
             'default ' => 0,
-            'sanitize_callback' => function( $value ) {
-                if ( $value < 0 ) {
-                    $value = 0;
-                }
-                return $value;
+            'sanitize_callback' => function($value) {
+                return sanitize_number_positive($value);
             },
             'show_in_rest' => array(
                 'schema' => array(

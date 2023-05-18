@@ -30,6 +30,9 @@ class ratings{
             'type'   => 'number',
             'single ' => true,
             'default' => 0,
+            'sanitize_callback' => function($value) {
+                return sanitize_percentage($value);
+            },
             'show_in_rest' => true,
         ));
 

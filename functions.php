@@ -42,7 +42,7 @@ if ( ! defined( 'LNARCHIVE_BUILD_LIB_URI' ) ) {
 }
 
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/autoloader.php';
-require_once LNARCHIVE_DIR_PATH . '/inc/helpers/post-type.php';
+require_once LNARCHIVE_DIR_PATH . '/inc/helpers/general.php';
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/sanitize.php';
 
 use lnarchive\inc\lnarchive_theme;

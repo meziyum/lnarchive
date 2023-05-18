@@ -1,4 +1,10 @@
-<?php 
+<?php
+/**
+* 
+* Sanitize Helper Functions
+* 
+* @package LNarchive
+*/
     function sanitize_date($date) {
         $date_parts = explode('-', $date);
         

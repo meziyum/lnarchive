@@ -1,7 +1,7 @@
 <?php
 /**
 * 
-* Post Type Helper Functions
+* General Helper Functions
 * 
 * @package LNarchive
 */

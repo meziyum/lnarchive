@@ -157,10 +157,14 @@ class novel {
 
     public function get_novel_filters() {
 
-        $filter_taxonomies = array( 'genre', 'post_tag', 'novel_status', 'language', 'publisher', 'writer', 'illustrator',);
+        $filter_taxonomies = get_object_taxonomies('novel');
         $response = array();
 
         foreach($filter_taxonomies as $tax){
+
+            if(!get_option('tax-filters-novels-'.$tax)) {
+                continue;
+            }
 
             $terms = get_terms( $tax, array(
                 'hide_empty' => true,

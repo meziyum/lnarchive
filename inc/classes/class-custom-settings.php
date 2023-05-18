@@ -115,19 +115,40 @@ class custom_settings {
             '',
             $page_slug,
         );
+        add_settings_section(
+            'taxonomy_filters_novels',
+            'Taxonomies Filters for Novels',
+            '',
+            $page_slug,
+        );
 
         $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
         array_push($taxonomies, 'post_tag', 'category');
 
         foreach($taxonomies as $tax) {
-            register_setting($option_group, 'tax-weightage-'.$tax);
+            $label = 'tax-weightage-'.$tax;
+            register_setting($option_group, $label);
             add_settings_field(
-                'tax-weightage-'.$tax,
+                $label,
                 get_taxonomy_labels(get_taxonomy($tax))->name,
                 [$this, 'checkbox_display'],
                 $page_slug,
                 'taxonomy_weightage',
-                array('tax-weightage-'.$tax),
+                array($label),
+            );
+        }
+
+        $ntaxonomies = get_object_taxonomies('novel');
+        foreach($ntaxonomies as $tax) {
+            $label = 'tax-filters-novels-'.$tax;
+            register_setting($option_group, $label);
+            add_settings_field(
+                $label,
+                get_taxonomy_labels(get_taxonomy($tax))->name,
+                [$this, 'checkbox_display'],
+                $page_slug,
+                'taxonomy_filters_novels',
+                array($label),
             );
         }
     }

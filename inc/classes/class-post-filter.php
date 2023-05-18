@@ -20,7 +20,6 @@ class post_filter {
         add_action('restrict_manage_posts', [$this, 'add_taxonomy_filters']);
         add_action('restrict_manage_posts',[ $this, 'add_series_filter_to_posts_admin' ]);
         add_action('restrict_manage_posts',[ $this, 'add_manager_filter_to_posts_admin' ]);
-
         add_action('pre_get_posts',[ $this, 'add_taxonomy_filter_to_posts_query' ]);
         add_action('pre_get_posts',[ $this, 'add_metadata_filter_to_posts_query' ]);
         add_action('pre_get_posts',[ $this, 'add_manager_filter_to_posts_query' ]);
@@ -141,6 +140,7 @@ class post_filter {
             >
             <datalist name="series_filter" id="series_filter">
                 <option value="All Series">
+                <option value="None">
                 <?php
                     foreach ( $series as $novel) {
                         ?>
@@ -171,17 +171,24 @@ class post_filter {
                             $series_choice
                         )
                     );
-                }
-        
-                if ($novel_id) {
-                    $query->query_vars['meta_query'] = array(
-                        array(
-                            'key' => 'series_value',
-                            'value' => $novel_id,
-                        ),
-                    );
-                } else {
-                    $query->query_vars['meta_query'] = array();
+
+                    if($series_choice == 'None') {
+                        $query->query_vars['meta_query'] = array(
+                            array(
+                                'key' => 'series_value',
+                                'compare' => 'NOT EXISTS',
+                            ),
+                        );
+                    } else if ($novel_id) {
+                        $query->query_vars['meta_query'] = array(
+                            array(
+                                'key' => 'series_value',
+                                'value' => $novel_id,
+                            ),
+                        );
+                    } else {
+                        $query->query_vars['meta_query'] = array();
+                    }
                 }
             }
         }

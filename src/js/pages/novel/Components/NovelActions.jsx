@@ -31,30 +31,32 @@ export default function NovelActions(props) {
     });
 
     const submitRatings = (value) => {
-        fetch( `${customAPIRequestURL}submit_rating/${postID}`, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-WP-Nonce': userNonce,
-            },
-            body: JSON.stringify({
-                rating: value,
-            }),
-        });
+        if (value != actionStates.rating) {
+            fetch( `${customAPIRequestURL}submit_rating/${postID}`, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-WP-Nonce': userNonce,
+                },
+                body: JSON.stringify({
+                    rating: value,
+                }),
+            });
 
-        updateActionStates( (prevStates) => ({
-            ...prevStates,
-            rating: value,
-            ratingSubmitted: true,
-        }));
-
-        setTimeout(() => {
             updateActionStates( (prevStates) => ({
                 ...prevStates,
-                ratingSubmitted: false,
+                rating: value,
+                ratingSubmitted: true,
             }));
-        }, 3000);
+
+            setTimeout(() => {
+                updateActionStates( (prevStates) => ({
+                    ...prevStates,
+                    ratingSubmitted: false,
+                }));
+            }, 3000);
+        }
     };
 
     return (

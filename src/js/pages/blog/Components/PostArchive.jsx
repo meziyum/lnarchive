@@ -91,7 +91,7 @@ function PostArchive(props) {
                 }
             });
 
-            const fields = 'id,title.rendered,modified,categoryList,link,categories,_links.wp:featuredmedia,_links.wp:term';
+            const fields = 'id,title.rendered,date,categoryList,link,categories,_links.wp:featuredmedia,_links.wp:term';
 
             const response = await fetch( `${wpRequestURL}posts?_embed&_fields=${fields}${filters}&per_page=${postPerPage}&page=${archiveInfo.currentPage}&order=${archiveInfo.order.value}&orderby=${archiveInfo.order_by.value}&search=${archiveInfo.search}`, {
                 method: 'GET',
@@ -105,7 +105,7 @@ function PostArchive(props) {
             const posts = data.map( (post) => {
                 const postImg=post._embedded['wp:featuredmedia'] ? post._embedded['wp:featuredmedia'][0].source_url : null;
                 return (
-                    <PostItem key={post.id} id={post.id} title={formatTitle(post.title.rendered)} date={formatDate(post.modified)} link={post.link} postImage={postImg} categoryList={post.categoryList}/>
+                    <PostItem key={post.id} id={post.id} title={formatTitle(post.title.rendered)} date={formatDate(post.date)} link={post.link} postImage={postImg} categoryList={post.categoryList}/>
                 );
             });
             lastResponseLength.current=posts.length;

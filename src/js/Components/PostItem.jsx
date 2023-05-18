@@ -21,9 +21,11 @@ export default function PostItem(props) {
     return (
         <div className='post-entry-col archive-entry-col col-lg-4 col-md-6 col-sm-12 col-12'>
             <article className='post-entry archive-entry'>
-                <a id={props.id} className='post-link' href={props.link}>
-                    <img className='post-img' src={props.postImage} loading='eager'></img>
-                </a>
+                {props.postImage &&
+                    <a id={props.id} className='post-link' href={props.link}>
+                        <img className='post-img' src={props.postImage} loading='eager'></img>
+                    </a>
+                }
                 <div className='post-entry-info'>
                     <a href={props.link}><h5 className='entry-title'>{props.title}</h5></a>
                     <h6 className='posted-on'>{props.date}</h6>
@@ -43,7 +45,7 @@ PostItem.propTypes = {
     date: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
-    postImage: PropTypes.string.isRequired,
+    postImage: PropTypes.string,
     categoryList: PropTypes.array.isRequired,
 };
 

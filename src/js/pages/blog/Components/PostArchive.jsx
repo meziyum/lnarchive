@@ -3,7 +3,7 @@ import React from 'react';
 import PostItem from '../../../Components/PostItem.jsx';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
-import {formatDate} from '../../../helpers/utilities.ts';
+import {formatDate, formatTitle} from '../../../helpers/utilities.ts';
 import Search from '../../../Components/Search.jsx';
 import FilterSelect from '../../../Components/FilterSelect.jsx';
 import useToggle from '../../../hooks/useToggle.js';
@@ -103,8 +103,9 @@ function PostArchive(props) {
 
             const data= await response.json();
             const posts = data.map( (post) => {
+                const postImg=post._embedded['wp:featuredmedia'] ? post._embedded['wp:featuredmedia'][0].source_url : null;
                 return (
-                    <PostItem key={post.id} id={post.id} title={post.title.rendered} date={formatDate(post.modified)} link={post.link} postImage={post._embedded['wp:featuredmedia'][0].source_url} categoryList={post.categoryList}/>
+                    <PostItem key={post.id} id={post.id} title={formatTitle(post.title.rendered)} date={formatDate(post.modified)} link={post.link} postImage={postImg} categoryList={post.categoryList}/>
                 );
             });
             lastResponseLength.current=posts.length;

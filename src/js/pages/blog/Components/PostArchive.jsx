@@ -65,7 +65,7 @@ function PostArchive(props) {
         displayInfiniteLoader: true,
         currentPage: 1,
         search: defaultSearchValue(),
-        order: {value: 'asc', label: 'Ascending'},
+        order: {value: 'desc', label: 'Descending'},
         order_by: {value: 'date', label: 'Post Date'},
     });
 

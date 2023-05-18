@@ -160,15 +160,15 @@ class novel {
         $filter_taxonomies = array( 'genre', 'post_tag', 'novel_status', 'language', 'publisher', 'writer', 'illustrator',);
         $response = array();
 
-        foreach( $filter_taxonomies as $tax){
+        foreach($filter_taxonomies as $tax){
 
             $terms = get_terms( $tax, array(
                 'hide_empty' => true,
             ));
             
             $terms_list=array();
-            foreach( $terms as $term) {
-                if($term->name != 'None' && $term->name != 'Unknown') {
+            foreach($terms as $term) {
+                if($term->name != get_option('default_term_'.$tax)) {
                     array_push($terms_list, array(
                         'term_id' => $term->term_id,
                         'term_name' => $term->name,  

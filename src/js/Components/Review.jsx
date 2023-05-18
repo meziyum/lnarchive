@@ -22,6 +22,8 @@ import {
 
 /* eslint-disable no-undef */
 const customAPIRequestURL = lnarchiveVariables.custom_api_url;
+const websiteURL = lnarchiveVariables.websiteURL;
+const profileName = lnarchiveVariables.profileName;
 const userNonce = lnarchiveVariables.nonce;
 /* eslint-enable no-undef */
 
@@ -117,7 +119,9 @@ export default function Review(props) {
         <div className="row review-entry">
             <div className="review-header row">
                 <div className='review-header-left col-3 col-sm-2 col-md-2 col-lg-1 p-0'>
-                    <img className="user_avatar float-start rounded-circle" srcSet={props.author_avatar_urls['96']}></img>
+                    <a href={`${websiteURL}/${profileName}`}>
+                        <img className="user_avatar float-start rounded-circle" srcSet={props.author_avatar_urls['96']} alt='Author Avatar'/>
+                    </a>
                 </div>
                 <div className='review-header-right col'>
                     <div>

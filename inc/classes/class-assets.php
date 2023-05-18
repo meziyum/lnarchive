@@ -98,6 +98,24 @@ class assets{
           $localize_vars['object_type'] = $object_type;
           $localize_vars['comments_count'] = get_comments_number(get_the_ID());
           $localize_vars['user_rating'] = ratings::get_instance()->get_user_rating(array('post' => $object_id, 'author' => $user_id));
+
+          $profile_page_args = array(
+            'post_type' => 'page',
+            'fields' => 'ids',
+            'meta_query' => array(
+                array(
+                    'key' => '_wp_page_template',
+                    'value' => 'page-templates/profile.php',
+                ),
+            ),
+          );
+          $profile_pages = get_posts($profile_page_args);
+          $profile_slug = '';
+
+          if(!empty($profile_pages)) {
+            $profile_slug = get_post_field('post_name', $profile_pages[0]);
+          }
+          $localize_vars['profileName'] = $profile_slug;
           
           if($object_type == 'novel') {
             $localize_vars['rating'] = get_post_meta($object_id, 'rating', true);

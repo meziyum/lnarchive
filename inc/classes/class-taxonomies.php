@@ -19,6 +19,7 @@ class taxonomies {
     protected function set_hooks() {
         add_action( 'init', [ $this, 'register_novel_volume_taxonomies']);
         add_action('save_post',[ $this, 'save_post_function']);
+        add_action('pre_get_posts',[ $this, 'redirect_taxonomy_archives']);
     }
 
     public function register_novel_volume_taxonomies() {
@@ -665,6 +666,22 @@ class taxonomies {
                 ?>
             </div>
         <?php
+    }
+
+    function redirect_taxonomy_archives() {
+        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
+        array_push($taxonomies, 'post_tag', 'category');
+
+        foreach($taxonomies as $taxonomy) {
+            if (is_tax($taxonomy)) {
+                global $wp_query;
+                $wp_query->set_404();
+                status_header(404);
+                nocache_headers();
+                include(get_404_template());
+                exit;
+            }
+        }
     }
 }
 ?>

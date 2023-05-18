@@ -79,7 +79,7 @@ class lnarchive_theme{
       }
 
       function wp_disable_feeds() {
-         wp_redirect( home_url() );
+         wp_redirect(home_url());
          wp_die( __('Error: Feeds are disabled') );
       }
 

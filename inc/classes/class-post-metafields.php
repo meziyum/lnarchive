@@ -258,7 +258,7 @@ class post_metafields {
             <input list="series_list" class="widefat" name="series_meta" id="series_meta" autocomplete="on" value="<?php if( count( $series_value ) > 0 ) echo esc_attr(get_the_title($series_value[0]));?>">
             <datalist id="series_list">
                 <?php 
-                    foreach( $series as $novel ) {
+                    foreach($series as $novel) {
                         ?>
                             <option value="<?php echo esc_attr($novel->post_title);?>">
                         <?php
@@ -270,7 +270,7 @@ class post_metafields {
 
     function save_series( $post_id) {
 
-        if ( ! isset( $_POST['series_nonce'] ) || ! wp_verify_nonce( $_POST['series_nonce'], 'series_nonce_action'))
+        if (!isset( $_POST['series_nonce'] ) || ! wp_verify_nonce( $_POST['series_nonce'], 'series_nonce_action'))
             return;
         
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
@@ -279,13 +279,13 @@ class post_metafields {
         if ( !current_user_can( 'edit_post', $post_id ) )
             return;
 
-        if( empty($_POST['series_meta']))
+        if(empty($_POST['series_meta']))
             return;
 
         update_post_meta(
             $post_id,
             'series_value',
-            get_page_by_title( sanitize_text_field($_POST['series_meta']), OBJECT, 'novel' )->ID
+            get_page_by_title(sanitize_text_field($_POST['series_meta']), OBJECT, 'novel' )->ID
          );
     }
 

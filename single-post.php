@@ -21,10 +21,10 @@ $the_post_id = get_the_ID();
                     ?>
                         <div id="post-header">
                             <?php
-                            $series = get_post_meta( $the_post_id, 'series_value', true );
+                            $series = get_post_meta( $the_post_id, 'series_value', true);
                             taxonomy_button_list('post', wp_get_post_terms( $the_post_id, ['category']),'category');
                     
-                            if( $series !== null) {
+                            if($series != '') {
                                 ?>
                                     <a class= "series-button anchor-button" href='<?php echo esc_url(get_post_permalink($series));?>'>
                                         <?php echo get_the_title($series);?>

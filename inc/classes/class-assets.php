@@ -66,21 +66,6 @@ class assets{
 
         $path= '';
         $version_info = '';
-        $blog_page_id = get_option('page_for_posts');
-        $object_id = get_the_ID();
-        $user_id = get_current_user_id();
-        $localize_vars = array(
-          'nonce' => wp_create_nonce( 'wp_rest' ),
-          'websiteURL' => get_site_url(),
-          'blogURL' => get_permalink($blog_page_id),
-          'wp_rest_url' => get_rest_url().'wp/v2/',
-          'custom_api_url' => get_rest_url().'lnarchive/v1/',
-          'login_url' => wp_login_url(),
-          'per_page' => get_option( 'posts_per_page' ),
-          'object_id' => $object_id,
-          'isLoggedIn' => is_user_logged_in(),
-          'user_id' => $user_id,
-        );
         $novel_taxs = get_object_taxonomies('novel', 'names');
 
         if(is_page_template('page-templates/calendar.php')) {
@@ -94,33 +79,6 @@ class assets{
         else if(is_single(get_queried_object()) || is_page()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/'.get_post_type().'.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/'.get_post_type().'.js');
-          $object_type = get_post_type();
-          $localize_vars['object_type'] = $object_type;
-          $localize_vars['comments_count'] = get_comments_number(get_the_ID());
-          $localize_vars['user_rating'] = ratings::get_instance()->get_user_rating(array('post' => $object_id, 'author' => $user_id));
-
-          $profile_page_args = array(
-            'post_type' => 'page',
-            'fields' => 'ids',
-            'meta_query' => array(
-                array(
-                    'key' => '_wp_page_template',
-                    'value' => 'page-templates/profile.php',
-                ),
-            ),
-          );
-          $profile_pages = get_posts($profile_page_args);
-          $profile_slug = '';
-
-          if(!empty($profile_pages)) {
-            $profile_slug = get_post_field('post_name', $profile_pages[0]);
-          }
-          $localize_vars['profileName'] = $profile_slug;
-          
-          if($object_type == 'novel') {
-            $localize_vars['rating'] = get_post_meta($object_id, 'rating', true);
-            $localize_vars['popularity'] = get_post_meta($object_id, 'popularity', true);
-          }
         }
         else if(!is_front_page() && is_home() || is_category()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/blog.js'; 
@@ -137,7 +95,6 @@ class assets{
 
         wp_register_script('main', $path, array('wp-api'), $version_info , true );
         wp_enqueue_script('main');
-        wp_localize_script( 'main', 'lnarchiveVariables', $localize_vars);
     }
 }
 ?>

@@ -15,6 +15,7 @@ class lnarchive_theme{
 
      protected function __construct() {
          assets::get_instance();
+         localized_variables::get_instance();
          menus::get_instance();
          sidebars::get_instance();
          admin_dashboard::get_instance();

@@ -13,6 +13,7 @@ import {formatDate} from '../../helpers/utilities.ts';
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url;
 const userNonce = lnarchiveVariables.nonce;
+const commentsEnabled = lnarchiveVariables.commentsEnabled;
 const commentsTotalCount = lnarchiveVariables.comments_count;
 const loginURL = lnarchiveVariables.login_url;
 const userRating = lnarchiveVariables.user_rating;
@@ -20,6 +21,7 @@ const userID = parseInt(lnarchiveVariables.user_id);
 const isLoggedIn = Boolean(lnarchiveVariables.isLoggedIn);
 const novelRating = lnarchiveVariables.rating;
 const novelPopularity = lnarchiveVariables.popularity;
+
 /* eslint-enable no-undef */
 const coverRoot = ReactDOMClient.createRoot(document.getElementById('volume-cover'));
 const volumeInfoRoot = ReactDOMClient.createRoot(document.getElementById('volume-info'));
@@ -37,7 +39,10 @@ const maxProgress = volumesList.length;
 const fields = `excerpt.rendered,featuredmedia,meta,title.rendered,_links`;
 
 novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} userRating={parseInt(userRating)}/>);
-reviewsRoot.render(<ReviewSection isLoggedIn={isLoggedIn} userID={userID} loginURL={loginURL} commentType='review' commentsCount={parseInt(commentsTotalCount)} maxProgress={maxProgress}/>);
+
+if (commentsEnabled) {
+    reviewsRoot.render(<ReviewSection isLoggedIn={isLoggedIn} userID={userID} loginURL={loginURL} commentType='review' commentsCount={parseInt(commentsTotalCount)} maxProgress={maxProgress}/>);
+}
 
 const loadVolumeInfo = (isbn, publishedDate, translator, narrator, formatName) => {
     volumeInfoRoot.render(<VolumeInfo isbn={isbn} publishedDate={publishedDate} translator={translator} narrator={narrator} formatName={formatName}/>);

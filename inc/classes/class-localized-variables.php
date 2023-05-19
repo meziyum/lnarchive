@@ -42,8 +42,13 @@ class localized_variables {
         } 
         else if(is_single(get_queried_object()) || is_page()) {
           $object_type = get_post_type();
+          $comments_enabled = comments_open();
+          $localize_vars['commentsEnabled'] = boolval($comments_enabled);
           $localize_vars['object_type'] = $object_type;
-          $localize_vars['comments_count'] = get_comments_number(get_the_ID());
+
+          if($comments_enabled) {
+            $localize_vars['comments_count'] = get_comments_number(get_the_ID());
+          }
 
           $profile_page_args = array(
             'post_type' => 'page',

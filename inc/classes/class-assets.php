@@ -41,6 +41,10 @@ class assets{
         $path= LNARCHIVE_BUILD_CSS_URI . '/profile.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/profile.css');
       }
+      else if(is_page_template('page-templates/add.php')){
+        $path= LNARCHIVE_BUILD_CSS_URI . '/add_data.css';
+        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/add_data.css');
+      }
       else if(is_single(get_queried_object()) || is_page()) {
         $path= LNARCHIVE_BUILD_CSS_URI . '/'.get_post_type().'.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/'.get_post_type().'.css');
@@ -75,6 +79,10 @@ class assets{
         else if(is_page_template('page-templates/profile.php')) {
           $path= LNARCHIVE_BUILD_JS_URI . '/profile.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/profile.js');
+        }
+        else if(is_page_template('page-templates/add.php')) {
+          $path= LNARCHIVE_BUILD_JS_URI . '/add_data.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/add_data.js');
         } 
         else if(is_single(get_queried_object()) || is_page()) {
           $path= LNARCHIVE_BUILD_JS_URI . '/'.get_post_type().'.js'; 

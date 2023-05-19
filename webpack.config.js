@@ -19,6 +19,7 @@ const entry = {
 	default: `${JS_DIR}/default.js`,
 	calendar: `${JS_DIR}/calendar/calendar.js`,
 	profile: `${JS_DIR}/profile/profile.js`,
+	add_data: `${JS_DIR}/add_data/add_data.js`,
 };
 
 const output = {

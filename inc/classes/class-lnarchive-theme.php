@@ -7,6 +7,7 @@
 
 namespace lnarchive\inc;
 use lnarchive\inc\traits\Singleton;
+use WP_Query;
 
 class lnarchive_theme{
 
@@ -71,9 +72,11 @@ class lnarchive_theme{
          add_theme_support('widgets');
          add_image_size('featured-th)umbnail', 350, 300, true);
          add_image_size('novel-cover', 1240, 1748, true);
+
+         $this->create_theme_setup_pages();
      
          global $content_width;
-         if( ! isset( $content_width) ) {
+         if(!isset($content_width) ) {
             $content_width=1240;
          }
       }
@@ -89,5 +92,62 @@ class lnarchive_theme{
          );
          return $mimes;
       }
+
+      function create_theme_setup_pages() {
+
+         $add_query_args = array(
+            'post_type' => 'page',
+            'post_status' => 'publish',
+            'posts_per_page' => 1,
+            'title' => 'Add Data',
+         );
+         $add_query = new WP_Query($add_query_args);
+
+         if(!$add_query->have_posts()) {
+            $add_args = array(
+               'post_title'    => 'Add Data',
+               'post_status'   => 'publish',
+               'post_type'     => 'page',
+               'page_template' => 'page-templates/add.php',
+           );
+           wp_insert_post($add_args);
+         }
+
+         $profile_query_args = array(
+            'post_type' => 'page',
+            'post_status' => 'publish',
+            'posts_per_page' => 1,
+            'title' => 'Profile',
+         );
+         $profile_query = new WP_Query($profile_query_args);
+
+         if(!$profile_query->have_posts()) {
+            $profile_args = array(
+               'post_title'    => 'Profile',
+               'post_status'   => 'publish',
+               'post_type'     => 'page',
+               'page_template' => 'page-templates/profile.php',
+           );
+           wp_insert_post($profile_args);
+         }
+
+         $calendar_query_args = array(
+            'post_type' => 'page',
+            'post_status' => 'publish',
+            'posts_per_page' => 1,
+            'title' => 'Release Calendar',
+         );
+         $calendar_query = new WP_Query($calendar_query_args);
+
+         if(!$calendar_query->have_posts()) {
+            $calendar_args = array(
+               'post_title'    => 'Release Calendar',
+               'post_status'   => 'publish',
+               'post_type'     => 'page',
+               'page_template' => 'page-templates/calendar.php',
+           );
+           wp_insert_post($calendar_args);
+         }
+     }
 }
 ?>

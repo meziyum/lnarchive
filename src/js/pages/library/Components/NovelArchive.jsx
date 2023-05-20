@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NovelItem from '../../../Components/NovelItem.jsx';
-import FilterSelect from '../../../Components/FilterSelect.jsx';
+import TaxSelect from '../../../Components/TaxSelect.jsx';
 import Search from '../../../Components/Search.jsx';
 import useToggle from '../../../hooks/useToggle.js';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
@@ -179,7 +179,7 @@ function NovelArchive(props) {
                 <div id="archive-filter">
                     {props.filterData.map( (tax) =>{
                         return (
-                            <FilterSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
+                            <TaxSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
                         );
                     })}
                     <h6>Sort by</h6>

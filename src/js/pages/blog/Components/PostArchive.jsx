@@ -5,7 +5,7 @@ import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
 import {formatDate, formatTitle} from '../../../helpers/utilities.ts';
 import Search from '../../../Components/Search.jsx';
-import FilterSelect from '../../../Components/FilterSelect.jsx';
+import TaxSelect from '../../../Components/TaxSelect.jsx';
 import useToggle from '../../../hooks/useToggle.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
@@ -170,7 +170,7 @@ function PostArchive(props) {
                 <div id="archive-filter">
                     {props.filterData.map( (tax) =>{
                         return (
-                            <FilterSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
+                            <TaxSelect key={`${tax.taxQueryName}_filter`} {...tax} handleFilter={handleFilter} selectValue={appliedFilters[tax.taxLabel]}/>
                         );
                     })}
                 </div>

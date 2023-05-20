@@ -16,7 +16,7 @@ A React component that renders a Select input field for filtering items based on
 @param {Array} props.selectValue - An array of objects representing the currently selected terms.
 @return {JSX.Element} - A Select component with the specified options and callbacks.
 */
-export default function FilterSelect({taxQueryName, taxLabel, list, handleFilter, selectValue}) {
+export default function TaxSelect({taxQueryName, taxLabel, list, handleFilter, selectValue}) {
     const options = list.map((term) => ({
         value: term.term_id,
         label: term.term_name,
@@ -41,7 +41,7 @@ export default function FilterSelect({taxQueryName, taxLabel, list, handleFilter
     );
 }
 
-FilterSelect.propTypes = {
+TaxSelect.propTypes = {
     taxQueryName: PropTypes.string.isRequired,
     taxLabel: PropTypes.string.isRequired,
     list: PropTypes.arrayOf(

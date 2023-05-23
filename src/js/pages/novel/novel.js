@@ -21,7 +21,6 @@ const userID = parseInt(lnarchiveVariables.user_id);
 const isLoggedIn = Boolean(lnarchiveVariables.isLoggedIn);
 const novelRating = lnarchiveVariables.rating;
 const novelPopularity = lnarchiveVariables.popularity;
-
 /* eslint-enable no-undef */
 const coverRoot = ReactDOMClient.createRoot(document.getElementById('volume-cover'));
 const volumeInfoRoot = ReactDOMClient.createRoot(document.getElementById('volume-info'));

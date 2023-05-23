@@ -144,12 +144,50 @@ class volume{
                 return true;
             },
         ));
+        register_rest_route( 'lnarchive/v1', 'volume_filters', array(
+            'methods' => 'GET',
+            'callback' => [ $this, 'get_volume_filters'],
+            'permission_callback' => function(){
+                return true;
+            },
+        ));
     }
 
     public function get_novel_link($volume) {
         $volume_id = $volume['id'];
         $novel_id = get_post_meta($volume_id, 'series_value', true);
         return get_permalink($novel_id);
+    }
+
+    public function get_volume_filters() {
+
+        $filter_taxonomies = get_object_taxonomies('volume');
+        $response = array();
+
+        foreach($filter_taxonomies as $tax){
+            $terms = get_terms( $tax, array(
+                'hide_empty' => true,
+            ));
+            
+            $terms_list=array();
+            foreach($terms as $term) {
+                if($term->name != 'None' && $term->name != 'Unknown')  {
+                    array_push($terms_list, array(
+                        'term_id' => $term->term_id,
+                        'term_name' => $term->name,  
+                    ));
+                }
+            }
+
+            $taxObj = get_taxonomy($tax);
+
+            array_push($response, array(
+                'taxQueryName' => $taxObj->rest_base,
+                'taxLabel' => $taxObj->label,
+                'list' => $terms_list,
+            ));
+        }
+        return $response;
     }
 
     public function get_volume_formats() {

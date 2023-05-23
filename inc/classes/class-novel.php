@@ -172,7 +172,7 @@ class novel {
             
             $terms_list=array();
             foreach($terms as $term) {
-                if($term->name != get_option('default_term_'.$tax)) {
+                if($term->name != 'None' && $term->name != 'Unknown')  {
                     array_push($terms_list, array(
                         'term_id' => $term->term_id,
                         'term_name' => $term->name,  

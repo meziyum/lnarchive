@@ -16,6 +16,7 @@ class users{
 
     protected function set_hooks() {
         add_action( 'rest_api_init', [$this, 'custom_endpoints']);
+        add_action( 'init', [$this, 'register_user_meta']);
     }
 
     function register_user_meta($user_id){
@@ -34,15 +35,6 @@ class users{
             'single' => true,
             'sanitize_callback' => function ($value) {
                 return sanitize_date($value);
-            },
-            'show_in_rest' => true,
-        ));
-        register_meta('user', 'contribution_points', array(
-            'type' => 'number',
-            'description' => 'Total Contribution Points of a User',
-            'single' => true,
-            'sanitize_callback' => function ($value) {
-                return sanitize_number_positive($value);
             },
             'show_in_rest' => true,
         ));

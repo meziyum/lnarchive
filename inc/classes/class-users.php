@@ -19,7 +19,7 @@ class users{
     }
 
     function register_user_meta($user_id){
-        register_meta( 'user', 'gender', array(
+        register_meta('user', 'gender', array(
             'type' => 'string',
             'description' => 'Gender of the user',
             'single' => true,
@@ -28,12 +28,21 @@ class users{
             },
             'show_in_rest' => true,
         ));
-        register_meta( 'user', 'dob', array(
+        register_meta('user', 'dob', array(
             'type' => 'string',
             'description' => 'Date of birth of the user',
             'single' => true,
             'sanitize_callback' => function ($value) {
                 return sanitize_date($value);
+            },
+            'show_in_rest' => true,
+        ));
+        register_meta('user', 'contribution_points', array(
+            'type' => 'number',
+            'description' => 'Total Contribution Points of a User',
+            'single' => true,
+            'sanitize_callback' => function ($value) {
+                return sanitize_number_positive($value);
             },
             'show_in_rest' => true,
         ));

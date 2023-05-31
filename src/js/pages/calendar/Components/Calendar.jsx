@@ -55,7 +55,7 @@ export default function Calendar(props) {
         const volumes = data.map( (volume) => {
             const volumeCover= volume._embedded ? volume._embedded['wp:featuredmedia'][0].source_url: null;
             return (
-                <NovelItem key={volume.id} id={volume.id} link={`${volume.novel_link}?volumeFilter=${volume.id}&formatFilter=${calendarStates.selectedFormat.value.slice(21)}`} novelCover={volumeCover} releaseDate={formatDate(volume.meta[calendarStates.selectedFormat.value][0])} title={formatTitle(volume.title.rendered)}/>
+                <NovelItem key={volume.id} id={volume.id} link={`${volume.novel_link}?volumeFilter=${volume.id}&formatFilter=${calendarStates.selectedFormat.value.slice(21)}`} novelCover={volumeCover} releaseDate={formatDate(volume.meta[calendarStates.selectedFormat.value][0])} title={formatTitle(volume.title.rendered, true)}/>
             );
         });
         lastResponseLength.current=volumes.length;

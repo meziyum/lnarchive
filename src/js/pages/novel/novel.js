@@ -8,7 +8,7 @@ import VolumeInfo from './Components/VolumeInfo.jsx';
 import VolumeDesc from './Components/VolumeDesc.jsx';
 import NovelActions from './Components/NovelActions.jsx';
 import '../common.js';
-import {formatDate} from '../../helpers/utilities.ts';
+import {formatDate, formatTitle} from '../../helpers/utilities.ts';
 
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url;
@@ -71,7 +71,7 @@ const getVolume = () => {
             const volumeDate = defaultFormatName != 'None' ? formatDate(volume.meta[`published_date_value_${defaultFormatName}`][0]): null;
             const coverURL= volume._embedded['wp:featuredmedia'] ? volume._embedded['wp:featuredmedia'][0].source_url : null;
 
-            document.getElementById('page-title').innerText=volume.title.rendered;
+            document.getElementById('page-title').innerText=formatTitle(volume.title.rendered, false);
             coverRoot.render(<img className='novel-cover' srcSet={coverURL}></img>);
             descRoot.render(<VolumeDesc desc={desc}/>);
             formatsRoot.render(<FormatsList formats={formats} meta={volume.meta} translator={translator} narrator={narrator} handleClick={loadVolumeInfo} formatFilter={defaultFormatName}/>);

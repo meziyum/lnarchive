@@ -107,7 +107,7 @@ function NovelArchive(props) {
             const novels = data.map( (novel) => {
                 const novelCover=novel._embedded ? novel._embedded['wp:featuredmedia'][0].source_url : null;
                 return (
-                    <NovelItem key={novel.id} id={novel.id} title={formatTitle(novel.title.rendered)} link={novel.link} novelCover={novelCover} popularity={novel.meta.popularity[0]} rating={novel.meta.rating[0]}/>
+                    <NovelItem key={novel.id} id={novel.id} title={formatTitle(novel.title.rendered, true)} link={novel.link} novelCover={novelCover} popularity={novel.meta.popularity[0]} rating={novel.meta.rating[0]}/>
                 );
             });
             lastResponseLength.current=novels.length;

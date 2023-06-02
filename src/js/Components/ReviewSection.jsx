@@ -162,7 +162,7 @@ export default function ReviewSection(props) {
                             <h4>Write your {commentType}</h4>
                             {commentType == 'Review' && props.maxProgress>0 &&
                             <div>
-                                <label htmlFor="progress"><h5>No of Volumes(Read)</h5></label>
+                                <label htmlFor="progress"><h5>Progress</h5></label>
                                 <input type="number" id="progress" name="progress" value={sectionInfo.progress} onChange={handleChange} min="0" max={props.maxProgress}/>
                             </div>
                             }

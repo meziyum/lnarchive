@@ -7,6 +7,7 @@
 
 namespace lnarchive\inc;
 use lnarchive\inc\traits\Singleton;
+use WP_Query;
 
 class post_filter {
 
@@ -118,13 +119,12 @@ class post_filter {
     function add_series_filter_to_posts_admin($post_type) {
 
         if ($post_type == 'volume') {
-
-            $series_args = array(
-                'numberposts' => -1, 
+            $args = array(
                 'post_type' => 'novel',
+                'posts_per_page' => -1,
             );
-
-            $series = get_posts( $series_args );
+            $query = new WP_Query($args);
+            
             ?>
             <input list="series_filter" 
             name="series_choice" 
@@ -132,7 +132,7 @@ class post_filter {
             autocomplete="on" 
             <?php
                 if (!empty($_GET['series_choice'])) {
-                    echo 'value="'.esc_attr($_GET['series_choice']).'"';
+                    echo 'value="'.$_GET['series_choice'].'"';
                 } else {
                     echo 'placeholder="All Series"';
                 }        
@@ -142,15 +142,19 @@ class post_filter {
                 <option value="All Series">
                 <option value="None">
                 <?php
-                    foreach ( $series as $novel) {
-                        ?>
-                            <option value="<?php echo esc_attr($novel->post_title);?>">
-                        <?php
+                    
+                    if ($query->have_posts()) {
+                        while ($query->have_posts()) {
+                            $query->the_post();
+                            ?>
+                                <option value="<?php echo the_title();?>">
+                            <?php
+                        }
                     }
                 ?>
             </datalist>
             <?php
-        }        
+        }
     }
 
     function add_metadata_filter_to_posts_query($query) {
@@ -160,17 +164,8 @@ class post_filter {
         if ($pagenow == 'edit.php') {
             if ($post_type == 'volume') {
 
-                $novel_id = null;
-
                 if (isset($_GET['series_choice'])) {
-                    $series_choice = sanitize_text_field($_GET['series_choice']);
-        
-                    $novel_id = $wpdb->get_var(
-                        $wpdb->prepare(
-                            "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'novel'",
-                            $series_choice
-                        )
-                    );
+                    $series_choice = $_GET['series_choice'];
 
                     if($series_choice == 'None') {
                         $query->query_vars['meta_query'] = array(
@@ -179,7 +174,13 @@ class post_filter {
                                 'compare' => 'NOT EXISTS',
                             ),
                         );
-                    } else if ($novel_id) {
+                    }
+        
+                    $novel_id = $wpdb->get_var(
+                        "SELECT ID FROM ".$wpdb->posts." WHERE post_title = '".$series_choice."' AND post_type = 'novel'",
+                    );
+
+                    if ($novel_id) {
                         $query->query_vars['meta_query'] = array(
                             array(
                                 'key' => 'series_value',

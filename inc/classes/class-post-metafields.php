@@ -7,6 +7,7 @@
 
 namespace lnarchive\inc;
 use lnarchive\inc\traits\Singleton;
+use WP_Error;
 
 class post_metafields {
 
@@ -132,7 +133,7 @@ class post_metafields {
 
             $format_name = $format->name;
 
-            if( $format_name == "None" || empty($_POST['isbn-'.$format_name]))
+            if ($format_name == "None" || empty($_POST['isbn-'.$format_name]))
                 continue;
 
             update_post_meta(
@@ -159,16 +160,16 @@ class post_metafields {
 
     function save_alternate_names( $post_id ) {
         
-        if ( ! isset( $_POST['alternate_names_nonce'] ) || ! wp_verify_nonce( $_POST['alternate_names_nonce'], 'alternate_names_nonce_action'))
+        if (!isset($_POST['alternate_names_nonce']) || ! wp_verify_nonce($_POST['alternate_names_nonce'], 'alternate_names_nonce_action'))
             return;
         
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        if (defined('DOING_AUTOSAVE' ) && DOING_AUTOSAVE)
             return;
 
-        if ( ! current_user_can( 'edit_post', $post_id ) )
+        if (!current_user_can('edit_post', $post_id ))
             return;
 
-        if( empty($_POST['alternate_names_meta']) )
+        if(empty($_POST['alternate_names_meta']))
             return;
 
         update_post_meta(
@@ -248,19 +249,18 @@ class post_metafields {
         wp_nonce_field( 'series_nonce_action', 'series_nonce' );
 
         $args = array(
-            'numberposts' => -1,
             'post_type' => 'novel',
+            'posts_per_page' => -1,
         );
-
         $series = get_posts($args);
-        $series_value = get_post_meta( $post->ID, 'series_value');
+        $series_value = get_post_meta($post->ID, 'series_value', true);
         ?>
-            <input list="series_list" class="widefat" name="series_meta" id="series_meta" autocomplete="on" value="<?php if( count( $series_value ) > 0 ) echo esc_attr(get_the_title($series_value[0]));?>">
+            <input list="series_list" class="widefat" name="series_meta" id="series_meta" autocomplete="on" value="<?php echo get_the_title($series_value);?>">
             <datalist id="series_list">
                 <?php 
                     foreach($series as $novel) {
                         ?>
-                            <option value="<?php echo esc_attr($novel->post_title);?>">
+                            <option value="<?php echo $novel->post_title;?>">
                         <?php
                     }
                 ?>
@@ -273,20 +273,29 @@ class post_metafields {
         if (!isset( $_POST['series_nonce'] ) || ! wp_verify_nonce( $_POST['series_nonce'], 'series_nonce_action'))
             return;
         
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        if (defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE)
             return;
 
-        if ( !current_user_can( 'edit_post', $post_id ) )
+        if (!current_user_can( 'edit_post', $post_id ))
             return;
 
-        if(empty($_POST['series_meta']))
+        if (empty($_POST['series_meta']))
             return;
+
+        global $wpdb;
+        $series_id = $wpdb->get_var(
+            "SELECT ID FROM ".$wpdb->posts." WHERE post_title = '".$_POST['series_meta']."' AND post_type = 'novel'",
+        );
+
+        if(!$series_id) {
+            return new WP_Error( 'error_code', 'Error message');
+        }
 
         update_post_meta(
             $post_id,
             'series_value',
-            get_page_by_title(sanitize_text_field($_POST['series_meta']), OBJECT, 'novel' )->ID
-         );
+            $series_id
+        );
     }
 
     function add_seo_meta() {

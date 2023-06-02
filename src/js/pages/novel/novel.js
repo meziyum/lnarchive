@@ -35,7 +35,7 @@ if (!urlParams.get('volumeFilter')) {
 }
 
 const maxProgress = volumesList.length;
-const fields = `excerpt.rendered,featuredmedia,meta,title.rendered,_links`;
+const fields = `id,excerpt.rendered,featuredmedia,meta,title.rendered,_links`;
 
 novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} userRating={parseInt(userRating)}/>);
 

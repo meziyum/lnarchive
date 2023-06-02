@@ -157,35 +157,19 @@ class novel {
 
     public function get_novel_filters() {
 
-        $filter_taxonomies = get_object_taxonomies('novel');
+        $filter_taxonomies = get_object_taxonomies('novel', 'objects');
         $response = array();
 
-        foreach($filter_taxonomies as $tax){
+        foreach($filter_taxonomies as $tax) {
 
-            if(!get_option('tax-filters-novels-'.$tax)) {
+            if (!get_option('tax-filters-novels-'.$tax->name)) {
                 continue;
             }
 
-            $terms = get_terms( $tax, array(
-                'hide_empty' => true,
-            ));
-            
-            $terms_list=array();
-            foreach($terms as $term) {
-                if($term->name != 'None' && $term->name != 'Unknown')  {
-                    array_push($terms_list, array(
-                        'term_id' => $term->term_id,
-                        'term_name' => $term->name,  
-                    ));
-                }
-            }
-
-            $taxObj = get_taxonomy($tax);
-
             array_push($response, array(
-                'taxQueryName' => $taxObj->rest_base,
-                'taxLabel' => $taxObj->label,
-                'list' => $terms_list,
+                'taxQueryName' => $tax->rest_base,
+                'taxLabel' => $tax->label,
+                'list' => get_terms_except_default($tax),
             ));
         }
         return $response;

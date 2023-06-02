@@ -18,7 +18,7 @@ class taxonomies {
 
     protected function set_hooks() {
         add_action( 'init', [ $this, 'register_novel_volume_taxonomies']);
-        add_action('save_post',[ $this, 'save_post_function']);
+        add_action('save_post',[ $this, 'save_post_function'], 10, 3);
         add_action('pre_get_posts',[ $this, 'redirect_taxonomy_archives']);
     }
 
@@ -582,36 +582,21 @@ class taxonomies {
         unregister_taxonomy_for_object_type('post_tag', 'post');
     }
 
-    public function save_post_function($post_id) {
-        $default_tag = "None";
-        $tags = get_the_tags();
+    public function save_post_function($post_id, $post, $update) {
+        $post_type = $post->post_type;
+        $taxonomies = get_object_taxonomies($post_type, 'objects');
     
-        if(empty($tags))
-            wp_set_post_tags( $post_id, $default_tag, true );
-        else if( count($tags)>1){
-            foreach ($tags as $tag) {
-                if ($tag->name == $default_tag) {
-                    wp_remove_object_terms($post_id, $default_tag, 'post_tag');
-                }
-            }
-        }
-    
-        $args = array(
-            'public'   => true,
-            '_builtin' => false
-        );
-        $taxonomies = get_taxonomies( $args, 'objects');
-    
-        foreach( $taxonomies as $tax ) {
+        foreach ($taxonomies as $tax) {
             $tax_name = $tax->name;
-            $terms = get_the_terms( $post_id, $tax_name);
-    
-            if( !empty($terms) && count($terms)>1){
-                foreach( $terms as $term) {
-                    $term_name = $term->name;
+            $terms = get_the_terms($post_id, $tax_name);
+            $default_term = $tax->default_term ? $tax->default_term['name'] : 'None';
 
-                    if( $term_name == $tax->default_term['name']){
-                        wp_remove_object_terms($post_id, $term_name, $tax_name);
+            if(!$terms) {
+                wp_set_post_terms($post_id, $default_term, $tax_name, false);
+            } else if (count($terms)>1){
+                foreach($terms as $term) {
+                    if ($term->name == $default_term){
+                        wp_remove_object_terms($post_id, $default_term, $tax_name);
                     }
                 }
             }

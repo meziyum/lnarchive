@@ -39,7 +39,7 @@ $the_post_title = get_the_title();
                                 </div>
                                 <table>
                                     <?php
-                                        $taxs = get_object_taxonomies('novel');
+                                        $taxs = get_object_taxonomies('novel', 'names');
                                         foreach( $taxs as $tax) {
                                             if(get_option('novel-display-'.$tax)) {
                                                 $terms = get_the_terms($the_post_id, $tax);

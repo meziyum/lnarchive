@@ -164,7 +164,7 @@ class custom_settings {
             $page_slug,
         );
 
-        $taxs = get_object_taxonomies('novel');
+        $taxs = get_object_taxonomies('novel', 'names');
 
         foreach($taxs as $tax) {
             register_setting($option_group, 'novel-display-'.$tax);

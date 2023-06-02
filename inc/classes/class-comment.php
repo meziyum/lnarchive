@@ -103,7 +103,7 @@ class comment {
             'comment_meta'         => array(
                 'likes' => 0,
                 'dislikes' => 0,
-                'progress' => $body['progress'],
+                'progress' => sanitize_number_positive($body['progress']),
             ),
         );
         wp_insert_comment($comment_data);

@@ -96,7 +96,7 @@ export default function ReviewSection(props) {
             body: JSON.stringify({
                 content: escHTML(sectionInfo.reviewContent),
                 postID: postID,
-                progress: sectionInfo.progress,
+                progress: sectionInfo.progress>props.maxProgress ? props.maxProgress : sectionInfo.progress,
             }),
         });
 

@@ -112,7 +112,6 @@ class comment {
     }
 
     function comment_actions($request) {
-
         global $wpdb;
         $table_name = $wpdb->prefix . 'comment_response';
         $user_id = get_current_user_id();
@@ -127,6 +126,10 @@ class comment {
             $wpdb->delete( $table_name, array( 'user_id' => $user_id, 'comment_id' => $comment_id) );
             $count_action = get_comment_meta($comment_id, $user_response_value.'s', true);
             $meta_update_output_new = update_comment_meta( $comment_id, $user_response_value.'s', --$count_action);
+            do_action('comment_action_delete', array( 
+                'user_id' => $user_id,
+                'comment_id' => $comment_id
+            ));
             return $meta_update_output_new;
         }
         else if( $user_response_value != $user_action && $user_response_value != null) {
@@ -134,8 +137,13 @@ class comment {
             $count_prev_response = get_comment_meta($comment_id, $user_response_value.'s', true);
             update_comment_meta( $comment_id, $user_response_value.'s', --$count_prev_response);
         }
-        else
+        else {
             $wpdb->insert( $table_name, array( 'user_id' => $user_id, 'comment_id' => $comment_id, 'response_type' => $user_action ));
+            do_action('comment_action_create', array( 
+                'user_id' => $user_id,
+                'comment_id' => $comment_id
+            ));
+        }
 
         $count_action = get_comment_meta($comment_id, $user_action.'s', true);
         $meta_update_output_new= update_comment_meta( $comment_id, $user_action.'s', ++$count_action);

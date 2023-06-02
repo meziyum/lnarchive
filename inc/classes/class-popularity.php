@@ -16,8 +16,11 @@ class popularity {
 
     protected function set_hooks() {
         add_action('init', [$this, 'register_popularity']);
-        add_action('comment_post', [$this, 'popularity_update_on_comment'], 10, 3);
+        add_action('wp_insert_comment', [$this, 'popularity_update_on_comment_insert'], 10, 2);
+        add_action('delete_comment', [$this, 'popularity_update_on_comment_delete'], 10, 2);
         add_action('before_user_rating_created', [$this, 'popularity_update_on_new_rating'], 10, 1);
+        add_action('comment_action_create', [$this, 'popularity_update_on_comment_actions_create'], 10, 1);
+        add_action('comment_action_delete', [$this, 'popularity_update_on_comment_actions_delete'], 10, 1);
     }
 
     public function register_popularity() {
@@ -43,10 +46,24 @@ class popularity {
         $this->update_popularity($post_id, 5);
     }
 
-    public function popularity_update_on_comment($comment_ID, $comment_approved, $commentdata) {
-        $comment = get_comment($comment_ID);
+    public function popularity_update_on_comment_insert($id, $comment) {
         $post_id = $comment->comment_post_ID;
-        $this->update_popularity($post_id, 5);
+        $this->update_popularity($post_id, 10);
+    }
+
+    public function popularity_update_on_comment_delete($comment_id, $comment) {
+        $post_id = $comment->comment_post_ID;
+        $this->update_popularity($post_id, -10);
+    }
+
+    public function popularity_update_on_comment_actions_create($args) {
+        $post_id = get_comment($args['comment_id'])->comment_post_ID;
+        $this->update_popularity($post_id, 1);
+    }
+
+    public function popularity_update_on_comment_actions_delete($args) {
+        $post_id = get_comment($args['comment_id'])->comment_post_ID;
+        $this->update_popularity($post_id, -1);
     }
 
     public function update_popularity($post_id, $gain) {

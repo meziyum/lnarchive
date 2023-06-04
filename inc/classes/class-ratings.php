@@ -84,15 +84,19 @@ class ratings{
 
         $ratings_table_name = $wpdb->prefix . 'user_ratings';
 
-        $ratings_query = "CREATE TABLE " . $ratings_table_name . " (
-        rating_id bigint(20) NOT NULL AUTO_INCREMENT,
-        object_id bigint(20) NOT NULL,
-        user_id bigint(20) NOT NULL,
-        rating bigint(20) NOT NULL check(rating >= 0 AND rating <= 100),
-        PRIMARY KEY  (rating_id)
-        ) $charset_collate;";
-        
-        dbDelta([$ratings_query], true);
+        if ($wpdb->get_var("SHOW TABLES LIKE '$ratings_table_name'") !== $ratings_table_name) {
+            $ratings_query = "CREATE TABLE " . $ratings_table_name . " (
+            rating_id bigint(20) NOT NULL AUTO_INCREMENT,
+            object_id bigint(20) UNSIGNED NOT NULL,
+            user_id bigint(20) UNSIGNED NOT NULL,
+            rating bigint(20) NOT NULL check(rating >= 0 AND rating <= 100),
+            PRIMARY KEY  (rating_id),
+            FOREIGN KEY (object_id) REFERENCES {$wpdb->prefix}posts(ID),
+            FOREIGN KEY (user_id) REFERENCES {$wpdb->prefix}users(ID)
+            ) $charset_collate;";
+            
+            dbDelta([$ratings_query], true);
+        }
     }
 
     function get_user_rating($comment) {

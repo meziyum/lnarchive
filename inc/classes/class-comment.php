@@ -202,15 +202,19 @@ class comment {
         
         $comment_response_table_name = $wpdb->prefix . 'comment_response';
 
-        $comment_response_query = "CREATE TABLE " . $comment_response_table_name . " (
-        response_id bigint(20) NOT NULL AUTO_INCREMENT,
-        comment_id bigint(20) NOT NULL,
-        user_id bigint(20) NOT NULL,
-        response_type VARCHAR(100) NOT NULL,
-        PRIMARY KEY  (response_id)
-        ) $charset_collate;";
-        
-        dbDelta([$comment_response_query], true);
+        if ($wpdb->get_var("SHOW TABLES LIKE '$comment_response_table_name'") !== $comment_response_table_name) {
+            $comment_response_query = "CREATE TABLE " . $comment_response_table_name . " (
+            response_id bigint(20) NOT NULL AUTO_INCREMENT,
+            comment_id bigint(20) UNSIGNED NOT NULL,
+            user_id bigint(20) UNSIGNED NOT NULL,
+            response_type VARCHAR(100) NOT NULL,
+            PRIMARY KEY (response_id),
+            FOREIGN KEY (comment_id) REFERENCES {$wpdb->prefix}comments(comment_ID),
+            FOREIGN KEY (user_id) REFERENCES {$wpdb->prefix}users(ID)
+            ) $charset_collate;";
+            
+            dbDelta([$comment_response_query], true);
+        }
     }
 }
 ?>

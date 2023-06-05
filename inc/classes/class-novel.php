@@ -100,6 +100,75 @@ class novel {
         );
 
         register_post_type( 'novel', $args );
+
+        register_post_meta('novel', 'no_of_volumes', array(
+            'type' => 'integer',
+            'single' => true,
+            'default' => 0,
+            'sanitize_callback' => function($value) {
+                return sanitize_number_positive($value);
+            },
+            'show_in_rest' => array(
+                'schema' => array(
+                    'type'  => 'number',
+                    'default' => 0,
+                ),
+            ),
+        ));
+
+        register_post_meta('novel', 'no_of_volumes', array(
+            'type' => 'integer',
+            'single' => true,
+            'default' => 0,
+            'sanitize_callback' => function($value) {
+                return sanitize_number_positive($value);
+            },
+            'show_in_rest' => array(
+                'schema' => array(
+                    'type'  => 'number',
+                    'default' => 0,
+                ),
+            ),
+        ));
+
+        register_post_meta('novel', 'no_of_volumes', array(
+            'type' => 'integer',
+            'single' => true,
+            'default' => 0,
+            'sanitize_callback' => function($value) {
+                return sanitize_number_positive($value);
+            },
+            'show_in_rest' => array(
+                'schema' => array(
+                    'type'  => 'number',
+                    'default' => 0,
+                ),
+            ),
+        ));
+        register_post_meta('novel', 'latest_release', array(
+            'type' => 'string',
+            'single' => true,
+            'sanitize_callback' => function($value) {
+                return sanitize_date($value);
+            },
+            'show_in_rest' => array(
+                'schema' => array(
+                    'type'  => 'string',
+                ),
+            ),
+        ));
+        register_post_meta('novel', 'first_release', array(
+            'type' => 'string',
+            'single' => true,
+            'sanitize_callback' => function($value) {
+                return sanitize_date($value);
+            },
+            'show_in_rest' => array(
+                'schema' => array(
+                    'type'  => 'string',
+                ),
+            ),
+        ));
     }
 
     public function register_routes() {

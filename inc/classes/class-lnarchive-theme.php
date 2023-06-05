@@ -27,6 +27,7 @@ class lnarchive_theme{
          comment::get_instance();
          ratings::get_instance();
          popularity::get_instance();
+         contribution::get_instance();
          subscription::get_instance();
          weightage::get_instance();
          users::get_instance();

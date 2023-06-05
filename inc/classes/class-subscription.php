@@ -32,8 +32,7 @@ class subscription {
                     $user->user_id,
                 )
             );
-            array_push($user_emails);
-            error_log($user_email);
+            array_push($user_emails, $user_email);
         }
         $this->send_email_notification($user_emails, $post_title);
     }

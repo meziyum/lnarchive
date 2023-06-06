@@ -20,7 +20,7 @@ class contribution {
         add_action('delete_comment', [$this, 'contribution_update_on_comment_delete'], 10, 2);
         add_action('user_rating_submitted', [$this, 'contribution_points_on_rating'], 1);
         add_action('wp_insert_post', [$this, 'contribution_points_on_post_type_create'], 10, 3);
-        add_action('delete_post', [$this, 'contribution_points_on_post_type_delete'], 10, 2);
+        add_action('before_delete_post', [$this, 'contribution_points_on_post_type_delete'], 10, 2);
     }
 
     function register_contribution($user_id){
@@ -61,11 +61,15 @@ class contribution {
         if ($update) {
             return;
         }
+        
+        if ($post->post_type == 'revision') {
+            return;
+        }
         $args = array(
             'object_id' => $post_id,
             'user_id' => $post->post_author,
         );
-        $this->update_contribution($args, $post->post_type.'_submit', 100);
+        $this->update_contribution($args, 'create', 100);
     }
 
     function contribution_points_on_post_type_delete($postid, $post) {
@@ -73,7 +77,7 @@ class contribution {
             'object_id' => $postid,
             'user_id' => $post->post_author,
         );
-        $this->update_contribution($args, $post->post_type.'_submit', -100);
+        $this->update_contribution($args, 'create', -100);
     }
 
     function update_contribution($args, $type, $change_value) {
@@ -97,11 +101,10 @@ class contribution {
         global $wpdb;
         $table_name = $wpdb->prefix . 'user_contributions';
 
-        if($contribution_exists && $change_value<0) {
-            $wpdb->delete( $table_name, array('object_id' => $object_id, 'user_id' => $user_id, 'contribution_type' => $type ));
+        if ($contribution_exists && $change_value<0) {
+            $wpdb->delete($table_name, array('object_id' => $object_id, 'user_id' => $user_id, 'contribution_type' => $type));
         } else if (!$contribution_exists && $change_value>0) {
-            $wpdb->insert( $table_name, array('object_id' => $object_id, 'user_id' => $user_id, 'contribution_type' => $type ));
-            $wpdb->insert( $table_name, array('object_id' => $object_id, 'user_id' => $user_id, 'contribution_type' => 'test' ));
+            $wpdb->insert($table_name, array('object_id' => $object_id, 'user_id' => $user_id, 'contribution_type' => $type));
         }
         
         $value = get_user_meta($user_id, 'contribution_points', true);
@@ -110,7 +113,7 @@ class contribution {
         }
         $new_value = $value+$change_value;
 
-        if($new_value<=0) {
+        if ($new_value<=0) {
             delete_user_meta($user_id, 'contribution_points');
         } else {
             update_user_meta($user_id, 'contribution_points', $new_value);

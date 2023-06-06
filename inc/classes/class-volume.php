@@ -263,6 +263,28 @@ class volume{
         }
     }
 
+    function update_all_novels_volumes() {
+        $nargs = array(
+            'post_type' => 'novel',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+        );
+        $novel_posts = get_posts($nargs);
+        
+        foreach ($novel_posts as $post_id) {
+            $vargs = array(
+                'post_type' => 'volume',
+                'meta_key' => 'series_value',
+                'meta_value' => $post_id,
+                'posts_per_page' => -1,
+            );
+            $query = new WP_Query($vargs);
+            $count = $query->found_posts;
+            update_post_meta($post_id, 'no_of_volumes', $count);
+        }
+    }
+
     function redirect_volume_to_404() {
         if (is_singular('volume') || is_post_type_archive('volume')) {
             global $wp_query;

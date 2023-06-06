@@ -7,6 +7,7 @@
 
 namespace lnarchive\inc;
 use lnarchive\inc\traits\Singleton;
+use WP_Query;
 
 class volume{
 
@@ -25,6 +26,8 @@ class volume{
         add_action( 'rest_api_init', [$this, 'register_meta']);
         add_action('template_redirect', [$this, 'redirect_volume_to_404']);
         add_filter( 'post_row_actions', [$this, 'remove_view_action_from_list'], 10, 2 );
+        add_filter( 'draft_to_publish', [$this, 'new_volume_publish'], 10, 1);
+        add_filter( 'trash_volume', [$this, 'trash_existing_volume'], 10, 3);
         add_filter( 'post_updated_messages', [$this, 'custom_post_updated_messages'] );
     }
 
@@ -254,12 +257,75 @@ class volume{
             'hide_empty' => false,
         ));
  
-        foreach( $formats as $format ){
+        foreach($formats as $format){
             $isbn = get_post_meta( $post_id, 'isbn_'.$format->name.'_value');
             $date = get_post_meta( $post_id, 'published_date_value_'.$format->name);
 
             if( !empty($isbn) || !empty($date))
                 wp_set_post_terms( $post_id, [ $format->term_id], 'format', true);
+        }
+    }
+
+    function new_volume_publish($post) {
+
+        if ($post->post_type != 'volume') {
+            return;
+        }
+
+        $post_id = $post->ID;
+        global $wpdb;
+        $novel_id = $wpdb->get_var(
+            $wpdb->prepare(
+                "
+                SELECT meta_value
+                FROM $wpdb->postmeta
+                WHERE post_id = %d
+                AND meta_key = %s
+                ",
+                $post_id,
+                'series_value'
+            )
+        );
+        $no_of_volumes = get_post_meta($novel_id, 'no_of_volumes', true);
+        error_log('Volume ID:'.$post_id);
+        error_log('Novel ID:'.$novel_id);
+        error_log('No of Volumes:'.$no_of_volumes);
+
+        if ($no_of_volumes == '') {
+            $no_of_volumes=0;
+        }
+
+        $result = update_post_meta($novel_id, 'no_of_volumes', $no_of_volumes+1);
+        error_log('Result:'.$result);
+        error_log('New No of Volumes:'.$no_of_volumes+1);
+    }
+
+    function trash_existing_volume($post_id, $post, $old_status) {
+        global $wpdb;
+        $novel_id = $wpdb->get_var(
+            $wpdb->prepare(
+                "
+                SELECT meta_value
+                FROM $wpdb->postmeta
+                WHERE post_id = %d
+                AND meta_key = %s
+                ",
+                $post_id,
+                'series_value'
+            )
+        );
+        $no_of_volumes = get_post_meta($novel_id, 'no_of_volumes', true);
+
+        error_log('Volume ID:'.$post_id);
+        error_log('Novel ID:'.$novel_id);
+        error_log('No of Volumes:'.$no_of_volumes);
+
+        if ($no_of_volumes-1>0) {
+            update_post_meta($novel_id, 'no_of_volumes', $no_of_volumes-1);
+            error_log('Updating');
+        } else {
+            delete_post_meta($novel_id, 'no_of_volumes', $no_of_volumes);
+            error_log('Deleting');
         }
     }
 

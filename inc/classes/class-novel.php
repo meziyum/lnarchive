@@ -115,36 +115,6 @@ class novel {
                 ),
             ),
         ));
-
-        register_post_meta('novel', 'no_of_volumes', array(
-            'type' => 'integer',
-            'single' => true,
-            'default' => 0,
-            'sanitize_callback' => function($value) {
-                return sanitize_number_positive($value);
-            },
-            'show_in_rest' => array(
-                'schema' => array(
-                    'type'  => 'number',
-                    'default' => 0,
-                ),
-            ),
-        ));
-
-        register_post_meta('novel', 'no_of_volumes', array(
-            'type' => 'integer',
-            'single' => true,
-            'default' => 0,
-            'sanitize_callback' => function($value) {
-                return sanitize_number_positive($value);
-            },
-            'show_in_rest' => array(
-                'schema' => array(
-                    'type'  => 'number',
-                    'default' => 0,
-                ),
-            ),
-        ));
         register_post_meta('novel', 'latest_release', array(
             'type' => 'string',
             'single' => true,
@@ -185,7 +155,7 @@ class novel {
         add_filter(
             'rest_novel_collection_params',
             function( $params ) {
-                $fields = array( 'releaseDate', 'volumesCount', 'rating', 'popularity',  'latestRelease');
+                $fields = array('first_release', 'no_of_volumes', 'rating', 'popularity',  'latest_release');
                 foreach ($fields as $value) {
                     $params['orderby']['enum'][] = $value;
                 }
@@ -199,7 +169,7 @@ class novel {
             'rest_novel_query',
             function ( $args, $request ) {
                 $order_by = $request->get_param('orderby');
-                $metas = array('releaseDate', 'volumesCount', 'rating', 'popularity',  'latestRelease');
+                $metas = array('first_release', 'no_of_volumes', 'rating', 'popularity',  'latest_release');
                 if(isset($order_by)) {
                     if (in_array($order_by, $metas)) {
                         $args['meta_query'] = array(
@@ -214,7 +184,6 @@ class novel {
                             ),
                         );
                         $args['orderby'] = 'meta_value_num';
-                        $args['order'] = 'asc';
                     }
                 }
                 return $args;
@@ -242,15 +211,6 @@ class novel {
             ));
         }
         return $response;
-    }
-
-    public function intialize_novel($post_ID, $post, $update) {
-        if ($update) {
-            return;
-        }
-        if ($post->post_type === 'novel') {
-            add_post_meta($post_ID, 'totalVolumes', 0, true);
-        }
     }
 
     public function auto_novel($post_id) {

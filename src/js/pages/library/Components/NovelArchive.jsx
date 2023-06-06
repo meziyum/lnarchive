@@ -186,10 +186,12 @@ function NovelArchive(props) {
                     <div id="sort_by">
                         <Select
                             options={[
-                                {value: 'date', label: 'Release Date'},
-                                {value: 'title', label: 'Alphabetically'},
+                                {value: 'latest_release', label: 'Latest'},
                                 {value: 'rating', label: 'Ratings'},
                                 {value: 'popularity', label: 'Popularity'},
+                                {value: 'no_of_volumes', label: 'Volumes'},
+                                {value: 'first_release', label: 'First Release'},
+                                {value: 'title', label: 'Alphabetically'},
                             ]}
                             defaultValue={archiveInfo.order_by}
                             value={archiveInfo.order_by}

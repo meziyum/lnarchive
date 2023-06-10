@@ -42,7 +42,7 @@ export default function FormatsList({formats, meta, translator, narrator, handle
 
     return (
         <>
-            {
+            {formats[0].name !== 'None' &&
                 formats.map((format) => (
                     <a
                         key={format.id} className={`anchor-button format-button ${selectedFormat === format.name ? 'selected-format' : ''}`} onClick={() => handleFormatClick(format.name)}>

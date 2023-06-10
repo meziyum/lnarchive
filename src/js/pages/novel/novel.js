@@ -73,8 +73,13 @@ const getVolume = () => {
 
             document.getElementById('page-title').innerText=formatTitle(volume.title.rendered, false);
             coverRoot.render(<img className='novel-cover' srcSet={coverURL}></img>);
-            descRoot.render(<VolumeDesc desc={desc}/>);
+
+            if (desc) {
+                descRoot.render(<VolumeDesc desc={desc}/>);
+            }
+
             formatsRoot.render(<FormatsList formats={formats} meta={volume.meta} translator={translator} narrator={narrator} handleClick={loadVolumeInfo} formatFilter={defaultFormatName}/>);
+
             loadVolumeInfo(volumeISBN, volumeDate, translator, narrator, defaultFormatName);
         });
 };

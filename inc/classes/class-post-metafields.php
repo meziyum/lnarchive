@@ -216,31 +216,42 @@ class post_metafields {
 
     function save_published_date( $post_id) {
         
-        if ( ! isset( $_POST['published_date_nonce'] ) || ! wp_verify_nonce( $_POST['published_date_nonce'], 'published_date_nonce_action'))
+        if (!isset( $_POST['published_date_nonce']) || !wp_verify_nonce( $_POST['published_date_nonce'], 'published_date_nonce_action'))
             return;
 
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        if (defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE)
             return;
 
-        if ( ! current_user_can( 'edit_post', $post_id ) )
+        if (!current_user_can( 'edit_post', $post_id ))
             return;
 
         $formats = get_terms('format', array(
             'hide_empty' => false,
         ));
 
-        foreach( $formats as $format){
+        foreach ($formats as $format) {
             
             $format_name = $format->name;
 
-            if( $format_name == "None" || empty($_POST['published_date_'.$format_name]))
+            if ($format_name == "None")
                 continue;
 
-            update_post_meta(
-                $post_id,
-                'published_date_value_'.$format_name,
-                sanitize_text_field($_POST['published_date_'.$format_name]),
-            );
+            $meta_key = 'published_date_value_'.$format_name;
+
+            if (!empty($_POST['published_date_'.$format_name])) {
+                update_post_meta(
+                    $post_id,
+                    $meta_key,
+                    sanitize_text_field($_POST['published_date_'.$format_name]),
+                );
+                error_log('yes');
+            } else {
+                error_log('no');
+                if(get_post_meta($post_id, $meta_key, true)) {
+                    delete_post_meta($post_id, $meta_key);
+                    error_log('Delete');
+                }
+            }
         }
     }
 

@@ -46,20 +46,20 @@ class weightage {
 
     public function update_weightage_on_term_assign($post_id, $post, $update) {
 
-        $taxonomies = get_taxonomies( array(
-            'public'   => true,
-        ), 'objects' );
-        $taxonomy_names = wp_list_pluck($taxonomies, 'name');
+        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
+        array_push($taxonomies, 'post_tag', 'category');
 
-        foreach($taxonomy_names as $tax) {
-            if (get_option('tax-weightage-'.$tax) =='1') {
-                $terms = get_terms( array(
-                    'taxonomy' => $tax,
-                    'hide_empty' => true,
-                ));
-                foreach($terms as $term) {
-                    $this->update_weightage($term);
-                }
+        foreach($taxonomies as $tax) {
+            if (get_option('tax-weightage-'.$tax) =='0') {
+                continue;
+            }
+
+            $terms = get_terms( array(
+                'taxonomy' => $tax,
+                'hide_empty' => true,
+            ));
+            foreach($terms as $term) {
+                $this->update_weightage($term);
             }
         }
     }

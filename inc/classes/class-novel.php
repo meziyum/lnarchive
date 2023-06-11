@@ -118,9 +118,6 @@ class novel {
         register_post_meta('novel', 'latest_release', array(
             'type' => 'string',
             'single' => true,
-            'sanitize_callback' => function($value) {
-                return sanitize_date($value);
-            },
             'show_in_rest' => array(
                 'schema' => array(
                     'type'  => 'string',
@@ -130,12 +127,18 @@ class novel {
         register_post_meta('novel', 'first_release', array(
             'type' => 'string',
             'single' => true,
-            'sanitize_callback' => function($value) {
-                return sanitize_date($value);
-            },
             'show_in_rest' => array(
                 'schema' => array(
                     'type'  => 'string',
+                ),
+            ),
+        ));
+        register_post_meta('novel', 'similar_novels', array(
+            'type' => 'array',
+            'single' => true,
+            'show_in_rest' => array(
+                'schema' => array(
+                    'type'  => 'array',
                 ),
             ),
         ));

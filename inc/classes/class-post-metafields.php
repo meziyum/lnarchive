@@ -130,18 +130,24 @@ class post_metafields {
         ));
 
         foreach( $formats as $format) {
-
             $format_name = $format->name;
 
-            if ($format_name == "None" || empty($_POST['isbn-'.$format_name]))
+            if ($format_name == "None")
                 continue;
 
-            update_post_meta(
-                $post_id,
-                'isbn_'.$format_name.'_value',
-                sanitize_text_field($_POST['isbn-'.$format_name])
-            );
+            $meta_key = 'isbn_'.$format_name.'_value';
 
+            if (!empty($_POST['isbn-'.$format_name])) {
+                update_post_meta(
+                    $post_id,
+                    $meta_key,
+                    sanitize_text_field($_POST['isbn-'.$format_name])
+                );
+            } else {
+                if (get_post_meta($post_id, $meta_key, true)) {
+                    delete_post_meta($post_id, $meta_key);
+                }
+            }
         }
     }
 
@@ -244,12 +250,9 @@ class post_metafields {
                     $meta_key,
                     sanitize_text_field($_POST['published_date_'.$format_name]),
                 );
-                error_log('yes');
             } else {
-                error_log('no');
                 if(get_post_meta($post_id, $meta_key, true)) {
                     delete_post_meta($post_id, $meta_key);
-                    error_log('Delete');
                 }
             }
         }

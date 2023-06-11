@@ -35,6 +35,7 @@ class lnarchive_theme{
          category::get_instance();
          post_metafields::get_instance();
          post_filter::get_instance();
+         similar_novels::get_instance();
          $this->set_hooks();
      }
 

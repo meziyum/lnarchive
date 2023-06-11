@@ -37,10 +37,9 @@ function the_post_custom_thumbnail( $post_id, $size, $additional_attributes) {
 }
 
 function novel_list( $loop, array $args ) {
-
     $name = $args['name'];
 
-    if( array_key_exists("novel_no",$args) )
+    if (array_key_exists("novel_no",$args))
         $novel_no = $args['novel_no'];
     else
         $novel_no=$loop->post_count;
@@ -48,36 +47,39 @@ function novel_list( $loop, array $args ) {
     ?>
         <div class="row novel-list" id="<?php echo $name;?>-list">
             <?php
-                while( $loop->have_posts() && $novel_no>0 ) : $loop->the_post();
+                while ($loop->have_posts() && $novel_no>0) : $loop->the_post();
                     $post_id = get_the_ID();
-                    $tid = $post_id;
-                    ?>
-                        <div class="<?php echo esc_attr($name);?>-entry-col novel-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
-                            <div class="<?php echo esc_attr($name);?>-entry archive-entry novel-entry">
-                                <a id="<?php echo esc_attr($post_id)?>" class="<?php echo $name;?>-link novel-link" <?php if( get_post_type($post_id) != 'volume') echo 'href="'.esc_url(get_permalink()).'"';?>>
-                                    <?php
-                                    if (!has_post_thumbnail( $post_id )) {
-                                        ?>
-                                            <h4 class="novel-cover">No Cover Image Found</h4>
-                                        <?php
-                                    } else {
-                                        the_post_custom_thumbnail(
-                                        $tid,
-                                        'novel-cover',
-                                        [
-                                            'class' => 'novel-cover',
-                                            'alt'  => esc_html(get_the_title()),
-                                        ]
-                                        );
-                                    }
-                                    ?>
-                                </a>
-                            </div>
-                        </div>
-                    <?php
+                    novel_item($post_id, $name);
                     --$novel_no;
                 endwhile;
             ?>
+        </div>
+    <?php
+}
+
+function novel_item($post_id, $name) {
+    ?>
+        <div class="<?php echo esc_attr($name);?>-entry-col novel-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
+            <div class="<?php echo esc_attr($name);?>-entry archive-entry novel-entry">
+                <a id="<?php echo esc_attr($post_id)?>" class="<?php echo $name;?>-link novel-link" <?php if( get_post_type($post_id) != 'volume') echo 'href="'.esc_url(get_permalink($post_id)).'"';?>>
+                    <?php
+                    if (!has_post_thumbnail($post_id)) {
+                        ?>
+                            <h4 class="novel-cover">No Cover Image Found</h4>
+                        <?php
+                    } else {
+                        the_post_custom_thumbnail(
+                        $post_id,
+                        'novel-cover',
+                        [
+                            'class' => 'novel-cover',
+                            'alt'  => esc_html(get_the_title()),
+                        ]
+                        );
+                    }
+                    ?>
+                </a>
+            </div>
         </div>
     <?php
 }

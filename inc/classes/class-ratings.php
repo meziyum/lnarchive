@@ -22,7 +22,9 @@ class ratings{
 
     function register_rating() {
         register_rest_field( "comment", 'rating', array(
-            'get_callback' => [$this, 'get_user_rating'],
+            'get_callback' => function($comment) {
+                return get_user_rating($comment);
+            }
         ));
 
         register_meta('post', 'rating', array(

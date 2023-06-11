@@ -39,7 +39,7 @@ class popularity {
     public function popularity_update_on_new_rating($args) {
         $post_id = $args['object_id'];
         $user_id = $args['user_id'];
-        $user_rating = ratings::get_instance()->get_user_rating(array( 'post'=> $post_id, 'author' => $user_id));
+        $user_rating = get_user_rating(array( 'post'=> $post_id, 'author' => $user_id));
         if($user_rating) {
             return;
         }

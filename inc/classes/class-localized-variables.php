@@ -71,7 +71,7 @@ class localized_variables {
           if($object_type == 'novel') {
             $localize_vars['rating'] = get_post_meta($object_id, 'rating', true);
             $localize_vars['popularity'] = get_post_meta($object_id, 'popularity', true);
-            $localize_vars['user_rating'] = ratings::get_instance()->get_user_rating(array('post' => $object_id, 'author' => $user_id));
+            $localize_vars['user_rating'] = get_user_rating(array('post' => $object_id, 'author' => $user_id));
           }
         }
         else if(!is_front_page() && is_home() || is_category()) {

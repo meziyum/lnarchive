@@ -44,6 +44,7 @@ if ( ! defined( 'LNARCHIVE_BUILD_LIB_URI' ) ) {
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/autoloader.php';
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/general.php';
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/post.php';
+require_once LNARCHIVE_DIR_PATH . '/inc/helpers/user.php';
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/taxonomy.php';
 require_once LNARCHIVE_DIR_PATH . '/inc/helpers/sanitize.php';
 

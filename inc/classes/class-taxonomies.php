@@ -589,7 +589,7 @@ class taxonomies {
         foreach ($taxonomies as $tax) {
             $tax_name = $tax->name;
             $terms = get_the_terms($post_id, $tax_name);
-            $default_term = $tax->default_term ? $tax->default_term['name'] : 'None';
+            $default_term = get_tax_default_term($tax);
 
             if(!$terms) {
                 wp_set_post_terms($post_id, $default_term, $tax_name, false);

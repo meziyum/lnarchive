@@ -7,7 +7,7 @@
 */
     function get_terms_except_default($tax) {
         $tax_name = $tax->name;
-        $default_term = $tax->default_term ? $tax->default_term['name'] : 'None';
+        $default_term = get_tax_default_term($tax);
             
         $terms = get_terms($tax_name, array(
             'hide_empty' => true,
@@ -26,6 +26,14 @@
         }
         
         return $terms_list;
+    }
+
+    function get_tax_default_term($tax) {
+        if (!is_object($tax)) {
+            $tax = get_taxonomy($tax);
+        }
+
+        return $tax->default_term ? $tax->default_term['name'] : 'None';
     }
 
     function get_public_taxonomies() {

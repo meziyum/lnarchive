@@ -45,9 +45,6 @@ class weightage {
     }
 
     public function update_weightage_on_term_assign($post_id, $post, $update) {
-        if ($post->post_type != 'novel') {
-            return;
-        }
 
         $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
         array_push($taxonomies, 'post_tag', 'category');

@@ -17,7 +17,7 @@ class weightage {
 
     protected function set_hooks() {
         add_action('init', [$this, 'register_weightage']);
-        add_action('save_post', [$this, 'update_weightage_on_term_assign'], 10, 3);
+        add_action('save_post_novel', [$this, 'update_weightage_on_term_assign'], 10, 3);
 
         $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
         array_push($taxonomies, 'post_tag', 'category');
@@ -45,6 +45,9 @@ class weightage {
     }
 
     public function update_weightage_on_term_assign($post_id, $post, $update) {
+        if ($post->post_type != 'novel') {
+            return;
+        }
 
         $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
         array_push($taxonomies, 'post_tag', 'category');
@@ -54,11 +57,13 @@ class weightage {
                 continue;
             }
 
-            $terms = get_terms( array(
-                'taxonomy' => $tax,
-                'hide_empty' => true,
-            ));
+            $terms = wp_get_post_terms($post_id, $tax);
             foreach($terms as $term) {
+                $term_name = $term->name;
+
+                if ($term_name == 'None' || $term_name == 'Unknown') {
+                    continue;
+                }
                 $this->update_weightage($term);
             }
         }

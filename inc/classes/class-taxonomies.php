@@ -654,8 +654,7 @@ class taxonomies {
     }
 
     function redirect_taxonomy_archives() {
-        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
-        array_push($taxonomies, 'post_tag', 'category');
+        $taxonomies = get_public_taxonomies();
 
         foreach($taxonomies as $taxonomy) {
             if (is_tax($taxonomy)) {

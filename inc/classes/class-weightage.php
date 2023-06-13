@@ -19,8 +19,7 @@ class weightage {
         add_action('init', [$this, 'register_weightage']);
         add_action('save_post_novel', [$this, 'update_weightage_on_term_assign'], 10, 3);
 
-        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
-        array_push($taxonomies, 'post_tag', 'category');
+        $taxonomies = get_public_taxonomies();
 
         foreach ($taxonomies as $taxonomy) {
             add_action( 'edited_'.$taxonomy, [$this, 'update_weightage'], 10, 1);
@@ -28,8 +27,7 @@ class weightage {
     }
 
     public function register_weightage() {
-        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
-        array_push($taxonomies, 'post_tag', 'category');
+        $taxonomies = get_public_taxonomies();
       
         foreach ($taxonomies as $taxonomy) {
           register_meta( 'term', 'weightage', array(
@@ -45,9 +43,7 @@ class weightage {
     }
 
     public function update_weightage_on_term_assign($post_id, $post, $update) {
-
-        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
-        array_push($taxonomies, 'post_tag', 'category');
+        $taxonomies = get_public_taxonomies();
 
         foreach($taxonomies as $tax) {
             if (get_option('tax-weightage-'.$tax) =='0') {

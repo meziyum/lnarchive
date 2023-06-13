@@ -121,9 +121,7 @@ class custom_settings {
             '',
             $page_slug,
         );
-
-        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
-        array_push($taxonomies, 'post_tag', 'category');
+        $taxonomies = get_public_taxonomies();
 
         foreach($taxonomies as $tax) {
             $label = 'tax-weightage-'.$tax;

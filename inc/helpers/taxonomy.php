@@ -28,6 +28,12 @@
         return $terms_list;
     }
 
+    function get_public_taxonomies() {
+        $taxonomies = get_taxonomies(array('_builtin' => false,), 'names');
+        array_push($taxonomies, 'post_tag', 'category');
+        return $taxonomies;
+    }
+
     function taxonomy_button_list($post_type, $tax_terms, $tax_name) {
         if(!empty($tax_terms)) {
             foreach( $tax_terms as $term) {

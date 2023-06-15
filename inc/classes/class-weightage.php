@@ -46,7 +46,7 @@ class weightage {
         $taxonomies = get_public_taxonomies();
 
         foreach($taxonomies as $tax) {
-            if (get_option('tax-weightage-'.$tax) =='0') {
+            if (!get_option('tax-weightage-'.$tax)) {
                 continue;
             }
 

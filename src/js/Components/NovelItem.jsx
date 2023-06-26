@@ -15,7 +15,7 @@ import {
  * @param {number} props.rating - The title of the novel.
  * @param {number} props.popularity - The title of the novel.
  * @param {string} props.link - The URL for the novel's page.
- * @param {string} props.novelCover - The URL for the novel's cover image.
+ * @param {string | null} props.novelCover - The URL for the novel's cover image.
  * @param {string} props.releaseDate - The release date of the novel
  * @return {JSX.Element} - The rendered component.
  */

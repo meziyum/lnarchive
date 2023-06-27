@@ -3,13 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NovelItem from '../../../Components/NovelItem';
 import TaxSelect from '../../../Components/TaxSelect';
-import Search from '../../../Components/Search.jsx';
+import Search from '../../../Components/Search';
 import useToggle from '../../../hooks/useToggle.js';
-import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
+import InfiniteScroll from '../../../extensions/InfiniteScroll';
 import {formatTitle} from '../../../helpers/utilities.ts';
-import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
+import ResultsNotFound from '../../../Components/ResultsNotFound';
 import Select from 'react-select';
-import {reactSelectStyle} from '../../../helpers/reactSelectStyles.js';
+import {reactSelectStyle} from '../../../helpers/reactSelectStyles';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {

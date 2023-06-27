@@ -1,12 +1,12 @@
 
 import React from 'react';
 import PostItem from '../../../Components/PostItem';
-import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
-import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
-import {formatDate, formatTitle} from '../../../helpers/utilities.ts';
+import InfiniteScroll from '../../../extensions/InfiniteScroll';
+import ResultsNotFound from '../../../Components/ResultsNotFound';
+import {formatDate, formatTitle} from '../../../helpers/utilities';
 import Search from '../../../Components/Search.jsx';
-import TaxSelect from '../../../Components/TaxSelect.jsx';
-import useToggle from '../../../hooks/useToggle.js';
+import TaxSelect from '../../../Components/TaxSelect';
+import useToggle from '../../../hooks/useToggle';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 

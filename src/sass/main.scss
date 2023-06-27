@@ -11,6 +11,11 @@
     color: $white-text;
     background-color: $light-dark-background;
     text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
 }
 
 .content-wrap {

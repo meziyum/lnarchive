@@ -28,7 +28,7 @@ interface RatingsProps {
  * @return {JSX.Element} - A JSX element representing the ratings component
  */
 const Ratings = ({mode='form', count=5, rating=0, color='orange', submitRatings, size='lg'}: RatingsProps) => {
-    const mouseOver = (index) => {
+    const mouseOver = (index: number) => {
         if (mode === 'form') setHoverRating(index);
     };
 

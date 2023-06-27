@@ -3,7 +3,7 @@ import React from 'react';
 import Select from 'react-select';
 import TaxSelect from '../../../Components/TaxSelect.jsx';
 import {TaxFilter} from '../../../types/TaxFilter';
-import {reactSelectStyle} from '../../../helpers/reactSelectStyles';
+import {reactSelectStyle} from '../../../style/reactSelectStyles';
 
 /* eslint-disable no-undef */
 const userNonce = lnarchiveVariables.nonce;

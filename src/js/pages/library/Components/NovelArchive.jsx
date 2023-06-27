@@ -9,7 +9,7 @@ import InfiniteScroll from '../../../extensions/InfiniteScroll';
 import {formatTitle} from '../../../helpers/utilities.ts';
 import ResultsNotFound from '../../../layouts/ResultsNotFound';
 import Select from 'react-select';
-import {reactSelectStyle} from '../../../helpers/reactSelectStyles';
+import {reactSelectStyle} from '../../../style/reactSelectStyles';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {

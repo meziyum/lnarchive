@@ -1,6 +1,6 @@
 
 import React from 'react';
-import PostItem from '../../../Components/PostItem.jsx';
+import PostItem from '../../../Components/PostItem';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';
 import ResultsNotFound from '../../../Components/ResultsNotFound.jsx';
 import {formatDate, formatTitle} from '../../../helpers/utilities.ts';

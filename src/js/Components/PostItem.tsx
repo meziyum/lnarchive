@@ -3,8 +3,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /* eslint-disable no-undef */
-const blogURL = lnarchiveVariables.blogURL;
+const blogURL: string = lnarchiveVariables.blogURL;
 /* eslint-enable no-undef */
+
+interface PostItemProps {
+    id: number;
+    link: string;
+    postImage?: string;
+    title: string;
+    date: string;
+    categoryList: Array<string>;
+}
 
 /**
 A functional React component that renders a single post item in a blog archive or list view.
@@ -17,20 +26,20 @@ A functional React component that renders a single post item in a blog archive o
 @param {string[]} props.categoryList - An array of category names the post belongs to.
 @return {JSX.Element} A JSX element representing a post item.
 */
-export default function PostItem(props) {
+const PostItem: React.FC<PostItemProps> = ({id, title, postImage, date, categoryList, link}: PostItemProps) => {
     return (
         <div className='post-entry-col archive-entry-col col-lg-4 col-md-6 col-sm-12 col-12'>
             <article className='post-entry archive-entry'>
-                {props.postImage &&
-                    <a id={props.id} className='post-link' href={props.link}>
-                        <img className='post-img' src={props.postImage} loading='eager'></img>
+                {postImage &&
+                    <a id={id.toString()} className='post-link' href={link}>
+                        <img className='post-img' src={postImage} loading='eager'></img>
                     </a>
                 }
                 <div className='post-entry-info'>
-                    <a href={props.link}><h5 className='entry-title'>{props.title}</h5></a>
-                    <h6 className='posted-on'>{props.date}</h6>
+                    <a href={link}><h5 className='entry-title'>{title}</h5></a>
+                    <h6 className='posted-on'>{date}</h6>
                     {
-                        props.categoryList.map((category) => (
+                        categoryList.map((category) => (
                             <a key={category} className='category-button anchor-button' href={`${blogURL}/?categories_filter=${category}`}>{category}</a>
                         ))
                     }
@@ -38,7 +47,8 @@ export default function PostItem(props) {
             </article>
         </div>
     );
-}
+};
+export default PostItem;
 
 PostItem.propTypes = {
     id: PropTypes.number.isRequired,

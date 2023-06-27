@@ -47,3 +47,11 @@
 		  + "Available breakpoints are: #{map-keys($mq-breakpoints)}.";
 	}
 }
+
+@mixin disable-user-select() {
+	user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+}

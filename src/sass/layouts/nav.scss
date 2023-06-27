@@ -12,17 +12,13 @@
 
 header{
   .header-nav {
+    @include disable-user-select;
     top: 0;
     width: 100%;
     position: fixed;
     z-index: 1;
     background-color: $header-background-col;
     color: $header-text-col;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -khtml-user-select: none;
 
     #profile-menu{
       display: flex;
@@ -116,11 +112,7 @@ footer {
       color: $footer-text-col;
       cursor: default;
       text-align: center;
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -khtml-user-select: none;
+      @include disable-user-select;
   
       .footer-social {
         background-color: $footer-social-background;

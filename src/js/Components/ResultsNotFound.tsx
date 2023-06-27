@@ -9,10 +9,9 @@ import {
 
 /**
  * Renders a message indicating that no results were found for the applied filters.
- * @param {object} props - The component props.
  * @return {JSX.Element} - The rendered component.
  */
-export default function ResultsNotFound(props) {
+export default function ResultsNotFound() {
     return (
         <div id="results-not-found">
             <FontAwesomeIcon

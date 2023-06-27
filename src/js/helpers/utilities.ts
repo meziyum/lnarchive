@@ -16,6 +16,19 @@ export const formatTitle = (oldTitle: string, slice: boolean): string => {
     return decodedTitle;
 };
 
+export const getCurrentMonthNameByNo = (no: number): string => {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months[no];
+};
+
+export const getCurrentMonth = (): number => {
+    return new Date().getMonth();
+};
+
+export const getCurrentYear = (): number => {
+    return new Date().getFullYear();
+};
+
 export const escHTML = (unsafeText: string): string => {
     const div = document.createElement('div');
     div.innerText = unsafeText;

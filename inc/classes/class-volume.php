@@ -6,6 +6,8 @@
  */
 
 namespace lnarchive\inc;
+
+use DateTime;
 use lnarchive\inc\traits\Singleton;
 use WP_Query;
 
@@ -28,6 +30,7 @@ class volume{
         add_filter( 'post_row_actions', [$this, 'remove_view_action_from_list'], 10, 2 );
         add_filter( 'draft_to_publish', [$this, 'new_volume_publish'], 10, 1);
         add_filter( 'trash_volume', [$this, 'trash_existing_volume'], 10, 3);
+        /*add_filter( 'updated_post_meta', [$this, 'update_volume_meta'], 10, 4);*/
         add_filter( 'post_updated_messages', [$this, 'custom_post_updated_messages'] );
     }
 
@@ -218,15 +221,25 @@ class volume{
                     'taxonomy'   => 'format',
                     'hide_empty' => true,
                 ));
-                $publication_date_order_by=array();
+                $order_by_formats=array();
                 foreach ($formats as $format) {
-                    array_push($publication_date_order_by, 'published_date_value_'.$format->name);
+                    array_push($order_by_formats, 'published_date_value_'.$format->name);
                 }
                 $order_by = $request->get_param('orderby');
-                if( isset( $order_by ) ) {
-                    if(in_array($order_by, $publication_date_order_by)) {
-                        $args['meta_query'] = array(
-                            'relation' => 'AND',
+                $current_month = date('m');
+                $current_year = date('Y');
+                $month_param = $request->get_param('month');
+                $year_param = $request->get_param('year');
+                $search_param = $request->get_param('search');
+                $month = isset($month_param) ? $month_param+1 : $current_month;
+                $year = isset($year_param) ? $year_param : $current_year;
+                $start_date = $year.'-'.$month.'-01';
+                $end_date = $year.'-'.$month.'-31';
+                $meta_filters = array('relation' => 'AND');
+
+                if (isset($order_by)) {
+                    if (in_array($order_by, $order_by_formats)) {
+                        array_push($meta_filters,
                             array(
                                 'key' => $order_by,
                                 'value' => '',
@@ -239,10 +252,29 @@ class volume{
                                 'type' => 'DATE'
                             )
                         );
+
+                        if($search_param == '') {
+                            array_push($meta_filters,
+                                array(
+                                    'key' => $order_by,
+                                    'value' => $start_date,
+                                    'compare' => '>=',
+                                    'type' => 'DATE'
+                                ),
+                                array(
+                                    'key' => $order_by,
+                                    'value' => $end_date,
+                                    'compare' => '<=',
+                                    'type' => 'DATE'
+                                )
+                            );
+                        }
                         $args['meta_key'] = $order_by;
                         $args['order'] = 'asc';
                         $args['orderby'] = 'meta_value';
                     }
+
+                    $args['meta_query'] =$meta_filters;
                 }
                 return $args;
             },

@@ -2,6 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+interface PaginationProps {
+    currentPage: number;
+    length: number;
+    siblings?: number;
+    handleclick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
 /**
  * Pagination Component
  *
@@ -13,24 +20,21 @@ import PropTypes from 'prop-types';
  *
  * @return {JSX} - Component JSX
  */
-export default function Pagination(props) {
-    let pagination=[];
-    const currentPage = props.currentPage;
-    const length = props.length;
-    const siblings = props.siblings;
+const Pagination: React.FC<PaginationProps> = ({currentPage, length, siblings=2, handleclick}: PaginationProps) => {
+    let pagination: Array<React.JSX.Element> = [];
     let start = currentPage-siblings > 1 ? currentPage-siblings: 1;
     const end = currentPage+siblings > length ? length : currentPage+siblings;
 
     while ( start<=end) {
         pagination.push(
-            <button key={start} value={start} onClick={props.handleclick} className={ start==currentPage ? 'current' : undefined}>{start}</button>,
+            <button key={start} value={start} onClick={handleclick} className={ start==currentPage ? 'current' : undefined}>{start}</button>,
         );
         start++;
     }
 
     if (currentPage-siblings>1) {
         pagination=[
-            <button key='1' value='1' onClick={props.handleclick}>{'<<'}</button>,
+            <button key='1' value='1' onClick={handleclick}>{'<<'}</button>,
             <button key='...'>{'...'}</button>,
             ...pagination,
         ];
@@ -40,7 +44,7 @@ export default function Pagination(props) {
         pagination=[
             ...pagination,
             <button key='....'>{'...'}</button>,
-            <button key={length} value={length} onClick={props.handleclick}>{'>>'}</button>,
+            <button key={length} value={length} onClick={handleclick}>{'>>'}</button>,
         ];
     }
 
@@ -52,15 +56,13 @@ export default function Pagination(props) {
             </div>
         }</div>
     );
-}
+};
+
+export default Pagination;
 
 Pagination.propTypes = {
     currentPage: PropTypes.number.isRequired,
     length: PropTypes.number.isRequired,
     handleclick: PropTypes.func.isRequired,
     siblings: PropTypes.number,
-};
-
-Pagination.defaultProps ={
-    siblings: 2,
 };

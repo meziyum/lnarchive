@@ -7,6 +7,16 @@ import {
     faFireFlameCurved,
 } from '@fortawesome/free-solid-svg-icons';
 
+interface NovelItemProps {
+    id: number;
+    title: string | null;
+    rating: number | null;
+    popularity: number | null;
+    link: string;
+    novelCover: null | string;
+    releaseDate: string | null;
+}
+
 /**
  * Renders a single novel item.
  * @param {Object} props - The props object for the component.
@@ -19,11 +29,11 @@ import {
  * @param {string} props.releaseDate - The release date of the novel
  * @return {JSX.Element} - The rendered component.
  */
-function NovelItem(props) {
+const NovelItem: React.FC<NovelItemProps> = (props: NovelItemProps) => {
     return (
         <div className="novel-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
             <div className="novel-entry archive-entry">
-                <a id={props.id} className="novel-link" href={props.link}>
+                <a id={props.id.toString()} className="novel-link" href={props.link}>
                     {
                         props.novelCover ?
                             <img className="novel-cover" srcSet={props.novelCover} loading='eager'/> :
@@ -40,7 +50,7 @@ function NovelItem(props) {
                                 size={'sm'}
                                 style={{color: '#FF0000'}}
                             />
-                            <h4>{props.rating>0 ? `${props.rating}%`: '-'}</h4>
+                            <h4>{props.rating && props.rating>0 ? `${props.rating}%`: '-'}</h4>
                         </div>
                         <div className="novel-popularity-div">
                             <FontAwesomeIcon
@@ -57,7 +67,7 @@ function NovelItem(props) {
             </div>
         </div>
     );
-}
+};
 
 export default React.memo(NovelItem);
 

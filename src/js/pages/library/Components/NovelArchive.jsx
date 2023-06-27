@@ -1,8 +1,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import NovelItem from '../../../Components/NovelItem.jsx';
-import TaxSelect from '../../../Components/TaxSelect.jsx';
+import NovelItem from '../../../Components/NovelItem';
+import TaxSelect from '../../../Components/TaxSelect';
 import Search from '../../../Components/Search.jsx';
 import useToggle from '../../../hooks/useToggle.js';
 import InfiniteScroll from '../../../extensions/InfiniteScroll.js';

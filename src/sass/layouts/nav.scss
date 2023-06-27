@@ -116,6 +116,11 @@ footer {
       color: $footer-text-col;
       cursor: default;
       text-align: center;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -khtml-user-select: none;
   
       .footer-social {
         background-color: $footer-social-background;

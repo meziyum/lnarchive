@@ -1,9 +1,18 @@
 
 import React from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon, FontAwesomeIconProps} from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import {faStar as faStarRegular} from '@fortawesome/free-regular-svg-icons';
 import {faStar as faStarSolid, faStarHalfStroke} from '@fortawesome/free-solid-svg-icons';
+
+interface RatingsProps {
+    count?: number;
+    rating?: number;
+    color?: string;
+    mode?: 'form' | 'display';
+    submitRatings(value: number) : void;
+    size?: FontAwesomeIconProps['size'];
+}
 
 /**
  * A component for displaying and submitting ratings in a star-based format.
@@ -13,36 +22,36 @@ import {faStar as faStarSolid, faStarHalfStroke} from '@fortawesome/free-solid-s
  * @param {number} [props.rating=0] - The current rating to display
  * @param {string} [props.color='orange'] - The color of the stars
  * @param {string} [props.mode='form'] - The mode of the component, either 'form' or 'display'
- * @param {function} [props.ratings_submit=''] - A callback function to be called when a rating is submitted
+ * @param {function} [props.submitRatings] - A callback function to be called when a rating is submitted
  * @param {string} [props.size='lg'] - The size of the stars
  *
  * @return {JSX.Element} - A JSX element representing the ratings component
  */
-export default function Ratings(props) {
+const Ratings = ({mode='form', count=5, rating=0, color='orange', submitRatings, size='lg'}: RatingsProps) => {
     const mouseOver = (index) => {
-        if (props.mode === 'form') setHoverRating(index);
+        if (mode === 'form') setHoverRating(index);
     };
 
     const mouseLeave = () => {
-        if (props.mode === 'form') setHoverRating(-1);
+        if (mode === 'form') setHoverRating(-1);
     };
 
     const [hoverRating, setHoverRating] = React.useState(-1);
 
-    const ratingStars = Array.from({length: props.count}, (_, index) => {
+    const ratingStars = Array.from({length: count}, (_, index) => {
         return (
             <FontAwesomeIcon
                 key={index}
                 title='User Rating'
                 icon={
-                    props.rating >= index + 1 && hoverRating === -1 || hoverRating >= index ? faStarSolid :
-                        props.rating >= index + 0.5 && (hoverRating >= props || hoverRating === -1) ?
+                    rating >= index + 1 && hoverRating === -1 || hoverRating >= index ? faStarSolid :
+                        rating >= index + 0.5 && (hoverRating >= rating || hoverRating === -1) ?
                             faStarHalfStroke :
                             faStarRegular
                 }
-                size={props.size}
-                style={{color: props.color}}
-                onClick={() => props.ratings_submit((index + 1)*20)}
+                size={size}
+                style={{color: color}}
+                onClick={() => submitRatings((index + 1)*20)}
                 onMouseOver={() => mouseOver(index)}
                 onMouseLeave={mouseLeave}
             />
@@ -51,24 +60,17 @@ export default function Ratings(props) {
 
     return (
         <>
-            {(props.rating !== 0 || props.mode === 'form') && ratingStars}
+            {(rating !== 0 || mode === 'form') && ratingStars}
         </>
     );
-}
+};
+export default Ratings;
 
 Ratings.propTypes = {
     count: PropTypes.number,
     rating: PropTypes.number,
     color: PropTypes.string,
     mode: PropTypes.string,
-    ratings_submit: PropTypes.func.isRequired,
+    ratings_submit: PropTypes.func,
     size: PropTypes.string,
-};
-
-Ratings.defaultProps ={
-    count: 5,
-    rating: 0,
-    color: 'orange',
-    mode: 'form',
-    size: 'lg',
 };

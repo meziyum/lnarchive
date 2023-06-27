@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Ratings from '../../../Components/Ratings.jsx';
+import Ratings from '../../../Components/Ratings';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faHeart,
@@ -81,7 +81,7 @@ export default function NovelActions(props) {
                     <h3>{props.novelPopularity ? props.novelPopularity : 0}</h3>
                 </div>
                 <div id="user-ratings">
-                    {props.isLoggedIn && <Ratings title='Your Ratings' ratings_submit={submitRatings} size={'xl'} rating={(actionStates.rating)/20} mode={'form'}/>}
+                    {props.isLoggedIn && <Ratings title='Your Ratings' submitRatings={submitRatings} size={'xl'} rating={(actionStates.rating)/20} mode={'form'}/>}
                 </div>
             </div>
             {actionStates.ratingSubmitted && <h6>Your rating has been submitted!</h6>}

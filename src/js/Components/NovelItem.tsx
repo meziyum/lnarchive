@@ -9,12 +9,12 @@ import {
 
 interface NovelItemProps {
     id: number;
-    title: string | null;
-    rating: number | null;
-    popularity: number | null;
+    title?: string;
+    rating?: number;
+    popularity?: number;
     link: string;
-    novelCover: null | string;
-    releaseDate: string | null;
+    novelCover?: string;
+    releaseDate?: string;
 }
 
 /**

@@ -6,6 +6,7 @@
 @import "../layouts/infiniteLoading.scss";
 
 .calendar-wrap{
+    @include disable-user-select;
 
     #upcoming-releases-wrap{
 

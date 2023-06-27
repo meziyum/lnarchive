@@ -8,6 +8,7 @@
 @import "../layouts/infiniteLoading.scss";
 
 #blog-wrap {
+    @include disable-user-select;
     
     #post-wrap-header {
         display: flex;

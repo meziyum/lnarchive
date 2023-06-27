@@ -7,7 +7,7 @@ import Search from '../../../Components/Search';
 import useToggle from '../../../hooks/useToggle.js';
 import InfiniteScroll from '../../../extensions/InfiniteScroll';
 import {formatTitle} from '../../../helpers/utilities.ts';
-import ResultsNotFound from '../../../Components/ResultsNotFound';
+import ResultsNotFound from '../../../layouts/ResultsNotFound';
 import Select from 'react-select';
 import {reactSelectStyle} from '../../../helpers/reactSelectStyles';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

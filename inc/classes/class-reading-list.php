@@ -23,6 +23,7 @@ class reading_list {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         $reading_list_table_name = $wpdb->prefix . 'reading_list';
         $reading_list_item_table_name = $wpdb->prefix . 'reading_list_items';
+        $progress_status_table_name = $wpdb->prefix . 'progress_status';
         $query_array = array();
 
         if ($wpdb->get_var("SHOW TABLES LIKE '$reading_list_table_name'") !== $reading_list_table_name) {
@@ -47,6 +48,20 @@ class reading_list {
             FOREIGN KEY (list_id) REFERENCES $reading_list_table_name(list_id)
             ) $charset_collate;";
             array_push($query_array, $reading_list_item_query);
+        }
+
+        if ($wpdb->get_var("SHOW TABLES LIKE '$progress_status_table_name'") !== $progress_status_table_name) {
+            $progress_status_item_query = "CREATE TABLE " . $progress_status_table_name . " (
+            entry_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            object_id bigint(20) UNSIGNED NOT NULL,
+            user_id bigint(20) UNSIGNED NOT NULL,
+            progress bigint(20) UNSIGNED NOT NULL,
+            status VARCHAR(20) NOT NULL,
+            PRIMARY KEY (entry_id),
+            FOREIGN KEY (object_id) REFERENCES {$wpdb->prefix}posts(ID),
+            FOREIGN KEY (user_id) REFERENCES {$wpdb->prefix}users(ID)
+            ) $charset_collate;";
+            array_push($query_array, $progress_status_item_query);
         }
 
         dbDelta($query_array, true);

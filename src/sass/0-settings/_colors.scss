@@ -23,10 +23,8 @@ $shadow-color-hover: #00000033;
 
 $not-imp: #9e9fad;
 
-$cancel: red;
-
 //Comments
-$cancel-reply-color: $cancel;
+$cancel-reply-color: $red;
 
 //Colors List
 $white: #ffffff;
@@ -34,11 +32,22 @@ $white-smoke: #F5F5F5;
 $white-ghost: #F9F9F9;
 $white-snow: #FAFAFA;
 $white-vista: #fef8f2;
+$rose-quartz: #F7CAC9;
+$living-coral: #FF6F61;
+$tangerine-tango: #DD4124;
+$red: #ff0000;
+$crimson: #B90E0A;
 $orange-amazon: #FF9900;
+$mimosa: #EFC050;
 $green-emerald: #50C878;
+$greenery: #88B04B;
+$emerlad: #009B77;
 $green-shamrock: #009E60;
+$serenity: #92A8D1;
 $blue-bright: #0096FF;
+$blue-classic: #34568B;
 $violet-blue: #6351ce;
+$violet-ultra: #6B5B95;
 $violet-blue-dark: #6b00b3;
 $grey-silver: #C0C0C0;
 $grey-light: #D3D3D3;
@@ -67,6 +76,8 @@ $selected-format-border: $orange-amazon;
 
 /****** Novel Archive ******/
 $filters-background-color: $violet-blue;
+$clear-button-color: $white;
+$clear-button-bg: $red;
 
 /****** Layouts ******/
 

@@ -6,12 +6,25 @@
     flex-direction: column;    
     padding: 16px;
 
-    #sort_by{
+    #filter_footer {
         display: flex;
-        justify-content: start;
-    
-        > * {
-            margin-right: 16px;
+        justify-content: space-between;
+
+        #sort_by{
+            display: flex;
+            justify-content: start;
+        
+            > * {
+                margin-right: 16px;
+            }
+        }
+
+        #filter_actions {
+            #clear {
+                color: $clear-button-color;
+                background-color: $clear-button-bg;
+                padding: 4px 8px;
+            }
         }
     }
 }

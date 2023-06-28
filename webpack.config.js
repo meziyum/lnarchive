@@ -20,6 +20,7 @@ const entry = {
 	calendar: `${JS_DIR}/calendar/calendar.js`,
 	profile: `${JS_DIR}/profile/profile.js`,
 	add_data: `${JS_DIR}/add_data/add_data.js`,
+	reading_list: `${JS_DIR}/reading_list/reading_list`,
 };
 
 const output = {

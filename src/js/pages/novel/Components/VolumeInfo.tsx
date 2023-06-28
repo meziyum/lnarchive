@@ -2,21 +2,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+interface VolumeInfoProps {
+    isbn?: string;
+    publishedDate?: string;
+    translator?: Array<{
+        id: number;
+        name: string;
+    }>;
+    narrator?: Array<{
+        id: number;
+        name: string;
+    }>;
+    formatName: string;
+}
+
 /**
 Renders volume informatNameion including ISBN, publication date, and narrator for audiobooks.
 @param {string} isbn - The ISBN of the volume.
 @param {string} publishedDate - The publication date of the volume.
 @param {Array.<{id: number, name: string}>} narrator - The array of narrators for an audiobook volume.
+@param {Array.<{id: number, name: string}>} translator - The array of translators for the volume.
 @param {string} formatName - The formatName of the volume (e.g. "Hardcover", "Paperback", "Ebook", etc).
 @return {JSX.Element} - The table row element displaying volume informatNameion.
 */
-export default function VolumeInfo({isbn, publishedDate, translator, narrator, formatName}) {
+const VolumeInfo: React.FC<VolumeInfoProps> = ({isbn, publishedDate, translator, narrator, formatName}: VolumeInfoProps) => {
     return (
         <>
             <tr>
                 <th>Translator</th>
                 <td>
-                    {translator.map( (person) => (
+                    {translator && translator.map( (person) => (
                         person.name
                     ))}
                 </td>
@@ -26,7 +41,7 @@ export default function VolumeInfo({isbn, publishedDate, translator, narrator, f
                 <tr>
                     <th>Narrator</th>
                     <td>
-                        {narrator.map( (person) => (
+                        {narrator && narrator.map( (person) => (
                             <p key={person.id}>{person.name}</p>
                         ))}
                     </td>
@@ -46,7 +61,8 @@ export default function VolumeInfo({isbn, publishedDate, translator, narrator, f
             }
         </>
     );
-}
+};
+export default VolumeInfo;
 
 VolumeInfo.propTypes = {
     isbn: PropTypes.string,

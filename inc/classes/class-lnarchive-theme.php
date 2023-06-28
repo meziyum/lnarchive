@@ -153,6 +153,24 @@ class lnarchive_theme{
            );
            wp_insert_post($calendar_args);
          }
+
+         $reading_list_query_args = array(
+            'post_type' => 'page',
+            'post_status' => 'publish',
+            'posts_per_page' => 1,
+            'title' => 'Reading List',
+         );
+         $reading_list_query = new WP_Query($reading_list_query_args);
+
+         if(!$reading_list_query->have_posts()) {
+            $reading_list_args = array(
+               'post_title'    => 'Reading List',
+               'post_status'   => 'publish',
+               'post_type'     => 'page',
+               'page_template' => 'page-templates/reading-list.php',
+           );
+           wp_insert_post($reading_list_args);
+         }
      }
 }
 ?>

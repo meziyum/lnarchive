@@ -37,6 +37,18 @@ class reading_list {
             array_push($query_array, $reading_list_query);
         }
 
+        if ($wpdb->get_var("SHOW TABLES LIKE '$reading_list_item_table_name'") !== $reading_list_item_table_name) {
+            $reading_list_item_query = "CREATE TABLE " . $reading_list_item_table_name . " (
+            item_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            object_id bigint(20) UNSIGNED NOT NULL,
+            list_id bigint(20) UNSIGNED NOT NULL,
+            PRIMARY KEY (item_id),
+            FOREIGN KEY (object_id) REFERENCES {$wpdb->prefix}posts(ID),
+            FOREIGN KEY (list_id) REFERENCES $reading_list_table_name(list_id)
+            ) $charset_collate;";
+            array_push($query_array, $reading_list_item_query);
+        }
+
         dbDelta($query_array, true);
     }
 }

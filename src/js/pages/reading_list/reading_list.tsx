@@ -8,7 +8,7 @@ import ReadingList from './Components/ReadingList';
 /* eslint-disable no-undef */
 const customAPIRequestURL = lnarchiveVariables.custom_api_url;
 /* eslint-enable no-undef */
-const readingListDOM = document.getElementById('reading-list-main');
+const readingListDOM = document.getElementById('reading-list-section');
 
 if (readingListDOM) {
     const readingListRoot = ReactDOMClient.createRoot(readingListDOM);

@@ -367,7 +367,7 @@ class taxonomies {
             'rest_base' => 'format',
             'show_tagcloud' => false,
             'show_in_quick_edit' => false,
-            'meta_box_cb' => false,
+            'meta_box_cb' => null,
             'description' => 'The formats in which the novels are published in',
             'show_admin_column' => true,
             'update_count_callback' => '',

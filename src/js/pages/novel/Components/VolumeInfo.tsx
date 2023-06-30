@@ -1,18 +1,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import PersonType from '../../../types/PersonType';
 
 interface VolumeInfoProps {
     isbn?: string;
     publishedDate?: string;
-    translator?: Array<{
-        id: number;
-        name: string;
-    }>;
-    narrator?: Array<{
-        id: number;
-        name: string;
-    }>;
+    translator?: Array<PersonType>;
+    narrator?: Array<PersonType>;
     formatName: string;
 }
 

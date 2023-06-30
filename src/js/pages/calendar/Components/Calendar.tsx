@@ -11,6 +11,7 @@ import ReactSelectData from '../../../types/ReactSelectData';
 import Search from '../../../Components/Search';
 import ResultsNotFound from '../../../layouts/ResultsNotFound';
 import InfiniteScroll from '../../../extensions/InfiniteScroll';
+import VolumeType from '../../../types/VolumeType';
 import COLORS from '../../../style/colors';
 
 /* eslint-disable no-undef */
@@ -31,21 +32,6 @@ interface CalendarStates {
     volumesFound: boolean;
     currentMonth: number;
     currentYear: number;
-}
-
-interface Volume {
-    id: number;
-    link: string;
-    novel_link: string,
-    title: {
-        rendered: string;
-    }
-    _embedded: {
-        'wp:featuredmedia': Array<{
-            source_url: string;
-        }>;
-    };
-    meta: object;
 }
 
 /**
@@ -88,7 +74,7 @@ const Calendar: React.FC<CalenderProps> = (props: CalenderProps) => {
         });
         const data= await response.json();
 
-        const volumes = data.map( (volume: Volume) => {
+        const volumes = data.map( (volume: VolumeType) => {
             const volumeCover = volume._embedded ? volume._embedded['wp:featuredmedia'][0].source_url: undefined;
             return (
                 <NovelItem

@@ -72,6 +72,7 @@ class localized_variables {
             $localize_vars['rating'] = get_post_meta($object_id, 'rating', true);
             $localize_vars['popularity'] = get_post_meta($object_id, 'popularity', true);
             $localize_vars['user_rating'] = get_user_rating(array('post' => $object_id, 'author' => $user_id));
+            $localize_vars['user_subsription'] = get_user_subscription_status($user_id, $object_id);
           }
         }
         else if(!is_front_page() && is_home() || is_category()) {

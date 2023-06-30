@@ -1,28 +1,42 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {formatDate} from '../../../helpers/utilities.ts';
+import {formatDate} from '../../../helpers/utilities';
+import PersonType from '../../../types/PersonType';
 
 const urlParams = new URLSearchParams(window.location.search);
+
+interface FormatsListProps {
+    formats: Array<{
+        id: number;
+        name: string;
+    }>;
+    meta: object;
+    narrator: Array<PersonType>;
+    translator: Array<PersonType>;
+    formatFilter: string;
+    defaultFormatName: string;
+    handleClick(volumeISBN: string, volumeDate: string, translator: Array<PersonType>, narrator: Array<PersonType>, defaultFormatName: string) : void;
+}
 
 /**
  * Displays a list of available formats and handles the click event when a format is selected.
  * @param {Object[]} formats - An array of objects representing the available formats.
  * @param {Object} meta - An object containing metadata for the volume.
- * @param {string} narrator - The name of the narrator for the audiobook format.
+ * @param {PersonType} narrator - The name of the narrator for the audiobook format.
+ * @param {PersonType} translator - The name of the translator of the novel.
  * @param {string} formatFilter - The current format filter applied to the novel.
  * @param {Function} handleClick - A function that handles the click event when a format is selected.
- * @param {string} defaultFormatName - The name of the default format to be selected on initial load.
  * @return {JSX.Element} - Returns the list of available formats as JSX.
  */
-export default function FormatsList({formats, meta, translator, narrator, handleClick, formatFilter}) {
+const FormatsList: React.FC<FormatsListProps> = ({formats, meta, translator, narrator, handleClick, formatFilter}: FormatsListProps) =>{
     const [selectedFormat, setSelectedFormat] = React.useState(formatFilter);
 
     React.useEffect( () => {
         setSelectedFormat(formatFilter);
     }, [formatFilter]);
 
-    const handleFormatClick = (formatName) => {
+    const handleFormatClick = (formatName: string) => {
         if (formatName == selectedFormat) {
             return;
         }
@@ -52,7 +66,8 @@ export default function FormatsList({formats, meta, translator, narrator, handle
             }
         </>
     );
-}
+};
+export default FormatsList;
 
 FormatsList.propTypes = {
     formats: PropTypes.array.isRequired,

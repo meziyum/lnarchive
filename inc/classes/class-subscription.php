@@ -16,6 +16,32 @@ class subscription {
     protected function set_hooks() {
         add_action('after_switch_theme', [$this, 'create_datbases']);
         add_action('publish_post', [$this, 'on_post_publish'], 10, 3);
+        add_action( 'rest_api_init', [$this, 'register_routes']);
+    }
+
+    public function register_routes() {
+        register_rest_route( 'lnarchive/v1', 'subscribe', array(
+            'methods' => 'POST',
+            'callback' => [ $this, 'subscribe_novel'],
+            'permission_callback' => function(){
+                return is_user_logged_in();
+            },
+        ));
+    }
+
+    function subscribe_novel($request) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'user_subscriptions';
+        $body = $request->get_json_params();
+        $user_id = get_current_user_id();
+        $object_id = $body['object_id'];
+        $user_subscribed = get_user_subscription_status($user_id, $object_id);
+
+        if ($user_subscribed) {
+            $wpdb->delete($table_name, array('object_id' => $object_id, 'user_id' => $user_id));
+        } else {
+            $wpdb->insert($table_name, array('object_id' => $object_id, 'user_id' => $user_id));
+        }
     }
 
     function on_post_publish($post_id, $post, $old_status) {

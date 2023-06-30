@@ -31,6 +31,7 @@
 }
 
 #info-section {
+    display: relative;
     margin-bottom: 16px;
 
     .novel-row {
@@ -69,11 +70,13 @@
             border-radius: 8px;
 
             #novel-actions {
+                @include disable-user-select;
+                margin-top: 8px;
+
                 #actions-main {
                     display: flex;
                     justify-content: start;
                     align-items: center;
-                    margin: 8px 0;
 
                     >*{
                         margin-right: 8px;
@@ -90,28 +93,67 @@
                         }
                     }
 
-                    #user-ratings-div {
-                        display: flex;
-                        justify-content: start;
-                        align-items: center;
-                    }
+                    #end-div {
+                        margin-left: auto;
 
-                    #user-ratings-div {
-                        display: flex;
-                        justify-content: start;
-                        align-items: center;
-                        margin: 8px 0;
-
-                        h6 {
-                            color: $rating-submit-msg;
-                            margin: 0 0 0 8px;
+                        >*{
+                            margin-left: 12px;
                         }
                     }
                 }
 
-                h6 {
-                    color: $rating-submit-msg;
-                    margin: 0;
+                #reading-list-action {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-color: $reading-list_popup-bg;
+                    padding: 16px;
+                    border-radius: 12px;
+                    z-index: 1;
+
+                    #cancel-reading-list {
+                        display: flex;
+                        justify-content: end;
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    div {
+                        display: flex;
+                        justify-content: space-between;
+
+                        label {
+                            color: $reading-list_popup-color;
+                            font-weight: 600;
+                        }
+
+                        >*{
+                            padding: 4px;
+                            border-radius: 4px;
+                        }
+                    }
+
+                    #update-reading-list {
+                        color: $reading-list-update-btn-color;
+                        background-color: $reading-list-update-btn-bg;
+                    }
+            
+                    >*{
+                        margin: 8px 0;
+                        padding: 4px;
+                    }
+                }
+
+                h5 {
+                    color: $novel-actions-msg-color;
+                }
+
+                >*{
+                    margin: 8px 0;
                 }
             }
 

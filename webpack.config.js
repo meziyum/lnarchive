@@ -4,7 +4,6 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import {CleanWebpackPlugin} from 'clean-webpack-plugin';
-import million from 'million/compiler';
 
 const JS_DIR = path.resolve('./src/js/pages');
 const IMG_DIR = path.resolve('./src/img');
@@ -78,13 +77,6 @@ const plugins = (argv) => [
 
     new MiniCssExtractPlugin({
         filename: 'css/[name].css',
-    }),
-
-    million.webpack({
-        mode: 'react',
-        optimize: true,
-        server: false,
-        mute: false,
     }),
 ];
 

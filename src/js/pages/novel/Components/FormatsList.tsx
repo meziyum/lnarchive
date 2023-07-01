@@ -15,7 +15,6 @@ interface FormatsListProps {
     narrator: Array<TermType>;
     translator: Array<TermType>;
     formatFilter: string;
-    defaultFormatName: string;
     handleClick(volumeISBN: string, volumeDate: string, translator: Array<TermType>, narrator: Array<TermType>, defaultFormatName: string) : void;
 }
 

@@ -35,6 +35,17 @@ class reading_list {
         ));
     }
 
+    function get_reading_lists_route($request) {
+        $user_id = $request['user_id'];
+        return $this->get_reading_lists($user_id);
+    }
+
+    function get_reading_lists($user_id) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'reading_list';
+        return $wpdb->get_results("SELECT list_id, name FROM $table_name WHERE user_id=$user_id");
+    }
+
     function create_datbases() {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();

@@ -1,4 +1,6 @@
 
+import TermType from './TermType';
+
 interface VolumeType {
     id: number;
     link: string;
@@ -13,10 +15,9 @@ interface VolumeType {
         'wp:featuredmedia': Array<{
             source_url: string;
         }>;
-        'wp:term': Array<{
-            name: string;
-            taxonomy: string;
-        }>;
+        'wp:term': Array<
+            Array<TermType>
+        >;
     };
     meta: object;
 }

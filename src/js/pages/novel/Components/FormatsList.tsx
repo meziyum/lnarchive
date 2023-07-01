@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {formatDate} from '../../../helpers/utilities';
-import PersonType from '../../../types/PersonType';
+import TermType from '../../../types/TermType';
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -12,19 +12,19 @@ interface FormatsListProps {
         name: string;
     }>;
     meta: object;
-    narrator: Array<PersonType>;
-    translator: Array<PersonType>;
+    narrator: Array<TermType>;
+    translator: Array<TermType>;
     formatFilter: string;
     defaultFormatName: string;
-    handleClick(volumeISBN: string, volumeDate: string, translator: Array<PersonType>, narrator: Array<PersonType>, defaultFormatName: string) : void;
+    handleClick(volumeISBN: string, volumeDate: string, translator: Array<TermType>, narrator: Array<TermType>, defaultFormatName: string) : void;
 }
 
 /**
  * Displays a list of available formats and handles the click event when a format is selected.
  * @param {Object[]} formats - An array of objects representing the available formats.
  * @param {Object} meta - An object containing metadata for the volume.
- * @param {PersonType} narrator - The name of the narrator for the audiobook format.
- * @param {PersonType} translator - The name of the translator of the novel.
+ * @param {TermType} narrator - The name of the narrator for the audiobook format.
+ * @param {TermType} translator - The name of the translator of the novel.
  * @param {string} formatFilter - The current format filter applied to the novel.
  * @param {Function} handleClick - A function that handles the click event when a format is selected.
  * @return {JSX.Element} - Returns the list of available formats as JSX.

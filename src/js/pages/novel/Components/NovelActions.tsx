@@ -117,7 +117,7 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
         }));
     };
 
-    const updateReadingList = async (event: React.FormEvent<HTMLButtonElement>) => {
+    const updateReadingList = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         fetch( `${customAPIRequestURL}reading_list`, {
             method: 'POST',

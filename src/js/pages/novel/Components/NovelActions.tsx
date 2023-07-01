@@ -43,6 +43,7 @@ interface NovelActionsProps {
     novelRating: number;
     novelPopularity?: number;
     readingLists: Array<readingList>;
+    maxProgress: number;
 }
 
 interface ActionStates {
@@ -64,7 +65,7 @@ A React component that renders actions for a novel, including rating the novel.
 @param {number} props.novelPopularity - The popularity of the novel.
 @return {JSX.Element} - A React component that displays novel actions.
 */
-const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, novelPopularity=0, readingLists}: NovelActionsProps) => {
+const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, novelPopularity=0, readingLists, maxProgress}: NovelActionsProps) => {
     const [actionStates, updateActionStates] = React.useState<ActionStates>({
         rating: userRating == null ? 0 : parseInt(userRating),
         displayMessage: false,
@@ -116,7 +117,8 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
         }));
     };
 
-    const updateReadingList = async () => {
+    const updateReadingList = async (event: React.FormEvent<HTMLButtonElement>) => {
+        event.preventDefault();
         fetch( `${customAPIRequestURL}reading_list`, {
             method: 'POST',
             credentials: 'same-origin',
@@ -215,7 +217,7 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
             </div>
             {actionStates.displayMessage && <h5>{messages[actionStates.currentMessage]}</h5>}
             {actionStates.readingListPopupVisible &&
-            <div id="reading-list-action">
+            <form id="reading-list-action" onSubmit={updateReadingList}>
                 <div id='cancel-reading-list'>
                     <FontAwesomeIcon
                         title='Cancel'
@@ -227,7 +229,7 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
                 </div>
                 <div>
                     <label htmlFor="reading_progress">Progress: </label>
-                    <input name='reading_progress' id='reading_progress' type='number' value={actionStates.reading_progress} onChange={updateForm}></input>
+                    <input name='reading_progress' id='reading_progress' type='number' value={actionStates.reading_progress} onChange={updateForm} min={0} max={maxProgress}></input>
                 </div>
                 <div>
                     <label htmlFor="novel_status">Reading Status: </label>
@@ -256,8 +258,8 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
                     isClearable={true}
                     styles={reactSelectStyle}
                 />
-                <button id="update-reading-list" onClick={updateReadingList}>Update</button>
-            </div>
+                <button id="update-reading-list">Update</button>
+            </form>
             }
         </>
     );

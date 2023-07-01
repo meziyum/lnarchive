@@ -48,7 +48,7 @@ if (novelActionsDOM) {
         .then( (res) => res.json())
         .then( (readingLists) => {
             const novelActionsRoot = ReactDOMClient.createRoot(novelActionsDOM);
-            novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} readingLists={readingLists}/>);
+            novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} readingLists={readingLists} maxProgress={maxProgress}/>);
         });
 } else {
     throw new Error('Unable to find the Novel Actions Root');

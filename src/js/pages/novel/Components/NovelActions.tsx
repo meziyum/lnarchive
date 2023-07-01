@@ -130,6 +130,7 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
                 object_id: postID,
                 status: actionStates.novel_status,
                 progress: actionStates.reading_progress,
+                lists: actionStates.currentReadingList,
             }),
         });
         updateActionStates( (prevStates) => ({

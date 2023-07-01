@@ -35,6 +35,16 @@ class reading_list {
         ));
     }
 
+    function updateReadingList($request) {
+        $body = $request->get_json_params();
+        $object_id = $body['object_id'];
+        $status = $body['status'];
+        $progress = $body['progress'];
+        $reading_lists = $body['progress'];
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'reading_list_items';
+    }
+
     function get_reading_lists_route($request) {
         $user_id = $request['user_id'];
         return $this->get_reading_lists($user_id);

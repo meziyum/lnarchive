@@ -19,7 +19,6 @@ const userNonce = lnarchiveVariables.nonce;
 const commentsEnabled = lnarchiveVariables.commentsEnabled;
 const commentsTotalCount = lnarchiveVariables.comments_count;
 const loginURL = lnarchiveVariables.login_url;
-
 const userID = parseInt(lnarchiveVariables.user_id);
 const isLoggedIn = Boolean(lnarchiveVariables.isLoggedIn);
 const novelRating = lnarchiveVariables.rating;
@@ -37,19 +36,8 @@ const fields = `id,excerpt.rendered,featuredmedia,meta,title.rendered,_links`;
 const novelActionsDOM = document.getElementById('novel-actions');
 
 if (novelActionsDOM) {
-    fetch(`${customAPIRequestURL}reading_lists/${userID}`, {
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-WP-Nonce': userNonce,
-        },
-    })
-        .then( (res) => res.json())
-        .then( (readingLists) => {
-            const novelActionsRoot = ReactDOMClient.createRoot(novelActionsDOM);
-            novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} readingLists={readingLists} maxProgress={maxProgress}/>);
-        });
+    const novelActionsRoot = ReactDOMClient.createRoot(novelActionsDOM);
+    novelActionsRoot.render(<NovelActions isLoggedIn={isLoggedIn} novelRating={parseInt(novelRating)} novelPopularity={parseInt(novelPopularity)} maxProgress={maxProgress}/>);
 } else {
     throw new Error('Unable to find the Novel Actions Root');
 }

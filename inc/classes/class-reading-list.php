@@ -19,18 +19,9 @@ class reading_list {
     }
 
     public function register_routes() {
-        register_rest_route( 'lnarchive/v1', 'reading_list/(?P<list_id>\d+)', array(
             'methods' => 'POST',
             'callback' => [ $this, 'updateReadingList'],
             'permission_callback' => function(){
-                return true;
-            },
-        ));
-        register_rest_route( 'lnarchive/v1', 'reading_lists/(?P<user_id>\d+)', array(
-            'methods' => 'GET',
-            'callback' => [ $this, 'get_reading_lists_route'],
-            'permission_callback' => function(){
-                return is_user_logged_in();
             },
         ));
     }

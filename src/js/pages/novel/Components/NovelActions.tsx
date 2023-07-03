@@ -25,7 +25,11 @@ const postID = lnarchiveVariables.object_id;
 const userNonce = lnarchiveVariables.nonce;
 const userSubscription = lnarchiveVariables.user_subscription;
 const userRating = lnarchiveVariables.user_rating;
+const readingStatus = lnarchiveVariables.reading_status;
+const novelProgress = lnarchiveVariables.progress;
 /* eslint-enable no-undef */
+console.log(readingStatus);
+console.log(novelProgress)
 const messages = [
     '',
     'Your rating has been submitted!',
@@ -70,8 +74,8 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
         rating: userRating == null ? 0 : parseInt(userRating),
         displayMessage: false,
         currentMessage: 0,
-        reading_progress: 0,
-        novel_status: 'none',
+        reading_progress: novelProgress == null ? 0 : parseInt(novelProgress),
+        novel_status: readingStatus == null ? 'none' : readingStatus,
         currentReadingList: [],
         currentSubscriptionStatus: userSubscription,
         readingListPopupVisible: false,
@@ -234,7 +238,7 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
                 </div>
                 <div>
                     <label htmlFor="novel_status">Reading Status: </label>
-                    <select name="novel_status" id="novel_status" onChange={updateForm}>
+                    <select name="novel_status" id="novel_status" onChange={updateForm} value={actionStates.novel_status}>
                         <option value='none'>None</option>
                         <option value='plan_to_read'>Plan to Read</option>
                         <option value='reading'>Reading</option>

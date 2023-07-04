@@ -30,7 +30,7 @@ class reading_list {
             'methods' => 'GET',
             'callback' => [$this, 'getReadingListRoute'],
             'permission_callback' => function(){
-                return true;
+                return is_user_logged_in();
             },
         ));
     }

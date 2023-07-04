@@ -37,6 +37,10 @@ class assets{
         $path= LNARCHIVE_BUILD_CSS_URI . '/calendar.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/calendar.css');
       }
+      else if(is_page_template('page-templates/reading-list.php')){
+        $path= LNARCHIVE_BUILD_CSS_URI . '/reading_list.css';
+        $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/reading_list.css');
+      }
       else if(is_page_template('page-templates/profile.php')){
         $path= LNARCHIVE_BUILD_CSS_URI . '/profile.css';
         $version_info = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/profile.css');
@@ -75,6 +79,10 @@ class assets{
         if(is_page_template('page-templates/calendar.php')) {
           $path= LNARCHIVE_BUILD_JS_URI . '/calendar.js'; 
           $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/calendar.js');
+        }
+        else if(is_page_template('page-templates/reading-list.php')) {
+          $path= LNARCHIVE_BUILD_JS_URI . '/reading_list.js'; 
+          $version_info = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/reading_list.js');
         }
         else if(is_page_template('page-templates/profile.php')) {
           $path= LNARCHIVE_BUILD_JS_URI . '/profile.js'; 

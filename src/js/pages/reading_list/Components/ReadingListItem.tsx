@@ -9,7 +9,7 @@ interface ReadingListItemProps extends ReadingListItemType {
     showStatus?: boolean;
 }
 
-const ReadingListItem: React.FC<ReadingListItemProps> = ({ID, progress, rating, status, title, cover, showProgress=false, showRating=false, showStatus=false}: ReadingListItemProps) => {
+const ReadingListItem: React.FC<ReadingListItemProps> = ({ID, progress, rating, status, title, cover, showProgress=true, showRating=true, showStatus=true}: ReadingListItemProps) => {
     return (
         <>
             <div class='reading-list-left'>

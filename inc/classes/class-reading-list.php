@@ -106,10 +106,10 @@ class reading_list {
             list_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             user_id bigint(20) UNSIGNED NOT NULL,
             name VARCHAR(20) NOT NULL,
-            public TINYINT(1) NOT NULL DEFAULT '1,
-            progress TINYINT(1),
-            status VARCHAR(2-) DEFAULT 'none',
-            ratings TINYINT(1),
+            public TINYINT(1) NOT NULL DEFAULT '1',
+            progress TINYINT(1) NOT NULL DEFAULT '1',
+            status TINYINT(1) NOT NULL DEFAULT '1',
+            ratings TINYINT(1) NOT NULL DEFAULT '1',
             PRIMARY KEY (list_id),
             FOREIGN KEY (user_id) REFERENCES {$wpdb->prefix}users(ID)
             ) $charset_collate;";

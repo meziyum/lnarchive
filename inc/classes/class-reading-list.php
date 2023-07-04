@@ -19,26 +19,36 @@ class reading_list {
     }
 
     public function register_routes() {
+        register_rest_route( 'lnarchive/v1', 'reading_list', array(
             'methods' => 'POST',
             'callback' => [ $this, 'updateReadingList'],
             'permission_callback' => function(){
+                return is_user_logged_in();;
             },
         ));
     }
 
     function updateReadingList($request) {
         $body = $request->get_json_params();
+        $user_id = get_current_user_id();
         $object_id = $body['object_id'];
         $status = $body['status'];
         $progress = $body['progress'];
-        $reading_lists = $body['progress'];
+        $reading_lists = $body['lists'];
         global $wpdb;
         $table_name = $wpdb->prefix . 'reading_list_items';
-    }
+        $this->updateUserReadingStatusProgress($user_id, $object_id, $status, $progress);
 
-    function get_reading_lists_route($request) {
-        $user_id = $request['user_id'];
-        return $this->get_reading_lists($user_id);
+        foreach($reading_lists as $reading_list) {
+            $list_id = $reading_list['list_id'];
+            $action = $reading_list['action'];
+            
+            if ($action == 0) {
+                $wpdb->delete($table_name, array('object_id' => $object_id, 'list_id' => $list_id));
+            } else if($action == 1) {
+                $wpdb->insert($table_name, array('object_id' => $object_id, 'list_id' => $list_id));
+            }
+        }
     }
 
     function updateUserReadingStatusProgress($user_id, $object_id, $status, $progress) {

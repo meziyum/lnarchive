@@ -6,10 +6,10 @@
 * @package LNarchive
 */
 
-    function get_user_rating($comment) {
+    function get_user_rating($args) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'user_ratings';
-        return $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$comment['post']." AND user_id=".$comment['author']);
+        return $wpdb->get_var("SELECT rating FROM $table_name WHERE object_id=".$args['post']." AND user_id=".$args['author']);
     }
 
     function get_user_subscription_status($user_id, $novel_id) {

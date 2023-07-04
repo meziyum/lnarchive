@@ -41,10 +41,30 @@ class reading_list {
         return $this->get_reading_lists($user_id);
     }
 
-    function get_reading_lists($user_id) {
+    function updateUserReadingStatusProgress($user_id, $object_id, $status, $progress) {
+
+        if ($status == 'none' && $progress == 0) {
+            return;
+        }
+
         global $wpdb;
-        $table_name = $wpdb->prefix . 'reading_list';
-        return $wpdb->get_results("SELECT list_id, name FROM $table_name WHERE user_id=$user_id");
+        $table_name = $wpdb->prefix . 'progress_status';
+        $current_status = get_user_reading_status($user_id, $object_id);
+        $current_progress = get_user_novel_progress($user_id, $object_id);
+
+        if (!$current_status && !$current_progress) {
+            $wpdb->insert($table_name, array('object_id' => $object_id, 'user_id' => $user_id, 'status' => $status, 'progress' => $progress));
+        } else {
+            $updated_array = array();
+            if ($current_progress != $progress) {
+                $updated_array['progress'] = $progress;
+            }
+                
+            if ($current_status != $status) {
+                $updated_array['status'] = $status;
+            }
+            $wpdb->update($table_name, $updated_array, array('user_id' => $user_id, 'object_id' => $object_id));
+        }
     }
 
     function create_datbases() {

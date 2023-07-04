@@ -13,17 +13,17 @@ interface ProgressBarProps {
 
 const ProgressBar: React.FC<ProgressBarProps> = ({heading, value, max, color='white', filledColor='green', emptyColor='black'} :ProgressBarProps) => {
     const outerStyle = {
-        'border-radius': '12px',
-        'background-color': emptyColor,
+        'borderRadius': '12px',
+        'backgroundColor': emptyColor,
         'margin': '8px',
     };
     const innerStyle = {
         'display': 'flex',
-        'justify-content': 'space-between',
-        'background-color': filledColor,
+        'justifyContent': 'space-between',
+        'backgroundColor': filledColor,
         'width': `${value/max*100}%`,
         'padding': '4px 8px',
-        'text-align': 'right',
+        'textAlign': 'right',
     };
     const textStyle = {
         'margin': '0',

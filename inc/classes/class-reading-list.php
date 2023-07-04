@@ -4,7 +4,10 @@
  */
 
 namespace lnarchive\inc;
+
+use Error;
 use lnarchive\inc\traits\Singleton;
+use WP_REST_Response;
 
 class reading_list {
     use Singleton;
@@ -37,7 +40,23 @@ class reading_list {
 
     function getReadingListRoute($request){
         $list_id = $request['list_id'];
-        return get_reading_list_items($list_id);
+        $user_id = get_current_user_id();
+        global $wpdb;
+        $list_table_name = $wpdb->prefix . 'reading_list';
+        $list = $wpdb->get_results("SELECT user_id, public, progress, status, ratings FROM $list_table_name WHERE list_id = $list_id", 'ARRAY_A')[0];
+        error_log(print_r( $list, true));
+
+        if ($user_id != $list['user_id']  && !$list['public']) {
+            return new WP_REST_Response('Access Denied', 403);
+        }
+        
+        $args = array(
+            'list_id' => $list_id,
+            'progress' => $list['progress'],
+            'rating' => $list['ratings'],
+            'status' => $list['status'],
+        );
+        return get_reading_list_items($args);
     }
 
     function updateReadingList($request) {

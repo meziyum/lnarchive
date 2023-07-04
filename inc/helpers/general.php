@@ -21,14 +21,14 @@
         );
     }
 
-    function get_reading_list_items($list_id) {
+    function get_reading_list_items($args) {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'reading_list_items';
+        $items_table_name = $wpdb->prefix . 'reading_list_items';
         $user_id = get_current_user_id();
         $results = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT object_id FROM $table_name WHERE list_id = %d",
-                $list_id,
+                "SELECT object_id FROM $items_table_name WHERE list_id = %d",
+                $args['list_id'],
             ),
             'ARRAY_N'
         );
@@ -39,10 +39,20 @@
             $novel = get_post($novel_entry[0]);
             $response['ID'] = $novel->ID;
             $response['title'] = $novel->post_title;
-            $response['rating'] = get_user_rating(array('post' => $novel->ID, 'author' => $user_id));
-            $response['status'] = get_user_reading_status($user_id, $novel->ID);
-            $response['progress'] = get_user_novel_progress($user_id, $novel->ID);
             $response['cover'] = get_the_post_thumbnail_url($novel->ID);
+
+            if ($args['rating']) {
+                $response['rating'] = get_user_rating(array('post' => $novel->ID, 'author' => $user_id));
+            }
+            
+            if ($args['status']) {
+                $response['status'] = get_user_reading_status($user_id, $novel->ID);
+            }
+
+            if ($args['progress']) {
+                $response['progress'] = get_user_novel_progress($user_id, $novel->ID);
+            }
+
             array_push($novels_list, $response);
         }
 

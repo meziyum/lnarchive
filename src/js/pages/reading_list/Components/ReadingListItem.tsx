@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import ReadingListItemType from '../../../types/ReadingListItemType';
 
 interface ReadingListItemProps extends ReadingListItemType {
-    showProgress: boolean;
-    showRating: boolean;
-    showStatus: boolean;
+    showProgress?: boolean;
+    showRating?: boolean;
+    showStatus?: boolean;
 }
 
 const ReadingListItem: React.FC<ReadingListItemProps> = ({ID, progress, rating, status, title, cover, showProgress=false, showRating=false, showStatus=false}: ReadingListItemProps) => {
@@ -24,7 +24,7 @@ const ReadingListItem: React.FC<ReadingListItemProps> = ({ID, progress, rating, 
 export default ReadingListItem;
 
 ReadingListItem.propTypes = {
-    showProgress: PropTypes.bool.isRequired,
-    showRating: PropTypes.bool.isRequired,
-    showStatus: PropTypes.bool.isRequired,
+    showProgress: PropTypes.bool,
+    showRating: PropTypes.bool,
+    showStatus: PropTypes.bool,
 };

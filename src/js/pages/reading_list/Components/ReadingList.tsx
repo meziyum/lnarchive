@@ -42,7 +42,7 @@ const ReadingList: React.FC<ReadingListProps> = ({}: ReadingListProps) => {
             ...prevInfo,
             novels: novels.map((novel: ReadingListItemType) => {
                 return (
-                    <ReadingListItem key={novel.ID} {...novel}/>
+                    <ReadingListItem key={novel.ID} {...novel} showProgress={novel.progress ? true : false} showStatus={novel.status ? true : false} showRating={novel.rating ? true : false}/>
                 );
             }),
         }));

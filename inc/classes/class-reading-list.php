@@ -63,7 +63,10 @@ class reading_list {
             if ($current_status != $status) {
                 $updated_array['status'] = $status;
             }
-            $wpdb->update($table_name, $updated_array, array('user_id' => $user_id, 'object_id' => $object_id));
+
+            if(count($updated_array)>0) {
+                $wpdb->update($table_name, $updated_array, array('user_id' => $user_id, 'object_id' => $object_id));
+            }
         }
     }
 

@@ -5,7 +5,6 @@
 
 namespace lnarchive\inc;
 
-use Error;
 use lnarchive\inc\traits\Singleton;
 use WP_REST_Response;
 

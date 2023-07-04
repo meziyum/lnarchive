@@ -18,7 +18,6 @@
                 $reading_lists[$i]['present'] = 0;
             }
         }
-        error_log(print_r($reading_lists, true));
         return $reading_lists;
     }
 ?>

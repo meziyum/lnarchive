@@ -21,11 +21,23 @@ class reading_list {
     public function register_routes() {
         register_rest_route( 'lnarchive/v1', 'reading_list', array(
             'methods' => 'POST',
-            'callback' => [ $this, 'updateReadingList'],
+            'callback' => [$this, 'updateReadingList'],
             'permission_callback' => function(){
-                return is_user_logged_in();;
+                return is_user_logged_in();
             },
         ));
+        register_rest_route( 'lnarchive/v1', 'reading_list/(?P<list_id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => [$this, 'getReadingListRoute'],
+            'permission_callback' => function(){
+                return true;
+            },
+        ));
+    }
+
+    function getReadingListRoute($request){
+        $list_id = $request['list_id'];
+        return get_reading_list_items($list_id);
     }
 
     function updateReadingList($request) {

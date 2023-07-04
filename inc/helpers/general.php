@@ -20,4 +20,31 @@
             'God Contributor' => 100000
         );
     }
+
+    function get_reading_list_items($list_id) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'reading_list_items';
+        $user_id = get_current_user_id();
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT object_id FROM $table_name WHERE list_id = %d",
+                $list_id,
+            ),
+            'ARRAY_N'
+        );
+        $novels_list = array();
+        
+        foreach($results as $novel_entry) {
+            $response= array();
+            $novel = get_post($novel_entry[0]);
+            $response['ID'] = $novel->ID;
+            $response['title'] = $novel->post_title;
+            $response['rating'] = get_user_rating(array('post' => $novel->ID, 'author' => $user_id));
+            $response['status'] = get_user_reading_status($user_id, $novel->ID);
+            $response['progress'] = get_user_novel_progress($user_id, $novel->ID);
+            array_push($novels_list, $response);
+        }
+
+        return $novels_list;
+    }
 ?>

@@ -42,15 +42,15 @@
             $response['cover'] = get_the_post_thumbnail_url($novel->ID);
 
             if ($args['rating']) {
-                $response['rating'] = get_user_rating(array('post' => $novel->ID, 'author' => $user_id));
+                $response['showRatings'] = get_user_rating(array('post' => $novel->ID, 'author' => $user_id));
             }
             
             if ($args['status']) {
-                $response['status'] = get_user_reading_status($user_id, $novel->ID);
+                $response['showStatus'] = get_user_reading_status($user_id, $novel->ID);
             }
 
             if ($args['progress']) {
-                $response['progress'] = get_user_novel_progress($user_id, $novel->ID);
+                $response['showProgress'] = get_user_novel_progress($user_id, $novel->ID);
             }
 
             array_push($novels_list, $response);

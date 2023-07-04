@@ -27,9 +27,8 @@ const userSubscription = lnarchiveVariables.user_subscription;
 const userRating = lnarchiveVariables.user_rating;
 const readingStatus = lnarchiveVariables.reading_status;
 const novelProgress = lnarchiveVariables.progress;
+const readingLists = lnarchiveVariables.reading_lists;
 /* eslint-enable no-undef */
-console.log(readingStatus);
-console.log(novelProgress)
 const messages = [
     '',
     'Your rating has been submitted!',
@@ -40,13 +39,13 @@ const messages = [
 interface readingList {
     list_id: string;
     name: string;
+    present: 0 | 1;
 }
 
 interface NovelActionsProps {
     isLoggedIn: boolean;
     novelRating: number;
     novelPopularity?: number;
-    readingLists: Array<readingList>;
     maxProgress: number;
 }
 
@@ -69,14 +68,17 @@ A React component that renders actions for a novel, including rating the novel.
 @param {number} props.novelPopularity - The popularity of the novel.
 @return {JSX.Element} - A React component that displays novel actions.
 */
-const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, novelPopularity=0, readingLists, maxProgress}: NovelActionsProps) => {
+const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, novelPopularity=0, maxProgress}: NovelActionsProps) => {
     const [actionStates, updateActionStates] = React.useState<ActionStates>({
         rating: userRating == null ? 0 : parseInt(userRating),
         displayMessage: false,
         currentMessage: 0,
         reading_progress: novelProgress == null ? 0 : parseInt(novelProgress),
         novel_status: readingStatus == null ? 'none' : readingStatus,
-        currentReadingList: [],
+        currentReadingList: readingLists.filter((readingList: readingList) => readingList.present).map( (readingList: readingList) => ({
+            value: readingList.list_id,
+            label: readingList.name,
+        })),
         currentSubscriptionStatus: userSubscription,
         readingListPopupVisible: false,
     });
@@ -123,6 +125,23 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
 
     const updateReadingList = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const changedLists = readingLists.filter( (readingList: readingList) => {
+            for (const currentList of actionStates.currentReadingList) {
+                if (currentList.value == readingList.list_id) {
+                    return !readingList.present;
+                }
+            }
+
+            if (readingList.present) {
+                return true;
+            }
+            return false;
+        });
+
+        if (actionStates.reading_progress == novelProgress && actionStates.novel_status == readingStatus && changedLists.legnth==0) {
+            return;
+        }
+
         fetch( `${customAPIRequestURL}reading_list`, {
             method: 'POST',
             credentials: 'same-origin',
@@ -134,7 +153,10 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
                 object_id: postID,
                 status: actionStates.novel_status,
                 progress: actionStates.reading_progress,
-                lists: actionStates.currentReadingList,
+                lists: changedLists.map((readingList: readingList) => ({
+                    list_id: readingList.list_id,
+                    action: !readingList.present,
+                })),
             }),
         });
         updateActionStates( (prevStates) => ({

@@ -51,6 +51,7 @@
 
             if ($args['progress']) {
                 $response['progress'] = get_user_novel_progress($user_id, $novel->ID);
+                $response['volumesCount'] = get_total_volumes_count($novel->ID);
             }
 
             array_push($novels_list, $response);

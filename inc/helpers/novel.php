@@ -53,6 +53,19 @@
         return $current_progress;
     }
 
+    function get_user_novel_list_comments($user_id, $novel_id) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'progress_status';
+        $current_comments = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT comments FROM $table_name WHERE user_id=%d AND object_id=%d",
+                $user_id,
+                $novel_id,
+            )
+        );
+        return $current_comments;
+    }
+
     function is_present_in_reading_list($novel_id, $list_id) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'reading_list_items';

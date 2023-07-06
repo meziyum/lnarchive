@@ -64,9 +64,10 @@ class reading_list {
         $status = $body['status'];
         $progress = $body['progress'];
         $reading_lists = $body['lists'];
+        $comments = $body['comments'];
         global $wpdb;
         $table_name = $wpdb->prefix . 'reading_list_items';
-        $this->updateUserReadingStatusProgress($user_id, $object_id, $status, $progress);
+        $this->updateUserReadingStatusProgress($user_id, $object_id, $status, $progress, $comments);
 
         foreach($reading_lists as $reading_list) {
             $list_id = $reading_list['list_id'];
@@ -80,7 +81,7 @@ class reading_list {
         }
     }
 
-    function updateUserReadingStatusProgress($user_id, $object_id, $status, $progress) {
+    function updateUserReadingStatusProgress($user_id, $object_id, $status, $progress, $comments) {
 
         if ($status == 'none' && $progress == 0) {
             return;
@@ -90,9 +91,10 @@ class reading_list {
         $table_name = $wpdb->prefix . 'progress_status';
         $current_status = get_user_reading_status($user_id, $object_id);
         $current_progress = get_user_novel_progress($user_id, $object_id);
+        $current_comments = get_user_novel_list_comments($user_id, $object_id);
 
         if (!$current_status && !$current_progress) {
-            $wpdb->insert($table_name, array('object_id' => $object_id, 'user_id' => $user_id, 'status' => $status, 'progress' => $progress));
+            $wpdb->insert($table_name, array('object_id' => $object_id, 'user_id' => $user_id, 'status' => $status, 'progress' => $progress, 'comments' => $comments));
         } else {
             $updated_array = array();
             if ($current_progress != $progress) {
@@ -101,6 +103,10 @@ class reading_list {
                 
             if ($current_status != $status) {
                 $updated_array['status'] = $status;
+            }
+
+            if ($current_comments != $comments) {
+                $updated_array['comments'] = $comments;
             }
 
             if(count($updated_array)>0) {
@@ -152,6 +158,7 @@ class reading_list {
             user_id bigint(20) UNSIGNED NOT NULL,
             progress bigint(20) UNSIGNED NOT NULL,
             status VARCHAR(20) NOT NULL,
+            comments VARCHAR(200) NOT NULL,
             PRIMARY KEY (entry_id),
             FOREIGN KEY (object_id) REFERENCES {$wpdb->prefix}posts(ID),
             FOREIGN KEY (user_id) REFERENCES {$wpdb->prefix}users(ID)

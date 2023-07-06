@@ -16,6 +16,14 @@ export const formatTitle = (oldTitle: string, slice: boolean): string => {
     return decodedTitle;
 };
 
+export const formatReadingStatus = (oldStatus: string) => {
+    const words = oldStatus.split('_');
+    for (let i=0; i<words.length; i++) {
+        words[i] = words[i][0].toUpperCase()+words[i].substring(1);
+    }
+    return words.join(' ');
+};
+
 export const getCurrentMonthNameByNo = (no: number): string => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return months[no];

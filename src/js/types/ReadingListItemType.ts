@@ -7,5 +7,6 @@ interface ReadingListItemType {
     status: string;
     title: string;
     volumesCount: number;
+    comments: string;
 }
 export default ReadingListItemType;

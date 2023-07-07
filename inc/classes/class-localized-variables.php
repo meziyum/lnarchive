@@ -76,6 +76,7 @@ class localized_variables {
             $localize_vars['reading_lists'] = get_reading_lists_with_novel_status($user_id, $object_id);
             $localize_vars['reading_status'] = get_user_reading_status($user_id, $object_id);
             $localize_vars['progress'] = get_user_novel_progress($user_id, $object_id);
+            $localize_vars['comments'] = get_user_novel_list_comments($user_id, $object_id);
           }
         }
         else if(!is_front_page() && is_home() || is_category()) {

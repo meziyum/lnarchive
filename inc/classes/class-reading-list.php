@@ -42,7 +42,7 @@ class reading_list {
         $user_id = get_current_user_id();
         global $wpdb;
         $list_table_name = $wpdb->prefix . 'reading_list';
-        $list = $wpdb->get_results("SELECT user_id, public, progress, status, ratings FROM $list_table_name WHERE list_id = $list_id", 'ARRAY_A')[0];
+        $list = $wpdb->get_results("SELECT user_id, public, progress, status, ratings, comments FROM $list_table_name WHERE list_id = $list_id", 'ARRAY_A')[0];
 
         if ($user_id != $list['user_id']  && !$list['public']) {
             return new WP_REST_Response('Access Denied', 403);
@@ -53,6 +53,7 @@ class reading_list {
             'progress' => $list['progress'],
             'rating' => $list['ratings'],
             'status' => $list['status'],
+            'comments' => $list['comments'],
         );
         return get_reading_list_items($args);
     }

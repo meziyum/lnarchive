@@ -16,6 +16,7 @@ const userNonce = lnarchiveVariables.nonce;
 const readingStatus = lnarchiveVariables.reading_status;
 const novelProgress = lnarchiveVariables.progress;
 const readingLists = lnarchiveVariables.reading_lists;
+const readingItemComments = lnarchiveVariables.comments;
 /* eslint-enable no-undef */
 
 interface readingList {
@@ -45,7 +46,7 @@ const ReadingListPopup: React.FC<ReadingListPopupProps> = ({maxProgress, display
             value: readingList.list_id,
             label: readingList.name,
         })),
-        author_comments: '',
+        author_comments: readingItemComments == null ? '' : readingItemComments,
     });
 
     const updateReadingList = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -63,7 +64,7 @@ const ReadingListPopup: React.FC<ReadingListPopupProps> = ({maxProgress, display
             return false;
         });
 
-        if (readingListPopupStates.reading_progress == novelProgress && readingListPopupStates.novel_status == readingStatus && changedLists.legnth==0) {
+        if (readingListPopupStates.reading_progress == novelProgress && readingListPopupStates.novel_status == readingStatus && changedLists.length==0) {
             return;
         }
 
@@ -132,7 +133,7 @@ const ReadingListPopup: React.FC<ReadingListPopupProps> = ({maxProgress, display
                 </select>
             </div>
             <div>
-                <textarea id='author_comments' name='comments' placeholder='Freely enter your views here.' value={readingListPopupStates.author_comments} onChange={updateForm}/>
+                <textarea id='author_comments' name='author_comments' placeholder='Freely enter your views here.' value={readingListPopupStates.author_comments} onChange={updateForm}/>
             </div>
             {displayReadingList &&
             <>

@@ -130,6 +130,7 @@ class reading_list {
             user_id bigint(20) UNSIGNED NOT NULL,
             name VARCHAR(20) NOT NULL,
             public TINYINT(1) NOT NULL DEFAULT '1',
+            comments TINYINT(1) NOT NULL DEFAULT '1',
             progress TINYINT(1) NOT NULL DEFAULT '1',
             status TINYINT(1) NOT NULL DEFAULT '1',
             ratings TINYINT(1) NOT NULL DEFAULT '1',

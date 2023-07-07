@@ -14,7 +14,6 @@ import TermType from '../../types/TermType';
 
 /* eslint-disable no-undef */
 const wpRequestURL = lnarchiveVariables.wp_rest_url;
-const customAPIRequestURL = lnarchiveVariables.custom_api_url;
 const userNonce = lnarchiveVariables.nonce;
 const commentsEnabled = lnarchiveVariables.commentsEnabled;
 const commentsTotalCount = lnarchiveVariables.comments_count;
@@ -29,7 +28,12 @@ const urlParams = new URLSearchParams(window.location.search);
 if (!urlParams.get('volumeFilter')) {
     urlParams.set('volumeFilter', document.getElementsByClassName('volume-link')[0].id);
 }
-
+const coverDOM = document.getElementById('volume-cover') as HTMLDivElement;
+const coverRoot = ReactDOMClient.createRoot(coverDOM);
+const descDOM = document.getElementById('volume-desc') as HTMLDivElement;;
+const descRoot = ReactDOMClient.createRoot(descDOM);
+const formatsDOM = document.getElementById('formats-list') as HTMLDivElement;;
+const formatsRoot = ReactDOMClient.createRoot(formatsDOM);
 const maxProgress = volumesList.length;
 const fields = `id,excerpt.rendered,featuredmedia,meta,title.rendered,_links`;
 
@@ -98,34 +102,12 @@ const getVolume = () => {
                 throw new Error('Unable to find the Title Root');
             }
 
-            const coverDOM = document.getElementById('volume-cover');
-
-            if (coverDOM) {
-                const coverRoot = ReactDOMClient.createRoot(coverDOM);
-                coverRoot.render(<img className='novel-cover' srcSet={coverURL}></img>);
-            } else {
-                throw new Error('Unable to Find the Cover DOM');
-            }
+            coverRoot.render(<img className='novel-cover' srcSet={coverURL}></img>);
 
             if (desc) {
-                const descDOM = document.getElementById('volume-desc');
-
-                if (descDOM) {
-                    const descRoot = ReactDOMClient.createRoot(descDOM);
-                    descRoot.render(<VolumeDesc desc={desc}/>);
-                } else {
-                    throw new Error('Unable to find the Desc Root');
-                }
+                descRoot.render(<VolumeDesc desc={desc}/>);
             }
-
-            const formatsDOM = document.getElementById('formats-list');
-            if (formatsDOM) {
-                const formatsRoot = ReactDOMClient.createRoot(formatsDOM);
-                formatsRoot.render(<FormatsList formats={formats} meta={volume.meta} translator={translator} narrator={narrator} handleClick={loadVolumeInfo} formatFilter={defaultFormatName}/>);
-            } else {
-                throw new Error('Unable to find the Formats Root');
-            }
-
+            formatsRoot.render(<FormatsList formats={formats} meta={volume.meta} translator={translator} narrator={narrator} handleClick={loadVolumeInfo} formatFilter={defaultFormatName}/>);
             loadVolumeInfo(volumeISBN, volumeDate, translator, narrator, defaultFormatName);
         });
 };

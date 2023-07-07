@@ -51,6 +51,7 @@ const ReadingListPopup: React.FC<ReadingListPopupProps> = ({maxProgress, display
 
     const updateReadingList = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        handleReadingListVisibility();
         const changedLists = readingLists.filter( (readingList: readingList) => {
             for (const currentList of readingListPopupStates.currentReadingList) {
                 if (currentList.value == readingList.list_id) {
@@ -64,7 +65,7 @@ const ReadingListPopup: React.FC<ReadingListPopupProps> = ({maxProgress, display
             return false;
         });
 
-        if (readingListPopupStates.reading_progress == novelProgress && readingListPopupStates.novel_status == readingStatus && changedLists.length==0) {
+        if (readingListPopupStates.reading_progress == novelProgress && readingListPopupStates.novel_status == readingStatus && changedLists.length==0 && readingListPopupStates.author_comments == readingItemComments) {
             return;
         }
 
@@ -86,10 +87,6 @@ const ReadingListPopup: React.FC<ReadingListPopupProps> = ({maxProgress, display
                 })) : [],
             }),
         });
-        updateReadingListPopupStates((prevStates) => ({
-            ...prevStates,
-            readingListPopupVisible: false,
-        }));
     };
 
     const updateForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {

@@ -20,9 +20,10 @@ import {
 const customAPIRequestURL = lnarchiveVariables.custom_api_url;
 const postID = lnarchiveVariables.object_id;
 const userNonce = lnarchiveVariables.nonce;
-const userSubscription = lnarchiveVariables.user_subscription;
+const userSubscription = lnarchiveVariables.user_subsription;
 const userRating = lnarchiveVariables.user_rating;
 /* eslint-enable no-undef */
+console.log(userSubscription)
 const messages = [
     '',
     'Your rating has been submitted!',

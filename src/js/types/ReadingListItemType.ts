@@ -2,8 +2,8 @@
 interface ReadingListItemType {
     cover: string;
     ID: number;
-    progress: number;
-    rating: number;
+    progress: string;
+    rating: string | null;
     status: string;
     title: string;
     volumesCount: number;

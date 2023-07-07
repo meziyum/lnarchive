@@ -33,7 +33,7 @@ const FormatsList: React.FC<FormatsListProps> = ({formats, meta, translator, nar
 
     React.useEffect( () => {
         setSelectedFormat(formatFilter);
-    }, [formatFilter]);
+    }, [formats]);
 
     const handleFormatClick = (formatName: string) => {
         if (formatName == selectedFormat) {

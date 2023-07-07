@@ -49,6 +49,10 @@
                 $response['status'] = get_user_reading_status($user_id, $novel->ID);
             }
 
+            if ($args['comments']) {
+                $response['comments'] = get_user_novel_list_comments($user_id, $novel->ID);
+            }
+
             if ($args['progress']) {
                 $response['progress'] = get_user_novel_progress($user_id, $novel->ID);
                 $response['volumesCount'] = get_total_volumes_count($novel->ID);

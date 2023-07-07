@@ -2,33 +2,33 @@
 @import "../main.scss";
 
 .profile-wrap {
-
-    #profile-section {
         
-        #header {
-            position: relative;
+    #header {
+        position: relative;
+        background-color: #7f53AC;
+        background-image: linear-gradient(to bottom right,#647DEE 0%, #7f53AC 75%);
+        min-height: 150px;
 
-            #avatar-div {
-                left: 0;
-                bottom: 0;
-                right: 0;
-                display: flex;
-                flex-direction: column;
-                position: absolute;
+        #avatar-div {
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
 
-                @include respond-to('x-small') {
-                    align-items: center;
-                }
+            @include respond-to('x-small') {
+                align-items: center;
+            }
 
-                @include respond-to('medium') {
-                    align-items: start;
-                }
+            @include respond-to('medium') {
+                align-items: start;
+            }
 
-                #avatar {
-                    border-radius: 50%;
-                    height: 6.5em;
-                    width: 6.5em;
-                }
+            #avatar {
+                border-radius: 50%;
+                height: 6.5em;
+                width: 6.5em;
             }
         }
     }

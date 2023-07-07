@@ -23,7 +23,6 @@ const userNonce = lnarchiveVariables.nonce;
 const userSubscription = lnarchiveVariables.user_subsription;
 const userRating = lnarchiveVariables.user_rating;
 /* eslint-enable no-undef */
-console.log(userSubscription)
 const messages = [
     '',
     'Your rating has been submitted!',

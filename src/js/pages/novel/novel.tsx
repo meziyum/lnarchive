@@ -30,12 +30,14 @@ if (!urlParams.get('volumeFilter')) {
 }
 const coverDOM = document.getElementById('volume-cover') as HTMLDivElement;
 const coverRoot = ReactDOMClient.createRoot(coverDOM);
-const descDOM = document.getElementById('volume-desc') as HTMLDivElement;;
+const descDOM = document.getElementById('volume-desc') as HTMLDivElement;
 const descRoot = ReactDOMClient.createRoot(descDOM);
-const formatsDOM = document.getElementById('formats-list') as HTMLDivElement;;
+const formatsDOM = document.getElementById('formats-list') as HTMLDivElement;
 const formatsRoot = ReactDOMClient.createRoot(formatsDOM);
 const maxProgress = volumesList.length;
 const fields = `id,excerpt.rendered,featuredmedia,meta,title.rendered,_links`;
+const volumesInfoDOM = document.getElementById('volume-info') as HTMLDivElement;;
+const volumeInfoRoot = ReactDOMClient.createRoot(volumesInfoDOM);
 
 const novelActionsDOM = document.getElementById('novel-actions');
 
@@ -58,13 +60,7 @@ if (commentsEnabled) {
 }
 
 const loadVolumeInfo = (isbn: string, publishedDate: string, translator: Array<TermType>, narrator: Array<TermType>, formatName: string) => {
-    const volumesInfoDOM = document.getElementById('volume-info');
-    if (volumesInfoDOM) {
-        const volumeInfoRoot = ReactDOMClient.createRoot(volumesInfoDOM);
-        volumeInfoRoot.render(<VolumeInfo isbn={isbn} publishedDate={publishedDate} translator={translator} narrator={narrator} formatName={formatName}/>);
-    } else {
-        throw new Error('Unable to find the Volumes Info Root');
-    }
+    volumeInfoRoot.render(<VolumeInfo isbn={isbn} publishedDate={publishedDate} translator={translator} narrator={narrator} formatName={formatName}/>);
 };
 
 const getVolume = () => {

@@ -183,7 +183,7 @@ class taxonomies {
             'rest_base' => 'illustrator',
             'show_tagcloud' => false,
             'show_in_quick_edit' => false,
-            'meta_box_cb' => [$this, 'taxonomies_datalist_display'],
+            'meta_box_cb' => null,
             'description' => 'The artist responsible for the illustrations of the light novel.',
             'show_admin_column' => true,
             'description' => 'An illustrator is an artist who specializes in enhancing writing or elucidating concepts by providing a visual representation that corresponds to the content of the associated text or idea.',

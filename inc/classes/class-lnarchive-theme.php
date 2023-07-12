@@ -59,6 +59,8 @@ class lnarchive_theme{
           add_action( 'feed_links_show_comments_feed', '__return_false', - 1 );
           remove_action( 'wp_head', 'feed_links', 2 );
           remove_action( 'wp_head', 'feed_links_extra', 3 );
+
+          add_action( 'init',[ $this, 'rewrite_rules']);
      }
 
      public function setup_theme() {
@@ -96,6 +98,10 @@ class lnarchive_theme{
                         'webp' => 'image/webp',
          );
          return $mimes;
+      }
+
+      function rewrite_rules() {
+            add_rewrite_rule('^profile/(.+)?', 'index.php?pagename=profile', 'top');
       }
 
       function create_theme_setup_pages() {

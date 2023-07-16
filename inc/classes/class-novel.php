@@ -136,11 +136,6 @@ class novel {
         register_post_meta('novel', 'similar_novels', array(
             'type' => 'array',
             'single' => true,
-            'show_in_rest' => array(
-                'schema' => array(
-                    'type'  => 'array',
-                ),
-            ),
         ));
     }
 

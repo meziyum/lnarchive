@@ -14,6 +14,10 @@ class notification {
     }
 
     protected function set_hooks() {
+        add_action('after_switch_theme', [$this, 'create_datbases']);
+    }
+
+    function create_datbases() {
     }
 }
 ?>

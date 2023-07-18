@@ -59,7 +59,7 @@ class taxonomies {
             'rest_base' => 'publisher',
             'show_tagcloud' => false,
             'show_in_quick_edit' => false,
-            'meta_box_cb' => [$this, 'taxonomies_datalist_display'],
+            'meta_box_cb' => null,
             'description' => 'The entity responsible for the distribution of the light novel and its associated labels',
             'show_admin_column' => true,
             'description' => 'A company or label publishing the novels',

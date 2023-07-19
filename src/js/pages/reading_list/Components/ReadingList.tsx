@@ -16,11 +16,13 @@ interface ReadingListProps {
 
 interface ReadingListStates {
     novels: Array<ReadingListItemType>;
+    statusFilter: string;
 }
 
 const ReadingList: React.FC<ReadingListProps> = ({}: ReadingListProps) => {
     const [readingListStates, updateReadingListState] = React.useState<ReadingListStates>({
         novels: [],
+        statusFilter: 'All',
     });
 
     React.useEffect(() =>{
@@ -49,6 +51,8 @@ const ReadingList: React.FC<ReadingListProps> = ({}: ReadingListProps) => {
     };
     return (
         <>
+            <div id='status-filter'>
+            </div>
             {readingListStates.novels}
         </>
     );

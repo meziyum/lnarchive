@@ -18,6 +18,13 @@ class notification {
     }
 
     function create_datbases() {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        $notification_table = $wpdb->prefix . 'notifications';
+        $notification_interaction_table = $wpdb->prefix . 'notification_interaction';
+        $query_array = array();
+        dbDelta($query_array, true);
     }
 }
 ?>

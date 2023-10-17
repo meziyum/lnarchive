@@ -78,6 +78,9 @@ function novel_item($post_id, $name) {
                         );
                     }
                     ?>
+                    <h6 class="novel-title">
+                        <?php echo esc_html(get_the_title($post_id));?>
+                    </h6>
                 </a>
             </div>
         </div>

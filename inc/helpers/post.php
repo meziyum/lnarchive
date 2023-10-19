@@ -38,6 +38,7 @@ function the_post_custom_thumbnail( $post_id, $size, $additional_attributes) {
 
 function novel_list( $loop, array $args ) {
     $name = $args['name'];
+    $display_title = array_key_exists('display_title', $args)? $args['display_title'] : false;
 
     if (array_key_exists("novel_no",$args))
         $novel_no = $args['novel_no'];
@@ -49,7 +50,7 @@ function novel_list( $loop, array $args ) {
             <?php
                 while ($loop->have_posts() && $novel_no>0) : $loop->the_post();
                     $post_id = get_the_ID();
-                    novel_item($post_id, $name);
+                    novel_item($post_id, $name, $display_title);
                     --$novel_no;
                 endwhile;
             ?>
@@ -57,7 +58,7 @@ function novel_list( $loop, array $args ) {
     <?php
 }
 
-function novel_item($post_id, $name) {
+function novel_item($post_id, $name, $display_title) {
     ?>
         <div class="<?php echo esc_attr($name);?>-entry-col novel-entry-col archive-entry-col col-lg-2 col-md-3 col-sm-3 col-4">
             <div class="<?php echo esc_attr($name);?>-entry archive-entry novel-entry">
@@ -77,10 +78,13 @@ function novel_item($post_id, $name) {
                         ]
                         );
                     }
+                    if ($display_title) {
+                        ?>
+                            <h6 class="novel-title"><?php 
+                        echo esc_html(get_the_title($post_id));?></h6>
+                        <?php
+                    }
                     ?>
-                    <h6 class="novel-title">
-                        <?php echo esc_html(get_the_title($post_id));?>
-                    </h6>
                 </a>
             </div>
         </div>

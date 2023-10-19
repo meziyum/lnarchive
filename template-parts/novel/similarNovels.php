@@ -1,6 +1,6 @@
 <?php
 /**
- * Similar Novels Tempalte Part
+ * Similar Novels Template Part
  * 
  * @package LNarchive
  */
@@ -17,7 +17,7 @@ if ($similar_novels != '') {
             <div class="row novel-list" id="<?php echo $name;?>-list">
                 <?php            
                     foreach ($similar_novels as $novel_id) {
-                        novel_item($novel_id, $name);
+                        novel_item($novel_id, $name, true);
                         --$novel_no;
                     }
                 ?>

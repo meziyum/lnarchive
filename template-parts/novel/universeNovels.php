@@ -24,7 +24,7 @@ if( !empty($universe_novels) ) {
         ?>
             <section id="child-section" class="novels-list-section">
                 <h2>Novels from same Universe</h2>
-                <?php novel_list( $uquery, array( 'name' => 'child') );?>
+                <?php novel_list( $uquery, array( 'name' => 'child'));?>
             </section>
         <?php
     }

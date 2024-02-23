@@ -80,15 +80,16 @@ const NovelArchive: React.FC<NovelArchiveProps> = ({filterData} :NovelArchivePro
             const filterName = urlParams.entries().next().value[0];
             const filterValue = urlParams.entries().next().value[1];
             const taxName = filterName.slice(0, -7);
-            const tax = filterData.find( (tax) => tax.taxQueryName === taxName);
+            const tax = filterData.find( (tax) => tax.taxQueryName == taxName);
 
             if (tax) {
-                const defaultValue = tax.list.find((option) => option.term_name === filterValue);
+                const defaultValue = tax.list.find((option) => option.term_id == filterValue);
+                console.log(filterValue);
                 toggleFilters();
 
                 if (defaultValue) {
                     return {
-                        [taxName]: [{value: defaultValue.term_id, label: defaultValue.label}],
+                        [taxName]: [{label: defaultValue.term_name, value: defaultValue.term_id}],
                     };
                 }
             }

@@ -49,7 +49,7 @@
                 ?>
                     <a class="<?php echo esc_attr($tax_name);?>-button anchor-button" href='<?php 
                         if($post_type =="novel") {
-                            echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax_name.'_filter'.'='.$term_name;
+                            echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax_name.'_filter'.'='.$term->term_id;
                         } else {
                             echo esc_attr(get_term_link($term));
                         } 

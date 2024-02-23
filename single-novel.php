@@ -56,7 +56,7 @@ $the_post_title = get_the_title();
                                                                 <?php
                                                                     foreach( $terms as $key => $article_term) {
                                                                         ?>
-                                                                            <a href="<?php echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax.'_filter'.'='.$article_term->name?>"><?php echo esc_html($article_term->name)?></a>
+                                                                            <a href="<?php echo esc_attr(get_post_type_archive_link('novel')).'?'.$tax.'_filter'.'='.$article_term->term_id?>"><?php echo esc_html($article_term->name)?></a>
                                                                             <br>
                                                                         <?php
                                                                     }

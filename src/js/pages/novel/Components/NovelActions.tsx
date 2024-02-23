@@ -145,22 +145,25 @@ const NovelActions: React.FC<NovelActionsProps> = ({isLoggedIn, novelRating, nov
                     />
                     <h3>{novelPopularity ? novelPopularity : 0}</h3>
                 </div>
-                <div id='end-div'>
-                    <FontAwesomeIcon
-                        title='Reading Lists'
-                        icon={faBookMedical}
-                        size={'xl'}
-                        style={{color: '#009B77'}}
-                        onClick={handleReadingListVisibility}
-                    />
-                    <FontAwesomeIcon
-                        title='Subscribe'
-                        icon={actionStates.currentSubscriptionStatus ? faBellTrue : faBellFalse}
-                        size={'xl'}
-                        style={{color: 'green'}}
-                        onClick={handleSubscribe}
-                    />
-                </div>
+                {
+                    isLoggedIn &&
+                    <div id='end-div'>
+                        <FontAwesomeIcon
+                            title='Reading Lists'
+                            icon={faBookMedical}
+                            size={'xl'}
+                            style={{color: '#009B77'}}
+                            onClick={handleReadingListVisibility}
+                        />
+                        <FontAwesomeIcon
+                            title='Subscribe'
+                            icon={actionStates.currentSubscriptionStatus ? faBellTrue : faBellFalse}
+                            size={'xl'}
+                            style={{color: 'green'}}
+                            onClick={handleSubscribe}
+                        />
+                    </div>
+                }
             </div>
             <div id="user-ratings">
                 {isLoggedIn && <Ratings submitRatings={submitRatings} size={'xl'} rating={(actionStates.rating)/20} mode={'form'}/>}

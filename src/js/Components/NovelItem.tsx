@@ -36,7 +36,7 @@ const NovelItem: React.FC<NovelItemProps> = (props: NovelItemProps) => {
                 <a id={props.id.toString()} className="novel-link" href={props.link}>
                     {
                         props.novelCover ?
-                            <img className="novel-cover" srcSet={props.novelCover} loading='eager'/> :
+                            <img className="novel-cover" srcSet={props.novelCover} loading='eager' alt={props.title}/> :
                             <h4 className='novel-cover' >No Cover Image Found</h4>
                     }
                     {props.title && <h6 className='novel-title'>{props.title}</h6>}

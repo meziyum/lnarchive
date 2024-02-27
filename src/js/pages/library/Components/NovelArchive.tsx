@@ -84,7 +84,6 @@ const NovelArchive: React.FC<NovelArchiveProps> = ({filterData} :NovelArchivePro
 
             if (tax) {
                 const defaultValue = tax.list.find((option) => option.term_id == filterValue);
-                console.log(filterValue);
                 toggleFilters();
 
                 if (defaultValue) {

@@ -9,7 +9,14 @@
         "plugin:@typescript-eslint/recommended",
         "google"
     ],
-    "overrides": [],
+    "overrides": [
+        {
+          "files": ["tests/**/*"],
+          "env": {
+            "jest": true
+          }
+        }
+    ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",

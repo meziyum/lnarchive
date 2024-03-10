@@ -21,6 +21,7 @@ const entry = {
     profile: `${JS_DIR}/profile/profile.tsx`,
     add_data: `${JS_DIR}/add_data/add_data.js`,
     reading_list: `${JS_DIR}/reading_list/reading_list`,
+    login: `${JS_DIR}/login/login.js`,
 };
 
 const output = {

@@ -20,6 +20,7 @@ class assets{
     protected function set_hooks() {
         add_action('wp_enqueue_scripts', [ $this, 'register_styles']);
         add_action('wp_enqueue_scripts', [ $this, 'register_scripts']);
+        add_action('login_enqueue_scripts', [$this, 'login_assests']);
     }
 
     public function register_styles() {
@@ -111,6 +112,18 @@ class assets{
 
         wp_register_script('main', $path, array('wp-api'), $version_info , true );
         wp_enqueue_script('main');
+    }
+
+    public function login_assests(){
+      $path_css= LNARCHIVE_BUILD_CSS_URI . '/login.css';
+      $version_info_css = filemtime(LNARCHIVE_BUILD_CSS_DIR_PATH . '/login.css');
+      wp_register_style( 'custom-login', $path_css, [], $version_info_css, 'all');
+      wp_enqueue_style('custom-login');
+
+      $path_js= LNARCHIVE_BUILD_JS_URI . '/login.js'; 
+      $version_info_js = filemtime(LNARCHIVE_BUILD_JS_DIR_PATH . '/login.js');
+      wp_register_script('custom_login_js', $path_js, array('wp-api'), $version_info_js , true );
+      wp_enqueue_script('custom_login_js');
     }
 }
 ?>

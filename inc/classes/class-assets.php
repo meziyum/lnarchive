@@ -24,10 +24,10 @@ class assets{
 
     public function register_styles() {
 
-      wp_register_style( 'fusfan_stylesheet', LNARCHIVE_DIR_URI . '/style.css', ['main_css'], filemtime(LNARCHIVE_DIR_PATH . '/style.css'), 'all');
+      wp_register_style( 'lnarchive_stylesheet', LNARCHIVE_DIR_URI . '/style.css', ['main_css'], filemtime(LNARCHIVE_DIR_PATH . '/style.css'), 'all');
       wp_register_style( 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', [], '6.4.0' , 'all');
 
-      wp_enqueue_style('fusfan_stylesheet');
+      wp_enqueue_style('lnarchive_stylesheet');
       wp_enqueue_style('fontawesome');
 
       $path= '';

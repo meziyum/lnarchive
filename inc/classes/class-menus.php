@@ -22,7 +22,7 @@ class menus {
     public function register_menus() {
         register_nav_menus(
             array(
-                'fusfan_primary'    => ( 'Primary Menu'),
+                'lnarchive_primary'    => ( 'Primary Menu'),
                 'footer_primary'    => ( 'Footer Primary Menu'),
                 'footer_secondary'  => ( 'Footer Secondary Menu'),
                 'footer_tertiary'   => ( 'Footer Tertiary Menu'),

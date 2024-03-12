@@ -17,7 +17,6 @@ class users{
     protected function set_hooks() {
         add_action( 'rest_api_init', [$this, 'custom_endpoints']);
         add_action( 'init', [$this, 'register_user_meta']);
-        add_action( 'login_head', [$this, 'login_logo']);
         add_filter( 'login_headerurl', [$this, 'login_logo_url'] );
         add_filter( 'login_headertext', [$this, 'login_logo_url_title'] );
     }
@@ -41,10 +40,6 @@ class users{
             },
             'show_in_rest' => true,
         ));
-    }
-
-    function login_logo() {
-        echo '<style type ="text/css">.login h1 a { visibility:hidden!important; }</style>';
     }
 
     function login_logo_url() {

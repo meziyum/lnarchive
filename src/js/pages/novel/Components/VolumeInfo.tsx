@@ -20,7 +20,7 @@ Renders volume informatNameion including ISBN, publication date, and narrator fo
 @param {string} formatName - The formatName of the volume (e.g. "Hardcover", "Paperback", "Ebook", etc).
 @return {JSX.Element} - The table row element displaying volume informatNameion.
 */
-const VolumeInfo: React.FC<VolumeInfoProps> = ({isbn, publishedDate, translator, narrator, formatName}: VolumeInfoProps) => {
+const VolumeInfo: React.FC<VolumeInfoProps> = ({isbn, publishedDate, translator, narrator, formatName}: VolumeInfoProps): JSX.Element => {
     return (
         <>
             <tr>

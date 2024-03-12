@@ -32,8 +32,12 @@ class menus {
 
     public function get_menu_id( $location ) {
         $locations = get_nav_menu_locations();
-        $menu_id = $locations[$location];
-        return ! empty( $menu_id) ? $menu_id : '';
+
+        if (array_key_exists($location,$locations)) {
+            $menu_id = $locations[$location];
+            return ! empty( $menu_id) ? $menu_id : '';
+        }
+        return -1;
     }
 
     public function get_child_menu_items( $menu_array, $parent_id) {

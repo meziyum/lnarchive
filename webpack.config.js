@@ -84,7 +84,6 @@ const plugins = (argv) => [
 export default (env, argv) => ({
     entry,
     output,
-    devtool: 'inline-source-map',
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },

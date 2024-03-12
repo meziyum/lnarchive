@@ -1,6 +1,93 @@
 
 @import "../main.scss";
 
+@mixin white-bold() {
+    color: white;
+    font-weight: bold;
+}
+
 body {
-    
+    background: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+    background-attachment: fixed;
+    display: flex;
+
+    #login {
+
+        h1 {
+            display: none;
+        }
+
+        .message {
+            display: none;
+        }
+
+        #login_error {
+            margin: 0 13px 0 13px;
+            text-align: center;
+            color: white;
+            background: red;
+            border: none;
+            border-radius: 12px;
+        }
+
+        #loginform, #registerform {
+            margin: 12px 12px 12px 12px;
+            border-radius: 12px;
+
+            label{
+                font-weight: 600;
+            }
+
+            input {
+                font-weight: 500;
+                font-size: 14px;
+                background-color: #def0fa;
+                border-color: $theme-primary;
+
+                &:focus {
+                    border-color: $theme-primary;
+                }
+            }
+
+            .submit{
+                #wp-submit{
+                    margin-top: 24px;
+                    width: 100%;
+                    background-color: $theme-primary;
+                    border-radius: 24px;
+                }
+            }
+
+            .forgetmenot {
+            }
+        }
+
+        #registerform {
+            #reg_passmail {
+                font-weight: 500;
+                font-size: 14px;
+            }
+        }
+
+        #nav {
+            text-align: center;
+            @include white-bold;
+
+            a {
+                @include white-bold;
+            }
+        }
+
+        #backtoblog{
+            text-align: center;
+
+            a {
+                @include white-bold;
+            }
+        }
+
+        .privacy-policy-page-link {
+            display: none;
+        }
+    }
 }

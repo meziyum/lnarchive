@@ -9,7 +9,7 @@ $the_post_id = get_the_ID();
 
 $args = array(
     'post_type' => 'post',
-    'posts_per_page' => 3,
+    'posts_per_page' => 4,
     'meta_key' => 'series_value',
     'meta_value' => $the_post_id,
 );

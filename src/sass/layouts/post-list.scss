@@ -23,11 +23,20 @@
       display: block;
       overflow: hidden;
       height: 250px;
+      background-color: $theme-primary;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       .post-img {
         padding: 0;
         height: 100%;
         width: 100%;
+      }
+
+      .post-img-error{
+        color: white;
+        text-decoration: none;
       }
     }
 

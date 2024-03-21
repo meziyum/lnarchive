@@ -13,7 +13,7 @@ $the_post_title = get_the_title();
 
 <main id="main" class="main-content" role="main">
     <div id="<?php echo esc_attr($the_post_id);?>" class="row main-row">
-        <div class="novel-wrap col-lg-9">
+        <div class="novel-wrap">
         <?php               
             if( have_posts() ) {
             while( have_posts(  )) : the_post();
@@ -126,9 +126,6 @@ $the_post_title = get_the_title();
             endwhile;
             }
         ?>
-        </div>
-        <div class="sidebar-wrap col d-none d-lg-block">
-            <?php get_sidebar('sidebar-novel');?>
         </div>
     </div>
 </main>

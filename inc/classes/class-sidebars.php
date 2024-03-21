@@ -44,17 +44,6 @@ class sidebars{
                 'after_title' => '</h3>',
             ]
         );
-
-        register_sidebar( [
-                'name' => 'Novel Sidebar',
-                'id' => 'sidebar-novel',
-                'description' => 'Novel Sidebar',
-                'before_widget' => '<div id="%1$s" class="widget widget-sidebar %2$s">',
-                'after_widget' => '</div>',
-                'before_title' => '<h3 class=""widget-title>',
-                'after_title' => '</h3>',
-            ]
-        );
     }
 }
 ?>

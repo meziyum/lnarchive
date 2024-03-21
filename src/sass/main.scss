@@ -3,6 +3,10 @@
 @import "layouts/nav.scss";
 @import "layouts/error.scss";
 
+#main {
+    margin-top: 64px;
+}
+
 #page-title {
     color: $white-text;
     background-color: $light-dark-background;

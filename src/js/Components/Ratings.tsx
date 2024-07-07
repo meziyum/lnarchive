@@ -6,12 +6,12 @@ import {faStar as faStarRegular} from '@fortawesome/free-regular-svg-icons';
 import {faStar as faStarSolid, faStarHalfStroke} from '@fortawesome/free-solid-svg-icons';
 
 interface RatingsProps {
-    count?: number;
-    rating?: number;
-    color?: string;
-    mode?: 'form' | 'display';
-    submitRatings(value: number) : void;
-    size?: FontAwesomeIconProps['size'];
+    count?: number,
+    rating?: number,
+    color?: string,
+    mode?: 'form' | 'display',
+    submitRatings?(value: number): void,
+    size?: FontAwesomeIconProps['size'],
 }
 
 /**

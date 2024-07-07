@@ -1,9 +1,12 @@
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { number } from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {formatDate} from '../helpers/utilities.ts';
 import Ratings from './Ratings.tsx';
+import commentType from '../types/commentType.js'
+import ResponseTypeType from '../types/commentType.js'
+const commentsPerPage = lnarchiveVariables.per_page;
 
 import {
     faThumbsDown,
@@ -27,32 +30,21 @@ const profileName = lnarchiveVariables.profileName;
 const userNonce = lnarchiveVariables.nonce;
 /* eslint-enable no-undef */
 
-type ResponseTypeType = 'like' | 'dislike' | 'none';
-
-interface ReviewType{
-     id: number,
-     userID: number,
-     isLoggedIn?: boolean,
-     content: {
-        rendered: string,
-    },
-    meta: {
-        likes?: number,
-        dislikes?: number,
-        progress?: number,
-    },
-    user_comment_response: Array<{
-        response_type: ResponseTypeType,
-    }>,
-    author: number,
-    author_avatar_urls: {
-        '96': string,
-    },
-    author_name: string,
-    date: string,
-    rating: string,
+interface ReviewType extends commentType{
+    id: number,
+    userID: number,
+    isLoggedIn?: boolean,
     maxProgress?: number,
     deleteReview: Function,
+}
+
+interface ReviewStatesType{
+    content: string,
+    like: number,
+    dislike: number,
+    user_response: ResponseTypeType,
+    expanded: boolean,
+    editable: boolean,
 }
 
 /**
@@ -85,7 +77,7 @@ export default function Review({id, userID, isLoggedIn=false, content, meta: {li
     const contentLong = content.rendered;
     const contentShort = content.rendered.substring(0, content.rendered.substring(0, readMoreLength).lastIndexOf(' '))+'...';
 
-    const [reviewInfo, updateReviewInfo] = React.useState({
+    const [reviewInfo, updateReviewInfo] = React.useState<ReviewStatesType>({
         content: contentLong.length <= readMoreLength ? contentLong : contentShort,
         like: likes,
         dislike: dislikes,

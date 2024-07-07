@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Review from './Review.jsx';
+import Review from './Review.tsx';
 import {escHTML} from '../helpers/utilities.ts';
 import InfiniteScroll from '../extensions/InfiniteScroll.js';
 

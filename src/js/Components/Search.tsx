@@ -11,7 +11,7 @@ import {
 interface SearchPropType{
     updateSearch: Function,
     value?: string,
-    label: string,
+    label?: string,
 }
 
 /**
@@ -57,5 +57,5 @@ export default function Search({updateSearch, value='', label='Novel'}: SearchPr
 Search.propTypes = {
     value: propTypes.string,
     updateSearch: propTypes.func.isRequired,
-    label: propTypes.string.isRequired,
+    label: propTypes.string,
 };

@@ -8,6 +8,12 @@ import {
 }
     from '@fortawesome/free-solid-svg-icons';
 
+interface SearchPropType{
+    updateSearch: Function,
+    value?: string,
+    label: string,
+}
+
 /**
 A component for searching.
 @component
@@ -17,17 +23,17 @@ A component for searching.
 @param {string} props.label - Label for the search
 @return {JSX.Element} A form element containing an input for searching novels.
 */
-export default function Search({updateSearch, value, label}) {
+export default function Search({updateSearch, value='', label='Novel'}: SearchPropType): JSX.Element {
     const [search, updateSearchState] =React.useState(value);
 
-    const handleInput = (event) => {
+    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateSearchState(event.target.value);
         if (event.target.value === '') {
             updateSearch(event, event.target.value);
         }
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         updateSearch(event, search);
     };
@@ -52,9 +58,4 @@ Search.propTypes = {
     value: propTypes.string,
     updateSearch: propTypes.func.isRequired,
     label: propTypes.string.isRequired,
-};
-
-Search.defaultProps ={
-    value: '',
-    label: 'Novel',
 };

@@ -4,7 +4,7 @@ import PostItem from '../../../Components/PostItem';
 import InfiniteScroll from '../../../extensions/InfiniteScroll';
 import ResultsNotFound from '../../../layouts/ResultsNotFound';
 import {formatDate, formatTitle} from '../../../helpers/utilities';
-import Search from '../../../Components/Search.jsx';
+import Search from '../../../Components/Search';
 import TaxSelect from '../../../Components/TaxSelect';
 import useToggle from '../../../hooks/useToggle';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
